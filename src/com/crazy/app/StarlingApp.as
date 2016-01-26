@@ -1,9 +1,17 @@
 package com.crazy.app {
+	import com.crazy.app.api.IApp;
+
+	import flash.display.Sprite;
 	import flash.display3D.Context3DProfile;
+	import flash.events.Event;
+	import flash.events.UncaughtErrorEvent;
 	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
-	import flash.utils.getDefinitionByName;
 
+	import starling.core.Starling;
+	import starling.events.Event;
+	import starling.events.ResizeEvent;
+	import starling.textures.RenderTexture;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
 	import starling.utils.SystemUtil;
@@ -12,51 +20,60 @@ package com.crazy.app {
 	 * Anton Nefodov
 	 * @author 
 	 */
-	public class StarlingApp extends FlashApp {
+	public class StarlingApp extends Sprite implements IApp {
 		protected var stageWidth:int  = 1920;
 		protected var stageHeight:int = 1080;
 
 		private var fullScreenWidth:int;
 		private var fullScreenHeight:int;
 
-		protected var _starlingClass:Class;
-		protected var _starling:*;
+		protected var _starling:Starling;
 
 		private var _iOS:Boolean;
+		private var _rootClass:Class;
 		
-		public function StarlingApp() {
+		public function StarlingApp(rootClass:Class) {
 			super();
+
+			_rootClass = rootClass;
+
+			if(!stage)
+			{
+				addEventListener(flash.events.Event.ADDED_TO_STAGE, added);
+			}else
+			{
+				init();
+			}
 		}
 
-		override public function init(rootClass:Class):void
+		private function added(event:flash.events.Event):void
 		{
-			super.init(rootClass);
+			removeEventListener(flash.events.Event.ADDED_TO_STAGE, added);
 
-			_starlingClass = getDefinitionByName("starling.core.Starling") as Class;
+			init();
+		}
 
+		private function init():void
+		{
 			_iOS = SystemUtil.platform == "IOS";
 
-			_starlingClass.multitouchEnabled = true; // useful on mobile devices
-			_starlingClass.handleLostContext = true; // recommended everywhere when using AssetManager
+			Starling.multitouchEnabled = true; // useful on mobile devices
+			Starling.handleLostContext = true; // recommended everywhere when using AssetManager
 
-			var renderTextureClass:Class = getDefinitionByName("starling.textures.RenderTexture") as Class;
-			renderTextureClass.optimizePersistentBuffers = _iOS; // safe on iOS, dangerous on Android
-		}
+			RenderTexture.optimizePersistentBuffers = _iOS; // safe on iOS, dangerous on Android
 
-		override protected function initRoot():void
-		{
-			_starling = new _starlingClass(_rootClass, stage, null, null, "auto", Context3DProfile.BASELINE_CONSTRAINED);
-			_starling.addEventListener("rootCreated", rootClassInitialized);
+			_starling = new Starling(_rootClass, stage, null, null, "auto", Context3DProfile.BASELINE_CONSTRAINED);
+			_starling.addEventListener(starling.events.Event.ROOT_CREATED, rootClassInitialized);
 			_starling.antiAliasing = 0;
 
 			_starling.enableErrorChecking = Capabilities.isDebugger;
 			_starling.simulateMultitouch = false;
 		}
 
-		protected function rootClassInitialized():void {
-			_starling.removeEventListener("rootCreated", rootClassInitialized);
+		private function rootClassInitialized():void {
+			_starling.removeEventListener(starling.events.Event.ROOT_CREATED, rootClassInitialized);
 
-			_starling.stage.addEventListener("resize", onStageResize);
+			_starling.stage.addEventListener(ResizeEvent.RESIZE, onStageResize);
 
 			_starling.start();
 
@@ -68,7 +85,7 @@ package com.crazy.app {
 			}
 		}
 
-		private function onStageResize(e:* = null, w:int = 0, h:int = 0):void {
+		private function onStageResize(e:ResizeEvent = null, w:int = 0, h:int = 0):void {
 			var width:int = e == null ? w : e.width;
 			var height:int = e == null ? h : e.height;
 
@@ -85,6 +102,13 @@ package com.crazy.app {
 			_starling.viewPort = viewPort;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
+		public function handleUncaughtError(event:UncaughtErrorEvent):void
+		{
+
+		}
 	}
 
 }
