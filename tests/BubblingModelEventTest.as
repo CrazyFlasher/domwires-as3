@@ -7,7 +7,9 @@ package
 	import com.crazy.mvc.Model;
 	import com.crazy.mvc.ModelContainer;
 
-	import org.osflash.signals.utils.SignalAsyncEvent;
+import org.flexunit.Assert;
+
+import org.osflash.signals.utils.SignalAsyncEvent;
 
 	import org.osflash.signals.utils.handleSignal;
 
@@ -34,15 +36,15 @@ package
 			c1.addModel(c2);
 		}
 
-		[Test(async)]
+		[Test(async, timeout="3000")]
 		public function testBubbling():void
 		{
-			/*handleSignal(this, m1.events, function(event:SignalAsyncEvent, data:Object = null):void{
+			/*handleSignal(this, c1.events, function(event:SignalAsyncEvent, data:Object = null):void{
 				trace("onSignal");
 			}, 500, {name:"Anton"});*/
 
 
-			mc2.addModelEventListener("testEventType", function(type:String, data:Object = null):void {
+			mc2.addModelEventListener("testEventType", function(...rest):void {
 				trace("Signal bubbled");
 			});
 

@@ -11,7 +11,7 @@ package com.crazy.mvc
 	import org.osflash.signals.events.IBubbleEventHandler;
 	import org.osflash.signals.events.IEvent;
 
-	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
+	public class ModelContainer extends Model implements IModelContainer
 	{
 		private var _modelList:Dictionary;
 
@@ -57,11 +57,6 @@ package com.crazy.mvc
 			super.dispose();
 
 			removeAllModels();
-		}
-
-		public function onEventBubbled(event:IEvent):Boolean
-		{
-			return true;
 		}
 	}
 }

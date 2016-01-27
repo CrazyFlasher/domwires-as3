@@ -3,16 +3,17 @@
  */
 package com.crazy.mvc
 {
-	import avmplus.getQualifiedClassName;
-
 	import com.crazy.mvc.api.IDisposable;
 	import com.crazy.mvc.api.IModel;
 	import com.crazy.mvc.api.IModelContainer;
 
 	import org.osflash.signals.DeluxeSignal;
 	import org.osflash.signals.ISignal;
+	import org.osflash.signals.events.GenericEvent;
+	import org.osflash.signals.events.IBubbleEventHandler;
+	import org.osflash.signals.events.IEvent;
 
-	public class Model implements IModel, IDisposable
+	public class Model implements IModel, IBubbleEventHandler, IDisposable
 	{
 		private var _parent:IModelContainer;
 		private var _events:ISignal;
@@ -46,7 +47,7 @@ package com.crazy.mvc
 		{
 			if(!_events)
 			{
-				_events = new DeluxeSignal(this, String, Object);
+				_events = new DeluxeSignal(this, IEvent, String, Object);
 			}
 
 			_events.add(listener);
@@ -54,10 +55,12 @@ package com.crazy.mvc
 
 		public function dispatch(eventType:String, data:Object = null):void
 		{
-			if(_events)
+			if(!_events)
 			{
-				_events.dispatch(eventType, data);
+				_events = new DeluxeSignal(this, IEvent, String, Object);
 			}
+
+			_events.dispatch(new GenericEvent(true), eventType, data);
 		}
 
 		public function removeModelEventListener(listener:Function):void
@@ -72,9 +75,14 @@ package com.crazy.mvc
 		{
 			if(!_events)
 			{
-				_events = new DeluxeSignal(this, String, Object);
+				_events = new DeluxeSignal(this, IEvent, String, Object);
 			}
 			return _events;
+		}
+
+		public function onEventBubbled(event:IEvent):Boolean
+		{
+			return true;
 		}
 	}
 }
