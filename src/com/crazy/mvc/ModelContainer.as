@@ -3,7 +3,6 @@
  */
 package com.crazy.mvc
 {
-	import com.crazy.mvc.api.IDisposable;
 	import com.crazy.mvc.api.IModel;
 	import com.crazy.mvc.api.IModelContainer;
 
@@ -28,7 +27,7 @@ package com.crazy.mvc
 			}
 
 			model.parent = this;
-			_modelList[model.id] = model;
+			_modelList[model] = model;
 		}
 
 		public function removeModel(model:IModel):void
@@ -36,7 +35,7 @@ package com.crazy.mvc
 			if (_modelList)
 			{
 				model.parent = null;
-				delete _modelList[model.id]
+				delete _modelList[model]
 			}
 		}
 

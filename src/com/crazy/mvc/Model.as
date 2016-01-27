@@ -10,24 +10,15 @@ package com.crazy.mvc
 	import com.crazy.mvc.api.IModelContainer;
 
 	import org.osflash.signals.DeluxeSignal;
-
 	import org.osflash.signals.ISignal;
-	import org.osflash.signals.Signal;
 
 	public class Model implements IModel, IDisposable
 	{
-		private var _id:String;
 		private var _parent:IModelContainer;
 		private var _events:ISignal;
 
-		public function Model(id:String = null)
+		public function Model()
 		{
-			_id = (!id ? getQualifiedClassName(Model) : id);
-		}
-
-		public function get id():String
-		{
-			return _id;
 		}
 
 		public function set parent(value:IModelContainer):void
@@ -55,7 +46,7 @@ package com.crazy.mvc
 		{
 			if(!_events)
 			{
-				_events = new DeluxeSignal(this, Object);
+				_events = new DeluxeSignal(this, String, Object);
 			}
 
 			_events.add(listener);
@@ -75,6 +66,15 @@ package com.crazy.mvc
 			{
 				_events.remove(listener);
 			}
+		}
+
+		public function get events():ISignal
+		{
+			if(!_events)
+			{
+				_events = new DeluxeSignal(this, String, Object);
+			}
+			return _events;
 		}
 	}
 }
