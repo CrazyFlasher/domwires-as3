@@ -13,7 +13,7 @@ package com.crazy.mvc
 	import org.osflash.signals.events.IBubbleEventHandler;
 	import org.osflash.signals.events.IEvent;
 
-	public class Model implements IModel, IBubbleEventHandler, IDisposable
+	public class Model implements IModel, IDisposable
 	{
 		private var _parent:IModelContainer;
 		private var _events:ISignal;
@@ -78,11 +78,6 @@ package com.crazy.mvc
 				_events = new DeluxeSignal(this, IEvent, String, Object);
 			}
 			return _events;
-		}
-
-		public function onEventBubbled(event:IEvent):Boolean
-		{
-			return true;
 		}
 	}
 }

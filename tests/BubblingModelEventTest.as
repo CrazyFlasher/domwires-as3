@@ -43,10 +43,12 @@ import org.osflash.signals.utils.SignalAsyncEvent;
 				trace("onSignal");
 			}, 500, {name:"Anton"});*/
 
-
+			var bubbledCount:int;
 			mc2.addModelEventListener("testEventType", function(...rest):void {
-				trace("Signal bubbled");
+				bubbledCount++;
 			});
+
+
 
 			m1.dispatch("testEventType");
 		}
