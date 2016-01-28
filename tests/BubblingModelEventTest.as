@@ -67,6 +67,7 @@ package
 
 			var successFunc:Function = function (event:ISignalEvent):Boolean
 			{
+				//event came from bottom to top
 				bubbledEventType = event.type;
 				return true;
 			}
@@ -74,10 +75,23 @@ package
 			//top element
 			c1.addSignalListener("testEventType", successFunc);
 
-			//bottom elementt
+			//bottom element
 			m1.dispatchSignal("testEventType", {name: "Anton"});
 
 			Assert.assertEquals(bubbledEventType, "testEventType");
+		}
+
+		[Test]
+		public function testHierarchy():void
+		{
+			Assert.assertTrue(c3.parent == c1);
+			Assert.assertTrue(mc3.parent == c3);
+			Assert.assertTrue(mc4.parent == c4);
+			Assert.assertTrue(m1.parent == mc2);
+			Assert.assertTrue(m1.parent != mc1);
+			Assert.assertTrue(mc2.parent == mc1);
+			Assert.assertTrue(mc2.parent != c2);
+			Assert.assertTrue(m1.parent != c1);
 		}
 
 		[After]
