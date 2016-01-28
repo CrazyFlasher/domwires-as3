@@ -14,9 +14,11 @@ package com.crazy.mvc
 	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
 	{
 		private var _modelList:Dictionary;
+		private var _bubbledSignalListener:Function;
 
 		public function ModelContainer()
 		{
+			super();
 		}
 
 		public function addModel(model:IModel):void
@@ -61,13 +63,22 @@ package com.crazy.mvc
 
 		public function onEventBubbled(event:IEvent):Boolean
 		{
-            var target:IModel = event.target as IModel;
-			if (!target.parent.parent || target.parent.parent == this)
+			trace("onEventBubbled: ", event);
+			if(_bubbledSignalListener != null)
 			{
-				return false;
+				_bubbledSignalListener(event);
 			}
-			trace("onEventBubbled");
 			return true;
+		}
+
+		public function set bubbledSignalListener(value:Function):void
+		{
+			_bubbledSignalListener = value;
+		}
+
+		public function get bubbledSignalListener():Function
+		{
+			return _bubbledSignalListener;
 		}
 	}
 }

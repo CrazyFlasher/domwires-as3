@@ -9,9 +9,10 @@ package com.crazy.mvc.api
 	{
 		function set parent(value:IModelContainer):void;
 		function get parent():IModelContainer;
-		function addModelEventListener(eventType:String, listener:Function, data:Object = null):void;
-		function removeModelEventListener(listener:Function):void;
-		function dispatch(eventType:String, data:Object = null):void;
-		function get events():ISignal;
+		function addSignalListener(listener:Function):void;
+		function removeSignalListener(listener:Function):void;
+		function removeSignalsListeners():void;
+		function dispatchSignal(type:String, data:Object = null):void;
+		function get signals():ISignal;
 	}
 }

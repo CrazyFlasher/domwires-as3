@@ -6,6 +6,7 @@ package com.crazy.mvc
 	import com.crazy.mvc.api.IDisposable;
 	import com.crazy.mvc.api.IModel;
 	import com.crazy.mvc.api.IModelContainer;
+	import com.crazy.mvc.api.ISignalEvent;
 
 	import org.osflash.signals.DeluxeSignal;
 	import org.osflash.signals.ISignal;
@@ -16,7 +17,8 @@ package com.crazy.mvc
 	public class Model implements IModel, IDisposable
 	{
 		private var _parent:IModelContainer;
-		private var _events:ISignal;
+		private var _signals:ISignal;
+		private var _genericEvent:ISignalEvent;
 
 		public function Model()
 		{
@@ -32,52 +34,62 @@ package com.crazy.mvc
 			return _parent;
 		}
 
+		public function dispatchSignal(type:String, data:Object = null):void
+		{
+			getSignals().dispatch(getGenericEvent(type, data))
+		}
+
+		public function addSignalListener(listener:Function):void
+		{
+			getSignals().add(listener);
+		}
+
+		public function removeSignalListener(listener:Function):void
+		{
+			getSignals().remove(listener);
+		}
+
+		public function removeSignalsListeners():void
+		{
+			getSignals().removeAll();
+		}
+
 		public function dispose():void
 		{
 			_parent = null;
 
-			if(_events)
+			if(_signals)
 			{
-				_events.removeAll();
-				_events = null;
+				_signals.removeAll();
+				_signals = null;
 			}
+
+			_genericEvent = null;
 		}
 
-		public function addModelEventListener(eventType:String, listener:Function, data:Object = null):void
+		private function getSignals():ISignal
 		{
-			if(!_events)
+			if(!_signals)
 			{
-				_events = new DeluxeSignal(this, IEvent, String, Object);
+				_signals = new DeluxeSignal(this, ISignalEvent);
 			}
 
-			_events.add(listener);
+			return _signals;
 		}
 
-		public function dispatch(eventType:String, data:Object = null):void
+		private function getGenericEvent(type:String, data:Object = null):IEvent
 		{
-			if(!_events)
+			if(!_genericEvent)
 			{
-				_events = new DeluxeSignal(this, IEvent, String, Object);
+				_genericEvent = new SignalEvent(type, data);
 			}
 
-			_events.dispatch(new GenericEvent(true), eventType, data);
+			return _genericEvent;
 		}
 
-		public function removeModelEventListener(listener:Function):void
+		public function get signals():ISignal
 		{
-			if(_events)
-			{
-				_events.remove(listener);
-			}
-		}
-
-		public function get events():ISignal
-		{
-			if(!_events)
-			{
-				_events = new DeluxeSignal(this, IEvent, String, Object);
-			}
-			return _events;
+			return _signals;
 		}
 	}
 }

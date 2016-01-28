@@ -6,20 +6,21 @@ package
 	import com.crazy.mvc.Context;
 	import com.crazy.mvc.Model;
 	import com.crazy.mvc.ModelContainer;
+	import com.crazy.mvc.api.IContext;
+	import com.crazy.mvc.api.IModel;
+	import com.crazy.mvc.api.IModelContainer;
+	import com.crazy.mvc.api.ISignalEvent;
 
-import org.flexunit.Assert;
+	import flexunit.framework.Assert;
 
-import org.osflash.signals.utils.SignalAsyncEvent;
-
-	import org.osflash.signals.utils.handleSignal;
 
 	public class BubblingModelEventTest
 	{
-		private var m1:Model;
-		private var c1:Context;
-		private var c2:Context;
-		private var mc1:ModelContainer;
-		private var mc2:ModelContainer;
+		private var m1:IModel;
+		private var c1:IContext;
+		private var c2:IContext;
+		private var mc1:IModelContainer;
+		private var mc2:IModelContainer;
 
 		[Before]
 		public function setUp():void
@@ -36,21 +37,21 @@ import org.osflash.signals.utils.SignalAsyncEvent;
 			c1.addModel(c2);
 		}
 
-		[Test(async, timeout="3000")]
+		[Test]
 		public function testBubbling():void
 		{
-			/*handleSignal(this, c1.events, function(event:SignalAsyncEvent, data:Object = null):void{
-				trace("onSignal");
-			}, 500, {name:"Anton"});*/
+			var bubbledEventType:String;
 
-			var bubbledCount:int;
-			mc2.addModelEventListener("testEventType", function(...rest):void {
-				bubbledCount++;
-			});
+			var successFunc:Function = function (event:ISignalEvent):void
+			{
+				bubbledEventType = event.type;
+			}
 
+			c1.bubbledSignalListener = successFunc;
 
+			m1.dispatchSignal("testEventType", {name: "Anton"});
 
-			m1.dispatch("testEventType");
+			Assert.assertEquals(bubbledEventType, "testEventType");
 		}
 
 		[After]
