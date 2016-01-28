@@ -8,7 +8,5 @@ package com.crazy.mvc.api
 		function addModel(model:IModel):void;
 		function removeModel(model:IModel):void;
 		function removeAllModels():void;
-		function set bubbledSignalListener(value:Function):void;
-		function get bubbledSignalListener():Function;
 	}
 }

@@ -8,16 +8,18 @@ package com.crazy.mvc
 	import com.crazy.mvc.api.IModelContainer;
 	import com.crazy.mvc.api.ISignalEvent;
 
-	import org.osflash.signals.DeluxeSignal;
+import flash.utils.Dictionary;
+
+import org.osflash.signals.DeluxeSignal;
 	import org.osflash.signals.ISignal;
 	import org.osflash.signals.events.GenericEvent;
 	import org.osflash.signals.events.IBubbleEventHandler;
 	import org.osflash.signals.events.IEvent;
 
-	public class Model implements IModel, IDisposable
+	public class Model implements IModel
 	{
 		private var _parent:IModelContainer;
-		private var _signals:ISignal;
+		private var _signals:Dictionary/*String, ISignal*/
 		private var _genericEvent:ISignalEvent;
 
 		public function Model()
@@ -36,45 +38,57 @@ package com.crazy.mvc
 
 		public function dispatchSignal(type:String, data:Object = null):void
 		{
-			getSignals().dispatch(getGenericEvent(type, data))
+			getSignal(type).dispatch(getGenericEvent(type, data))
 		}
 
-		public function addSignalListener(listener:Function):void
+		public function addSignalListener(type:String, listener:Function):void
 		{
-			getSignals().add(listener);
+			getSignal(type).add(listener);
 		}
 
-		public function removeSignalListener(listener:Function):void
+		public function removeSignalListener(type:String, listener:Function):void
 		{
-			getSignals().remove(listener);
+			getSignal(type).remove(listener);
 		}
 
-		public function removeSignalsListeners():void
+		public function removeAllSignals():void
 		{
-			getSignals().removeAll();
+			if(_signals)
+			{
+				for (var type:String in _signals) {
+					_signals[type].removeAll();
+				}
+
+				_signals = null;
+			}
 		}
 
 		public function dispose():void
 		{
 			_parent = null;
 
-			if(_signals)
-			{
-				_signals.removeAll();
-				_signals = null;
-			}
+			removeAllSignals();
 
 			_genericEvent = null;
 		}
 
-		private function getSignals():ISignal
+		private function getSignalsList():Dictionary/*String, ISignal*/
 		{
 			if(!_signals)
 			{
-				_signals = new DeluxeSignal(this, ISignalEvent);
+				_signals = new Dictionary();
 			}
 
 			return _signals;
+		}
+
+		private function getSignal(type:String):ISignal {
+			if (getSignalsList()[type] == null)
+			{
+				getSignalsList()[type] = new DeluxeSignal(this, ISignalEvent);
+			}
+
+			return getSignalsList()[type];
 		}
 
 		private function getGenericEvent(type:String, data:Object = null):IEvent
@@ -85,11 +99,6 @@ package com.crazy.mvc
 			}
 
 			return _genericEvent;
-		}
-
-		public function get signals():ISignal
-		{
-			return _signals;
 		}
 	}
 }

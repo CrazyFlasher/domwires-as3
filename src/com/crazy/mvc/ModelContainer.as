@@ -5,6 +5,7 @@ package com.crazy.mvc
 {
 	import com.crazy.mvc.api.IModel;
 	import com.crazy.mvc.api.IModelContainer;
+	import com.crazy.mvc.api.ISignalEvent;
 
 	import flash.utils.Dictionary;
 
@@ -14,7 +15,7 @@ package com.crazy.mvc
 	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
 	{
 		private var _modelList:Dictionary;
-		private var _bubbledSignalListener:Function;
+		private var _bubbledSignalListeners:Dictionary;
 
 		public function ModelContainer()
 		{
@@ -36,7 +37,7 @@ package com.crazy.mvc
 		{
 			if (_modelList)
 			{
-				model.parent = null;
+				model.dispose();
 				delete _modelList[model]
 			}
 		}
@@ -45,7 +46,7 @@ package com.crazy.mvc
 		{
 			if (_modelList)
 			{
-				for (var i:String in _modelList)
+				for (var i:* in _modelList)
 				{
 					removeModel(_modelList[i]);
 				}
@@ -63,22 +64,51 @@ package com.crazy.mvc
 
 		public function onEventBubbled(event:IEvent):Boolean
 		{
-			trace("onEventBubbled: ", event);
-			if(_bubbledSignalListener != null)
+            var type:String = (event as ISignalEvent).type;
+
+			if(getBubbledSignalListeners()[type] != null)
 			{
-				_bubbledSignalListener(event);
+				return getBubbledSignalListeners()[type](event);
 			}
 			return true;
 		}
 
-		public function set bubbledSignalListener(value:Function):void
-		{
-			_bubbledSignalListener = value;
-		}
+        override public function addSignalListener(type:String, listener:Function):void
+        {
+            super.addSignalListener(type, listener);
 
-		public function get bubbledSignalListener():Function
-		{
-			return _bubbledSignalListener;
-		}
+            getBubbledSignalListeners()[type] = listener;
+        }
+
+        override public function removeSignalListener(type:String, listener:Function):void
+        {
+            super.removeSignalListener(type, listener);
+
+            delete getBubbledSignalListeners()[type];
+        }
+
+        override public function removeAllSignals():void
+        {
+            super.removeAllSignals();
+
+            if(_bubbledSignalListeners)
+            {
+                for (var type:String in _bubbledSignalListeners) {
+                    delete _bubbledSignalListeners[type];
+                }
+
+                _bubbledSignalListeners = null
+            }
+        }
+
+        private function getBubbledSignalListeners():Dictionary
+        {
+            if(!_bubbledSignalListeners)
+            {
+                _bubbledSignalListeners = new Dictionary();
+            }
+
+            return _bubbledSignalListeners;
+        }
 	}
 }
