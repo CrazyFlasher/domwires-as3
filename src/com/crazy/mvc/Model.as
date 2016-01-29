@@ -21,6 +21,7 @@ import org.osflash.signals.DeluxeSignal;
 		private var _parent:IModelContainer;
 		private var _signals:Dictionary/*String, ISignal*/
 		private var _genericEvent:ISignalEvent;
+		private var _isDisposed:Boolean;
 
 		public function Model()
 		{
@@ -38,17 +39,29 @@ import org.osflash.signals.DeluxeSignal;
 
 		public function dispatchSignal(type:String, data:Object = null):void
 		{
+			var event:IEvent = getGenericEvent(type, data);
 			getSignal(type).dispatch(getGenericEvent(type, data))
 		}
 
 		public function addSignalListener(type:String, listener:Function):void
 		{
+			getSignal(type).removeAll();
 			getSignal(type).add(listener);
 		}
 
-		public function removeSignalListener(type:String, listener:Function):void
+		public function hasSignalListener(type:String):Boolean
 		{
-			getSignal(type).remove(listener);
+			return _signals != null && _signals[type] != null;
+		}
+
+		public function removeSignalListener(type:String):void
+		{
+			if (_signals[type] != null)
+			{
+				_signals[type].removeAll();
+			}
+
+			delete _signals[type];
 		}
 
 		public function removeAllSignals():void
@@ -70,6 +83,7 @@ import org.osflash.signals.DeluxeSignal;
 			removeAllSignals();
 
 			_genericEvent = null;
+			_isDisposed = true;
 		}
 
 		private function getSignalsList():Dictionary/*String, ISignal*/
@@ -96,9 +110,18 @@ import org.osflash.signals.DeluxeSignal;
 			if(!_genericEvent)
 			{
 				_genericEvent = new SignalEvent(type, data);
+			}else
+			{
+				_genericEvent.type = type;
+				_genericEvent.data = data;
 			}
 
 			return _genericEvent;
+		}
+
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 	}
 }

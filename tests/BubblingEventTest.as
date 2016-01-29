@@ -14,7 +14,7 @@ package
 	import flexunit.framework.Assert;
 
 
-	public class BubblingModelEventTest
+	public class BubblingEventTest
 	{
 		private var m1:IModel;
 		private var c1:IContext;
@@ -54,6 +54,8 @@ package
 
 			mc2.addModel(m1);
 			mc1.addModel(mc2);
+			c4.addModel(mc4);
+			c3.addModel(mc3);
 			c2.addModel(mc1);
 			c1.addModel(c2);
 			c1.addModel(c3);
@@ -74,6 +76,13 @@ package
 
 			//top element
 			c1.addSignalListener("testEventType", successFunc);
+
+			//bottom element
+			m1.dispatchSignal("testEventType", {name: "Anton"});
+
+			Assert.assertEquals(bubbledEventType, "testEventType");
+
+			bubbledEventType = null;
 
 			//bottom element
 			m1.dispatchSignal("testEventType", {name: "Anton"});

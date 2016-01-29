@@ -5,12 +5,8 @@ package com.crazy.mvc
 {
 	import com.crazy.mvc.api.ICommand;
 	import com.crazy.mvc.api.IContext;
-	import com.crazy.mvc.api.IDisposable;
 	import com.crazy.mvc.api.IMediator;
-	import com.crazy.mvc.api.IModel;
 	import com.crazy.mvc.api.IView;
-
-	import flash.utils.Dictionary;
 
 	public class Context extends ModelContainer implements IContext
 	{
@@ -19,7 +15,7 @@ package com.crazy.mvc
 
 		}
 
-		public function mapEventTypeToCommand(eventType:String, command:ICommand):void
+		public function mapSignalTypeToCommand(signalType:String, command:ICommand):void
 		{
 		}
 
@@ -27,10 +23,12 @@ package com.crazy.mvc
 		{
 		}
 
-		override public function dispose():void
+		public function unmapSignalType(signalType:String, command:ICommand):void
 		{
-			super.dispose();
+		}
 
+		public function unmapViewFromMediator(view:IView, mediator:IMediator):void
+		{
 		}
 	}
 }

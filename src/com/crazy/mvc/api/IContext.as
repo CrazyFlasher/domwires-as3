@@ -5,7 +5,9 @@ package com.crazy.mvc.api
 {
 	public interface IContext extends IModelContainer
 	{
-		function mapEventTypeToCommand(eventType:String, command:ICommand):void;
+		function mapSignalTypeToCommand(signalType:String, command:ICommand):void;
 		function mapViewToMediator(view:IView, mediator:IMediator):void;
+		function unmapSignalType(signalType:String, command:ICommand):void;
+		function unmapViewFromMediator(view:IView, mediator:IMediator):void;
 	}
 }

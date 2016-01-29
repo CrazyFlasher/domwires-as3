@@ -29,5 +29,15 @@ package com.crazy.mvc
 		{
 			return _type;
 		}
+
+		public function set data(value:Object):void
+		{
+			_data = value;
+		}
+
+		public function set type(value:String):void
+		{
+			_type = value;
+		}
 	}
 }

@@ -7,7 +7,9 @@ package com.crazy.mvc.api
 
 	public interface ISignalEvent extends IEvent
 	{
+		function set data(value:Object):void;
 		function get data():Object;
+		function set type(value:String):void;
 		function get type():String;
 	}
 }
