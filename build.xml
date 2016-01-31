@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="crazy-mvc" basedir="." default="package">
+	
+	<!-- set up a prefix for all environment variables -->
+	<property environment="env."/>
+	<!-- System environment must contain FLEX_HOME variable that points to Flex SDK -->
+	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
+
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+	<!-- identify properties file -->
+	<property file="build.properties"/>
+
+	<!-- Set up Flex and FlexUnit ant tasks -->
+	<!--taskdef resource="flexUnitTasks.tasks" classpath="${lib.loc}/flexUnitTasks-4.1.0-8.jar"/-->
+    <target name="package" depends="clean,tests,build,asdoc"/>
+    <target name="asdoc" depends="clean">
+        <mkdir dir="${doc.loc}"/>
+        <asdoc output="${doc.loc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
+            <doc-sources path-element="${src.loc}"/>
+            <library-path dir="C:/Users/CrazyFlasher/Documents/work/git/dependencies/libs/as3-signals" includes="*"/>
+            <library-path dir="C:/Users/CrazyFlasher/Documents/work/git/dependencies/libs/starling" includes="*"/>
+        </asdoc>
+    </target>
+    <target name="build">
+        <compc output="${swc.loc}/crazy-mvc.swc">
+            <load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
+            <include-sources dir="${src.loc}" includes="*"/>
+            <library-path dir="C:/Users/CrazyFlasher/Documents/work/git/dependencies/libs/as3-signals" includes="*"/>
+            <library-path dir="C:/Users/CrazyFlasher/Documents/work/git/dependencies/libs/starling" includes="*"/>
+        </compc>
+    </target>
+    <target name="tests">
+    </target>
+    <target name="clean">
+        <delete dir="${out.loc}"/>
+    </target>
+</project>
