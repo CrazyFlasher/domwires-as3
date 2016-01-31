@@ -5,7 +5,7 @@ package com.crazy.mvc.api
 {
 	import org.osflash.signals.events.IEvent;
 
-	public interface ISignalEvent extends IEvent
+	public interface ISignalEvent extends IEvent, IDisposable
 	{
 		function set data(value:Object):void;
 		function get data():Object;

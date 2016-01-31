@@ -3,7 +3,8 @@
  */
 package com.crazy.mvc.api
 {
-	public interface IView
+	public interface IView extends IDisposable
 	{
+
 	}
 }

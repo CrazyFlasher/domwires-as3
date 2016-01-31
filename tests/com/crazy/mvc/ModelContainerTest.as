@@ -4,18 +4,17 @@
 package com.crazy.mvc
 {
 	import com.crazy.mvc.api.IModel;
-	import com.crazy.mvc.api.IModelContainer;
 	import com.crazy.mvc.api.ISignalEvent;
 
 	import flexunit.framework.Assert;
 
 	public class ModelContainerTest
 	{
-		private var mc:IModelContainer;
+		private var mc:ModelContainer;
 
-		private var m1:IModel;
-		private var m2:IModel;
-		private var m3:IModel;
+		private var m1:Model;
+		private var m2:Model;
+		private var m3:Model;
 
 		[Before]
 		public function setUp():void
@@ -52,21 +51,21 @@ package com.crazy.mvc
 		}
 
 		[Test]
-		public function testContains():void
+		public function testContainsModel():void
 		{
-			Assert.assertFalse(mc.contains(m1));
-			Assert.assertFalse(mc.contains(m2));
-			Assert.assertFalse(mc.contains(m3));
+			Assert.assertFalse(mc.containsModel(m1));
+			Assert.assertFalse(mc.containsModel(m2));
+			Assert.assertFalse(mc.containsModel(m3));
 
 			mc.addModels(new <IModel>[m1, m2, m3]);
-			Assert.assertTrue(mc.contains(m1));
-			Assert.assertTrue(mc.contains(m2));
-			Assert.assertTrue(mc.contains(m3));
+			Assert.assertTrue(mc.containsModel(m1));
+			Assert.assertTrue(mc.containsModel(m2));
+			Assert.assertTrue(mc.containsModel(m3));
 
 			mc.removeModel(m1);
-			Assert.assertFalse(mc.contains(m1));
-			Assert.assertTrue(mc.contains(m2));
-			Assert.assertTrue(mc.contains(m3));
+			Assert.assertFalse(mc.containsModel(m1));
+			Assert.assertTrue(mc.containsModel(m2));
+			Assert.assertTrue(mc.containsModel(m3));
 		}
 
 		[Test]
@@ -125,9 +124,9 @@ package com.crazy.mvc
 			mc.removeAllModels();
 
 			Assert.assertEquals(mc.numModels, 0);
-			Assert.assertFalse(mc.contains(m1));
-			Assert.assertFalse(mc.contains(m2));
-			Assert.assertFalse(mc.contains(m3));
+			Assert.assertFalse(mc.containsModel(m1));
+			Assert.assertFalse(mc.containsModel(m2));
+			Assert.assertFalse(mc.containsModel(m3));
 
 			Assert.assertNull(m1.parent);
 			Assert.assertNull(m2.parent);
@@ -171,9 +170,9 @@ package com.crazy.mvc
 			mc.removeModels(new <IModel>[m2, m3]);
 
 			Assert.assertEquals(mc.numModels, 1);
-			Assert.assertTrue(mc.contains(m1));
-			Assert.assertFalse(mc.contains(m2));
-			Assert.assertFalse(mc.contains(m3));
+			Assert.assertTrue(mc.containsModel(m1));
+			Assert.assertFalse(mc.containsModel(m2));
+			Assert.assertFalse(mc.containsModel(m3));
 		}
 
 		[Test]

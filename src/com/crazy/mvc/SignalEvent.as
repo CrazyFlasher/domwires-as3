@@ -11,6 +11,7 @@ package com.crazy.mvc
 	{
 		private var _data:Object;
 		private var _type:String;
+		private var _isDisposed:Boolean;
 
 		public function SignalEvent(type:String, data:Object = null)
 		{
@@ -38,6 +39,19 @@ package com.crazy.mvc
 		public function set type(value:String):void
 		{
 			_type = value;
+		}
+
+		public function dispose():void
+		{
+			_data = null;
+			_target = null;
+			_currentTarget = null;
+			_isDisposed = true;
+		}
+
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 	}
 }

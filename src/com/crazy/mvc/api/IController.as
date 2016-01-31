@@ -3,7 +3,7 @@
  */
 package com.crazy.mvc.api
 {
-	public interface IMediator
+	public interface IController
 	{
 		function addViewListener(eventType:String, handler:Function):void;
 		function removeViewListener(handler:Function):void;

@@ -23,6 +23,29 @@ package com.crazy.mvc
 			super();
 		}
 
+		protected function addChild(child:Object, toList:Dictionary):Boolean
+		{
+			if (!toList[child])
+			{
+				toList[child] = child;
+
+				return true;
+			}
+			return false;
+		}
+
+		protected function removeChild(child:Object, fromList:Dictionary):Boolean
+		{
+			if (fromList && fromList[child])
+			{
+				delete fromList[child];
+
+				return true;
+			}
+
+			return false;
+		}
+
 		public function addModel(model:IModel):void
 		{
 			if (!_modelList)
@@ -30,11 +53,11 @@ package com.crazy.mvc
 				_modelList = new Dictionary();
 			}
 
-			if (!_modelList[model])
+			var added:Boolean = addChild(model, _modelList);
+
+			if (added)
 			{
 				model.parent = this;
-				_modelList[model] = model;
-
 				_numModels++;
 			}
 		}
@@ -45,7 +68,7 @@ package com.crazy.mvc
 			{
 				if (!(models[i] is IModel))
 				{
-					throw new Error("ModelContainer#addModels: Error! You should pass IModels only!");
+					throw new Error("ModelContainer#addModels: Error! You should pass IModel only!");
 				}
 				addModel(models[i]);
 			}
@@ -53,19 +76,19 @@ package com.crazy.mvc
 
 		public function removeModel(model:IModel, dispose:Boolean = false):void
 		{
-			if (_modelList && _modelList[model])
+			var removed:Boolean = removeChild(model, _modelList);
+
+			if(removed)
 			{
+				_numModels--;
+
 				if(dispose)
 				{
-					_modelList[model].dispose();
+					model.dispose();
 				}else
 				{
-					_modelList[model].parent = null;
+					model.parent = null;
 				}
-
-				delete _modelList[model]
-
-				_numModels--;
 			}
 		}
 
@@ -75,7 +98,7 @@ package com.crazy.mvc
 			{
 				if (!(models[i] is IModel))
 				{
-					throw new Error("ModelContainer#addModels: Error! You should pass IModels only!");
+					throw new Error("ModelContainer#removeModels: Error! You should pass IModel only!");
 				}
 				removeModel(models[i], dispose);
 			}
@@ -157,7 +180,7 @@ package com.crazy.mvc
 			return _numModels;
 		}
 
-		public function contains(model:IModel):Boolean
+		public function containsModel(model:IModel):Boolean
 		{
 			return _modelList != null && _modelList[model] != null;
 		}

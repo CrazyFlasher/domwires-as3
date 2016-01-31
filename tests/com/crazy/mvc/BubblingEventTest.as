@@ -1,30 +1,23 @@
 /**
  * Created by Anton Nefjodov on 26.01.2016.
  */
-package
+package com.crazy.mvc
 {
-	import com.crazy.mvc.Context;
-	import com.crazy.mvc.Model;
-	import com.crazy.mvc.ModelContainer;
-	import com.crazy.mvc.api.IContext;
-	import com.crazy.mvc.api.IModel;
-	import com.crazy.mvc.api.IModelContainer;
 	import com.crazy.mvc.api.ISignalEvent;
 
 	import flexunit.framework.Assert;
 
-
 	public class BubblingEventTest
 	{
-		private var m1:IModel;
-		private var c1:IContext;
-		private var c2:IContext;
-		private var c3:IContext;
-		private var c4:IContext;
-		private var mc1:IModelContainer;
-		private var mc2:IModelContainer;
-		private var mc3:IModelContainer;
-		private var mc4:IModelContainer;
+		private var m1:Model;
+		private var c1:Context;
+		private var c2:Context;
+		private var c3:Context;
+		private var c4:Context;
+		private var mc1:ModelContainer;
+		private var mc2:ModelContainer;
+		private var mc3:ModelContainer;
+		private var mc4:ModelContainer;
 
 		/**
 		 * 			c1
@@ -72,7 +65,7 @@ package
 				//event came from bottom to top
 				bubbledEventType = event.type;
 				return true;
-			}
+			};
 
 			//top element
 			c1.addSignalListener("testEventType", successFunc);

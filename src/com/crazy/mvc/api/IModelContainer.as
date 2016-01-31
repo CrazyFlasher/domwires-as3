@@ -11,7 +11,7 @@ package com.crazy.mvc.api
 		function removeModels(models:Vector.<IModel>, dispose:Boolean = false):void;
 		function removeAllModels(dispose:Boolean = false):void;
 		function get numModels():int;
-		function contains(model:IModel):Boolean;
+		function containsModel(model:IModel):Boolean;
 		function disposeWithAllChildren():void;
 	}
 }
