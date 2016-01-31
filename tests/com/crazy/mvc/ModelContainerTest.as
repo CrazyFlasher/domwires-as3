@@ -95,11 +95,11 @@ package com.crazy.mvc
 			mc.addModel(m3);
 
 			var listener:Function = function(event:ISignalEvent):void {};
-			mc.addSignalListener("test", listener)
+			mc.addSignalListener("test", listener);
 			Assert.assertTrue(mc.hasSignalListener("test"));
 
 			mc.dispose();
-			Assert.assertEquals(mc.numModels, 0)
+			Assert.assertEquals(mc.numModels, 0);
 			Assert.assertFalse(mc.hasSignalListener("test"));
 			Assert.assertTrue(mc.isDisposed);
 

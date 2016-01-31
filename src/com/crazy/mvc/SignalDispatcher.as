@@ -12,32 +12,47 @@ package com.crazy.mvc
 	import org.osflash.signals.ISignal;
 	import org.osflash.signals.events.IEvent;
 
+	use namespace signal_ns;
+	/**
+	 * Common signal dispatcher. Can be used for listening and dispatching signals for views and models.
+	 */
 	public class SignalDispatcher extends Disposable implements ISignalDispatcher
 	{
-		private var _signals:Dictionary/*String, ISignal*/
+		private var _signals:Dictionary;/*String, ISignal*/
 		private var _genericEvent:ISignalEvent;
 
 		public function SignalDispatcher()
 		{
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function dispatchSignal(type:String, data:Object = null):void
 		{
-			var event:IEvent = getGenericEvent(type, data);
 			getSignal(type).dispatch(getGenericEvent(type, data))
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addSignalListener(type:String, listener:Function):void
 		{
 			getSignal(type).removeAll();
 			getSignal(type).add(listener);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function hasSignalListener(type:String):Boolean
 		{
 			return _signals != null && _signals[type] != null;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeSignalListener(type:String):void
 		{
 			if (_signals[type] != null)
@@ -48,6 +63,9 @@ package com.crazy.mvc
 			delete _signals[type];
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllSignals():void
 		{
 			if (_signals)
@@ -61,6 +79,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * Disposes objects and removes all signals.
+		 */
 		override public function dispose():void
 		{
 			removeAllSignals();
@@ -101,8 +122,8 @@ package com.crazy.mvc
 				_genericEvent = new SignalEvent(type, data);
 			} else
 			{
-				_genericEvent.type = type;
-				_genericEvent.data = data;
+				(_genericEvent as SignalEvent).setType(type);
+				(_genericEvent as SignalEvent).setData(data);
 				_genericEvent.signal = null;
 				_genericEvent.target = null;
 				_genericEvent.currentTarget = null;

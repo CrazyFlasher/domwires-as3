@@ -17,7 +17,7 @@ package com.crazy.app {
 	import starling.utils.SystemUtil;
 
 	/**
-	 * Anton Nefodov
+	 * Anton Nefjodov
 	 * @author 
 	 */
 	public class StarlingApp extends Sprite implements IApp {

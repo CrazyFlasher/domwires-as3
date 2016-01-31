@@ -3,9 +3,14 @@
  */
 package com.crazy.mvc.api
 {
+	/**
+	 * Model object that can be used for working with data and other logical non-view operations.
+	 */
 	public interface IModel extends IDisposable
 	{
-		function set parent(value:IModelContainer):void;
+		/**
+		 * Returns parent object.
+		 */
 		function get parent():IModelContainer;
 	}
 }

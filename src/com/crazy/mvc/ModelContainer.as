@@ -12,6 +12,11 @@ package com.crazy.mvc
 	import org.osflash.signals.events.IBubbleEventHandler;
 	import org.osflash.signals.events.IEvent;
 
+	use namespace model_ns;
+
+	/**
+	 * Model object that can contain other models.
+	 */
 	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
 	{
 		private var _modelList:Dictionary;
@@ -46,6 +51,9 @@ package com.crazy.mvc
 			return false;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addModel(model:IModel):void
 		{
 			if (!_modelList)
@@ -57,11 +65,14 @@ package com.crazy.mvc
 
 			if (added)
 			{
-				model.parent = this;
+				(model as Model).setParent(this);
 				_numModels++;
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addModels(models:Vector.<IModel>):void
 		{
 			for (var i:int = 0; i < models.length; i++)
@@ -74,6 +85,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeModel(model:IModel, dispose:Boolean = false):void
 		{
 			var removed:Boolean = removeChild(model, _modelList);
@@ -87,11 +101,14 @@ package com.crazy.mvc
 					model.dispose();
 				}else
 				{
-					model.parent = null;
+					(model as Model).setParent(null);
 				}
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeModels(models:Vector.<IModel>, dispose:Boolean = false):void
 		{
 			for (var i:int = 0; i < models.length; i++)
@@ -104,6 +121,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllModels(dispose:Boolean = false):void
 		{
 			if (_modelList)
@@ -117,6 +137,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * Disposes object and removes all children models, but doesn't dispose them.
+		 */
 		override public function dispose():void
 		{
 			removeAllModels();
@@ -124,6 +147,9 @@ package com.crazy.mvc
 			super.dispose();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function onEventBubbled(event:IEvent):Boolean
 		{
 			var type:String = (event as ISignalEvent).type;
@@ -136,6 +162,9 @@ package com.crazy.mvc
 			return true;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		override public function addSignalListener(type:String, listener:Function):void
 		{
 			super.addSignalListener(type, listener);
@@ -143,6 +172,9 @@ package com.crazy.mvc
 			getBubbledSignalListeners()[type] = listener;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		override public function removeSignalListener(type:String):void
 		{
 			super.removeSignalListener(type);
@@ -150,6 +182,9 @@ package com.crazy.mvc
 			delete getBubbledSignalListeners()[type];
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		override public function removeAllSignals():void
 		{
 			super.removeAllSignals();
@@ -175,16 +210,25 @@ package com.crazy.mvc
 			return _bubbledSignalListeners;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get numModels():int
 		{
 			return _numModels;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function containsModel(model:IModel):Boolean
 		{
 			return _modelList != null && _modelList[model] != null;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function disposeWithAllChildren():void
 		{
 			removeAllModels(true);

@@ -4,6 +4,7 @@
 package com.crazy.mvc
 {
 	import com.crazy.mvc.api.IContext;
+	import com.crazy.mvc.api.IModel;
 	import com.crazy.mvc.api.IView;
 
 	import flexunit.framework.Assert;
@@ -100,6 +101,23 @@ package com.crazy.mvc
 			Assert.assertEquals(context.numViews, 3);
 			context.removeViews(new <IView>[v1, v2, v3]);
 			Assert.assertEquals(context.numViews, 0)
+		}
+
+		[Test]
+		public function disposeWithAllChildren():void
+		{
+			var v1:IView = new StarlingView(new Sprite());
+			var v2:IView = new StarlingView(new Sprite());
+			var v3:IView = new StarlingView(new Sprite());
+			var m1:IModel = new Model();
+			var m2:IModel = new Model();
+			var m3:IModel = new Model();
+			context.addViews(new <IView>[v1, v2, v3]);
+			context.addModels(new <IModel>[m1, m2, m3]);
+			context.disposeWithAllChildren();
+
+			Assert.assertEquals(context.numModels, 0);
+			Assert.assertEquals(context.numViews, 0);
 		}
 	}
 }

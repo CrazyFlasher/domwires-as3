@@ -5,11 +5,19 @@ package com.crazy.mvc.api
 {
 	import org.osflash.signals.events.IEvent;
 
+	/**
+	 * Event that is dispatched with signal.
+	 */
 	public interface ISignalEvent extends IEvent, IDisposable
 	{
-		function set data(value:Object):void;
+		/**
+		 * Returns data that was passed buy dispatcher object.
+		 */
 		function get data():Object;
-		function set type(value:String):void;
+
+		/**
+		 * Returns event type.
+		 */
 		function get type():String;
 	}
 }

@@ -8,6 +8,9 @@ package com.crazy.mvc
 
 	import flash.utils.Dictionary;
 
+	/**
+	 * Object tat is used for communication between model and view sides of application.
+	 */
 	public class Context extends ModelContainer implements IContext
 	{
 		//private var _signalTypeToCommandMappings:Vector.<Object>/*String, Class*/;
@@ -80,6 +83,10 @@ package com.crazy.mvc
 				command.retain();
 			}
 		}*/
+
+		/**
+		 * @inheritDoc
+		 */
 		public function addView(view:IView):void
 		{
 			if (!_viewList)
@@ -95,6 +102,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addViews(views:Vector.<IView>):void
 		{
 			for (var i:int = 0; i < views.length; i++)
@@ -107,6 +117,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeView(view:IView, dispose:Boolean = false):void
 		{
 			var removed:Boolean = removeChild(view, _viewList);
@@ -122,6 +135,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeViews(views:Vector.<IView>, dispose:Boolean = false):void
 		{
 			for (var i:int = 0; i < views.length; i++)
@@ -134,6 +150,9 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllViews(dispose:Boolean = false):void
 		{
 			if (_viewList)
@@ -147,14 +166,30 @@ package com.crazy.mvc
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get numViews():int
 		{
 			return _numViews;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function containsView(view:IView):Boolean
 		{
-			return _viewList != null && _viewList[view] != null;;
+			return _viewList != null && _viewList[view] != null;
+		}
+
+		/**
+		 * Disposes current object and disposes models from its model list and views from view list.
+		 */
+		override public function disposeWithAllChildren():void
+		{
+			removeAllViews(true);
+
+			super.disposeWithAllChildren();
 		}
 	}
 }
