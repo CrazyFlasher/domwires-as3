@@ -9,7 +9,8 @@ package com.crazy.preloader {
     import flash.events.UncaughtErrorEvent;
 
     /**
-     * Application internal preloader. Application should be built with "-frame=two,*document class with package*".
+     * Application internal preloader. Application should be built with additional compiler option:
+     * "-frame=two,*document class with package*".
      * After app is completely downloaded, preloader will move to second frame.
      * Before that, use as less classes as possible, so preloader will be shown to user faster.
      */
@@ -37,8 +38,8 @@ package com.crazy.preloader {
         }
 
 		/**
-		 * preloader added to displayList and ready to process preloader actions
-         * @override
+		 * Default preloader added to displayList and ready to process preloader actions.
+         * Override with super, if you wan't to add additional logic
          */
         protected function init():void {
             this.stop();
@@ -54,20 +55,24 @@ package com.crazy.preloader {
         }
 
         private function loaderInfo_completeHandler(event:Event):void {
+            removePreloader();
+
+            this.gotoAndStop(2);
+
             appLoaded();
         }
 
 		/**
-         * after that you may initialize all needed objects, classes
+         * After that you may initialize all needed objects, classes.
+         * Override this method to continue your app initialization
          */
         protected function appLoaded():void {
-            removePreloader();
 
-            this.gotoAndStop(2);
         }
 
 		/**
-		 * redraws native displayList preloader
+		 * Redraws native displayList preloader.
+         * Override, if you wan't to use other way to display preloader
          * @param bytesLoaded
          * @param bytesTotal
          */
@@ -87,7 +92,8 @@ package com.crazy.preloader {
         }
 
 		/**
-		 * removes native displayList preloader
+		 * Removes native displayList preloader.
+         * Override, if you are using your own way to draw preloader
          */
         protected function removePreloader():void {
             if(_preloader)
@@ -98,14 +104,14 @@ package com.crazy.preloader {
         }
 
 		/**
-		 * initialized global app error catcher
+		 * Initialized global app error catcher
          */
-        protected function initUncaughtErrorHandler():void {
+        private function initUncaughtErrorHandler():void {
             loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtError);
         }
 
 		/**
-         * override to log errors somewhere
+         * Override to log errors somewhere
          * @param event
          */
         protected function uncaughtError(event:UncaughtErrorEvent):void {

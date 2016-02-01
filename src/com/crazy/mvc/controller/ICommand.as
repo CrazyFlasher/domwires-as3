@@ -5,7 +5,9 @@ package com.crazy.mvc.controller
 {
 	public interface ICommand
 	{
+		/**
+		 * Command execution. After that by default command goes to pool
+		 */
 		function execute():void;
-		function retain():void;
 	}
 }

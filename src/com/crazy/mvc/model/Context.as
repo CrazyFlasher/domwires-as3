@@ -3,16 +3,24 @@
  */
 package com.crazy.mvc.model
 {
+	import com.crazy.mvc.controller.Command;
+	import com.crazy.mvc.controller.ICommand;
+	import com.crazy.mvc.event.ISignalEvent;
 	import com.crazy.mvc.view.IView;
 
 	import flash.utils.Dictionary;
+	import flash.utils.getQualifiedClassName;
+
+	import org.osflash.signals.events.IEvent;
+	import org.swiftsuspenders.Injector;
 
 	/**
 	 * Object tat is used for communication between model and view sides of application
 	 */
 	public class Context extends ModelContainer implements IContext
 	{
-		//private var _signalTypeToCommandMappings:Vector.<Object>/*String, Class*/;
+		private var _injector:Injector;
+		private var _signalTypeToCommandMappings:Vector.<MappingVo>;
 
 		private var _viewList:Dictionary;
 		private var _numViews:int;
@@ -22,17 +30,53 @@ package com.crazy.mvc.model
 			super();
 		}
 
-		/*
-		public function mapSignalTypeToCommand(signalType:String, commandClass:Class, affectedModels:Vector.<IModel> = null):void
+		/**
+		 * @inheritDoc
+		 */
+		public function mapSignalTypeToCommand(signalType:String, commandClass:Class, toPool:Boolean = true):void
 		{
-			if (!_signalTypeToCommandMappings)
+			if (!_injector)
 			{
-				_signalTypeToCommandMappings = new Vector.<Object>()
+				_injector = new Injector();
 			}
 
-			_signalTypeToCommandMappings.push({signalType: signalType, commandClass: commandClass, affectedModels: affectedModels})
+			var command:ICommand = _injector.getOrCreateNewInstance(commandClass) as ICommand;
+
+			if (!_signalTypeToCommandMappings)
+			{
+				_signalTypeToCommandMappings = new <MappingVo>[];
+			}
+
+			if (containsSignalToCommandMapping(signalType, commandClass))
+			{
+				_signalTypeToCommandMappings.push(new MappingVo(signalType, command));
+			}
 		}
 
+		/**
+		 * Returns true, if current object contains specified signal-to-command mapping
+		 * @param signalType
+		 * @param command
+		 * @return
+		 */
+		public function containsSignalToCommandMapping(signalType:String, commandClass:Class):Boolean
+		{
+			if (!_signalTypeToCommandMappings) return false;
+
+			for each (var vo:MappingVo in _signalTypeToCommandMappings)
+			{
+				if (vo.signalType == signalType && vo.command is commandClass)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function unmapSignalTypeFromCommand(signalType:String, commandClass:Class):void
 		{
 			if (_signalTypeToCommandMappings)
@@ -40,12 +84,11 @@ package com.crazy.mvc.model
 				var indexToRemove:int = -1;
 				for (var i:int = 0; i < _signalTypeToCommandMappings.length; i++)
 				{
-					var mapping:Object = _signalTypeToCommandMappings[i];
-					if (mapping.signalType == signalType && mapping.commandClass == commandClass)
+					var mapping:MappingVo = _signalTypeToCommandMappings[i];
+					if (mapping.signalType == signalType && mapping.command is commandClass)
 					{
 						indexToRemove = i;
-						mapping.commandClass = null;
-						mapping.affectedModels = null;
+						mapping.dispose();
 						break;
 					}
 				}
@@ -57,31 +100,36 @@ package com.crazy.mvc.model
 			}
 		}
 
-		public function mapViewToMediator(view:IView, mediator:IController):void
-		{
+		/*public function mapViewToMediator(view:IView, mediator:IController):void
+		 {
 
-		}
+		 }
 
-		public function unmapViewFromMediator(view:IView, mediator:IController):void
-		{
+		 public function unmapViewFromMediator(view:IView, mediator:IController):void
+		 {
 
-		}
+		 }*/
 
-
+		/**
+		 * @inheritDoc
+		 */
 		override public function onEventBubbled(event:IEvent):Boolean
 		{
 			super.onEventBubbled(event);
 
 			var type:String = (event as ISignalEvent).type;
 
-			for each (var mapping:Object in _signalTypeToCommandMappings)
+			for each (var mapping:MappingVo in _signalTypeToCommandMappings)
 			{
-				mapping.signalType == type;
-				var command:ICommand = new (mapping.commandClass(mapping.affectedModels));
-				command.execute();
-				command.retain();
+				if (mapping.signalType == type)
+				{
+					var command:ICommand = mapping.command;
+					command.execute();
+
+					break;
+				}
 			}
-		}*/
+		}
 
 		/**
 		 * @inheritDoc
@@ -123,11 +171,11 @@ package com.crazy.mvc.model
 		{
 			var removed:Boolean = removeChild(view, _viewList);
 
-			if(removed)
+			if (removed)
 			{
 				_numViews--;
 
-				if(dispose)
+				if (dispose)
 				{
 					view.dispose();
 				}

@@ -11,12 +11,7 @@ package com.crazy.mvc.controller
 
 		public function execute():void
 		{
-
-		}
-
-		public function retain():void
-		{
-
+			throw new Error("Command#execute should be overridden!");
 		}
 	}
 }

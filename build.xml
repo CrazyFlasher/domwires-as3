@@ -13,22 +13,25 @@
 
 	<!-- Set up Flex and FlexUnit ant tasks -->
 	<!--taskdef resource="flexUnitTasks.tasks" classpath="${lib.loc}/flexUnitTasks-4.1.0-8.jar"/-->
-    <target name="package" depends="clean,tests,build,asdoc"/>
+    <target name="package" depends="clean,tests,swc,asdoc"/>
     <target name="asdoc" depends="clean">
+        <echo>Generating ASDOC documentation...</echo>
         <mkdir dir="${doc.loc}"/>
         <asdoc output="${doc.loc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src.loc}"/>
             <library-path dir="${libs.loc}" includes="**/*"/>
         </asdoc>
     </target>
-    <target name="build">
-        <compc output="${swc.loc}/crazy-mvc.swc">
+    <target name="swc">
+        <echo>Building SWC...</echo>
+        <compc output="${swc.loc}/crazy-mvc-${ver.num}.swc">
             <load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
             <include-sources dir="${src.loc}" includes="*"/>
             <library-path dir="${libs.loc}" includes="**/*"/>
         </compc>
     </target>
-    <target name="tests">
+    <target name="tests" depends="swc" description="Run unit tests in a Flash Player window.">
+
     </target>
     <target name="clean">
         <delete dir="${out.loc}"/>

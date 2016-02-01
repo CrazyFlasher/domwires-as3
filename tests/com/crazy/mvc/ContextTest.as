@@ -3,6 +3,7 @@
  */
 package com.crazy.mvc
 {
+	import com.crazy.mvc.mock.MockCommand;
 	import com.crazy.mvc.model.Context;
 	import com.crazy.mvc.model.IContext;
 	import com.crazy.mvc.model.IModel;
@@ -16,7 +17,7 @@ package com.crazy.mvc
 
 	public class ContextTest
 	{
-		private var context:IContext;
+		private var context:Context;
 
 		[Before]
 		public function setUp():void
@@ -121,6 +122,26 @@ package com.crazy.mvc
 
 			Assert.assertEquals(context.numModels, 0);
 			Assert.assertEquals(context.numViews, 0);
+		}
+
+		[Test]
+		public function testMapSignalTypeToCommand():void
+		{
+			context.mapSignalTypeToCommand("test", MockCommand);
+
+		}
+
+		[Test]
+		public function testContainsSignalToCommandMapping():void
+		{
+			context.mapSignalTypeToCommand("test", MockCommand);
+			Assert.assertTrue(context.containsSignalToCommandMapping("test", MockCommand));
+		}
+
+		[Test]
+		public function testUnmapSignalTypeFromCommand():void
+		{
+
 		}
 	}
 }

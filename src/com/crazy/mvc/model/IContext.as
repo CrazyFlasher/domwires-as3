@@ -10,10 +10,10 @@ package com.crazy.mvc.model
 	 */
 	public interface IContext extends IModelContainer
 	{
-		/*function mapSignalTypeToCommand(signalType:String, commandClass:Class, affectedModels:Vector.<IModel> = null):void;
-		function mapViewToMediator(view:IView, mediator:IController):void;
+		function mapSignalTypeToCommand(signalType:String, commandClass:Class, toPool:Boolean = true):void;
+		//function mapViewToMediator(view:IView, mediator:IController):void;
 		function unmapSignalTypeFromCommand(signalType:String, commandClass:Class):void;
-		function unmapViewFromMediator(view:IView, mediator:IController):void;*/
+		//function unmapViewFromMediator(view:IView, mediator:IController):void;
 
 		/**
 		 * Adds view to view list of current object
