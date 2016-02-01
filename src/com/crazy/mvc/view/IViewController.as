@@ -9,7 +9,7 @@ package com.crazy.mvc.view
 	 * Common view object that should contain either flash.display.DisplayObjectContainer or starling.display.DisplayObjectContainer.
 	 * IView object connects to IContext for further communication.
 	 */
-	public interface IView extends IDisposable
+	public interface IViewController extends IDisposable
 	{
 
 	}

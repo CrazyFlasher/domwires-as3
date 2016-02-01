@@ -10,7 +10,7 @@ package com.crazy.mvc.view
 	/**
 	 * Flash view object that can be connected to IContext for further model <-> view communication
 	 */
-	public class FlashView extends SignalDispatcher implements IView
+	public class FlashView extends SignalDispatcher implements IViewController
 	{
 		protected var _displayObjectContainer:DisplayObjectContainer;
 

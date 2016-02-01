@@ -20,6 +20,7 @@
         <asdoc output="${doc.loc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src.loc}"/>
             <library-path dir="${libs.loc}" includes="**/*"/>
+            <exclude-sources path-element="${src.loc}/com/crazy/mvc/controller" />
         </asdoc>
     </target>
     <target name="swc">

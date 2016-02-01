@@ -3,43 +3,43 @@
  */
 package com.crazy.mvc.model
 {
-	import com.crazy.mvc.view.IView;
+	import com.crazy.mvc.view.IViewController;
 
 	/**
 	 * Object tat is used for communication between model and view sides of application
 	 */
 	public interface IContext extends IModelContainer
 	{
-		function mapSignalTypeToCommand(signalType:String, commandClass:Class, toPool:Boolean = true):void;
-		//function mapViewToMediator(view:IView, mediator:IController):void;
-		function unmapSignalTypeFromCommand(signalType:String, commandClass:Class):void;
-		//function unmapViewFromMediator(view:IView, mediator:IController):void;
+//		function mapSignalTypeToCommand(signalType:String, commandClass:Class, toPool:Boolean = true):void;
+//		function mapViewToMediator(view:IViewController, mediator:IController):void;
+//		function unmapSignalTypeFromCommand(signalType:String, commandClass:Class):void;
+//		function unmapViewFromMediator(view:IViewController, mediator:IController):void;
 
 		/**
 		 * Adds view to view list of current object
 		 * @param view
 		 */
-		function addView(view:IView):void;
+		function addView(view:IViewController):void;
 
 		/**
 		 * Adds several views to view list of current object
 		 * @param views
 		 */
-		function addViews(views:Vector.<IView>):void;
+		function addViews(views:Vector.<IViewController>):void;
 
 		/**
 		 * Removes view from view list of current object
 		 * @param view
 		 * @param dispose
 		 */
-		function removeView(view:IView, dispose:Boolean = false):void;
+		function removeView(view:IViewController, dispose:Boolean = false):void;
 
 		/**
 		 * Removes several views from view list of current object
 		 * @param views
 		 * @param dispose If true, then removed views will ne disposed
 		 */
-		function removeViews(views:Vector.<IView>, dispose:Boolean = false):void;
+		function removeViews(views:Vector.<IViewController>, dispose:Boolean = false):void;
 
 		/**
 		 * Removes all views from view list of current object
@@ -57,6 +57,6 @@ package com.crazy.mvc.model
 		 * @param view
 		 * @return
 		 */
-		function containsView(view:IView):Boolean;
+		function containsView(view:IViewController):Boolean;
 	}
 }

@@ -10,8 +10,6 @@ package com.crazy.mvc.model
 	 */
 	public class Model extends SignalDispatcher implements IModel
 	{
-		namespace anton;
-
 		private var _parent:IModelContainer;
 
 		public function Model()

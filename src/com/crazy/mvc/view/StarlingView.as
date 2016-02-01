@@ -10,7 +10,7 @@ package com.crazy.mvc.view
 	/**
 	 * Starling view object that can be connected to IContext for further model <-> view communication
 	 */
-	public class StarlingView extends SignalDispatcher implements IView
+	public class StarlingView extends SignalDispatcher implements IViewController
 	{
 		protected var _displayObjectContainer:DisplayObjectContainer;
 

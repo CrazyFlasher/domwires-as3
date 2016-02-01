@@ -1,10 +1,9 @@
 /**
  * Created by Anton Nefjodov on 1.02.2016.
  */
-package com.crazy.mvc.model
+package com.crazy.mvc.controller
 {
 	import com.crazy.mvc.common.Disposable;
-	import com.crazy.mvc.controller.ICommand;
 
 	/**
 	 * Class, that stores link to ICommand that should be executed, when specified signal occurs

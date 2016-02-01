@@ -14,11 +14,11 @@ package com.crazy.preloader {
      * After app is completely downloaded, preloader will move to second frame.
      * Before that, use as less classes as possible, so preloader will be shown to user faster.
      */
-    public class AppPreloader extends MovieClip
+    public class AbstractPreloader extends MovieClip
     {
         private var _preloader:Sprite;
 
-        public function AppPreloader() {
+        public function AbstractPreloader() {
             super();
 
             if(!stage)
@@ -39,7 +39,7 @@ package com.crazy.preloader {
 
 		/**
 		 * Default preloader added to displayList and ready to process preloader actions.
-         * Override with super, if you wan't to add additional logic
+         * Override with super, if you want to add additional logic
          */
         protected function init():void {
             this.stop();

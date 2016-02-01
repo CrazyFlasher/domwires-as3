@@ -3,24 +3,17 @@
  */
 package com.crazy.mvc.model
 {
-	import com.crazy.mvc.controller.Command;
-	import com.crazy.mvc.controller.ICommand;
-	import com.crazy.mvc.event.ISignalEvent;
-	import com.crazy.mvc.view.IView;
+	import com.crazy.mvc.view.IViewController;
 
 	import flash.utils.Dictionary;
-	import flash.utils.getQualifiedClassName;
-
-	import org.osflash.signals.events.IEvent;
-	import org.swiftsuspenders.Injector;
 
 	/**
 	 * Object tat is used for communication between model and view sides of application
 	 */
 	public class Context extends ModelContainer implements IContext
 	{
-		private var _injector:Injector;
-		private var _signalTypeToCommandMappings:Vector.<MappingVo>;
+//		private var _injector:Injector;
+//		private var _signalTypeToCommandMappings:Vector.<MappingVo>;
 
 		private var _viewList:Dictionary;
 		private var _numViews:int;
@@ -33,7 +26,7 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function mapSignalTypeToCommand(signalType:String, commandClass:Class, toPool:Boolean = true):void
+		/*public function mapSignalTypeToCommand(signalType:String, commandClass:Class, toPool:Boolean = true):void
 		{
 			if (!_injector)
 			{
@@ -59,7 +52,7 @@ package com.crazy.mvc.model
 		 * @param command
 		 * @return
 		 */
-		public function containsSignalToCommandMapping(signalType:String, commandClass:Class):Boolean
+		/*public function containsSignalToCommandMapping(signalType:String, commandClass:Class):Boolean
 		{
 			if (!_signalTypeToCommandMappings) return false;
 
@@ -77,7 +70,7 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function unmapSignalTypeFromCommand(signalType:String, commandClass:Class):void
+		/*public function unmapSignalTypeFromCommand(signalType:String, commandClass:Class):void
 		{
 			if (_signalTypeToCommandMappings)
 			{
@@ -100,12 +93,12 @@ package com.crazy.mvc.model
 			}
 		}
 
-		/*public function mapViewToMediator(view:IView, mediator:IController):void
+		/*public function mapViewToMediator(view:IViewController, mediator:IController):void
 		 {
 
 		 }
 
-		 public function unmapViewFromMediator(view:IView, mediator:IController):void
+		 public function unmapViewFromMediator(view:IViewController, mediator:IController):void
 		 {
 
 		 }*/
@@ -113,7 +106,7 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		override public function onEventBubbled(event:IEvent):Boolean
+		/*override public function onEventBubbled(event:IEvent):Boolean
 		{
 			super.onEventBubbled(event);
 
@@ -134,7 +127,7 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function addView(view:IView):void
+		public function addView(view:IViewController):void
 		{
 			if (!_viewList)
 			{
@@ -152,13 +145,13 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function addViews(views:Vector.<IView>):void
+		public function addViews(views:Vector.<IViewController>):void
 		{
 			for (var i:int = 0; i < views.length; i++)
 			{
-				if (!(views[i] is IView))
+				if (!(views[i] is IViewController))
 				{
-					throw new Error("Context#addViews: Error! You should pass IView only!");
+					throw new Error("Context#addViews: Error! You should pass IViewController only!");
 				}
 				addView(views[i]);
 			}
@@ -167,7 +160,7 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeView(view:IView, dispose:Boolean = false):void
+		public function removeView(view:IViewController, dispose:Boolean = false):void
 		{
 			var removed:Boolean = removeChild(view, _viewList);
 
@@ -185,13 +178,13 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeViews(views:Vector.<IView>, dispose:Boolean = false):void
+		public function removeViews(views:Vector.<IViewController>, dispose:Boolean = false):void
 		{
 			for (var i:int = 0; i < views.length; i++)
 			{
-				if (!(views[i] is IView))
+				if (!(views[i] is IViewController))
 				{
-					throw new Error("Context#removeViews: Error! You should pass IView only!");
+					throw new Error("Context#removeViews: Error! You should pass IViewController only!");
 				}
 				removeView(views[i], dispose);
 			}
@@ -224,7 +217,7 @@ package com.crazy.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function containsView(view:IView):Boolean
+		public function containsView(view:IViewController):Boolean
 		{
 			return _viewList != null && _viewList[view] != null;
 		}
