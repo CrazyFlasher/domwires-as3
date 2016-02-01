@@ -3,6 +3,9 @@
  */
 package com.crazy.mvc
 {
+	import com.crazy.mvc.model.Model;
+	import com.crazy.mvc.model.ModelContainer;
+
 	import flexunit.framework.Assert;
 
 	public class ModelTest

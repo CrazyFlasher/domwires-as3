@@ -3,9 +3,12 @@
  */
 package com.crazy.mvc
 {
-	import com.crazy.mvc.api.IContext;
-	import com.crazy.mvc.api.IModel;
-	import com.crazy.mvc.api.IView;
+	import com.crazy.mvc.model.Context;
+	import com.crazy.mvc.model.IContext;
+	import com.crazy.mvc.model.IModel;
+	import com.crazy.mvc.model.Model;
+	import com.crazy.mvc.view.IView;
+	import com.crazy.mvc.view.StarlingView;
 
 	import flexunit.framework.Assert;
 

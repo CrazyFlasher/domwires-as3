@@ -1,15 +1,14 @@
 /**
  * Created by Anton Nefjodov on 26.01.2016.
  */
-package com.crazy.mvc
+package com.crazy.mvc.model
 {
-	import com.crazy.mvc.api.IContext;
-	import com.crazy.mvc.api.IView;
+	import com.crazy.mvc.view.IView;
 
 	import flash.utils.Dictionary;
 
 	/**
-	 * Object tat is used for communication between model and view sides of application.
+	 * Object tat is used for communication between model and view sides of application
 	 */
 	public class Context extends ModelContainer implements IContext
 	{
@@ -183,7 +182,7 @@ package com.crazy.mvc
 		}
 
 		/**
-		 * Disposes current object and disposes models from its model list and views from view list.
+		 * Disposes current object and disposes models from its model list and views from view list
 		 */
 		override public function disposeWithAllChildren():void
 		{

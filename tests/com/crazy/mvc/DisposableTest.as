@@ -3,7 +3,8 @@
  */
 package com.crazy.mvc
 {
-	import com.crazy.mvc.api.IDisposable;
+	import com.crazy.mvc.common.Disposable;
+	import com.crazy.mvc.common.IDisposable;
 
 	import flexunit.framework.Assert;
 

@@ -3,7 +3,10 @@
  */
 package com.crazy.mvc
 {
-	import com.crazy.mvc.api.ISignalEvent;
+	import com.crazy.mvc.event.ISignalEvent;
+	import com.crazy.mvc.model.Context;
+	import com.crazy.mvc.model.Model;
+	import com.crazy.mvc.model.ModelContainer;
 
 	import flexunit.framework.Assert;
 

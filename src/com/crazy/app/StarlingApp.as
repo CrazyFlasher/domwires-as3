@@ -1,6 +1,4 @@
 package com.crazy.app {
-	import com.crazy.app.api.IApp;
-
 	import flash.display.Sprite;
 	import flash.display3D.Context3DProfile;
 	import flash.events.Event;
@@ -17,8 +15,7 @@ package com.crazy.app {
 	import starling.utils.SystemUtil;
 
 	/**
-	 * Anton Nefjodov
-	 * @author 
+	 * Main starling application class
 	 */
 	public class StarlingApp extends Sprite implements IApp {
 		protected var stageWidth:int  = 1920;
@@ -31,7 +28,11 @@ package com.crazy.app {
 
 		private var _iOS:Boolean;
 		private var _rootClass:Class;
-		
+
+		/**
+		 * Constructs new Starling application object
+		 * @param rootClass Type of main view class, that should extend starling.display.DisplayObjectContainer
+		 */
 		public function StarlingApp(rootClass:Class) {
 			super();
 

@@ -1,10 +1,9 @@
 /**
  * Created by Anton Nefjodov on 30.01.2016.
  */
-package com.crazy.mvc
+package com.crazy.mvc.event
 {
-	import com.crazy.mvc.api.ISignalDispatcher;
-	import com.crazy.mvc.api.ISignalEvent;
+	import com.crazy.mvc.common.Disposable;
 
 	import flash.utils.Dictionary;
 
@@ -12,9 +11,8 @@ package com.crazy.mvc
 	import org.osflash.signals.ISignal;
 	import org.osflash.signals.events.IEvent;
 
-	use namespace signal_ns;
 	/**
-	 * Common signal dispatcher. Can be used for listening and dispatching signals for views and models.
+	 * Common signal dispatcher. Can be used for listening and dispatching signals for views and models
 	 */
 	public class SignalDispatcher extends Disposable implements ISignalDispatcher
 	{
@@ -80,7 +78,7 @@ package com.crazy.mvc
 		}
 
 		/**
-		 * Disposes objects and removes all signals.
+		 * Disposes objects and removes all signals
 		 */
 		override public function dispose():void
 		{

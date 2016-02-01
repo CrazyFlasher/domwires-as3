@@ -1,23 +1,19 @@
 /**
  * Created by Anton Nefjodov on 28.01.2016.
  */
-package com.crazy.mvc
+package com.crazy.mvc.event
 {
-	import com.crazy.mvc.api.ISignalEvent;
-
 	import org.osflash.signals.events.GenericEvent;
 
-	use namespace signal_ns;
-
+	/**
+	 * Event that is dispatched with signal
+	 */
 	public class SignalEvent extends GenericEvent implements ISignalEvent
 	{
 		private var _data:Object;
 		private var _type:String;
 		private var _isDisposed:Boolean;
 
-		/**
-		 * Event that is dispatched with signal.
-		 */
 		public function SignalEvent(type:String, data:Object = null)
 		{
 			super(true);
@@ -42,12 +38,12 @@ package com.crazy.mvc
 			return _type;
 		}
 
-		signal_ns function setData(value:Object):void
+		internal function setData(value:Object):void
 		{
 			_data = value;
 		}
 
-		signal_ns function setType(value:String):void
+		internal function setType(value:String):void
 		{
 			_type = value;
 		}

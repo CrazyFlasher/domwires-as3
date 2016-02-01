@@ -1,15 +1,15 @@
 package com.crazy.app {
-	import com.crazy.app.api.IApp;
-
 	import flash.display.Sprite;
 	import flash.events.UncaughtErrorEvent;
 
 	/**
-	 * Anton Nefjodov
-	 * @author 
+	 * Main flash application class
 	 */
 	public class FlashApp extends Sprite implements IApp {
 
+		/**
+		 * Constructs new Flash application with standard displayList objects
+		 */
 		public function FlashApp() {
 			super();
 		}

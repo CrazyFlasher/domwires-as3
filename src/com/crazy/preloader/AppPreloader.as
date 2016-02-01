@@ -8,6 +8,11 @@ package com.crazy.preloader {
     import flash.events.ProgressEvent;
     import flash.events.UncaughtErrorEvent;
 
+    /**
+     * Application internal preloader. Application should be built with "-frame=two,*document class with package*".
+     * After app is completely downloaded, preloader will move to second frame.
+     * Before that, use as less classes as possible, so preloader will be shown to user faster.
+     */
     public class AppPreloader extends MovieClip
     {
         private var _preloader:Sprite;
@@ -33,6 +38,7 @@ package com.crazy.preloader {
 
 		/**
 		 * preloader added to displayList and ready to process preloader actions
+         * @override
          */
         protected function init():void {
             this.stop();

@@ -3,8 +3,9 @@
  */
 package com.crazy.mvc
 {
-	import com.crazy.mvc.api.ISignalDispatcher;
-	import com.crazy.mvc.api.ISignalEvent;
+	import com.crazy.mvc.event.ISignalDispatcher;
+	import com.crazy.mvc.event.ISignalEvent;
+	import com.crazy.mvc.event.SignalDispatcher;
 
 	import flexunit.framework.Assert;
 

@@ -1,21 +1,17 @@
 /**
  * Created by Anton Nefjodov on 26.01.2016.
  */
-package com.crazy.mvc
+package com.crazy.mvc.model
 {
-	import com.crazy.mvc.api.IModel;
-	import com.crazy.mvc.api.IModelContainer;
-	import com.crazy.mvc.api.ISignalEvent;
+	import com.crazy.mvc.event.ISignalEvent;
 
 	import flash.utils.Dictionary;
 
 	import org.osflash.signals.events.IBubbleEventHandler;
 	import org.osflash.signals.events.IEvent;
 
-	use namespace model_ns;
-
 	/**
-	 * Model object that can contain other models.
+	 * Model object that can contain other models
 	 */
 	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
 	{
