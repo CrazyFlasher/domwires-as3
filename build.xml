@@ -26,7 +26,7 @@
             <doc-sources path-element="${src}"/>
             <!--library-path dir="${starling}" includes="*"/-->
             <library-path dir="${as3_signals}" includes="*"/>
-            <exclude-sources path-element="${src}/com/crazy/mvc/controller" />
+            <exclude-sources path-element="${src}/com/crazyfm/mvc/controller" />
         </asdoc>
     </target>
     <target name="swc-core">
@@ -35,9 +35,9 @@
         <echo>-----------------------------------</echo>
         <compc output="${swc_core}/cfm-core-${ver.num}.swc">
             <load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
-            <include-sources dir="${src}" includes="com/crazy/app/*"/>
-            <include-sources dir="${src}" includes="com/crazy/mvc/*"/>
-            <include-sources dir="${src}" includes="com/crazy/preloader/*"/>
+            <include-sources dir="${src}" includes="com/crazyfm/app/*"/>
+            <include-sources dir="${src}" includes="com/crazyfm/mvc/*"/>
+            <include-sources dir="${src}" includes="com/crazyfm/preloader/*"/>
             <!--library-path dir="${starling}" includes="*"/-->
             <library-path dir="${as3_signals}" includes="*"/>
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
