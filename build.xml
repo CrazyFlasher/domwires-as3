@@ -34,7 +34,7 @@
         <echo>[swc] Building core SWC...</echo>
         <echo>-----------------------------------</echo>
         <compc output="${swc_core}/cfm-core-${ver.num}.swc">
-            <load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
+            <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="com/crazyfm/app/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/mvc/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/preloader/*"/>
