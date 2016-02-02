@@ -25,7 +25,7 @@
         <asdoc output="${doc_core}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
             <!--library-path dir="${starling}" includes="*"/-->
-            <library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${as3_signals}" includes="*"/>
             <exclude-sources path-element="${src}/com/crazyfm/mvc/controller" />
         </asdoc>
     </target>
@@ -38,8 +38,8 @@
             <include-sources dir="${src}" includes="com/crazyfm/app/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/mvc/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/preloader/*"/>
-            <!--library-path dir="${starling}" includes="*"/-->
-            <library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
         </compc>
     </target>
