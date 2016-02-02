@@ -8,17 +8,17 @@ package com.crazy.mvc.event
 	import org.osflash.signals.events.IEvent;
 
 	/**
-	 * Event that is dispatched with signal
+	 * Event that is dispatched with signal.
 	 */
 	public interface ISignalEvent extends IEvent, IDisposable
 	{
 		/**
-		 * Returns data that was passed buy dispatcher object
+		 * Returns data that was passed buy dispatcher object.
 		 */
 		function get data():Object;
 
 		/**
-		 * Returns event type
+		 * Returns event type.
 		 */
 		function get type():String;
 	}

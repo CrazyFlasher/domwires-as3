@@ -3,12 +3,15 @@
  */
 package com.crazy.mvc.model
 {
+	import com.crazy.mvc.event.ISignalEvent;
 	import com.crazy.mvc.view.IViewController;
 
 	import flash.utils.Dictionary;
 
+	import org.osflash.signals.events.IEvent;
+
 	/**
-	 * Object tat is used for communication between model and view sides of application
+	 * Object tat is used for communication between model and view sides of application.
 	 */
 	public class Context extends ModelContainer implements IContext
 	{
@@ -223,13 +226,47 @@ package com.crazy.mvc.model
 		}
 
 		/**
-		 * Disposes current object and disposes models from its model list and views from view list
+		 * Disposes current object and disposes models from its model list and views from view list.
 		 */
 		override public function disposeWithAllChildren():void
 		{
 			removeAllViews(true);
 
 			super.disposeWithAllChildren();
+		}
+
+		/**
+		 * Disposes object and removes all children models and views, but doesn't dispose them.
+		 */
+		override public function dispose():void
+		{
+			removeAllViews();
+
+			super.dispose();
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispatchSignalToViews(event:ISignalEvent):void
+		{
+			for each (var view:IViewController in _viewList)
+			{
+				view.dispatchSignal(event.type, event.data);
+			}
+		}
+
+		/**
+		 * Handler for event bubbling.
+		 * Dispatches bubbled event to views.
+		 * @param	event The event that bubbled up.
+		 * @return whether to continue bubbling this event
+		 */
+		override public function onEventBubbled(event:IEvent):Boolean
+		{
+			dispatchSignalToViews(event as ISignalEvent);
+
+			return super.onEventBubbled(event);
 		}
 	}
 }

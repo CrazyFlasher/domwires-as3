@@ -3,15 +3,15 @@
  */
 package com.crazy.mvc.model
 {
-	import com.crazy.mvc.common.IDisposable;
+	import com.crazy.mvc.event.ISignalDispatcher;
 
 	/**
-	 * Model object that can be used for working with data and other logical non-view operations
+	 * Model object that can be used for working with data and other logical non-view operations.
 	 */
-	public interface IModel extends IDisposable
+	public interface IModel extends ISignalDispatcher
 	{
 		/**
-		 * Returns parent object
+		 * Returns parent object.
 		 */
 		function get parent():IModelContainer;
 	}

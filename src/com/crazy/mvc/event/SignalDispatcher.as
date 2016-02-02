@@ -12,7 +12,7 @@ package com.crazy.mvc.event
 	import org.osflash.signals.events.IEvent;
 
 	/**
-	 * Common signal dispatcher. Can be used for listening and dispatching signals for views and models
+	 * Common signal dispatcher. Can be used for listening and dispatching signals for views and models.
 	 */
 	public class SignalDispatcher extends Disposable implements ISignalDispatcher
 	{
@@ -78,7 +78,7 @@ package com.crazy.mvc.event
 		}
 
 		/**
-		 * Disposes objects and removes all signals
+		 * Disposes objects and removes all signals.
 		 */
 		override public function dispose():void
 		{

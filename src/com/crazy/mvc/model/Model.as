@@ -6,7 +6,7 @@ package com.crazy.mvc.model
 	import com.crazy.mvc.event.SignalDispatcher;
 
 	/**
-	 * Model object that can be used for working with data and other logical non-view operations
+	 * Model object that can be used for working with data and other logical non-view operations.
 	 */
 	public class Model extends SignalDispatcher implements IModel
 	{
@@ -30,7 +30,7 @@ package com.crazy.mvc.model
 		}
 
 		/**
-		 * Disposes model and removes reference to parent, if has one
+		 * Disposes model and removes reference to parent, if has one.
 		 */
 		override public function dispose():void
 		{

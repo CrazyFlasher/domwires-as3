@@ -4,7 +4,7 @@
 package com.crazy.mvc.common
 {
 	/**
-	 * Any object that need to be disposed to free memory can extends this class
+	 * Any object that need to be disposed to free memory can extends this class.
 	 */
 	public class Disposable implements IDisposable
 	{

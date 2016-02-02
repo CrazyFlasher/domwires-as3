@@ -6,7 +6,7 @@ package com.crazy.mvc.event
 	import org.osflash.signals.events.GenericEvent;
 
 	/**
-	 * Event that is dispatched with signal
+	 * Event that is dispatched with signal.
 	 */
 	public class SignalEvent extends GenericEvent implements ISignalEvent
 	{

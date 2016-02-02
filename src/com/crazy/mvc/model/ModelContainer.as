@@ -11,7 +11,7 @@ package com.crazy.mvc.model
 	import org.osflash.signals.events.IEvent;
 
 	/**
-	 * Model object that can contain other models
+	 * Model object that can contain other models.
 	 */
 	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
 	{

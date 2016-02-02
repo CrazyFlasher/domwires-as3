@@ -104,14 +104,14 @@ package com.crazy.preloader {
         }
 
 		/**
-		 * Initialized global app error catcher
+		 * Initialized global app error catcher.
          */
         private function initUncaughtErrorHandler():void {
             loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtError);
         }
 
 		/**
-         * Override to log errors somewhere
+         * Override to log errors somewhere.
          * @param event
          */
         protected function uncaughtError(event:UncaughtErrorEvent):void {

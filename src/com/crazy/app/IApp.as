@@ -6,14 +6,19 @@ package com.crazy.app
 	import flash.events.UncaughtErrorEvent;
 
 	/**
-	 * Main application interface
+	 * Main application interface.
 	 */
 	public interface IApp
 	{
 		/**
-		 * Called, when uncaught error occurs
+		 * Called, when uncaught error occurs.
 		 * @param event
 		 */
 		function handleUncaughtError(event:UncaughtErrorEvent):void;
+
+		/**
+		 * Returns true if app is initialized.
+		 */
+		function get isInitialized():Boolean;
 	}
 }

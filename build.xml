@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="crazy-mvc" basedir="." default="package">
+<project name="crazyfm-core" basedir="." default="package">
 	
 	<!-- set up a prefix for all environment variables -->
 	<property environment="env."/>
@@ -9,32 +9,82 @@
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
 	<!-- identify properties file -->
-	<property file="build.properties"/>
+    <property file="build.local.properties"/>
+    <property file="build.properties"/>
 
 	<!-- Set up Flex and FlexUnit ant tasks -->
-	<!--taskdef resource="flexUnitTasks.tasks" classpath="${lib.loc}/flexUnitTasks-4.1.0-8.jar"/-->
-    <target name="package" depends="clean,tests,swc,asdoc"/>
-    <target name="asdoc" depends="clean">
-        <echo>Generating ASDOC documentation...</echo>
-        <mkdir dir="${doc.loc}"/>
-        <asdoc output="${doc.loc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
-            <doc-sources path-element="${src.loc}"/>
-            <library-path dir="${libs.loc}" includes="**/*"/>
-            <exclude-sources path-element="${src.loc}/com/crazy/mvc/controller" />
+	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
+
+    <target name="package" depends="clean,swc-core,test-core,asdoc-core"/>
+    <target name="asdoc-core">
+        <echo>-----------------------------------</echo>
+        <echo>[asdoc] Generating core ASDOC documentation...</echo>
+        <echo>-----------------------------------</echo>
+        <delete dir="${doc_core}"/>
+        <mkdir dir="${doc_core}"/>
+        <asdoc output="${doc_core}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
+            <doc-sources path-element="${src}"/>
+            <!--library-path dir="${starling}" includes="*"/-->
+            <library-path dir="${as3_signals}" includes="*"/>
+            <exclude-sources path-element="${src}/com/crazy/mvc/controller" />
         </asdoc>
     </target>
-    <target name="swc">
-        <echo>Building SWC...</echo>
-        <compc output="${swc.loc}/crazy-mvc-${ver.num}.swc">
+    <target name="swc-core">
+        <echo>-----------------------------------</echo>
+        <echo>[swc] Building core SWC...</echo>
+        <echo>-----------------------------------</echo>
+        <compc output="${swc_core}/cfm-core-${ver.num}.swc">
             <load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>
-            <include-sources dir="${src.loc}" includes="*"/>
-            <library-path dir="${libs.loc}" includes="**/*"/>
+            <include-sources dir="${src}" includes="com/crazy/app/*"/>
+            <include-sources dir="${src}" includes="com/crazy/mvc/*"/>
+            <include-sources dir="${src}" includes="com/crazy/preloader/*"/>
+            <!--library-path dir="${starling}" includes="*"/-->
+            <library-path dir="${as3_signals}" includes="*"/>
+            <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
         </compc>
     </target>
-    <target name="tests" depends="swc" description="Run unit tests in a Flash Player window.">
-
+    <target name="test-core" depends="swc-core">
+        <mkdir dir="${tests_core_out}"/>
+        <mkdir dir="${tests_core_out}/report"/>
+        <mkdir dir="${tests_core_out}/report/html"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Running Unit Tests...</echo>
+        <echo>-----------------------------------</echo>
+        <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+            <arg value="${test_src}/TestCore.as"/>
+            <arg value="-source-path+=${src}"/>
+            <arg value="-swf-version=${swf-version}"/>
+            <arg value="-library-path+=${as3_signals}"/>
+            <!--arg value="-library-path+=${starling}"/-->
+            <arg value="-library-path+=${flexunit}"/>
+            <arg value="-output=${tests_core_out}/TestRunner.swf"/>
+        </java>
+        <flexunit
+                command="${flashplayer}"
+                player="flash"
+                swf="${tests_core_out}/TestRunner.swf"
+                toDir="${tests_core_out}/report"
+                haltonfailure="false"
+                verbose="true"
+                localTrusted="true"
+                port="1024"
+                failureproperty="flexunit.failure"
+        />
+        <junitreport todir="${tests_core_out}/report">
+            <fileset dir="${tests_core_out}/report">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${tests_core_out}/report/html"/>
+        </junitreport>
+        <fail if="flexunit.failure" message="Unit test(s) failed. See reports!"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Finished running Unit Tests with success!</echo>
+        <echo>-----------------------------------</echo>
     </target>
     <target name="clean">
-        <delete dir="${out.loc}"/>
+        <echo>-----------------------------------</echo>
+        <echo>[clean] Cleaning build directory....</echo>
+        <echo>-----------------------------------</echo>
+        <delete dir="${out}"/>
     </target>
 </project>
