@@ -2,6 +2,8 @@
  * Created by Anton Nefjodov
  */
 package com.crazyfm.preloader {
+    import com.crazyfm.app.IApp;
+
     import flash.display.MovieClip;
     import flash.display.Sprite;
     import flash.events.Event;
@@ -16,6 +18,8 @@ package com.crazyfm.preloader {
      */
     public class AbstractPreloader extends MovieClip
     {
+        protected var _app:IApp;
+
         private var _preloader:Sprite;
 
         public function AbstractPreloader() {
@@ -63,11 +67,10 @@ package com.crazyfm.preloader {
         }
 
 		/**
-         * After that you may initialize all needed objects, classes.
-         * Override this method to continue your app initialization
+         * Override this method and initialize IApp implementation here.
          */
         protected function appLoaded():void {
-
+            throw new Error("AbstractPreloader#appLoaded: method MUST be overriden!");
         }
 
 		/**
@@ -111,11 +114,14 @@ package com.crazyfm.preloader {
         }
 
 		/**
-         * Override to log errors somewhere.
+         * Passes uncaught error to IApp.
          * @param event
          */
-        protected function uncaughtError(event:UncaughtErrorEvent):void {
-
+        private function uncaughtError(event:UncaughtErrorEvent):void {
+            if (_app)
+            {
+                _app.handleUncaughtError(event);
+            }
         }
     }
 }
