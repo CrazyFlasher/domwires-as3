@@ -9,7 +9,6 @@
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
 	<!-- identify properties file -->
-    <property file="build.local.properties"/>
     <property file="build.properties"/>
 
 	<!-- Set up Flex and FlexUnit ant tasks -->
@@ -25,7 +24,7 @@
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
             <!--library-path dir="${starling}" includes="*"/-->
-            <external-library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${as3-signals}" includes="*"/>
             <exclude-sources path-element="${src}/com/crazyfm/mvc/controller" />
         </asdoc>
     </target>
@@ -38,43 +37,43 @@
             <include-sources dir="${src}" includes="com/crazyfm/app/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/mvc/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/preloader/*"/>
-            <external-library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${as3-signals}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
         </compc>
     </target>
     <target name="test" depends="swc">
-        <mkdir dir="${tests_out}"/>
-        <mkdir dir="${tests_out}/report"/>
-        <mkdir dir="${tests_out}/report/html"/>
+        <mkdir dir="${out}/tests"/>
+        <mkdir dir="${out}/tests/report"/>
+        <mkdir dir="${out}/tests/report/html"/>
         <echo>-----------------------------------</echo>
         <echo>[test] Running Unit Tests...</echo>
         <echo>-----------------------------------</echo>
         <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
-            <arg value="${test_src}/TestCore.as"/>
+            <arg value="../tests/TestCore.as"/>
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
-            <arg value="-library-path+=${as3_signals}"/>
+            <arg value="-library-path+=${as3-signals}"/>
             <!--arg value="-library-path+=${starling}"/-->
             <arg value="-library-path+=${flexunit}"/>
-            <arg value="-output=${tests_out}/TestRunner.swf"/>
+            <arg value="-output=${out}/tests/TestRunner.swf"/>
         </java>
         <flexunit
                 command="${flashplayer}"
                 player="flash"
-                swf="${tests_out}/TestRunner.swf"
-                toDir="${tests_out}/report"
+                swf="${out}/tests/TestRunner.swf"
+                toDir="${out}/tests/report"
                 haltonfailure="false"
                 verbose="true"
                 localTrusted="true"
                 port="1024"
                 failureproperty="flexunit.failure"
         />
-        <junitreport todir="${tests_out}/report">
-            <fileset dir="${tests_out}/report">
+        <junitreport todir="${out}/tests/report">
+            <fileset dir="${out}/tests/report">
                 <include name="TEST-*.xml"/>
             </fileset>
-            <report format="frames" todir="${tests_out}/report/html"/>
+            <report format="frames" todir="${out}/tests/report/html"/>
         </junitreport>
         <fail if="flexunit.failure" message="Unit test(s) failed. See reports!"/>
         <echo>-----------------------------------</echo>
@@ -91,6 +90,6 @@
         <echo>-----------------------------------</echo>
         <echo>[build_to_root] Building to root...</echo>
         <echo>-----------------------------------</echo>
-        <copy file="${swc}/cfm-core-${ver.num}.swc" todir="${basedir}/../out"/>
+        <copy file="${swc}/cfm-core-${ver.num}.swc" todir="../out"/>
     </target>
 </project>

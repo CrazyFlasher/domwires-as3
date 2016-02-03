@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <project name="crazyfm" basedir="." default="package">
 
-    <property file="build.local.properties"/>
     <property file="build.properties"/>
 
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
@@ -11,9 +10,9 @@
         <echo>-----------------------------------</echo>
         <echo>[core] Building core...</echo>
         <echo>-----------------------------------</echo>
-        <ant antfile="core/build.xml" target="build_to_root" inheritAll="false">
-            <property file="core/build.local.properties"/>
+        <ant antfile="core/build.xml" target="build_to_root" inheritAll="true">
             <property file="core/build.properties"/>
+            <property name="base_module_path" value="${base_path_core}"/>
         </ant>
     </target>
     <target name="ext-starlingApp">
@@ -21,16 +20,16 @@
         <echo>[core] Building extension starlingApp...</echo>
         <echo>-----------------------------------</echo>
         <ant antfile="extensions/starlingApp/build.xml" target="build_to_root" inheritAll="false"/>
-        <property file="extensions/starlingApp/build.local.properties"/>
         <property file="extensions/starlingApp/build.properties"/>
+        <property name="base_module_path" value="${base_path_ext-starlingApp}"/>
     </target>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating core ASDOC documentation...</echo>
         <echo>-----------------------------------</echo>
-        <delete dir="out/doc"/>
-        <mkdir dir="out/doc"/>
-        <asdoc output="out/doc" dir="${FLEX_HOME}" lenient="true" failonerror="true">
+        <delete dir="${doc}"/>
+        <mkdir dir="${doc}"/>
+        <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <!-- core -->
             <doc-sources path-element="core/src"/>
             <exclude-sources path-element="core/src/com/crazyfm/mvc/controller" />
@@ -38,7 +37,7 @@
             <doc-sources path-element="extensions/starlingApp/src"/>
             <!-- external libs -->
             <external-library-path dir="${starling}" includes="*"/>
-            <external-library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${as3-signals}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </asdoc>
     </target>
@@ -46,6 +45,6 @@
         <echo>-----------------------------------</echo>
         <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
-        <delete dir="out"/>
+        <delete dir="$(out)"/>
     </target>
 </project>

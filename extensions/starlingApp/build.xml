@@ -9,7 +9,6 @@
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
 	<!-- identify properties file -->
-    <property file="build.local.properties"/>
     <property file="build.properties"/>
 
     <target name="package" depends="clean,swc,asdoc"/>
@@ -23,7 +22,7 @@
             <doc-sources path-element="${src}"/>
             <external-library-path dir="${crazyfm-core}" includes="*"/>
             <external-library-path dir="${starling}" includes="*"/>
-            <external-library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${as3-signals}" includes="*"/>
         </asdoc>
     </target>
     <target name="swc">
@@ -35,7 +34,7 @@
             <include-sources dir="${src}" includes="*"/>
             <external-library-path dir="${crazyfm-core}" includes="*"/>
             <external-library-path dir="${starling}" includes="*"/>
-            <external-library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${as3-signals}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </compc>
     </target>
@@ -49,6 +48,6 @@
         <echo>-----------------------------------</echo>
         <echo>[build_to_root] Building to root...</echo>
         <echo>-----------------------------------</echo>
-        <copy file="${swc}/cfm-ext-starlingApp-${ver.num}.swc" todir="${basedir}/../../out"/>
+        <copy file="${swc}/cfm-ext-starlingApp-${ver.num}.swc" todir="../../out"/>
     </target>
 </project>
