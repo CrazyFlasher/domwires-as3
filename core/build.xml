@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<project name="crazyfm-core" basedir="." default="package">
+	
+	<!-- set up a prefix for all environment variables -->
+	<property environment="env."/>
+	<!-- System environment must contain FLEX_HOME variable that points to Flex SDK -->
+	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
+
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+	<!-- identify properties file -->
+    <property file="build.local.properties"/>
+    <property file="build.properties"/>
+
+	<!-- Set up Flex and FlexUnit ant tasks -->
+	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
+
+    <target name="package" depends="clean,swc,test,asdoc"/>
+    <target name="asdoc">
+        <echo>-----------------------------------</echo>
+        <echo>[asdoc] Generating core ASDOC documentation...</echo>
+        <echo>-----------------------------------</echo>
+        <delete dir="${doc}"/>
+        <mkdir dir="${doc}"/>
+        <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
+            <doc-sources path-element="${src}"/>
+            <!--library-path dir="${starling}" includes="*"/-->
+            <external-library-path dir="${as3_signals}" includes="*"/>
+            <exclude-sources path-element="${src}/com/crazyfm/mvc/controller" />
+        </asdoc>
+    </target>
+    <target name="swc">
+        <echo>-----------------------------------</echo>
+        <echo>[swc] Building core SWC...</echo>
+        <echo>-----------------------------------</echo>
+        <compc output="${swc}/cfm-core-${ver.num}.swc">
+            <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+            <include-sources dir="${src}" includes="com/crazyfm/app/*"/>
+            <include-sources dir="${src}" includes="com/crazyfm/mvc/*"/>
+            <include-sources dir="${src}" includes="com/crazyfm/preloader/*"/>
+            <external-library-path dir="${as3_signals}" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
+            <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
+        </compc>
+    </target>
+    <target name="test" depends="swc">
+        <mkdir dir="${tests_out}"/>
+        <mkdir dir="${tests_out}/report"/>
+        <mkdir dir="${tests_out}/report/html"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Running Unit Tests...</echo>
+        <echo>-----------------------------------</echo>
+        <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+            <arg value="${test_src}/TestCore.as"/>
+            <arg value="-source-path+=${src}"/>
+            <arg value="-swf-version=${swf-version}"/>
+            <arg value="-library-path+=${as3_signals}"/>
+            <!--arg value="-library-path+=${starling}"/-->
+            <arg value="-library-path+=${flexunit}"/>
+            <arg value="-output=${tests_out}/TestRunner.swf"/>
+        </java>
+        <flexunit
+                command="${flashplayer}"
+                player="flash"
+                swf="${tests_out}/TestRunner.swf"
+                toDir="${tests_out}/report"
+                haltonfailure="false"
+                verbose="true"
+                localTrusted="true"
+                port="1024"
+                failureproperty="flexunit.failure"
+        />
+        <junitreport todir="${tests_out}/report">
+            <fileset dir="${tests_out}/report">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${tests_out}/report/html"/>
+        </junitreport>
+        <fail if="flexunit.failure" message="Unit test(s) failed. See reports!"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Finished running Unit Tests with success!</echo>
+        <echo>-----------------------------------</echo>
+    </target>
+    <target name="clean">
+        <echo>-----------------------------------</echo>
+        <echo>[clean] Cleaning build directory...</echo>
+        <echo>-----------------------------------</echo>
+        <delete dir="${out}"/>
+    </target>
+    <target name="build_to_root" depends="swc,test">
+        <echo>-----------------------------------</echo>
+        <echo>[build_to_root] Building to root...</echo>
+        <echo>-----------------------------------</echo>
+        <copy file="${swc}/cfm-core-${ver.num}.swc" todir="${basedir}/../out"/>
+    </target>
+</project>
