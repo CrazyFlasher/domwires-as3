@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <project name="crazyfm-ext-starlingApp" basedir="." default="package">
 	
-	<!-- set up a prefix for all environment variables -->
 	<property environment="env."/>
-	<!-- System environment must contain FLEX_HOME variable that points to Flex SDK -->
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
 
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
-	<!-- identify properties file -->
+    <property name="src" value="${basedir}/src"/>
+    <property name="out" value="${basedir}/out"/>
+    <property name="doc" value="${out}/doc"/>
+    <property name="swc" value="${out}/swc"/>
+
     <property file="build.properties"/>
+
+    <taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
     <target name="package" depends="clean,swc,asdoc"/>
     <target name="asdoc">
@@ -38,9 +42,48 @@
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </compc>
     </target>
+    <target name="test">
+        <mkdir dir="${out}/tests"/>
+        <mkdir dir="${out}/tests/report"/>
+        <mkdir dir="${out}/tests/report/html"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Running Unit Tests...</echo>
+        <echo>-----------------------------------</echo>
+        <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+            <arg value="${basedir}/tests/TestSuite.as"/>
+            <arg value="-source-path+=${src}"/>
+            <arg value="-swf-version=${swf-version}"/>
+            <arg value="-library-path+=${flexunit}"/>
+            <arg value="-library-path+=${crazyfm-core}"/>
+            <arg value="-library-path+=${as3-signals}"/>
+            <arg value="-library-path+=${starling}"/>
+            <arg value="-output=${out}/tests/TestRunner.swf"/>
+            <arg value="-debug"/>
+        </java>
+        <flexunit
+                command="${flashplayer}"
+                player="flash"
+                swf="${out}/tests/TestRunner.swf"
+                toDir="${out}/tests/report"
+                haltonfailure="false"
+                verbose="true"
+                localTrusted="true"
+                failureproperty="flexunit.failure"
+        />
+        <junitreport todir="${out}/tests/report">
+            <fileset dir="${out}/tests/report">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${out}/tests/report/html"/>
+        </junitreport>
+        <fail if="flexunit.failure" message="Unit test(s) failed. See reports!"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Finished running Unit Tests with success!</echo>
+        <echo>-----------------------------------</echo>
+    </target>
     <target name="clean">
         <echo>-----------------------------------</echo>
-        <echo>[clean] Cleaning build directory....</echo>
+        <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
         <delete dir="${out}"/>
     </target>

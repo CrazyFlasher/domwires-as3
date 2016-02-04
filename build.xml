@@ -1,31 +1,26 @@
 <?xml version="1.0"?>
 <project name="crazyfm" basedir="." default="package">
 
+    <property environment="env."/>
+    <property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
+
+    <property name="out" value="out"/>
+    <property name="doc" value="${out}/doc"/>
+
     <property file="build.properties"/>
 
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
-    <target name="package" depends="clean,core,ext-starlingApp,asdoc"/>
-    <target name="core">
-        <echo>-----------------------------------</echo>
-        <echo>[core] Building core...</echo>
-        <echo>-----------------------------------</echo>
-        <ant antfile="core/build.xml" target="build_to_root" inheritAll="true">
-            <property file="core/build.properties"/>
-            <property name="base_module_path" value="${base_path_core}"/>
-        </ant>
-    </target>
-    <target name="ext-starlingApp">
-        <echo>-----------------------------------</echo>
-        <echo>[core] Building extension starlingApp...</echo>
-        <echo>-----------------------------------</echo>
-        <ant antfile="extensions/starlingApp/build.xml" target="build_to_root" inheritAll="false"/>
-        <property file="extensions/starlingApp/build.properties"/>
-        <property name="base_module_path" value="${base_path_ext-starlingApp}"/>
+    <target name="package" depends="clean,build_all,test_all,asdoc"/>
+    <target name="build_all">
+        <ant antfile="core/build.xml" target="swc" usenativebasedir="true"/>
+        <copy file="core/out/swc/cfm-core-${ver.num}.swc" todir="${out}/swc"/>
+        <ant antfile="extensions/starlingApp/build.xml" target="swc" usenativebasedir="true"/>
+        <copy file="extensions/starlingApp/out/swc/cfm-ext-starlingApp-${ver.num}.swc" todir="${out}/swc"/>
     </target>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
-        <echo>[asdoc] Generating core ASDOC documentation...</echo>
+        <echo>[asdoc] Generating global ASDOC documentation...</echo>
         <echo>-----------------------------------</echo>
         <delete dir="${doc}"/>
         <mkdir dir="${doc}"/>
@@ -41,10 +36,52 @@
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </asdoc>
     </target>
+    <target name="test_all">
+        <echo>-----------------------------------</echo>
+        <echo>[test_all] Testing core and all extensions...</echo>
+        <echo>-----------------------------------</echo>
+        <mkdir dir="${out}/tests"/>
+        <mkdir dir="${out}/tests/report"/>
+        <mkdir dir="${out}/tests/report/html"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Running Unit Tests...</echo>
+        <echo>-----------------------------------</echo>
+        <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+            <arg value="${basedir}/core/tests/TestSuite.as"/>
+            <arg value="${basedir}/extensions/starlingApp/tests/TestSuite.as"/>
+            <arg value="-source-path+=${crazyfm-core}"/>
+            <arg value="-swf-version=${swf-version}"/>
+            <arg value="-source-path+=${ext-starlingApp_src}"/>
+            <arg value="-library-path+=${flexunit}"/>
+            <arg value="-library-path+=${as3-signals}"/>
+            <arg value="-output=${out}/tests/TestRunner.swf"/>
+        </java>
+        <flexunit
+                command="${flashplayer}"
+                player="flash"
+                swf="${out}/tests/TestRunner.swf"
+                toDir="${out}/tests/report"
+                haltonfailure="false"
+                verbose="true"
+                localTrusted="true"
+                port="1024"
+                failureproperty="flexunit.failure"
+        />
+        <junitreport todir="${out}/tests/report">
+            <fileset dir="${out}/tests/report">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${out}/tests/report/html"/>
+        </junitreport>
+        <fail if="flexunit.failure" message="Unit test(s) failed. See reports!"/>
+        <echo>-----------------------------------</echo>
+        <echo>[test] Finished running Unit Tests with success!</echo>
+        <echo>-----------------------------------</echo>
+    </target>
     <target name="clean">
         <echo>-----------------------------------</echo>
         <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
-        <delete dir="$(out)"/>
+        <delete dir="${out}"/>
     </target>
 </project>

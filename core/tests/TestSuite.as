@@ -21,11 +21,21 @@ package
 	import org.flexunit.listeners.CIListener;
 	import org.flexunit.runner.FlexUnitCore;
 
-	public class TestCore extends Sprite
+	public class TestSuite extends Sprite
 	{
+		public static const ALL_TESTS:Array = [
+			BubblingEventTest,
+			ContextTest,
+			DisposableTest,
+			ModelContainerTest,
+			ModelTest,
+			SignalDispatcherTest,
+			SignalEventTest
+		];
+
 		private var _flexunit:FlexUnitCore;
 
-		public function TestCore()
+		public function TestSuite()
 		{
 			if(this.stage)
 			{
@@ -42,15 +52,7 @@ package
 			this._flexunit.addListener(new TraceListener());
 			this._flexunit.addListener(new CIListener());
 			this._flexunit.addEventListener(FlexUnitCore.TESTS_COMPLETE, flexunit_testsCompleteHandler);
-			this._flexunit.run([
-				BubblingEventTest,
-				ContextTest,
-				DisposableTest,
-				ModelContainerTest,
-				ModelTest,
-				SignalDispatcherTest,
-				SignalEventTest
-			]);
+			this._flexunit.run(ALL_TESTS);
 		}
 
 		private function flexunit_testsCompleteHandler(event:Event):void
