@@ -1,0 +1,1 @@
+![alt tag](https://github.com/CrazyFlasher/crazyfm/blob/gh-pages/assets/core.jpg?raw=true)
