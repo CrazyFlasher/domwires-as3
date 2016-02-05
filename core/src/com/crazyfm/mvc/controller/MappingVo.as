@@ -3,7 +3,7 @@
  */
 package com.crazyfm.mvc.controller
 {
-	import com.crazyfm.mvc.common.Disposable;
+	import com.crazyfm.common.Disposable;
 
 	/**
 	 * Class, that stores link to ICommand that should be executed, when specified signal occurs

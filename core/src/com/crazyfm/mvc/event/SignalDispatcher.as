@@ -3,7 +3,7 @@
  */
 package com.crazyfm.mvc.event
 {
-	import com.crazyfm.mvc.common.Disposable;
+	import com.crazyfm.common.Disposable;
 
 	import flash.utils.Dictionary;
 

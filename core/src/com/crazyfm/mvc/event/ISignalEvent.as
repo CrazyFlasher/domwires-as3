@@ -3,7 +3,7 @@
  */
 package com.crazyfm.mvc.event
 {
-	import com.crazyfm.mvc.common.IDisposable;
+	import com.crazyfm.common.IDisposable;
 
 	import org.osflash.signals.events.IEvent;
 

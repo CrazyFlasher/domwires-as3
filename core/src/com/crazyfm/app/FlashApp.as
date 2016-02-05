@@ -1,4 +1,5 @@
 package com.crazyfm.app {
+
 	import flash.display.Sprite;
 	import flash.events.UncaughtErrorEvent;
 
@@ -8,6 +9,7 @@ package com.crazyfm.app {
 	public class FlashApp extends Sprite implements IApp {
 
 		private var _isInitialized:Boolean;
+		private var _isDisposed:Boolean;
 
 		/**
 		 * Constructs new Flash application with standard displayList objects.
@@ -40,6 +42,22 @@ package com.crazyfm.app {
 		public function get isInitialized():Boolean
 		{
 			return _isInitialized;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispose():void
+		{
+			
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 	}
 

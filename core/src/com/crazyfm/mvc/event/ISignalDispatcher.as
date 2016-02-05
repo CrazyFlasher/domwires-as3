@@ -3,7 +3,7 @@
  */
 package com.crazyfm.mvc.event
 {
-	import com.crazyfm.mvc.common.IDisposable;
+	import com.crazyfm.common.IDisposable;
 
 	/**
 	 * Common signal dispatcher. Can be used for listening and dispatching signals for views and models.

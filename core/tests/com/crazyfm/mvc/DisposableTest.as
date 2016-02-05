@@ -3,8 +3,8 @@
  */
 package com.crazyfm.mvc
 {
-	import com.crazyfm.mvc.common.Disposable;
-	import com.crazyfm.mvc.common.IDisposable;
+	import com.crazyfm.common.Disposable;
+	import com.crazyfm.common.IDisposable;
 
 	import flexunit.framework.Assert;
 

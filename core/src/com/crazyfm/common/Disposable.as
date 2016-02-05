@@ -1,7 +1,7 @@
 /**
  * Created by Anton Nefjodov on 30.01.2016.
  */
-package com.crazyfm.mvc.common
+package com.crazyfm.common
 {
 	/**
 	 * Any object that need to be disposed to free memory can extends this class.
