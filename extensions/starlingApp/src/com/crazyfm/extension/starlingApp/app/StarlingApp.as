@@ -1,6 +1,7 @@
-package com.crazyfm.app {
+package com.crazyfm.extension.starlingApp.app {
+	import com.crazyfm.app.IApp;
+
 	import flash.display.Sprite;
-	import flash.display3D.Context3DProfile;
 	import flash.events.Event;
 	import flash.events.UncaughtErrorEvent;
 	import flash.geom.Rectangle;
@@ -18,11 +19,8 @@ package com.crazyfm.app {
 	 * Main starling application class.
 	 */
 	public class StarlingApp extends Sprite implements IApp {
-		protected var stageWidth:int  = 1920;
-		protected var stageHeight:int = 1080;
-
-		private var fullScreenWidth:int;
-		private var fullScreenHeight:int;
+		private var _fullScreenWidth:int;
+		private var _fullScreenHeight:int;
 
 		protected var _starling:Starling;
 
@@ -30,12 +28,24 @@ package com.crazyfm.app {
 		private var _rootClass:Class;
 		private var _isInitialized:Boolean;
 
+		private var _properties:StarlingProperties;
+		private var _isDisposed:Boolean;
+
 		/**
 		 * Constructs new Starling application object.
 		 * @param rootClass Type of main view class, that should extend starling.display.DisplayObjectContainer
+		 * @param properties
 		 */
-		public function StarlingApp(rootClass:Class) {
+		public function StarlingApp(rootClass:Class, properties:StarlingProperties = null) {
 			super();
+
+			if (!properties)
+			{
+				_properties = new StarlingProperties();
+			}else
+			{
+				_properties = properties;
+			}
 
 			_rootClass = rootClass;
 
@@ -64,7 +74,7 @@ package com.crazyfm.app {
 
 			RenderTexture.optimizePersistentBuffers = _iOS; // safe on iOS, dangerous on Android
 
-			_starling = new Starling(_rootClass, stage, null, null, "auto", Context3DProfile.BASELINE_CONSTRAINED);
+			_starling = new Starling(_rootClass, stage, null, null, _properties.renderMode, _properties.context3DProfile);
 			_starling.addEventListener(starling.events.Event.ROOT_CREATED, rootClassInitialized);
 			_starling.antiAliasing = 0;
 
@@ -101,14 +111,14 @@ package com.crazyfm.app {
 			var width:int = e == null ? w : e.width;
 			var height:int = e == null ? h : e.height;
 
-			_starling.stage.stageWidth = stageWidth;  // <- same size on all devices!
-			_starling.stage.stageHeight = stageHeight; // <- same size on all devices!
+			_starling.stage.stageWidth = _properties.stageWidth;  // <- same size on all devices!
+			_starling.stage.stageHeight = _properties.stageHeight; // <- same size on all devices!
 
-			fullScreenWidth = width;
-			fullScreenHeight = height;
+			_fullScreenWidth = width;
+			_fullScreenHeight = height;
 
-			var stageSize:Rectangle  = new Rectangle(0, 0, stageWidth, stageHeight);
-			var screenSize:Rectangle = new Rectangle(0, 0, fullScreenWidth, fullScreenHeight);
+			var stageSize:Rectangle  = new Rectangle(0, 0, _properties.stageWidth, _properties.stageHeight);
+			var screenSize:Rectangle = new Rectangle(0, 0, _fullScreenWidth, _fullScreenHeight);
 			var viewPort:Rectangle = RectangleUtil.fit(stageSize, screenSize, ScaleMode.SHOW_ALL, _iOS);
 
 			_starling.viewPort = viewPort;
@@ -128,6 +138,24 @@ package com.crazyfm.app {
 		public function get isInitialized():Boolean
 		{
 			return _isInitialized;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispose():void
+		{
+			_properties = null;
+			_starling.dispose();
+			_starling = null;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 	}
 

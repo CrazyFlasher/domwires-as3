@@ -15,7 +15,7 @@
 
 	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
-    <target name="package" depends="clean,swc,test,asdoc"/>
+    <target name="package" depends="clean,swc,test"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating core ASDOC documentation...</echo>
@@ -38,6 +38,7 @@
             <include-sources dir="${src}" includes="com/crazyfm/app/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/mvc/*"/>
             <include-sources dir="${src}" includes="com/crazyfm/preloader/*"/>
+            <include-sources dir="${src}" includes="com/crazyfm/common/*"/>
             <external-library-path dir="${as3-signals}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->

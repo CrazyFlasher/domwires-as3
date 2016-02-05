@@ -1,9 +1,10 @@
 /**
  * Created by Anton Nefjodov on 30.01.2016.
  */
-package com.crazyfm.mvc.view
+package com.crazyfm.extension.starlingApp.mvc.view
 {
 	import com.crazyfm.mvc.event.SignalDispatcher;
+	import com.crazyfm.mvc.view.IViewController;
 
 	import starling.display.DisplayObjectContainer;
 

@@ -15,7 +15,7 @@
 
     <taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
-    <target name="package" depends="clean,swc,asdoc"/>
+    <target name="package" depends="clean,swc"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating starlingApp extension ASDOC documentation...</echo>
@@ -86,11 +86,5 @@
         <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
         <delete dir="${out}"/>
-    </target>
-    <target name="build_to_root" depends="swc">
-        <echo>-----------------------------------</echo>
-        <echo>[build_to_root] Building to root...</echo>
-        <echo>-----------------------------------</echo>
-        <copy file="${swc}/cfm-ext-starlingApp-${ver.num}.swc" todir="../../out"/>
     </target>
 </project>
