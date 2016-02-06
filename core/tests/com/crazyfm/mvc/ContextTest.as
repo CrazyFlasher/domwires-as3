@@ -9,7 +9,7 @@ package com.crazyfm.mvc
 	import com.crazyfm.mvc.model.IModelContainer;
 	import com.crazyfm.mvc.model.Model;
 	import com.crazyfm.mvc.model.ModelContainer;
-	import com.crazyfm.mvc.view.FlashViewController;
+	import com.crazyfm.mvc.view.ViewController;
 	import com.crazyfm.mvc.view.IViewController;
 
 	import flash.display.Sprite;
@@ -35,7 +35,7 @@ package com.crazyfm.mvc
 		[Test]
 		public function testRemoveView():void
 		{
-			var v:IViewController = new FlashViewController(new Sprite());
+			var v:IViewController = new ViewController(new Sprite());
 			context.addView(v);
 			context.removeView(v);
 			Assert.assertEquals(context.numViews, 0)
@@ -44,9 +44,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testNumViews():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			context.addViews(new <IViewController>[v1, v2, v3]);
 			Assert.assertEquals(context.numViews, 3);
 		}
@@ -54,7 +54,7 @@ package com.crazyfm.mvc
 		[Test]
 		public function testAddView():void
 		{
-			var v:IViewController = new FlashViewController(new Sprite());
+			var v:IViewController = new ViewController(new Sprite());
 			context.addView(v);
 			Assert.assertEquals(context.numViews, 1);
 		}
@@ -62,9 +62,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testRemoveAllViews():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			context.addViews(new <IViewController>[v1, v2, v3]);
 			Assert.assertEquals(context.numViews, 3);
 			context.removeAllViews();
@@ -74,9 +74,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testAddViews():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			context.addViews(new <IViewController>[v1, v2, v3]);
 			Assert.assertEquals(context.numViews, 3);
 			Assert.assertTrue(context.containsView(v1));
@@ -87,9 +87,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testContainsView():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			context.addViews(new <IViewController>[v1, v2, v3]);
 			Assert.assertTrue(context.containsView(v1));
 			Assert.assertTrue(context.containsView(v2));
@@ -99,9 +99,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testRemoveViews():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			context.addViews(new <IViewController>[v1, v2, v3]);
 			Assert.assertEquals(context.numViews, 3);
 			context.removeViews(new <IViewController>[v1, v2, v3]);
@@ -111,9 +111,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testDispose():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			var m1:IModel = new Model();
 			var m2:IModel = new Model();
 			var m3:IModel = new Model();
@@ -135,9 +135,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testDisposeWithAllChildren():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			var m1:IModel = new Model();
 			var m2:IModel = new Model();
 			var m3:IModel = new Model();
@@ -159,9 +159,9 @@ package com.crazyfm.mvc
 		[Test]
 		public function testDispatchSignalToViews():void
 		{
-			var v1:IViewController = new FlashViewController(new Sprite());
-			var v2:IViewController = new FlashViewController(new Sprite());
-			var v3:IViewController = new FlashViewController(new Sprite());
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
 			var mc:IModelContainer = new ModelContainer();
 			var m1:IModel = new Model();
 			mc.addModel(m1);
