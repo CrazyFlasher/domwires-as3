@@ -3,12 +3,16 @@
  */
 package com.crazyfm.mvc.model
 {
+	import com.crazyfm.mvc.model.HierarchyObject;
+	import com.crazyfm.mvc.model.ns_hierarchy;
 	import com.crazyfm.mvc.event.ISignalEvent;
 
 	import flash.utils.Dictionary;
 
 	import org.osflash.signals.events.IBubbleEventHandler;
 	import org.osflash.signals.events.IEvent;
+
+	use namespace ns_hierarchy;
 
 	/**
 	 * Model object that can contain other models.

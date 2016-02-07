@@ -3,13 +3,13 @@
  */
 package com.crazyfm.mvc.view
 {
-	import com.crazyfm.mvc.event.ISignalDispatcher;
+	import com.crazyfm.mvc.model.IHierarchyObject;
 
 	/**
 	 * Common view object that should contain either flash.display.DisplayObjectContainer or starling.display.DisplayObjectContainer.
 	 * IView object connects to IContext for further communication.
 	 */
-	public interface IViewController extends ISignalDispatcher
+	public interface IViewController extends IHierarchyObject
 	{
 
 	}

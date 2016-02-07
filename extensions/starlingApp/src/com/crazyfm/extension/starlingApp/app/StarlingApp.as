@@ -1,6 +1,4 @@
 package com.crazyfm.extension.starlingApp.app {
-	import com.crazyfm.app.IApp;
-
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.UncaughtErrorEvent;
@@ -18,10 +16,8 @@ package com.crazyfm.extension.starlingApp.app {
 	/**
 	 * Main starling application class.
 	 */
-	public class StarlingApp extends Sprite implements IApp {
-		private var _fullScreenWidth:int;
-		private var _fullScreenHeight:int;
-
+	public class StarlingApp extends Sprite
+	{
 		protected var _starling:Starling;
 
 		private var _iOS:Boolean;
@@ -114,22 +110,14 @@ package com.crazyfm.extension.starlingApp.app {
 			_starling.stage.stageWidth = _properties.stageWidth;  // <- same size on all devices!
 			_starling.stage.stageHeight = _properties.stageHeight; // <- same size on all devices!
 
-			_fullScreenWidth = width;
-			_fullScreenHeight = height;
+			var fullScreenWidth:int = width;
+			var fullScreenHeight:int = height;
 
 			var stageSize:Rectangle  = new Rectangle(0, 0, _properties.stageWidth, _properties.stageHeight);
-			var screenSize:Rectangle = new Rectangle(0, 0, _fullScreenWidth, _fullScreenHeight);
+			var screenSize:Rectangle = new Rectangle(0, 0, fullScreenWidth, fullScreenHeight);
 			var viewPort:Rectangle = RectangleUtil.fit(stageSize, screenSize, ScaleMode.SHOW_ALL, _iOS);
 
 			_starling.viewPort = viewPort;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function handleUncaughtError(event:UncaughtErrorEvent):void
-		{
-
 		}
 
 		/**

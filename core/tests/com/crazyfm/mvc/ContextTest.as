@@ -182,6 +182,27 @@ package com.crazyfm.mvc
 			Assert.assertEquals(viewsReceivedSignalCount, 3);
 		}
 
+		[Test]
+		public function receiveSignalFromViews():void
+		{
+			var v1:IViewController = new ViewController(new Sprite());
+			var v2:IViewController = new ViewController(new Sprite());
+			var v3:IViewController = new ViewController(new Sprite());
+			context.addViews(new <IViewController>[v1, v2, v3]);
+
+			var receivedSignalFromViewsCount:int;
+			var listener:Function = function(event:ISignalEvent):void{
+				receivedSignalFromViewsCount++;
+			};
+
+			context.addSignalListener("test", listener);
+			v1.dispatchSignal("test");
+			v2.dispatchSignal("test");
+			v3.dispatchSignal("test");
+
+			Assert.assertEquals(receivedSignalFromViewsCount, 3);
+		}
+
 		/*[Test]
 		public function testMapSignalTypeToCommand():void
 		{

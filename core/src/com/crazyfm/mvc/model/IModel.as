@@ -3,16 +3,13 @@
  */
 package com.crazyfm.mvc.model
 {
-	import com.crazyfm.mvc.event.ISignalDispatcher;
+	import com.crazyfm.mvc.model.IHierarchyObject;
 
 	/**
 	 * Model object that can be used for working with data and other logical non-view operations.
 	 */
-	public interface IModel extends ISignalDispatcher
+	public interface IModel extends IHierarchyObject
 	{
-		/**
-		 * Returns parent object.
-		 */
-		function get parent():IModelContainer;
+
 	}
 }

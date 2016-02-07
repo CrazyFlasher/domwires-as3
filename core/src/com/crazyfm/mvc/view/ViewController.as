@@ -3,14 +3,14 @@
  */
 package com.crazyfm.mvc.view
 {
-	import com.crazyfm.mvc.event.SignalDispatcher;
+	import com.crazyfm.mvc.model.HierarchyObject;
 
 	import flash.display.DisplayObjectContainer;
 
 	/**
 	 * Flash view object that can be connected to IContext for further model <-> view communication.
 	 */
-	public class ViewController extends SignalDispatcher implements IViewController
+	public class ViewController extends HierarchyObject implements IViewController
 	{
 		protected var _container:DisplayObjectContainer;
 
@@ -24,5 +24,7 @@ package com.crazyfm.mvc.view
 
 			_container = container;
 		}
+
+
 	}
 }

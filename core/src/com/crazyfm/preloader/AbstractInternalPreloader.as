@@ -2,8 +2,6 @@
  * Created by Anton Nefjodov
  */
 package com.crazyfm.preloader {
-    import com.crazyfm.app.IApp;
-
     import flash.display.MovieClip;
     import flash.display.Sprite;
     import flash.events.Event;
@@ -12,17 +10,15 @@ package com.crazyfm.preloader {
 
     /**
      * Application internal preloader. Application should be built with additional compiler option:
-     * "-frame=two,*document class with package*".
+     * "-frame=two,my.cool.package.MyMain
      * After app is completely downloaded, preloader will move to second frame.
-     * Before that, use as less classes as possible, so preloader will be shown to user faster.
+     * Before that, use as less classes as possible, so preloader will be shown faster.
      */
-    public class AbstractPreloader extends MovieClip
+    public class AbstractInternalPreloader extends MovieClip
     {
-        protected var _app:IApp;
-
         private var _preloader:Sprite;
 
-        public function AbstractPreloader() {
+        public function AbstractInternalPreloader() {
             super();
 
             if(!stage)
@@ -46,12 +42,10 @@ package com.crazyfm.preloader {
          * Override with super, if you want to add additional logic
          */
         protected function init():void {
-            this.stop();
+            stop();
 
-            this.loaderInfo.addEventListener(ProgressEvent.PROGRESS, loaderInfo_progressHandler);
-            this.loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
-
-            initUncaughtErrorHandler();
+            loaderInfo.addEventListener(ProgressEvent.PROGRESS, loaderInfo_progressHandler);
+            loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
         }
 
         private function loaderInfo_progressHandler(event:ProgressEvent):void {
@@ -67,10 +61,10 @@ package com.crazyfm.preloader {
         }
 
 		/**
-         * Override this method and initialize IApp implementation here.
+         * Override this method and add initialize implementation here.
          */
         protected function appLoaded():void {
-            throw new Error("AbstractPreloader#appLoaded: method MUST be overriden!");
+            throw new Error("AbstractInternalPreloader#appLoaded: method MUST be overriden!");
         }
 
 		/**
@@ -103,24 +97,6 @@ package com.crazyfm.preloader {
             {
                 removeChild(_preloader);
                 _preloader = null;
-            }
-        }
-
-		/**
-		 * Initialized global app error catcher.
-         */
-        private function initUncaughtErrorHandler():void {
-            loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtError);
-        }
-
-		/**
-         * Passes uncaught error to IApp.
-         * @param event
-         */
-        private function uncaughtError(event:UncaughtErrorEvent):void {
-            if (_app)
-            {
-                _app.handleUncaughtError(event);
             }
         }
     }

@@ -31,27 +31,15 @@ package com.crazyfm.extension.preloader
 		private var _loaderInfo:LoaderInfo;
 		private var _loadingProgressData:LoadingProgressVo;
 
-		private var _nativeDispatcher:IEventDispatcher;
-
 		public function InternalPreloaderContext()
 		{
 			super();
 		}
 
 		private function init():void {
-			createNativeDispatcher();
-
 			_loaderInfo.addEventListener(ProgressEvent.PROGRESS, progressHandler);
 			_loaderInfo.addEventListener(Event.COMPLETE, completeHandler);
 			_loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtError);
-		}
-
-		private function createNativeDispatcher():void
-		{
-			if (_nativeDispatcher)
-			{
-				_nativeDispatcher = new EventDispatcher();
-			}
 		}
 
 		public function set loaderInfo(value:LoaderInfo):void
@@ -68,10 +56,6 @@ package com.crazyfm.extension.preloader
 		public function addNativeEventListener(type:String, listener:Function):void
 		{
 			if (isDisposed) throw new Error("Object is disposed!");
-
-			createNativeDispatcher();
-
-			_nativeDispatcher.addEventListener(type, listener, false, 0, true);
 		}
 
 		override public function dispose():void
@@ -84,7 +68,6 @@ package com.crazyfm.extension.preloader
 
 			_loaderInfo = null;
 			_loadingProgressData = null;
-			_nativeDispatcher = null;
 
 			super.dispose();
 		}
@@ -106,8 +89,6 @@ package com.crazyfm.extension.preloader
 
 		private function completeHandler(event:Event):void {
 			dispatchSignal(PreloaderSignalEnum.COMPLETE);
-
-			_nativeDispatcher.dispatchEvent(new Event(Event.COMPLETE));
 		}
 	}
 }

@@ -3,40 +3,15 @@
  */
 package com.crazyfm.mvc.model
 {
-	import com.crazyfm.mvc.event.SignalDispatcher;
+	import com.crazyfm.mvc.model.HierarchyObject;
 
 	/**
 	 * Model object that can be used for working with data and other logical non-view operations.
 	 */
-	public class Model extends SignalDispatcher implements IModel
+	public class Model extends HierarchyObject implements IModel
 	{
-		private var _parent:IModelContainer;
-
 		public function Model()
 		{
-		}
-
-		internal function setParent(value:IModelContainer):void
-		{
-			_parent = value;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get parent():IModelContainer
-		{
-			return _parent;
-		}
-
-		/**
-		 * Disposes model and removes reference to parent, if has one.
-		 */
-		override public function dispose():void
-		{
-			_parent = null;
-
-			super.dispose();
 		}
 	}
 }
