@@ -3,13 +3,13 @@
  */
 package
 {
-	import com.crazyfm.mvc.BubblingEventTest;
-	import com.crazyfm.mvc.ContextTest;
-	import com.crazyfm.mvc.DisposableTest;
-	import com.crazyfm.mvc.ModelContainerTest;
-	import com.crazyfm.mvc.ModelTest;
-	import com.crazyfm.mvc.SignalDispatcherTest;
-	import com.crazyfm.mvc.SignalEventTest;
+	import com.crazyfm.core.mvc.BubblingEventTest;
+	import com.crazyfm.core.mvc.ContextTest;
+	import com.crazyfm.core.mvc.DisposableTest;
+	import com.crazyfm.core.mvc.ModelContainerTest;
+	import com.crazyfm.core.mvc.ModelTest;
+	import com.crazyfm.core.mvc.SignalDispatcherTest;
+	import com.crazyfm.core.mvc.SignalEventTest;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

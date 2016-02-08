@@ -26,7 +26,7 @@
             <doc-sources path-element="${src}"/>
             <!--library-path dir="${starling}" includes="*"/-->
             <external-library-path dir="${as3-signals}" includes="*"/>
-            <exclude-sources path-element="${src}/com/crazyfm/mvc/controller" />
+            <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller" /-->
         </asdoc>
     </target>
     <target name="swc">
@@ -35,10 +35,7 @@
         <echo>-----------------------------------</echo>
         <compc output="${swc}/cfm-core-${ver.num}.swc">
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
-            <include-sources dir="${src}" includes="com/crazyfm/app/*"/>
-            <include-sources dir="${src}" includes="com/crazyfm/mvc/*"/>
-            <include-sources dir="${src}" includes="com/crazyfm/preloader/*"/>
-            <include-sources dir="${src}" includes="com/crazyfm/common/*"/>
+            <include-sources dir="${src}" includes="*"/>
             <external-library-path dir="${as3-signals}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
