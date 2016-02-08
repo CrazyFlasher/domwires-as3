@@ -28,7 +28,7 @@
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <!-- core -->
             <doc-sources path-element="core/src"/>
-            <exclude-sources path-element="core/src/com/crazyfm/mvc/controller" />
+            <!--exclude-sources path-element="core/src/com/crazyfm/mvc/controller" /-->
             <!-- extensions -->
             <doc-sources path-element="extensions/starlingApp/src"/>
             <!-- external libs -->
