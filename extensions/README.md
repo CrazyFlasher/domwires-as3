@@ -3,7 +3,7 @@ CrazyFM framework can be extended with different stuff.
 Extension is an individual project, that has its own test build configuration.
 To use extension in your project based on CrazyFM framework, all you have to do is to add extension compiled SWC or define its source path.
  
-##Creating extension guidelines
+###Creating extension guidelines
 The main goal is to keep framework clean, documented and tested.
 That's why new extension apply all the rules:
 
