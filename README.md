@@ -19,17 +19,26 @@ commands due application workflow. Garbage collection will be called often to cl
   direct communication via interface methods and that won't ruin application architecture. These actions allow to reduce frequent memory
   allocation and garbage collections and increase whole application performance.
 
-###Configure to use
-Framework consist of 2 main parts: core and extensions.
-1. To start developing project using CrazyFM, you need to connect core logic to your project.
-There are 3 ways to do it:
+###How to use?
+Framework consist of 2 main parts: core and [extensions](extensions).
+Each of them has its own build configuration. You can build only those modules, that you need.
+For example, if your project doesn't use [Starling](https://github.com/Gamua/Starling-Framework), there is no need to build [starlingApp]
+(extensions/starlingApp) and connect it to your project.
+
+To start developing project using CrazyFM, you need to connect [core](core) logic to your project.
+There are several ways to do it:
  * Use core src path as source path for you project.
  * Build core using Ant and connect SWC dependencies.
  * Build core using your IDE and connect SWC dependencies.
  * Download SWC dependencies and connect them to project.
 
-2. Add dependencies that are used by core:
+Add dependencies that are used by [core](core):
  * [as3-signals](https://github.com/robertpenner/as3-signals)
+ * or use SWCs in [dependencies](dependencies) folder (recommended for version compatibility).
+
+###Build whole CrazyFM framework
+To build whole framework and generate AsDocs for all modules ([core](core) and [extensions](extensions)) setup correct paths in build
+.properties and run build.xml configuration with Ant. This will compile everything into separate SWC files, run tests and generate docs.
 
 - [Read more about core](core)
 - [Read more about extensions](extensions)
