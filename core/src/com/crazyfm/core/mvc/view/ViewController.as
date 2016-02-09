@@ -9,6 +9,7 @@ package com.crazyfm.core.mvc.view
 
 	/**
 	 * View controller object that can be connected to IContext for further model <-> view communication via signals or direct connection.
+	 * Dispatches signals to connected IContext. Can contain reference to DisplayObjectContainer.
 	 */
 	public class ViewController extends HierarchyObject implements IViewController
 	{
