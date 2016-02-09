@@ -1,7 +1,7 @@
 ##CrazyFM-Core
 Core is the main framework module. It is responsible to organize communication and hierarchy among models and views.
 ![](https://github.com/CrazyFlasher/crazyfm/blob/gh-pages/assets/core-m.jpg?raw=true)
-The core includes several main objects. I'll describe their interfaces:
+The core includes several main objects. Below is their interfaces description:
 - **IModel** - simple class that can contain data and do some logic. Can dispatch and receive signals from model hierarchy.
 - **IModelContainer** - extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
 signals from children, sub-children and so on.
