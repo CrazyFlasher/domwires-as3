@@ -1,6 +1,5 @@
 ##CrazyFM
-**_NB! This project is in early alpha development version, and I don't recommend to use it for your third party projects development now
-._**
+**_NB! This project is in early alpha development version, and I don't recommend to use it for your third party projects development now._**
  
 ###Idea
 ActionScript 3 framework based on idea to split view from logic, but leave possibility for easy communication between them.
