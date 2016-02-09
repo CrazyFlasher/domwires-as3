@@ -7,7 +7,9 @@ package com.crazyfm.core.mvc.model
 	import com.crazyfm.core.mvc.view.IViewController;
 
 	/**
-	 * Object that is used for communication between model and view sides of application.
+	 * Extends IModelContainer and is able to communicate with IViewController objects via signals and/or direct connection
+	 * (interface methods calls). Re-dispatches received from model hierarchy signals to IViewControllers, that are connected to current
+	 * IContext.
 	 */
 	public interface IContext extends IModelContainer
 	{

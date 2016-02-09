@@ -9,7 +9,8 @@ package com.crazyfm.core.extension.starlingApp.mvc.view
 	import starling.display.DisplayObjectContainer;
 
 	/**
-	 * Starling view controller object that can be connected to IContext for further model <-> view communication via signals or direct connection.
+	 * Starling IViewController object that can be connected to IContext for further model <-> view communication via signals or direct
+	 * connection. Dispatches signals to connected IContext. Can contain reference to DisplayObjectContainer.
 	 */
 	public class StarlingViewController extends HierarchyObject implements IViewController
 	{

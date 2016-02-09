@@ -4,7 +4,8 @@
 package com.crazyfm.core.mvc.model
 {
 	/**
-	 * Model object that can contain other models.
+	 * Extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
+	 * signals from children, sub-children and so on.
 	 */
 	public interface IModelContainer extends IModel
 	{

@@ -4,7 +4,7 @@
 package com.crazyfm.core.mvc.model
 {
 	/**
-	 * Model object that can be used for working with data and other logical non-view operations.
+	 * Simple object that can contain data and do some logic. Can dispatch to hierarchy and receive signals from model hierarchy.
 	 */
 	public class Model extends HierarchyObject implements IModel
 	{
