@@ -1,7 +1,7 @@
 ##CrazyFM
 ###Idea
 ActionScript 3 framework based on idea to split view from logic, but leave possibility for easy communication between them.
-Also the main idea of the framework is to fill it with new extensions easily.
+Also the main idea of the framework is to fill it with new [extensions](extensions) easily.
 Developer must have possibility to have several implementations of the same issue.
 For example he can use physics extension and choose (also in run-time if needed) between 2 ways of its implementation.
 For example between [Box2D](https://github.com/erincatto/Box2D) or [Nape](https://github.com/deltaluca/www.napephys.com). Ideally
