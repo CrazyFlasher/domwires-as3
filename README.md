@@ -9,7 +9,7 @@ developer can map somewhere in IContext which implementation for IPhysicsModel h
 No additional logic changes are needed.
 
 ###Why not to use other MVC frameworks?
-The idea of most MVC frameworks to communicate between logic and view with commands and events, which is not comfortable sometimes and
+The idea of the most MVC frameworks to communicate between logic and view with commands and events, which is not comfortable sometimes and
 reduces application performance.
 For example, to update view of physics object, physics model must dispatch 10 (or even 60!) events per second and create many-many
 commands due application workflow. Garbage collection will be called often to clear events and commands. Also if developer uses real-time
@@ -18,6 +18,9 @@ commands due application workflow. Garbage collection will be called often to cl
   keeps signal data in pool to avoid frequent object creation. Also, in case of physics model and view communication there can be used
   direct communication via interface methods and that won't ruin application architecture. These actions allow to reduce frequent memory
   allocation and garbage collections and increase whole application performance.
+
+###How objects communicate in CrazyFM?
+Read about it in [core](core) section.
 
 ###How to use?
 Framework consist of 2 main parts: core and [extensions](extensions).
