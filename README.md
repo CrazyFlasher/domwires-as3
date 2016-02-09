@@ -20,11 +20,15 @@ commands due application workflow. Garbage collection will be called often to cl
 
 ###Configure to use
 Framework consist of 2 main parts: core and extensions.
-To start developing project using CrazyFM, you need to setup core.
+1. To start developing project using CrazyFM, you need to connect core logic to your project.
 There are 3 ways to do it:
-1. Use core src path as source path for you project.
-2. Build core using Ant.
-3. Download SWC dependencies and connect them to project.
+ * Use core src path as source path for you project.
+ * Build core using Ant and connect SWC dependencies.
+ * Build core using your IDE and connect SWC dependencies.
+ * Download SWC dependencies and connect them to project.
+
+2. Add dependencies that are used by core:
+ * [as3-signals](https://github.com/robertpenner/as3-signals)
 
 [Read more about core](core)
 [Read more about extensions](extensions)
