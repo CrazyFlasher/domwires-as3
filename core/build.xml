@@ -12,10 +12,12 @@
     <property name="swc" value="${out}/swc"/>
 
     <property file="build.properties"/>
+	
+	<property name="swc_name" value="cfm-core-${ver.num}.swc"/>
 
 	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
-    <target name="package" depends="clean,swc,test"/>
+    <target name="package" depends="clean,test,swc,copy_swc"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating core ASDOC documentation...</echo>
@@ -24,8 +26,8 @@
         <mkdir dir="${doc}"/>
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
-            <!--library-path dir="${starling}" includes="*"/-->
-            <external-library-path dir="${as3-signals}" includes="*"/>
+            <external-library-path dir="${libs_path}" includes="**/*"/>
+            <!--external-library-path dir="${as3-signals}" includes="*"/-->
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller" /-->
         </asdoc>
     </target>
@@ -33,14 +35,19 @@
         <echo>-----------------------------------</echo>
         <echo>[swc] Building core SWC...</echo>
         <echo>-----------------------------------</echo>
-        <compc output="${swc}/cfm-core-${ver.num}.swc">
+		<delete file="${libs_path}/${swc_name}"/>
+        <compc output="${swc}/${swc_name}">
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
-            <external-library-path dir="${as3-signals}" includes="*"/>
+            <external-library-path dir="${libs_path}" includes="**/*"/>
+            <!--<external-library-path dir="${as3-signals}" includes="*"/>-->
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
         </compc>
     </target>
+	<target name="copy_swc">
+		<copy file="${swc}/${swc_name}" todir="${libs_path}"/>
+	</target>
     <target name="test">
         <mkdir dir="${out}/tests"/>
         <mkdir dir="${out}/tests/report"/>
@@ -53,7 +60,8 @@
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
             <arg value="-library-path+=${flexunit}"/>
-            <arg value="-library-path+=${as3-signals}"/>
+            <arg value="-library-path+=${libs_path}"/>
+            <!--<arg value="-library-path+=${as3-signals}"/>-->
             <arg value="-output=${out}/tests/TestRunner.swf"/>
         </java>
         <flexunit

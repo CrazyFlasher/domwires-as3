@@ -4,9 +4,6 @@
     <property environment="env."/>
     <property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
 
-    <property name="out" value="out"/>
-    <property name="doc" value="${out}/doc"/>
-
     <property file="build.properties"/>
 
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
@@ -15,25 +12,28 @@
     <target name="build_all">
         <echo>[build_all] Building core and all extensions...</echo>
         <ant antfile="build.xml" target="package" dir="${basedir}/core" inheritall="false"/>
-        <copy file="core/out/swc/cfm-core-${ver.num}.swc" todir="${out}/swc"/>
+		<copy todir="out/swc">
+			<fileset dir="core/out/swc"/>
+		</copy>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-        <copy file="extensions/starlingApp/out/swc/cfm-ext-starlingApp-${ver.num}.swc" todir="${out}/swc"/>
+		<copy todir="out/swc">
+			<fileset dir="extensions/starlingApp/out/swc"/>
+		</copy>
     </target>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating framework ASDOC documentation...</echo>
         <echo>-----------------------------------</echo>
-        <delete dir="${doc}"/>
-        <mkdir dir="${doc}"/>
-        <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
+        <delete dir="out/doc"/>
+        <mkdir dir="out/doc"/>
+        <asdoc output="out/doc" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <!-- core -->
             <doc-sources path-element="core/src"/>
             <!--exclude-sources path-element="core/src/com/crazyfm/mvc/controller" /-->
             <!-- extensions -->
             <doc-sources path-element="extensions/starlingApp/src"/>
             <!-- external libs -->
-            <external-library-path dir="${starling}" includes="*"/>
-            <external-library-path dir="${as3-signals}" includes="*"/>
+            <external-library-path dir="${libs_path}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </asdoc>
     </target>
@@ -41,6 +41,6 @@
         <echo>-----------------------------------</echo>
         <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
-        <delete dir="${out}"/>
+        <delete dir="out"/>
     </target>
 </project>

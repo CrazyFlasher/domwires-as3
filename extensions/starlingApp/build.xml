@@ -12,10 +12,12 @@
     <property name="swc" value="${out}/swc"/>
 
     <property file="build.properties"/>
+	
+	<property name="swc_name" value="cfm-ext-starlingApp-${ver.num}.swc"/>
 
     <taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
-    <target name="package" depends="clean,swc"/>
+    <target name="package" depends="clean,swc,copy_swc"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating starlingApp extension ASDOC documentation...</echo>
@@ -24,24 +26,24 @@
         <mkdir dir="${doc}"/>
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
-            <external-library-path dir="${crazyfm-core}" includes="*"/>
-            <external-library-path dir="${starling}" includes="*"/>
-            <external-library-path dir="${as3-signals}" includes="*"/>
+            <external-library-path dir="${libs_path}" includes="**/*"/>
         </asdoc>
     </target>
     <target name="swc">
         <echo>-----------------------------------</echo>
         <echo>[swc] Building starlingApp extension SWC...</echo>
         <echo>-----------------------------------</echo>
-        <compc output="${swc}/cfm-ext-starlingApp-${ver.num}.swc">
+		<delete file="${libs_path}/${swc_name}"/>
+        <compc output="${swc}/${swc_name}">
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
-            <external-library-path dir="${crazyfm-core}" includes="*"/>
-            <external-library-path dir="${starling}" includes="*"/>
-            <external-library-path dir="${as3-signals}" includes="*"/>
+            <external-library-path dir="${libs_path}" includes="**/*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </compc>
     </target>
+	<target name="copy_swc" depends="swc">
+		<copy file="${swc}/${swc_name}" todir="${libs_path}"/>
+	</target>
     <target name="test">
         <mkdir dir="${out}/tests"/>
         <mkdir dir="${out}/tests/report"/>
@@ -54,11 +56,9 @@
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
             <arg value="-library-path+=${flexunit}"/>
-            <arg value="-library-path+=${crazyfm-core}"/>
-            <arg value="-library-path+=${as3-signals}"/>
-            <arg value="-library-path+=${starling}"/>
+            <arg value="-library-path+=${libs_path}"/>
             <arg value="-output=${out}/tests/TestRunner.swf"/>
-            <arg value="-debug"/>
+            <!--arg value="-debug"/-->
         </java>
         <flexunit
                 command="${flashplayer}"
