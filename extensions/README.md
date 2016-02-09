@@ -15,4 +15,4 @@ That's why new extension apply all the rules:
 * It should contain build configuration.
 * It should be added to framework global build configuration.
  
-Too rough? Don't worry, you can always ask for advice and together we will try to solve all the problems and fill the gaps :) 
+Too tough? Don't worry, you can always ask for advice and together we will try to solve all the problems and fill the gaps :) 
