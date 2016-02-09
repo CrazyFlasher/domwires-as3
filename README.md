@@ -23,7 +23,7 @@ commands due application workflow. Garbage collection will be called often to cl
 Read about it in [core](core) section.
 
 ###How to use?
-Framework consist of 2 main parts: core and [extensions](extensions).
+Framework consists of 2 main parts: core and [extensions](extensions).
 Each of them has its own build configuration. You can build only those modules, that you need.
 For example, if your project doesn't use [Starling](https://github.com/Gamua/Starling-Framework), there is no need to build [starlingApp]
 (extensions/starlingApp) and connect it to your project.
@@ -37,7 +37,8 @@ There are several ways to do it:
 
 Add dependencies that are used by [core](core):
  * [as3-signals](https://github.com/robertpenner/as3-signals)
- * or use SWCs in [dependencies](dependencies) folder (recommended for version compatibility).
+
+or use SWCs in [dependencies](dependencies) folder (recommended for version compatibility).
 
 ###Build whole CrazyFM framework
 To build whole framework and generate AsDocs for all modules ([core](core) and [extensions](extensions)) setup correct paths in
