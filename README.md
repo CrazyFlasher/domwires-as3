@@ -33,5 +33,3 @@ There are 3 ways to do it:
 
 - [Read more about core](core)
 - [Read more about extensions](extensions)
-
-![alt tag](https://github.com/CrazyFlasher/crazyfm/blob/gh-pages/assets/core-m.jpg?raw=true)
