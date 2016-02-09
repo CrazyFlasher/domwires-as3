@@ -23,7 +23,6 @@
         <echo>[asdoc] Generating starlingApp extension ASDOC documentation...</echo>
         <echo>-----------------------------------</echo>
         <delete dir="${doc}"/>
-        <mkdir dir="${doc}"/>
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
             <external-library-path dir="${libs_path}" includes="**/*"/>
@@ -33,7 +32,7 @@
         <echo>-----------------------------------</echo>
         <echo>[swc] Building starlingApp extension SWC...</echo>
         <echo>-----------------------------------</echo>
-		<delete file="${libs_path}/${swc_name}"/>
+		<delete file="${libs_path}/crazyfm/${swc_name}"/>
         <compc output="${swc}/${swc_name}">
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
@@ -42,11 +41,9 @@
         </compc>
     </target>
 	<target name="copy_swc" depends="swc">
-		<copy file="${swc}/${swc_name}" todir="${libs_path}"/>
+		<copy file="${swc}/${swc_name}" todir="${libs_path}/crazyfm"/>
 	</target>
     <target name="test">
-        <mkdir dir="${out}/tests"/>
-        <mkdir dir="${out}/tests/report"/>
         <mkdir dir="${out}/tests/report/html"/>
         <echo>-----------------------------------</echo>
         <echo>[test] Running Unit Tests...</echo>

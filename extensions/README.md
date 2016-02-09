@@ -5,7 +5,7 @@ To use extension in your project based on CrazyFM framework, all you have to do 
  
 ###Creating extension guidelines
 The main goal is to keep framework clean, documented and tested.
-That's why new extension apply all the rules:
+That's why new extension should apply all the rules:
 
 * Your extension must have clean well-formatted code.
 * It must have unit tests.

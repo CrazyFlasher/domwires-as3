@@ -1,4 +1,6 @@
 ##CrazyFM
+**_NB! This project is in early alpha development version, and I don't recommend to use it for your projects development now._**
+ 
 ###Idea
 ActionScript 3 framework based on idea to split view from logic, but leave possibility for easy communication between them.
 Also the main idea of the framework is to fill it with new [extensions](extensions) easily.
@@ -23,7 +25,7 @@ commands due application workflow. Garbage collection will be called often to cl
 Read about it in [core](core) section.
 
 ###How to use?
-Framework consists of 2 main parts: core and [extensions](extensions).
+Framework consists of 2 main parts: [core](core) and [extensions](extensions).
 Each of them has its own build configuration. You can build only those modules, that you need.
 For example, if your project doesn't use [Starling](https://github.com/Gamua/Starling-Framework), there is no need to build [starlingApp]
 (extensions/starlingApp) and connect it to your project.
@@ -31,8 +33,7 @@ For example, if your project doesn't use [Starling](https://github.com/Gamua/Sta
 To start developing project using CrazyFM, you need to connect [core](core) logic to your project.
 There are several ways to do it:
  * Use core src path as source path for you project.
- * Build core using Ant and connect SWC dependencies.
- * Build core using your IDE and connect SWC dependencies.
+ * Build core and connect SWC dependencies.
  * Download SWC dependencies and connect them to project.
 
 Add dependencies that are used by [core](core):

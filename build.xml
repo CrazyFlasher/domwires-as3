@@ -12,21 +12,20 @@
     <target name="build_all">
         <echo>[build_all] Building core and all extensions...</echo>
         <ant antfile="build.xml" target="package" dir="${basedir}/core" inheritall="false"/>
-		<copy todir="out/swc">
+		<!--copy todir="out/swc">
 			<fileset dir="core/out/swc"/>
-		</copy>
+		</copy-->
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-		<copy todir="out/swc">
+		<!--copy todir="out/swc">
 			<fileset dir="extensions/starlingApp/out/swc"/>
-		</copy>
+		</copy-->
     </target>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating framework ASDOC documentation...</echo>
         <echo>-----------------------------------</echo>
-        <delete dir="out/doc"/>
-        <mkdir dir="out/doc"/>
-        <asdoc output="out/doc" dir="${FLEX_HOME}" lenient="true" failonerror="true">
+        <delete dir="${libs_path}/crazyfm/doc"/>
+        <asdoc output="${libs_path}/crazyfm/doc" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <!-- core -->
             <doc-sources path-element="core/src"/>
             <!--exclude-sources path-element="core/src/com/crazyfm/mvc/controller" /-->
@@ -41,6 +40,6 @@
         <echo>-----------------------------------</echo>
         <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
-        <delete dir="out"/>
+        <delete dir="${libs_path}/crazyfm"/>
     </target>
 </project>
