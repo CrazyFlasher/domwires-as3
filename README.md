@@ -37,8 +37,9 @@ Add dependencies that are used by [core](core):
  * or use SWCs in [dependencies](dependencies) folder (recommended for version compatibility).
 
 ###Build whole CrazyFM framework
-To build whole framework and generate AsDocs for all modules ([core](core) and [extensions](extensions)) setup correct paths in build
-.properties and run build.xml configuration with Ant. This will compile everything into separate SWC files, run tests and generate docs.
+To build whole framework and generate AsDocs for all modules ([core](core) and [extensions](extensions)) setup correct paths in
+**build.properties** and run **build.xml** configuration with Ant. This will compile everything into separate SWC files, run tests and
+generate docs.
 
 - [Read more about core](core)
 - [Read more about extensions](extensions)
