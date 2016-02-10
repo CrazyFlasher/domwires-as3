@@ -69,7 +69,6 @@
                 haltonfailure="false"
                 verbose="true"
                 localTrusted="true"
-                port="1024"
                 failureproperty="flexunit.failure"
         />
         <junitreport todir="${out}/tests/report">

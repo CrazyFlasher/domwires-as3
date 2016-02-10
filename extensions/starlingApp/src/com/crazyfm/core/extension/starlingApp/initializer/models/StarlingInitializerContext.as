@@ -18,8 +18,9 @@ package com.crazyfm.core.extension.starlingApp.initializer.models
 	import starling.utils.ScaleMode;
 	import starling.utils.SystemUtil;
 
-	//TODO: ASDoc
 	/**
+	 * Context that configures and launches new Starling instance.
+	 * Dispatches signals:
 	 * StarlingInitializerSignal.STARLING_INITIALIZED
 	 */
 	public class StarlingInitializerContext extends Context
@@ -32,6 +33,13 @@ package com.crazyfm.core.extension.starlingApp.initializer.models
 		private var _properties:StarlingProperties;
 		private var _stage:Stage;
 
+		/**
+		 * Creates IContext, that configures and launches new Starling instance.
+		 * @param stage The Flash (2D) stage.
+		 * @param rootClass A subclass of 'starling.display.DisplayObject'. It will be created as soon as initialization is finished and
+		 * will become the first child of the Starling stage. Pass null if you don't want to create a root object right away. (You can use the rootClass property later to make that happen).
+		 * @param properties
+		 */
 		public function StarlingInitializerContext(stage:Stage, rootClass:Class, properties:StarlingProperties = null)
 		{
 			super();
@@ -124,8 +132,17 @@ package com.crazyfm.core.extension.starlingApp.initializer.models
 
 			_properties = null;
 			_stage = null;
+			_rootClass = null;
 
 			super.dispose();
+		}
+
+		/**
+		 * Returns created Starling instance.
+		 */
+		public function get starling():Starling
+		{
+			return _starling;
 		}
 	}
 }

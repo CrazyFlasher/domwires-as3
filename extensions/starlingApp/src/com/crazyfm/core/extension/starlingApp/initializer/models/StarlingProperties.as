@@ -7,6 +7,9 @@ package com.crazyfm.core.extension.starlingApp.initializer.models
 
 	import starling.utils.ScaleMode;
 
+	/**
+	 * Configuration object, that is used for new Starling instance creation.
+	 */
 	public class StarlingProperties
 	{
 		public var stageWidth:int  = 800;

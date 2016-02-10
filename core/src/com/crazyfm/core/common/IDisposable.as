@@ -9,7 +9,7 @@ package com.crazyfm.core.common
 	public interface IDisposable
 	{
 		/**
-		 * Removes all references, object. After that object is ready to be clean by GC.
+		 * Removes all references, objects. After that object is ready to be cleaned by GC.
 		 */
 		function dispose():void;
 

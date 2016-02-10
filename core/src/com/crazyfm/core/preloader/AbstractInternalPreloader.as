@@ -9,7 +9,7 @@ package com.crazyfm.core.preloader {
 
     /**
      * Application internal preloader. Application should be built with additional compiler option:
-     * "-frame=two,my.cool.package.MyMain
+     * "-frame=two,my.cool.package.MyMain", where "my.cool.package.MyMain" is the main application class.
      * After app is completely downloaded, preloader will move to second frame.
      * Before that, use as less classes as possible, so preloader will be shown faster.
      */
@@ -37,8 +37,8 @@ package com.crazyfm.core.preloader {
         }
 
 		/**
-		 * Default preloader added to displayList and ready to process preloader actions.
-         * Override with super, if you want to add additional logic
+		 * Default preloader added to display list and ready to process preloader actions.
+         * Override with super, if you want to add additional logic.
          */
         protected function init():void {
             stop();
@@ -67,8 +67,8 @@ package com.crazyfm.core.preloader {
         }
 
 		/**
-		 * Redraws native displayList preloader.
-         * Override, if you wan't to use other way to display preloader
+		 * Redraws native display list preloader.
+         * Override, if you wan't to use other way to display preloader.
          * @param bytesLoaded
          * @param bytesTotal
          */
@@ -88,8 +88,8 @@ package com.crazyfm.core.preloader {
         }
 
 		/**
-		 * Removes native displayList preloader.
-         * Override, if you are using your own way to draw preloader
+		 * Removes native display list preloader.
+         * Override, if you are using your own way to draw preloader.
          */
         protected function removePreloader():void {
             if(_preloader)

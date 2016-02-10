@@ -25,5 +25,15 @@ package com.crazyfm.core.mvc.view
 
 			_container = container;
 		}
+
+		/**
+		 * @inheritDoc
+		 */
+		override public function dispose():void
+		{
+			_container = null;
+
+			super.dispose();
+		}
 	}
 }
