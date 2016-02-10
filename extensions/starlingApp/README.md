@@ -7,7 +7,7 @@ Initialize StarlingInitializerContext and it will launch Starling instance and u
 ###Dependencies
 - [as3-signals](https://github.com/robertpenner/as3-signals)
 - [core](../../core)
-##
+
 ###Compiled binary
 - [cfm-ext-starlingApp](dependencies/crazyfm/cfm-ext-starlingApp-0-1-0.swc)
 
