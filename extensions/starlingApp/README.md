@@ -1,5 +1,7 @@
 ##CrazyFM-Extensions-StarlingApp
 This extension allows you to use [Starling Framework 1.x](https://github.com/Gamua/Starling-Framework) to render visual stuff.
+
+###Usage:
 Initialize StarlingInitializerContext and it will launch Starling instance and use StaringViewController to handle visual stuff.
 
 ###Dependencies:
