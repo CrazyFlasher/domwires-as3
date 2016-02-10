@@ -12,3 +12,5 @@ connection. Dispatches signals to connected IContext. Can contain reference to D
 
 As you can see on screenshot, signal that is dispatched from bottom model will bubble up through whole hierarchy to the top IContext and 
 also will be passed to IViewController(s) object(s) connected to IContext.
+
+- [Read more about extensions](extensions)
