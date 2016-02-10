@@ -3,7 +3,7 @@ CrazyFM framework can be extended with different stuff.
 Extension is an individual project, that has its own test build configuration.
 To use extension in your project based on CrazyFM framework, all you have to do is to add extension compiled SWC or define its source path.
 All extensions automatically compile if run CrazyFM global build configuration, which can be found in the root of the project.
-By default, compiled SWCs of extensions can be found here: [crazyfm/dependencies/crazyfm](crazyfm/dependencies/crazyfm).
+By default, compiled SWCs of extensions can be found here: [crazyfm/dependencies/crazyfm/](dependencies/crazyfm).
  
 ###Creating extension guidelines
 The main goal is to keep framework clean, documented and tested.
