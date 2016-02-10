@@ -46,6 +46,6 @@ To build whole framework and generate AsDocs for all modules ([core](core) and [
 **build.properties** and run **build.xml** configuration with Ant. This will compile everything into separate SWC files, run tests and
 generate docs. By default, CrazyFM framework binaries and complete documentation will be built here:
 - [crazyfm/dependencies/crazyfm/](dependencies/crazyfm)
-
+---
 - [Read more about core](core)
 - [Read more about extensions](extensions)
