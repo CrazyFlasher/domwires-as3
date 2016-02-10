@@ -44,7 +44,8 @@ or use SWCs in [dependencies](dependencies) folder (recommended for version comp
 ###Build whole CrazyFM framework
 To build whole framework and generate AsDocs for all modules ([core](core) and [extensions](extensions)) setup correct paths in
 **build.properties** and run **build.xml** configuration with Ant. This will compile everything into separate SWC files, run tests and
-generate docs.
+generate docs. By default, CrazyFM framework binaries and complete documentation will be built here:
+- [crazyfm/dependencies/crazyfm/](dependencies/crazyfm)
 
 - [Read more about core](core)
 - [Read more about extensions](extensions)
