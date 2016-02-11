@@ -9,7 +9,7 @@ Initialize **StarlingInitializerContext** and it will launch Starling instance a
 - [core](../../core)
 
 ###Compiled binary
-- [cfm-ext-starlingApp](../../dependencies/crazyfm/cfm-ext-starlingApp-0-1-0.swc)
+- [cfm-ext-starlingApp](../../dependencies/crazyfm/cfm-ext-starlingApp-0.1.0.swc)
 
 ###Example
 - [ballClick_starling](https://github.com/CrazyFlasher/crazyfm-examples/tree/master/ballClick_starling)
