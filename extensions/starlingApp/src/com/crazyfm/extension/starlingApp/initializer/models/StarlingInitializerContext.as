@@ -1,10 +1,10 @@
 /**
  * Created by Anton Nefjodov on 8.02.2016.
  */
-package com.crazyfm.core.extension.starlingApp.initializer.models
+package com.crazyfm.extension.starlingApp.initializer.models
 {
-	import com.crazyfm.core.extension.starlingApp.initializer.signals.StarlingInitializerSignal;
 	import com.crazyfm.core.mvc.model.Context;
+	import com.crazyfm.extension.starlingApp.initializer.signals.StarlingInitializerSignal;
 
 	import flash.display.Stage;
 	import flash.geom.Rectangle;

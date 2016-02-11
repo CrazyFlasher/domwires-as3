@@ -1,7 +1,7 @@
 /**
  * Created by Anton Nefjodov on 5.02.2016.
  */
-package com.crazyfm.core.extension.starlingApp.initializer.models
+package com.crazyfm.extension.starlingApp.initializer.models
 {
 	import flash.display3D.Context3DProfile;
 

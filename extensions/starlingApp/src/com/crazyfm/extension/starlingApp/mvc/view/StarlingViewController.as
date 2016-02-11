@@ -1,7 +1,7 @@
 /**
  * Created by Anton Nefjodov on 30.01.2016.
  */
-package com.crazyfm.core.extension.starlingApp.mvc.view
+package com.crazyfm.extension.starlingApp.mvc.view
 {
 	import com.crazyfm.core.mvc.model.HierarchyObject;
 	import com.crazyfm.core.mvc.view.IViewController;
