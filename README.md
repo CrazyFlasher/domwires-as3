@@ -41,7 +41,7 @@ Add dependencies that are used by [core](core):
 
 or use SWCs in [dependencies](dependencies) folder (recommended for version compatibility).
 
-*Soon I'll try to manage to add, probably, Maven for dependencies stuff.*
+*Soon I'll try to manage to add, probably, Gradle configuration for build and dependencies stuff.*
 
 ###Build whole CrazyFM framework
 To build whole framework and generate AsDocs for all modules ([core](core) and [extensions](extensions)) setup correct paths in
