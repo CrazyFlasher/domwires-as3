@@ -5,7 +5,7 @@ This extension allows you to use [Nape Physics](https://github.com/deltaluca/www
 
 
 ###Compiled binary
-- [cfm-ext-physics-0.1.0.swc](../../dependencies/crazyfm/)
+- [cfm-ext-physics-_x.x.x_.swc](../../dependencies/crazyfm/)
 
 ###Example
 - [ballClick_starling](https://github.com/CrazyFlasher/crazyfm-examples/tree/master/ballClick_starling_nape)
