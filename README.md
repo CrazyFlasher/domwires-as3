@@ -40,7 +40,7 @@ Add dependencies that are used by [core](core):
  * [as3-signals](https://github.com/robertpenner/as3-signals)
 
 or use SWCs in [dependencies](dependencies) folder (recommended for version compatibility).
-*Soon I'll try to manage to add, probably, Maven for dependencies stuff*
+*Soon I'll try to manage to add, probably, Maven for dependencies stuff.*
 
 ###Build whole CrazyFM framework
 To build whole framework and generate AsDocs for all modules ([core](core) and [extensions](extensions)) setup correct paths in
