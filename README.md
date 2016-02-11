@@ -27,7 +27,7 @@ Read about it in [core](core) section.
 ###How to use?
 Framework consists of 2 main parts: [core](core) and [extensions](extensions).
 Each of them has its own build configuration. You can build only those modules, that you need.
-For example, if your project doesn't use [SKtarling](https://github.com/Gamua/Starling-Framework), there is no need to build [starlingApp]
+For example, if your project doesn't use [Starling](https://github.com/Gamua/Starling-Framework), there is no need to build [starlingApp]
 (extensions/starlingApp) and connect it to your project.
 
 To start developing project using CrazyFM, you need to connect [core](core) logic to your project.
@@ -40,6 +40,7 @@ Add dependencies that are used by [core](core):
  * [as3-signals](https://github.com/robertpenner/as3-signals)
 
 or use SWCs in [dependencies](dependencies) folder (recommended for version compatibility).
+
 *Soon I'll try to manage to add, probably, Maven for dependencies stuff.*
 
 ###Build whole CrazyFM framework
