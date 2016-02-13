@@ -9,8 +9,9 @@ signals from children, sub-children and so on.
 (interface methods calls). Re-dispatches received from model hierarchy signals to IViewControllers, that are connected to current IContext.
 - **IViewController** - object that can be connected to IContext for further model <-> view communication via signals or direct
 connection. Dispatches signals to connected IContext. Can contain reference to DisplayObjectContainer.
+- **ISignalEvent** - object, that is being transmitted to signal handlers functions. Can contain any data.
 
 As you can see on screenshot, signal that is dispatched from bottom model will bubble up through whole hierarchy to the top IContext and 
-also will be passed to IViewController(s) object(s) connected to IContext.
+also will be passed to IViewControllers objects connected to IContext.
 
 - [Read more about extensions](../extensions)

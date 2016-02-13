@@ -17,9 +17,9 @@ For example, to update view of physics object, physics model must dispatch 10 (o
 commands due application workflow. Garbage collection will be called often to clear events and commands. Also if developer uses real-time
  injections (ex. [SwiftSuspenders](https://github.com/robotlegs/swiftsuspenders)) in commands, that will require extra resources and 
  reduce performance. CrazyFM framework provides communication among models and views with signal system which works faster than native 
- flash event system and keeps signal data in pool to avoid frequent object creation. Also, in case of physics model and view 
+ flash event system and keeps signal objects in pool to avoid frequent object creation. Also, in case of physics model and view 
  communication there can be used direct communication via interface methods and that won't ruin application architecture. These actions 
- allow to reduce frequent memory allocation and garbage collections and increase whole application performance.
+ allow to reduce frequent memory allocations, garbage collections and increase whole application performance.
 
 ###How objects communicate in CrazyFM?
 Read about it in [core](core) section.
