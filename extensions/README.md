@@ -13,7 +13,6 @@ That's why new extension should apply all the rules:
 * Your extension must have clean well-formatted code.
 * It must have unit tests.
 * It should be commented and contain AsDocs.
-* It should be fully compatible with framework dependencies.
 * It should contain README.md description.
 * It should contain build configuration.
 * It should be added to framework global build configuration.

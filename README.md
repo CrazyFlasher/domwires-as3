@@ -51,3 +51,4 @@ generate docs. By default, CrazyFM framework binaries and complete documentation
 
 - [Read more about core](core)
 - [Read more about extensions](extensions)
+- [View examples](https://github.com/CrazyFlasher/crazyfm-examples)
