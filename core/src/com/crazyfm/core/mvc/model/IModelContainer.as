@@ -3,6 +3,8 @@
  */
 package com.crazyfm.core.mvc.model
 {
+	import flash.utils.Dictionary;
+
 	/**
 	 * Extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
 	 * signals from children, sub-children and so on.
@@ -19,7 +21,7 @@ package com.crazyfm.core.mvc.model
 		 * Adds several model to model list of current object.
 		 * @param models
 		 */
-		function addModels(models:Vector.<IModel>):void;
+		function addModels(...models):void;
 
 		/**
 		 * Removes model from model list of current object.
@@ -30,10 +32,10 @@ package com.crazyfm.core.mvc.model
 
 		/**
 		 * Removes several model from model list of current object.
-		 * @param models
 		 * @param dispose If true, then removed models will ne disposed
+		 * @param models
 		 */
-		function removeModels(models:Vector.<IModel>, dispose:Boolean = false):void;
+		function removeModels(dispose:Boolean, ...models):void;
 
 		/**
 		 * Removes all models from model list of current object.
@@ -49,7 +51,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * Returns true if current object contains this model.
 		 * @param model
-		 * @return
+		 * @return true, if object contains current model
 		 */
 		function containsModel(model:IModel):Boolean;
 
@@ -57,5 +59,10 @@ package com.crazyfm.core.mvc.model
 		 * Disposes current object and disposes objects from its model list.
 		 */
 		function disposeWithAllChildren():void;
+
+		/**
+		 * Returns child models.
+		 */
+		function get modelList():Dictionary;
 	}
 }

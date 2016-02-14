@@ -22,4 +22,4 @@ Initialize **StarlingInitializerContext** and it will launch Starling instance a
 
 **Starling-Framework**
 - [source](https://github.com/Gamua/Starling-Framework)
-- [binary](https://github.com/CrazyFlasher/crazyfm/tree/master/dependencies): starling.swc
+- [binary](https://github.com/CrazyFlasher/crazyfm/tree/master/dependencies): starling-1.x.x.swc

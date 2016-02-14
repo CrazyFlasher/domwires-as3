@@ -18,8 +18,9 @@ package com.crazyfm.core.mvc.model
 	 */
 	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
 	{
-		private var _modelList:Dictionary;
+		private var _modelList:Dictionary/*IModel, IModel*/
 		private var _bubbledSignalListeners:Dictionary;
+
 		private var _numModels:int;
 
 		public function ModelContainer()
@@ -35,6 +36,7 @@ package com.crazyfm.core.mvc.model
 
 				return true;
 			}
+
 			return false;
 		}
 
@@ -64,23 +66,30 @@ package com.crazyfm.core.mvc.model
 
 			if (added)
 			{
-				(model as HierarchyObject).setParent(this);
 				_numModels++;
+				
+				if (model.parent != null)
+				{
+					(model.parent as IModelContainer).removeModel(model);
+				}
+				(model as HierarchyObject).setParent(this);
 			}
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function addModels(models:Vector.<IModel>):void
+		public function addModels(...models):void
 		{
 			for (var i:int = 0; i < models.length; i++)
 			{
-				if (!(models[i] is IModel))
+				if (models[i] is IModel)
 				{
-					throw new Error("ModelContainer#addModels: Error! You should pass IModel only!");
+					addModel(models[i]);
+				}else
+				{
+					throw new Error("Object is not IModel: ", typeof(models[i]));
 				}
-				addModel(models[i]);
 			}
 		}
 
@@ -91,14 +100,14 @@ package com.crazyfm.core.mvc.model
 		{
 			var removed:Boolean = removeChild(model, _modelList);
 
-			if(removed)
+			if (removed)
 			{
 				_numModels--;
 
-				if(dispose)
+				if (dispose)
 				{
 					model.dispose();
-				}else
+				} else
 				{
 					(model as Model).setParent(null);
 				}
@@ -108,14 +117,10 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeModels(models:Vector.<IModel>, dispose:Boolean = false):void
+		public function removeModels(dispose:Boolean, ...models):void
 		{
 			for (var i:int = 0; i < models.length; i++)
 			{
-				if (!(models[i] is IModel))
-				{
-					throw new Error("ModelContainer#removeModels: Error! You should pass IModel only!");
-				}
 				removeModel(models[i], dispose);
 			}
 		}
@@ -129,10 +134,20 @@ package com.crazyfm.core.mvc.model
 			{
 				for (var i:* in _modelList)
 				{
-					removeModel(_modelList[i], dispose);
+					//delete _modelList[i];
+
+					if (dispose)
+					{
+						_modelList[i].dispose();
+					} else
+					{
+						(_modelList[i] as Model).setParent(null);
+					}
 				}
 
 				_modelList = null;
+
+				_numModels = 0;
 			}
 		}
 
@@ -222,7 +237,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function containsModel(model:IModel):Boolean
 		{
-			return _modelList != null && _modelList[model] != null;
+			return _modelList && _modelList[model] != null;
 		}
 
 		/**
@@ -233,6 +248,14 @@ package com.crazyfm.core.mvc.model
 			removeAllModels(true);
 
 			super.dispose();
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function get modelList():Dictionary
+		{
+			return _modelList;
 		}
 	}
 }

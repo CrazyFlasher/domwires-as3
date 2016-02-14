@@ -4,9 +4,11 @@
 package com.crazyfm.core.mvc
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.model.IModel;
+	import com.crazyfm.core.mvc.model.IModelContainer;
 	import com.crazyfm.core.mvc.model.Model;
 	import com.crazyfm.core.mvc.model.ModelContainer;
+
+	import flash.display.Sprite;
 
 	import flexunit.framework.Assert;
 
@@ -39,14 +41,14 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testNumModels():void
 		{
-			mc.addModels(new <IModel>[m1, m2, m3]);
+			mc.addModels(m1, m2, m3);
 			Assert.assertEquals(mc.numModels, 3);
 		}
 
 		[Test]
 		public function testRemoveModel():void
 		{
-			mc.addModels(new <IModel>[m1, m2, m3]);
+			mc.addModels(m1, m2, m3);
 			mc.removeModel(m1);
 			Assert.assertEquals(mc.numModels, 2);
 			Assert.assertNull(m1.parent);
@@ -59,7 +61,7 @@ package com.crazyfm.core.mvc
 			Assert.assertFalse(mc.containsModel(m2));
 			Assert.assertFalse(mc.containsModel(m3));
 
-			mc.addModels(new <IModel>[m1, m2, m3]);
+			mc.addModels(m1, m2, m3);
 			Assert.assertTrue(mc.containsModel(m1));
 			Assert.assertTrue(mc.containsModel(m2));
 			Assert.assertTrue(mc.containsModel(m3));
@@ -86,14 +88,14 @@ package com.crazyfm.core.mvc
 		public function testAddModels():void
 		{
 			Assert.assertEquals(mc.numModels, 0);
-			mc.addModels(new <IModel>[m1, m2, m3]);
+			mc.addModels(m1, m2, m3);
 			Assert.assertEquals(mc.numModels, 3);
 		}
 
 		[Test]
 		public function testDispose():void
 		{
-			mc.addModels(new <IModel>[m1, m2]);
+			mc.addModels(m1, m2);
 			mc.addModel(m3);
 
 			var listener:Function = function(event:ISignalEvent):void {};
@@ -115,7 +117,7 @@ package com.crazyfm.core.mvc
 		{
 			Assert.assertEquals(mc.numModels, 0);
 
-			mc.addModels(new <IModel>[m1, m2]);
+			mc.addModels(m1, m2);
 			mc.addModel(m3);
 
 			Assert.assertNotNull(m1.parent);
@@ -167,9 +169,9 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testRemoveModels():void
 		{
-			mc.addModels(new <IModel>[m1, m2]);
+			mc.addModels(m1, m2);
 			mc.addModel(m3);
-			mc.removeModels(new <IModel>[m2, m3]);
+			mc.removeModels(false, m2, m3);
 
 			Assert.assertEquals(mc.numModels, 1);
 			Assert.assertTrue(mc.containsModel(m1));
@@ -180,12 +182,35 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function disposeWithAllChildren():void
 		{
-			mc.addModels(new <IModel>[m1, m2, m3]);
+			mc.addModels(m1, m2, m3);
 			mc.disposeWithAllChildren();
 
 			Assert.assertTrue(m1.isDisposed);
 			Assert.assertTrue(m2.isDisposed);
 			Assert.assertTrue(m3.isDisposed);
+		}
+
+		[Test]
+		public function testAddedToNewParent():void
+		{
+			var mc2:IModelContainer = new ModelContainer();
+			Assert.assertNull(m1.parent);
+
+			mc.addModel(m1);
+			Assert.assertEquals(m1.parent, mc);
+
+			mc2.addModel(m1);
+			Assert.assertEquals(m1.parent, mc2);
+
+			Assert.assertEquals(mc.numModels, 0);
+
+			mc2.disposeWithAllChildren();
+		}
+
+		[Test(expects="Error")]
+		public function testAddWrongType():void
+		{
+			mc.addModels(new Sprite());
 		}
 	}
 }

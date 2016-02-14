@@ -23,8 +23,9 @@ package com.crazyfm.core.mvc.model
 //		private var _injector:Injector;
 //		private var _signalTypeToCommandMappings:Vector.<MappingVo>;
 
-		private var _viewList:Dictionary;
-		private var _numViews:int;
+		private var _viewList:Dictionary/*IViewController, IViewController*/
+
+		private var _numViewControllers:int;
 
 		public function Context()
 		{
@@ -135,54 +136,61 @@ package com.crazyfm.core.mvc.model
 		 /**
 		 * @inheritDoc
 		 */
-		public function addViewController(view:IViewController):void
+		public function addViewController(viewController:IViewController):void
 		{
 			if (!_viewList)
 			{
 				_viewList = new Dictionary();
 			}
 
-			var added:Boolean = addChild(view, _viewList);
+			var added:Boolean = addChild(viewController, _viewList);
 
 			if (added)
 			{
-				_numViews++;
-				(view as HierarchyObject).setParent(this);
-			}
-		}
+				_numViewControllers++;
 
-		/**
-		 * @inheritDoc
-		 */
-		public function addViewControllers(views:Vector.<IViewController>):void
-		{
-			for (var i:int = 0; i < views.length; i++)
-			{
-				if (!(views[i] is IViewController))
+				if (viewController.parent != null)
 				{
-					throw new Error("Context#addViews: Error! You should pass IViewController only!");
+					(viewController.parent as IContext).removeViewController(viewController);
 				}
-				addViewController(views[i]);
+				(viewController as HierarchyObject).setParent(this);
 			}
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function removeViewController(view:IViewController, dispose:Boolean = false):void
+		public function addViewControllers(...viewControllers):void
 		{
-			var removed:Boolean = removeChild(view, _viewList);
+			for (var i:int = 0; i < viewControllers.length; i++)
+			{
+				if(viewControllers[i] is IViewController)
+				{
+					addViewController(viewControllers[i]);
+				}else
+				{
+					throw new Error("Object is not IViewController!");
+				}
+			}
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function removeViewController(viewController:IViewController, dispose:Boolean = false):void
+		{
+			var removed:Boolean = removeChild(viewController, _viewList);
 
 			if (removed)
 			{
-				_numViews--;
+				_numViewControllers--;
 
 				if (dispose)
 				{
-					view.dispose();
+					viewController.dispose();
 				} else
 				{
-					(view as ViewController).setParent(null);
+					(viewController as ViewController).setParent(null);
 				}
 			}
 		}
@@ -190,15 +198,11 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeViewControllers(views:Vector.<IViewController>, dispose:Boolean = false):void
+		public function removeViewControllers(dispose:Boolean, ...viewControllers):void
 		{
-			for (var i:int = 0; i < views.length; i++)
+			for (var i:int = 0; i < viewControllers.length; i++)
 			{
-				if (!(views[i] is IViewController))
-				{
-					throw new Error("Context#removeViews: Error! You should pass IViewController only!");
-				}
-				removeViewController(views[i], dispose);
+				removeViewController(viewControllers[i], dispose);
 			}
 		}
 
@@ -211,10 +215,20 @@ package com.crazyfm.core.mvc.model
 			{
 				for (var i:* in _viewList)
 				{
-					removeViewController(_viewList[i], dispose);
+					//delete _viewList[i];
+
+					if (dispose)
+					{
+						_viewList[i].dispose();
+					} else
+					{
+						(_viewList[i] as HierarchyObject).setParent(null);
+					}
 				}
 
 				_viewList = null;
+
+				_numViewControllers = 0;
 			}
 		}
 
@@ -223,15 +237,15 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function get numViewControllers():int
 		{
-			return _numViews;
+			return _numViewControllers;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function containsViewController(view:IViewController):Boolean
+		public function containsViewController(viewController:IViewController):Boolean
 		{
-			return _viewList != null && _viewList[view] != null;
+			return _viewList && _viewList[viewController] != null;
 		}
 
 		/**
@@ -259,9 +273,9 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function dispatchSignalToViewControllers(event:ISignalEvent):void
 		{
-			for each (var view:IViewController in _viewList)
+			for each (var viewController:IViewController in _viewList)
 			{
-				view.dispatchSignal(event.type, event.data);
+				viewController.dispatchSignal(event.type, event.data);
 			}
 		}
 

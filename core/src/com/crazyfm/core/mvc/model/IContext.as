@@ -6,6 +6,8 @@ package com.crazyfm.core.mvc.model
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.view.IViewController;
 
+	import flash.utils.Dictionary;
+
 	/**
 	 * Extends IModelContainer and is able to communicate with IViewController objects via signals and/or direct connection
 	 * (interface methods calls). Re-dispatches received from model hierarchy signals to IViewControllers, that are connected to current
@@ -23,7 +25,7 @@ package com.crazyfm.core.mvc.model
 		 * Adds several IViewControllers to view controller list of current object.
 		 * @param viewControllers
 		 */
-		function addViewControllers(viewControllers:Vector.<IViewController>):void;
+		function addViewControllers(...viewControllers):void;
 
 		/**
 		 * Removes IViewController from view controller list of current object.
@@ -34,10 +36,10 @@ package com.crazyfm.core.mvc.model
 
 		/**
 		 * Removes several IViewControllers from view controller list of current object.
-		 * @param viewControllers
 		 * @param dispose If true, then removed IViewControllers will be disposed
+		 * @param viewControllers
 		 */
-		function removeViewControllers(viewControllers:Vector.<IViewController>, dispose:Boolean = false):void;
+		function removeViewControllers(dispose:Boolean, ...viewControllers):void;
 
 		/**
 		 * Removes all IViewControllers from view controller list of current object.
