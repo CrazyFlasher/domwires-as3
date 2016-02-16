@@ -26,14 +26,15 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * Removes all signal listeners from object. Bubbled signals will be also ignored.
 		 */
-		function removeAllSignals():void;
+		function removeAllSignalListeners():void;
 
 		/**
 		 * Dispatches signal from bottom to top of the hierarchy.
 		 * @param type Signal type/name/id
 		 * @param data Optional data that will sent with signal
+		 * @param bubbles If true, then signal will bubble up to hierarchy
 		 */
-		function dispatchSignal(type:String, data:Object = null):void;
+		function dispatchSignal(type:String, data:Object = null, bubbles:Boolean = true):void;
 
 		/**
 		 * Returns true if object listens for specific signal. Otherwise returns false.

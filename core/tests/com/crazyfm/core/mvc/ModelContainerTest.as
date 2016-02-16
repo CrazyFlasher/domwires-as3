@@ -212,5 +212,87 @@ package com.crazyfm.core.mvc
 		{
 			mc.addModels(new Sprite());
 		}
+
+		[Test]
+		public function testDispatchSignalToChildren_2_LevelHierarchy():void
+		{
+			/**
+			 * 		 mc
+			 * 	  /  |  \
+			 * 	 m1  m2  m3
+			 */
+
+			mc.addModels(m1, m2, m3);
+
+			var receivedSignalCount:int;
+			var listener:Function = function(event:ISignalEvent):void{
+				receivedSignalCount++;
+			};
+
+			mc.dispatchSignalToChildren("test");
+			Assert.assertEquals(receivedSignalCount, 0);
+
+			receivedSignalCount = 0;
+
+			m1.addSignalListener("test", listener);
+			mc.dispatchSignalToChildren("test");
+			Assert.assertEquals(receivedSignalCount, 1);
+
+			receivedSignalCount = 0;
+
+			m2.addSignalListener("test", listener);
+			m3.addSignalListener("test", listener);
+
+			mc.dispatchSignalToChildren("test");
+			Assert.assertEquals(receivedSignalCount, 3);
+		}
+
+		[Test]
+		public function testDispatchSignalToChildren_3_LevelHierarchy():void
+		{
+			/**
+			 * 			mc
+			 * 		  /	  \
+			 * 		 mc2   m1
+			 * 	   /  |
+			 * 	 m2	  m3
+			 */
+
+			var mc2:IModelContainer = new ModelContainer();
+			mc.addModel(m1);
+			mc.addModel(mc2);
+			mc2.addModels(m2, m3);
+
+			var mc2_received:Boolean;
+			var m1_received:Boolean;
+			var m2_received:Boolean;
+			var m3_received:Boolean;
+
+			mc2.addSignalListener("test", function(event:ISignalEvent):void{
+				mc2_received = true;
+			});
+
+			m1.addSignalListener("test", function(event:ISignalEvent):void{
+				m1_received = true;
+			});
+
+			m2.addSignalListener("test", function(event:ISignalEvent):void{
+				m2_received = true;
+			});
+
+			m2.addSignalListener("test", function(event:ISignalEvent):void{
+				m3_received = true;
+			});
+
+			mc.dispatchSignalToChildren("test");
+			Assert.assertTrue(mc2_received, m1_received, m2_received, m3_received);
+
+			mc2_received = m1_received = m2_received = m3_received = false;
+
+			mc2.removeAllSignalListeners();
+			mc.dispatchSignalToChildren("test");
+			Assert.assertTrue(m1_received, m2_received, m3_received);
+			Assert.assertFalse(mc2_received);
+		}
 	}
 }

@@ -60,9 +60,14 @@ package com.crazyfm.core.mvc.model
 		function containsViewController(viewController:IViewController):Boolean;
 
 		/**
-		 * Broadcasts any received from hierarchy signal to IViewControllers.
+		 * Broadcasts signal to IViewControllers.
 		 * @param event
 		 */
 		function dispatchSignalToViewControllers(event:ISignalEvent):void;
+
+		/**
+		 * Returns child models.
+		 */
+		function get viewList():Dictionary;
 	}
 }

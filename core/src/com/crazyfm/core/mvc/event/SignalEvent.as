@@ -14,9 +14,9 @@ package com.crazyfm.core.mvc.event
 		private var _type:String;
 		private var _isDisposed:Boolean;
 
-		public function SignalEvent(type:String, data:Object = null)
+		public function SignalEvent(type:String, data:Object = null, bubbles:Boolean = true)
 		{
-			super(true);
+			super(bubbles);
 
 			_type = type;
 			_data = data;

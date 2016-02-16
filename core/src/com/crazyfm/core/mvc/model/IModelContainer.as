@@ -64,5 +64,12 @@ package com.crazyfm.core.mvc.model
 		 * Returns child models.
 		 */
 		function get modelList():Dictionary;
+
+		/**
+		 * Dispatches signal down to hierarchy.
+		 * @param type Signal type/name/id
+		 * @param data Optional data that will sent with signal
+		 */
+		function  dispatchSignalToChildren(type:String, data:Object = null):void;
 	}
 }

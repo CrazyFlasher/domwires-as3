@@ -66,7 +66,7 @@ package com.crazyfm.core.mvc
 			Assert.assertTrue(d.hasSignalListener("testSignal"));
 			Assert.assertTrue(d.hasSignalListener("testSignal2"));
 
-			d.removeAllSignals();
+			d.removeAllSignalListeners();
 			Assert.assertFalse(d.hasSignalListener("testSignal"));
 			Assert.assertFalse(d.hasSignalListener("testSignal2"));
 		}

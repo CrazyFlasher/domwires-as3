@@ -26,9 +26,9 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchSignal(type:String, data:Object = null):void
+		public function dispatchSignal(type:String, data:Object = null, bubbles:Boolean = true):void
 		{
-			getSignal(type).dispatch(getGenericEvent(type, data))
+			getSignal(type).dispatch(getGenericEvent(type, data, bubbles))
 		}
 
 		/**
@@ -64,7 +64,7 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllSignals():void
+		public function removeAllSignalListeners():void
 		{
 			if (_signals)
 			{
@@ -82,7 +82,7 @@ package com.crazyfm.core.mvc.event
 		 */
 		override public function dispose():void
 		{
-			removeAllSignals();
+			removeAllSignalListeners();
 
 			if (_genericEvent)
 			{
@@ -113,11 +113,11 @@ package com.crazyfm.core.mvc.event
 			return getSignalsList()[type];
 		}
 
-		private function getGenericEvent(type:String, data:Object = null):IEvent
+		private function getGenericEvent(type:String, data:Object = null, bubbles:Boolean = true):IEvent
 		{
 			if (!_genericEvent)
 			{
-				_genericEvent = new SignalEvent(type, data);
+				_genericEvent = new SignalEvent(type, data, bubbles);
 			} else
 			{
 				(_genericEvent as SignalEvent).setType(type);
@@ -125,6 +125,7 @@ package com.crazyfm.core.mvc.event
 				_genericEvent.signal = null;
 				_genericEvent.target = null;
 				_genericEvent.currentTarget = null;
+				_genericEvent.bubbles = bubbles;
 			}
 
 			return _genericEvent;

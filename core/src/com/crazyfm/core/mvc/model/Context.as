@@ -270,6 +270,7 @@ package com.crazyfm.core.mvc.model
 
 		/**
 		 * @inheritDoc
+		 * Broadcasts received from hierarchy signal.
 		 */
 		public function dispatchSignalToViewControllers(event:ISignalEvent):void
 		{
@@ -293,6 +294,14 @@ package com.crazyfm.core.mvc.model
 			}
 
 			return super.onEventBubbled(event);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function get viewList():Dictionary
+		{
+			return _viewList;
 		}
 	}
 }

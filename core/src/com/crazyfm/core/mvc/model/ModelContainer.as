@@ -199,9 +199,9 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		override public function removeAllSignals():void
+		override public function removeAllSignalListeners():void
 		{
-			super.removeAllSignals();
+			super.removeAllSignalListeners();
 
 			if (_bubbledSignalListeners)
 			{
@@ -256,6 +256,24 @@ package com.crazyfm.core.mvc.model
 		public function get modelList():Dictionary
 		{
 			return _modelList;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispatchSignalToChildren(type:String, data:Object = null):void
+		{
+			for each (var model:IModel in _modelList)
+			{
+				if(model is IModel)
+				{
+					model.dispatchSignal(type, data, false);
+				}else
+				if(model is IModelContainer)
+				{
+					(model as IModelContainer).dispatchSignalToChildren(type, data);
+				}
+			}
 		}
 	}
 }

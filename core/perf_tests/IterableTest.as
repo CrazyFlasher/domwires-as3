@@ -62,7 +62,7 @@ package
 
 			for (var i3:int = 0; i3 < v.length; i3++)
 			{
-				v[i3].removeAllSignals();
+				v[i3].removeAllSignalListeners();
 			}
 
 			trace("time passed: ", (getTimer() - startTime));
@@ -83,7 +83,7 @@ package
 			}
 			for each (var m3:IModel in v)
 			{
-				m3.removeAllSignals();
+				m3.removeAllSignalListeners();
 			}
 
 			trace("time passed: ", (getTimer() - startTime));
