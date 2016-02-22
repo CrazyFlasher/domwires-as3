@@ -7,9 +7,7 @@ package
 	import com.crazyfm.core.mvc.model.IModel;
 	import com.crazyfm.core.mvc.model.Model;
 
-	import flash.system.System;
 	import flash.utils.Dictionary;
-
 	import flash.utils.getTimer;
 
 	public class IterableTest
@@ -147,7 +145,7 @@ package
 
 			for (var m2:* in d)
 			{
-				d[m2].removeAllSignals();
+				d[m2].removeAllSignalListeners();
 			}
 
 			trace("time passed: ", (getTimer() - startTime));

@@ -66,8 +66,8 @@ package com.crazyfm.core.mvc.model
 		function dispatchSignalToViewControllers(event:ISignalEvent):void;
 
 		/**
-		 * Returns child models.
+		 * Returns children view controllers.
 		 */
-		function get viewList():Dictionary;
+		function get viewControllerList():Dictionary;
 	}
 }

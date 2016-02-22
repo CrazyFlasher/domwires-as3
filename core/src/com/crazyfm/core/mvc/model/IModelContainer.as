@@ -61,7 +61,7 @@ package com.crazyfm.core.mvc.model
 		function disposeWithAllChildren():void;
 
 		/**
-		 * Returns child models.
+		 * Returns children models.
 		 */
 		function get modelList():Dictionary;
 

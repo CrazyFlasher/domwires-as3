@@ -299,7 +299,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function get viewList():Dictionary
+		public function get viewControllerList():Dictionary
 		{
 			return _viewList;
 		}
