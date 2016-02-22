@@ -1,0 +1,9 @@
+Text for description in com.crazyfm.core.mvc.view:ViewController is not valid.
+org.xml.sax.SAXParseException; lineNumber: 3; columnNumber: 63; The content of elements must consist of well-formed character data or markup.
+
+Text for description in com.crazyfm.extension.starlingApp.mvc.view:StarlingViewController is not valid.
+org.xml.sax.SAXParseException; lineNumber: 3; columnNumber: 88; The content of elements must consist of well-formed character data or markup.
+
+Text for description in com.crazyfm.core.mvc.view:IViewController is not valid.
+org.xml.sax.SAXParseException; lineNumber: 3; columnNumber: 63; The content of elements must consist of well-formed character data or markup.
+
