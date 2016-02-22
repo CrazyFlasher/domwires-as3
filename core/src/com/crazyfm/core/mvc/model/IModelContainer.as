@@ -70,6 +70,6 @@ package com.crazyfm.core.mvc.model
 		 * @param type Signal type/name/id
 		 * @param data Optional data that will sent with signal
 		 */
-		function  dispatchSignalToChildren(type:String, data:Object = null):void;
+		function dispatchSignalToChildren(type:String, data:Object = null):void;
 	}
 }
