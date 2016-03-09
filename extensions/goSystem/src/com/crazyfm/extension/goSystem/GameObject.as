@@ -3,15 +3,12 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.HierarchyObject;
+	import com.crazyfm.core.mvc.model.IModel;
 	import com.crazyfm.core.mvc.model.ModelContainer;
-	import com.crazyfm.core.mvc.model.ns_hierarchy;
 
 	import flash.utils.Dictionary;
 
 	import starling.animation.IAnimatable;
-
-	use namespace ns_hierarchy;
 
 	public class GameObject extends ModelContainer implements IGameObject, IAnimatable
 	{
@@ -37,21 +34,17 @@ package com.crazyfm.extension.goSystem
 			if (added)
 			{
 				_numComponents++;
-
-				if (value.parent != null)
-				{
-					(value.parent as IGameObject).removeComponent(value);
-				}
-				(value as HierarchyObject).setParent(this);
 			}
 		}
 
 		public function addComponents(...values):void
 		{
-			addModels(values);
-
 			for (var i:int = 0; i < values.length; i++)
 			{
+				if (values[i] is IModel)
+				{
+					addModel(values[i] as IModel);
+				}
 				if (values[i] is IComponent)
 				{
 					addComponent(values[i]);
@@ -71,18 +64,15 @@ package com.crazyfm.extension.goSystem
 			if (removed)
 			{
 				_numComponents--;
-
-				(value as Component).setParent(null);
 			}
 		}
 
 		public function removeComponents(...values):void
 		{
-			removeModels(false, values);
-
 			for (var i:int = 0; i < values.length; i++)
 			{
-				removeModel(values[i], false);
+				removeModel(values[i] as IModel, false);
+				removeComponent(values[i]);
 			}
 		}
 
@@ -92,11 +82,6 @@ package com.crazyfm.extension.goSystem
 
 			if (_componentList)
 			{
-				for (var i:* in _componentList)
-				{
-					(_componentList[i] as Component).setParent(null);
-				}
-
 				_componentList = null;
 
 				_numComponents = 0;
@@ -112,7 +97,20 @@ package com.crazyfm.extension.goSystem
 
 		public function advanceTime(time:Number):void
 		{
-			//TODO: update components
+			for (var component:* in componentList)
+			{
+				(component as IComponent).update(time);
+			}
+		}
+
+		public function get numComponents():int
+		{
+			return _numComponents;
+		}
+
+		public function get componentList():Dictionary
+		{
+			return _componentList;
 		}
 	}
 }

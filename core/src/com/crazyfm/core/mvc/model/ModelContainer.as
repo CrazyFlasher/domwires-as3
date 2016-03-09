@@ -255,6 +255,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function get modelList():Dictionary
 		{
+			//better to return copy, but in sake of performance, we do that way.
 			return _modelList;
 		}
 
