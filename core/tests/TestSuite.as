@@ -15,7 +15,6 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.system.System;
 
 	import org.flexunit.internals.TraceListener;
 	import org.flexunit.listeners.CIListener;
@@ -57,7 +56,7 @@ package
 
 		private function flexunit_testsCompleteHandler(event:Event):void
 		{
-			System.exit(0);
+//			System.exit(0);
 		}
 	}
 }

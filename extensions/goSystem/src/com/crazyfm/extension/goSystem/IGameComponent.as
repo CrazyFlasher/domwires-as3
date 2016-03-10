@@ -5,8 +5,10 @@ package com.crazyfm.extension.goSystem
 {
 	import com.crazyfm.core.mvc.model.IModel;
 
-	public interface IGameComponent extends IModel
+	import starling.animation.IAnimatable;
+
+	public interface IGameComponent extends IModel, IAnimatable
 	{
-		function advanceTime(time:Number):void;
+
 	}
 }
