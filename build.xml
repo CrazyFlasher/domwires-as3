@@ -19,6 +19,10 @@
 		<!--copy todir="out/swc">
 			<fileset dir="extensions/starlingApp/out/swc"/>
 		</copy-->
+        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/goSystem" inheritall="false"/>
+        <!--copy todir="out/swc">
+            <fileset dir="extensions/goSystem/out/swc"/>
+        </copy-->
     </target>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
@@ -31,6 +35,7 @@
             <!--exclude-sources path-element="core/src/com/crazyfm/mvc/controller" /-->
             <!-- extensions -->
             <doc-sources path-element="extensions/starlingApp/src"/>
+            <doc-sources path-element="extensions/goSystem/src"/>
             <!-- external libs -->
             <external-library-path dir="${libs_path}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>

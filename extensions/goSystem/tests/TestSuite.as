@@ -3,14 +3,13 @@
  */
 package
 {
-	import com.crazyfm.extension.goSystem.tests.ComponentTest;
-	import com.crazyfm.extension.goSystem.tests.GameObjectTest;
+	import com.crazyfm.extension.goSystem.GameComponentTest;
+	import com.crazyfm.extension.goSystem.GameObjectTest;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.system.System;
 
 	import org.flexunit.internals.TraceListener;
 	import org.flexunit.listeners.CIListener;
@@ -19,8 +18,8 @@ package
 	public class TestSuite extends Sprite
 	{
 		public static const ALL_TESTS:Array = [
-			GameObjectTest,
-			ComponentTest
+				GameComponentTest,
+				GameObjectTest
 		];
 
 		private var _flexunit:FlexUnitCore;
@@ -47,7 +46,7 @@ package
 
 		private function flexunit_testsCompleteHandler(event:Event):void
 		{
-			System.exit(0);
+			//System.exit(0);
 		}
 	}
 }

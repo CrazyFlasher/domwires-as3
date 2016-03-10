@@ -5,14 +5,14 @@ package com.crazyfm.extension.goSystem
 {
 	import com.crazyfm.core.mvc.model.Model;
 
-	public class Component extends Model implements IComponent
+	public class GameComponent extends Model implements IGameComponent
 	{
-		public function Component()
+		public function GameComponent()
 		{
 			super();
 		}
 
-		public function update(time:Number):void
+		public function advanceTime(time:Number):void
 		{
 		}
 	}

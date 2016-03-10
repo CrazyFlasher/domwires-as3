@@ -5,8 +5,8 @@ package com.crazyfm.extension.goSystem
 {
 	import com.crazyfm.core.mvc.model.IModel;
 
-	public interface IComponent extends IModel
+	public interface IGameComponent extends IModel
 	{
-		function update(time:Number):void;
+		function advanceTime(time:Number):void;
 	}
 }

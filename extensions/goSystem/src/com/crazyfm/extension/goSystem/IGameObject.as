@@ -3,18 +3,14 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.IModelContainer;
+	import com.crazyfm.core.mvc.model.IContext;
 
-	import flash.utils.Dictionary;
+	import starling.animation.IAnimatable;
 
-	public interface IGameObject extends IModelContainer
+	public interface IGameObject extends IContext, IAnimatable
 	{
-		function addComponent(value:IComponent):void;
-		function addComponents(...values):void;
-		function removeComponent(value:IComponent):void;
-		function removeComponents(...values):void;
-		function removeAllComponents():void;
-		function get numComponents():int;
-		function get componentList():Dictionary;
+		function stopSimulation():void;
+		function startSimulation():void;
+		function get isSimulating():Boolean;
 	}
 }

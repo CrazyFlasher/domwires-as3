@@ -18,8 +18,8 @@ package com.crazyfm.core.mvc.model
 	 */
 	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
 	{
-		private var _modelList:Dictionary/*IModel, IModel*/
-		private var _bubbledSignalListeners:Dictionary;
+		protected var _modelList:Dictionary/*IModel, IModel*/
+		protected var _bubbledSignalListeners:Dictionary;
 
 		private var _numModels:int;
 

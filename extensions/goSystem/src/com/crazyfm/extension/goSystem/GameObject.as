@@ -3,114 +3,98 @@
  */
 package com.crazyfm.extension.goSystem
 {
+	import com.crazyfm.core.mvc.model.Context;
 	import com.crazyfm.core.mvc.model.IModel;
-	import com.crazyfm.core.mvc.model.ModelContainer;
 
-	import flash.utils.Dictionary;
+	import starling.animation.Juggler;
+	import starling.core.Starling;
 
-	import starling.animation.IAnimatable;
-
-	public class GameObject extends ModelContainer implements IGameObject, IAnimatable
+	public class GameObject extends Context implements IGameObject
 	{
-		private var _componentList:Dictionary/*IComponent, IComponent*/
-		private var _numComponents:int;
+		protected var juggler:Juggler;
 
-		public function GameObject()
+		public function GameObject(juggler:Juggler = null)
 		{
 			super();
-		}
 
-		public function addComponent(value:IComponent):void
-		{
-			addModel(value);
-
-			if (!_componentList)
+			if (juggler)
 			{
-				_componentList = new Dictionary();
+				this.juggler = juggler;
+			}else
+			{
+				this.juggler = Starling.juggler;
 			}
 
-			var added:Boolean = addChild(value, _componentList);
-
-			if (added)
-			{
-				_numComponents++;
-			}
+			init();
 		}
 
-		public function addComponents(...values):void
+		private function init():void
 		{
-			for (var i:int = 0; i < values.length; i++)
-			{
-				if (values[i] is IModel)
-				{
-					addModel(values[i] as IModel);
-				}
-				if (values[i] is IComponent)
-				{
-					addComponent(values[i]);
-				}else
-				{
-					throw new Error("Object is not IComponent: ", typeof(values[i]));
-				}
-			}
-		}
-
-		public function removeComponent(value:IComponent):void
-		{
-			removeModel(value);
-
-			var removed:Boolean = removeChild(value, _componentList);
-
-			if (removed)
-			{
-				_numComponents--;
-			}
-		}
-
-		public function removeComponents(...values):void
-		{
-			for (var i:int = 0; i < values.length; i++)
-			{
-				removeModel(values[i] as IModel, false);
-				removeComponent(values[i]);
-			}
-		}
-
-		public function removeAllComponents():void
-		{
-			removeAllModels();
-
-			if (_componentList)
-			{
-				_componentList = null;
-
-				_numComponents = 0;
-			}
-		}
-
-		override public function dispose():void
-		{
-			removeAllComponents();
-
-			super.dispose();
+			startSimulation();
 		}
 
 		public function advanceTime(time:Number):void
 		{
-			for (var component:* in componentList)
+			for (var model:* in _modelList)
 			{
-				(component as IComponent).update(time);
+				(model as IGameComponent).advanceTime(time);
 			}
 		}
 
-		public function get numComponents():int
+		override public function addModel(model:IModel):void
 		{
-			return _numComponents;
+			if (!(model is IGameComponent))
+			{
+				throw new Error("Model should implement IGameComponent!");
+			}
+
+			super.addModel(model);
 		}
 
-		public function get componentList():Dictionary
+		public function get isSimulating():Boolean
 		{
-			return _componentList;
+			return juggler != null && juggler.contains(this);
+		}
+
+		override public function dispose():void
+		{
+			if (juggler)
+			{
+				juggler.remove(this);
+				juggler = null;
+			}
+
+			super.dispose();
+		}
+
+		public function stopSimulation():void
+		{
+			if (isDisposed)
+			{
+				throw new Error("Object disposed!");
+			}
+
+			if (!juggler)
+			{
+				throw new Error("No juggler!");
+			}
+
+			juggler.remove(this);
+		}
+
+		public function startSimulation():void
+		{
+			if (isDisposed)
+			{
+				throw new Error("Object disposed!");
+			}
+
+			if (!juggler)
+			{
+				throw new Error("No juggler!");
+			}
+
+			juggler.add(this);
 		}
 	}
 }
