@@ -23,7 +23,7 @@ package com.crazyfm.core.mvc.model
 //		private var _injector:Injector;
 //		private var _signalTypeToCommandMappings:Vector.<MappingVo>;
 
-		private var _viewList:Dictionary/*IViewController, IViewController*/
+		protected var _viewList:Dictionary/*IViewController, IViewController*/
 
 		private var _numViewControllers:int;
 

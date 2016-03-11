@@ -4,7 +4,6 @@
 package com.crazyfm.extension.goSystem.common.components.physics
 {
 	import com.crazyfm.extension.goSystem.GameComponent;
-	import com.crazyfm.extension.goSystem.IGameComponent;
 
 	import nape.callbacks.CbEvent;
 	import nape.callbacks.CbType;
@@ -58,6 +57,8 @@ package com.crazyfm.extension.goSystem.common.components.physics
 		private function bodyPreCollisionHandler(preCollision:PreCallback):PreFlag
 		{
 			//TODO
+
+			return PreFlag.ACCEPT;
 		}
 
 		private function bodyCollisionBeginHandler(collision:InteractionCallback):void
