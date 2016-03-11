@@ -23,6 +23,10 @@
         <!--copy todir="out/swc">
             <fileset dir="extensions/goSystem/out/swc"/>
         </copy-->
+        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/physics" inheritall="false"/>
+        <!--copy todir="out/swc">
+            <fileset dir="extensions/physics/out/swc"/>
+        </copy-->
     </target>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
@@ -36,6 +40,7 @@
             <!-- extensions -->
             <doc-sources path-element="extensions/starlingApp/src"/>
             <doc-sources path-element="extensions/goSystem/src"/>
+            <doc-sources path-element="extensions/physics/src"/>
             <!-- external libs -->
             <external-library-path dir="${libs_path}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
