@@ -41,5 +41,13 @@ package com.crazyfm.extensions.physics
 		{
 			Assert.assertEquals(v.data.y, 10);
 		}
+
+		[Test]
+		public function testGetVertex():void
+		{
+			Assert.assertNotNull(v.vertex);
+			Assert.assertEquals(v.x, v.data.x);
+			Assert.assertEquals(v.y, v.data.y);
+		}
 	}
 }

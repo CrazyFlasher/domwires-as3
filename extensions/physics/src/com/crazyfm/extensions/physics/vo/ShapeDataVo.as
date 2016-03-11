@@ -5,16 +5,16 @@ package com.crazyfm.extensions.physics.vo
 {
 	public class ShapeDataVo
 	{
-		private var _verticesData:Vector.<VertexDataVo>;
+		private var _vertexDataList:Vector.<VertexDataVo>;
 
-		public function ShapeDataVo(verticesData:Vector.<VertexDataVo>)
+		public function ShapeDataVo(vertexDataList:Vector.<VertexDataVo>)
 		{
-			_verticesData = verticesData;
+			_vertexDataList = vertexDataList;
 		}
 
-		public function get verticesData():Vector.<VertexDataVo>
+		public function get vertexDataList():Vector.<VertexDataVo>
 		{
-			return _verticesData;
+			return _vertexDataList;
 		}
 	}
 }

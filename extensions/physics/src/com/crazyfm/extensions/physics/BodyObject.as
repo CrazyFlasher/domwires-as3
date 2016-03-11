@@ -14,38 +14,38 @@ package com.crazyfm.extensions.physics
 
 		private var _data:BodyDataVo;
 
-		private var _shapeDataList:Vector.<IShapeObject>;
+		private var _shapeObjectList:Vector.<IShapeObject>;
 
 		public function BodyObject()
 		{
 		}
 
-		public function get shapeDataList():Vector.<IShapeObject>
+		public function get shapeObjectList():Vector.<IShapeObject>
 		{
-			return _shapeDataList;
+			return _shapeObjectList;
 		}
 
 		public function set data(value:BodyDataVo):void
 		{
 			_data = value;
 
-			_shapeDataList = new <IShapeObject>[];
+			_shapeObjectList = new <IShapeObject>[];
 
-			for each (var shapeData:ShapeDataVo in _data.shapesData)
+			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
 				var shapeObject:IShapeObject = new ShapeObject();
 				shapeObject.data = shapeData;
-				_shapeDataList.push(shapeObject);
+				_shapeObjectList.push(shapeObject);
 			}
 
 			//TODO: body type
 			_body = new Body();
 
-			for (var i:int = 0; i < _shapeDataList.length; i++)
+			for (var i:int = 0; i < _shapeObjectList.length; i++)
 			{
-				for (var i2:int = 0; i2 < _shapeDataList[i].shapes.length; i2++)
+				for (var i2:int = 0; i2 < _shapeObjectList[i].shapes.length; i2++)
 				{
-					_body.shapes.add(_shapeDataList[i].shapes[i2]);
+					_body.shapes.add(_shapeObjectList[i].shapes[i2]);
 				}
 			}
 		}

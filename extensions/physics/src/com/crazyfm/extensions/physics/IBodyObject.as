@@ -9,7 +9,7 @@ package com.crazyfm.extensions.physics
 
 	public interface IBodyObject
 	{
-		function get shapeDataList():Vector.<IShapeObject>;
+		function get shapeObjectList():Vector.<IShapeObject>;
 		function set data(value:BodyDataVo):void;
 		function get data():BodyDataVo;
 		function get body():Body;

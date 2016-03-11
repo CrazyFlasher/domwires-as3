@@ -18,9 +18,9 @@ package com.crazyfm.extensions.physics
 		{
 			b = new BodyObject();
 			b.data = new BodyDataVo(new <ShapeDataVo>[
-					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(10, 10), new VertexDataVo(25, 30)]),
-					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(5, 7), new VertexDataVo(11, 17)]),
-					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(8, 12), new VertexDataVo(3, 28)])
+					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(10, 10), new VertexDataVo(25, 30), new VertexDataVo(10, 50)]),
+					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(60, 60), new VertexDataVo(75, 80), new VertexDataVo(60, 100)]),
+					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(110, 110), new VertexDataVo(125, 130), new VertexDataVo(110, 150)])
 			]);
 		}
 
@@ -33,17 +33,23 @@ package com.crazyfm.extensions.physics
 		[Test]
 		public function testShapes():void
 		{
-			Assert.assertEquals(b.shapes.length, 3);
-			Assert.assertEquals(b.shapes[0].vertices.length, 2);
-			Assert.assertEquals(b.shapes[1].vertices.length, 2);
-			Assert.assertEquals(b.shapes[0].vertices[0].x, 10);
-			Assert.assertEquals(b.shapes[2].vertices[1].y, 28);
+			Assert.assertEquals(b.shapeObjectList.length, 3);
+			Assert.assertEquals(b.shapeObjectList[0].vertexObjectList.length, 3);
+			Assert.assertEquals(b.shapeObjectList[1].vertexObjectList.length, 3);
+			Assert.assertEquals(b.shapeObjectList[0].vertexObjectList[0].x, 10);
+			Assert.assertEquals(b.shapeObjectList[2].vertexObjectList[1].y, 130);
 		}
 
 		[Test]
 		public function testData():void
 		{
 			Assert.assertNotNull(b.data);
+		}
+
+		[Test]
+		public function testGetBody():void
+		{
+			Assert.assertEquals(b.body.shapes.length, 3);
 		}
 	}
 }

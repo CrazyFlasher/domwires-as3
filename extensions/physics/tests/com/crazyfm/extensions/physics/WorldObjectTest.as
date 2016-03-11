@@ -53,9 +53,9 @@ package com.crazyfm.extensions.physics
 		[Test]
 		public function testBodies():void
 		{
-			Assert.assertEquals(w.bodies.length, 3);
-			Assert.assertEquals(w.bodies[1].shapes.length, 3);
-			Assert.assertEquals(w.bodies[2].shapes[1].vertices[0].x, 5);
+			Assert.assertEquals(w.bodyObjectList.length, 3);
+			Assert.assertEquals(w.bodyObjectList[1].shapeObjectList.length, 3);
+			Assert.assertEquals(w.bodyObjectList[2].shapeObjectList[1].vertexObjectList[0].x, 5);
 		}
 	}
 }

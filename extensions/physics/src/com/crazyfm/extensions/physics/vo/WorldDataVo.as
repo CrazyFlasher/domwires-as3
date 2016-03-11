@@ -5,16 +5,16 @@ package com.crazyfm.extensions.physics.vo
 {
 	public class WorldDataVo
 	{
-		private var _bodiesData:Vector.<BodyDataVo>;
+		private var _bodyDataList:Vector.<BodyDataVo>;
 
-		public function WorldDataVo(bodiesData:Vector.<BodyDataVo>)
+		public function WorldDataVo(bodyDataList:Vector.<BodyDataVo>)
 		{
-			_bodiesData = bodiesData;
+			_bodyDataList = bodyDataList;
 		}
 
-		public function get bodiesData():Vector.<BodyDataVo>
+		public function get bodyDataList():Vector.<BodyDataVo>
 		{
-			return _bodiesData;
+			return _bodyDataList;
 		}
 	}
 }

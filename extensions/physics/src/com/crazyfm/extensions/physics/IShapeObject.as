@@ -9,7 +9,7 @@ package com.crazyfm.extensions.physics
 
 	public interface IShapeObject
 	{
-		function get verticesDataList():Vector.<IVertexObject>;
+		function get vertexObjectList():Vector.<IVertexObject>;
 		function set data(value:ShapeDataVo):void;
 		function get data():ShapeDataVo;
 		function get shapes():Vector.<Shape>;

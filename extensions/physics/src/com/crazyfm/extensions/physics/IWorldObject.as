@@ -11,8 +11,7 @@ package com.crazyfm.extensions.physics
 	{
 		function set data(value:WorldDataVo):void;
 		function get data():WorldDataVo;
-		function get bodiesDataList():Vector.<IBodyObject>;
-		function get bodies():Vector.<Body>;
+		function get bodyObjectList():Vector.<IBodyObject>;
 		//TODO: get joints
 	}
 }

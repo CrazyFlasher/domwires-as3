@@ -31,6 +31,8 @@ package com.crazyfm.extensions.physics
 		public function set data(value:VertexDataVo):void
 		{
 			_data = value;
+
+			_vertex = new Vec2(value.x, value.y);
 		}
 
 		public function get data():VertexDataVo

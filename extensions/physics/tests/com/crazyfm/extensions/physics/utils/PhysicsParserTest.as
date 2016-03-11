@@ -45,11 +45,11 @@ package com.crazyfm.extensions.physics.utils
 
 			var w:WorldDataVo = PhysicsParser.parseWorld(obj);
 
-			Assert.assertEquals(w.bodiesData.length, 1);
-			Assert.assertEquals(w.bodiesData[0].shapesData.length, 1);
-			Assert.assertEquals(w.bodiesData[0].shapesData[0].verticesData.length, 1);
-			Assert.assertEquals(w.bodiesData[0].shapesData[0].verticesData[0].x, 5);
-			Assert.assertEquals(w.bodiesData[0].shapesData[0].verticesData[0].y, 7);
+			Assert.assertEquals(w.bodyDataList.length, 1);
+			Assert.assertEquals(w.bodyDataList[0].shapeDataList.length, 1);
+			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList.length, 1);
+			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList[0].x, 5);
+			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList[0].y, 7);
 		}
 	}
 }

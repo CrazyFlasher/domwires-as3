@@ -8,6 +8,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.geom.GeomPoly;
 	import nape.geom.GeomPolyList;
+	import nape.geom.Vec2;
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
 
@@ -17,33 +18,36 @@ package com.crazyfm.extensions.physics
 
 		private var _data:ShapeDataVo;
 
-		private var _verticesDataList:Vector.<IVertexObject>;
+		private var _vertexObjectList:Vector.<IVertexObject>;
 
 		public function ShapeObject()
 		{
 		}
 
-		public function get verticesDataList():Vector.<IVertexObject>
+		public function get vertexObjectList():Vector.<IVertexObject>
 		{
-			return _verticesDataList;
+			return _vertexObjectList;
 		}
 
 		public function set data(value:ShapeDataVo):void
 		{
 			_data = value;
 
-			_verticesDataList = new <IVertexObject>[];
+			_vertexObjectList = new <IVertexObject>[];
+			var verticesVec2:Vector.<Vec2> = new <Vec2>[];
 
-			for each (var vertexData:VertexDataVo in _data.verticesData)
+			for each (var vertexData:VertexDataVo in _data.vertexDataList)
 			{
 				var vertexObject:IVertexObject = new VertexObject();
 				vertexObject.data = vertexData;
-				_verticesDataList.push(vertexObject);
+
+				_vertexObjectList.push(vertexObject);
+				verticesVec2.push(vertexObject.vertex);
 			}
 
 			_shapes = new <Shape>[];
 
-			var geom:GeomPoly = new GeomPoly(_verticesDataList);
+			var geom:GeomPoly = new GeomPoly(verticesVec2);
 			var geomList:GeomPolyList = geom.convexDecomposition();
 			geomList.foreach(function(gp:GeomPoly):void {
 				var poly:Polygon = new Polygon(gp);

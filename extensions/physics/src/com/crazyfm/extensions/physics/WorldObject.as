@@ -12,28 +12,23 @@ package com.crazyfm.extensions.physics
 	{
 		private var _data:WorldDataVo;
 
-		private var _bodiesDataList:Vector.<IBodyObject>;
+		private var _bodyObjectList:Vector.<IBodyObject>;
 
 		public function WorldObject()
 		{
-		}
-
-		public function get bodiesDataList():Vector.<IBodyObject>
-		{
-			return _bodiesDataList;
 		}
 
 		public function set data(value:WorldDataVo):void
 		{
 			_data = value;
 
-			_bodiesDataList = new <IBodyObject>[];
+			_bodyObjectList = new <IBodyObject>[];
 
-			for each (var bodyData:BodyDataVo in _data.bodiesData)
+			for each (var bodyData:BodyDataVo in _data.bodyDataList)
 			{
 				var bodyObject:IBodyObject = new BodyObject();
 				bodyObject.data = bodyData;
-				_bodiesDataList.push(bodyObject);
+				_bodyObjectList.push(bodyObject);
 			}
 		}
 
@@ -42,9 +37,9 @@ package com.crazyfm.extensions.physics
 			return _data;
 		}
 
-		public function get bodies():Vector.<Body>
+		public function get bodyObjectList():Vector.<IBodyObject>
 		{
-			return null;
+			return _bodyObjectList;
 		}
 	}
 }
