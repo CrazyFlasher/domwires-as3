@@ -41,14 +41,14 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testNumModels():void
 		{
-			mc.addModels(m1, m2, m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 			Assert.assertEquals(mc.numModels, 3);
 		}
 
 		[Test]
 		public function testRemoveModel():void
 		{
-			mc.addModels(m1, m2, m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 			mc.removeModel(m1);
 			Assert.assertEquals(mc.numModels, 2);
 			Assert.assertNull(m1.parent);
@@ -61,7 +61,7 @@ package com.crazyfm.core.mvc
 			Assert.assertFalse(mc.containsModel(m2));
 			Assert.assertFalse(mc.containsModel(m3));
 
-			mc.addModels(m1, m2, m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 			Assert.assertTrue(mc.containsModel(m1));
 			Assert.assertTrue(mc.containsModel(m2));
 			Assert.assertTrue(mc.containsModel(m3));
@@ -88,15 +88,14 @@ package com.crazyfm.core.mvc
 		public function testAddModels():void
 		{
 			Assert.assertEquals(mc.numModels, 0);
-			mc.addModels(m1, m2, m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 			Assert.assertEquals(mc.numModels, 3);
 		}
 
 		[Test]
 		public function testDispose():void
 		{
-			mc.addModels(m1, m2);
-			mc.addModel(m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 
 			var listener:Function = function(event:ISignalEvent):void {};
 			mc.addSignalListener("test", listener);
@@ -117,8 +116,7 @@ package com.crazyfm.core.mvc
 		{
 			Assert.assertEquals(mc.numModels, 0);
 
-			mc.addModels(m1, m2);
-			mc.addModel(m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 
 			Assert.assertNotNull(m1.parent);
 			Assert.assertNotNull(m2.parent);
@@ -169,9 +167,8 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testRemoveModels():void
 		{
-			mc.addModels(m1, m2);
-			mc.addModel(m3);
-			mc.removeModels(false, m2, m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
+			mc.removeModel(m2).removeModel(m3);
 
 			Assert.assertEquals(mc.numModels, 1);
 			Assert.assertTrue(mc.containsModel(m1));
@@ -182,7 +179,7 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function disposeWithAllChildren():void
 		{
-			mc.addModels(m1, m2, m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 			mc.disposeWithAllChildren();
 
 			Assert.assertTrue(m1.isDisposed);
@@ -207,12 +204,6 @@ package com.crazyfm.core.mvc
 			mc2.disposeWithAllChildren();
 		}
 
-		[Test(expects="Error")]
-		public function testAddWrongType():void
-		{
-			mc.addModels(new Sprite());
-		}
-
 		[Test]
 		public function testDispatchSignalToChildren_2_LevelHierarchy():void
 		{
@@ -222,7 +213,7 @@ package com.crazyfm.core.mvc
 			 * 	 m1  m2  m3
 			 */
 
-			mc.addModels(m1, m2, m3);
+			mc.addModel(m1).addModel(m2).addModel(m3);
 
 			var receivedSignalCount:int;
 			var listener:Function = function(event:ISignalEvent):void{
@@ -261,7 +252,7 @@ package com.crazyfm.core.mvc
 			var mc2:IModelContainer = new ModelContainer();
 			mc.addModel(m1);
 			mc.addModel(mc2);
-			mc2.addModels(m2, m3);
+			mc.addModel(m2).addModel(m3);
 
 			var mc2_received:Boolean;
 			var m1_received:Boolean;

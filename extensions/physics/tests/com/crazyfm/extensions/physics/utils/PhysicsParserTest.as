@@ -27,14 +27,24 @@ package com.crazyfm.extensions.physics.utils
 		{
 			var obj:Object =
 			{
-				bodies:[
+				bodies: [
 					{
-						shapes:[
+						name: "body_1",
+						type: "dynamic",
+						x: 0,
+						y: 0,
+						angle: 0,
+						shapes: [
 							{
-								vertices:[
+								name: "shape_1",
+								material: {elasticity: 0.0, dynamicFriction: 1.0, staticFriction: 2.0, density: 1, rollingFriction: NaN},
+								x: 0,
+								y: 0,
+								angle: 0,
+								vertices: [
 									{
-										x:5,
-										y:7
+										x: 5,
+										y: 7
 									}
 								]
 							}

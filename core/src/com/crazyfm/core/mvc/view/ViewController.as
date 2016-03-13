@@ -13,7 +13,7 @@ package com.crazyfm.core.mvc.view
 	 */
 	public class ViewController extends HierarchyObject implements IViewController
 	{
-		protected var _container:DisplayObjectContainer;
+		protected var container:DisplayObjectContainer;
 
 		/**
 		 * Constructs new view controller object, that is used to work with flash display list objects.
@@ -23,7 +23,7 @@ package com.crazyfm.core.mvc.view
 		{
 			super();
 
-			_container = container;
+			this.container = container;
 		}
 
 		/**
@@ -31,7 +31,7 @@ package com.crazyfm.core.mvc.view
 		 */
 		override public function dispose():void
 		{
-			_container = null;
+			container = null;
 
 			super.dispose();
 		}

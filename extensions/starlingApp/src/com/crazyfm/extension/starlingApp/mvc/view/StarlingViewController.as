@@ -14,7 +14,7 @@ package com.crazyfm.extension.starlingApp.mvc.view
 	 */
 	public class StarlingViewController extends HierarchyObject implements IViewController
 	{
-		protected var _container:DisplayObjectContainer;
+		protected var container:DisplayObjectContainer;
 
 		/**
 		 * Constructs new view controller object, that is used to work with starling display list objects.
@@ -24,7 +24,7 @@ package com.crazyfm.extension.starlingApp.mvc.view
 		{
 			super();
 
-			_container = container;
+			this.container = container;
 		}
 	}
 }

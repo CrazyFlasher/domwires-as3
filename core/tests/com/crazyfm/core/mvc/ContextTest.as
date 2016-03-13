@@ -48,7 +48,7 @@ package com.crazyfm.core.mvc
 			var v1:IViewController = new ViewController(new Sprite());
 			var v2:IViewController = new ViewController(new Sprite());
 			var v3:IViewController = new ViewController(new Sprite());
-			context.addViewControllers(v1, v2, v3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
 			Assert.assertEquals(context.numViewControllers, 3);
 		}
 
@@ -66,7 +66,7 @@ package com.crazyfm.core.mvc
 			var v1:IViewController = new ViewController(new Sprite());
 			var v2:IViewController = new ViewController(new Sprite());
 			var v3:IViewController = new ViewController(new Sprite());
-			context.addViewControllers(v1, v2, v3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
 			Assert.assertEquals(context.numViewControllers, 3);
 			context.removeAllViewControllers();
 			Assert.assertEquals(context.numViewControllers, 0)
@@ -78,7 +78,7 @@ package com.crazyfm.core.mvc
 			var v1:IViewController = new ViewController(new Sprite());
 			var v2:IViewController = new ViewController(new Sprite());
 			var v3:IViewController = new ViewController(new Sprite());
-			context.addViewControllers(v1, v2, v3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
 			Assert.assertEquals(context.numViewControllers, 3);
 			Assert.assertTrue(context.containsViewController(v1));
 			Assert.assertTrue(context.containsViewController(v2));
@@ -91,7 +91,7 @@ package com.crazyfm.core.mvc
 			var v1:IViewController = new ViewController(new Sprite());
 			var v2:IViewController = new ViewController(new Sprite());
 			var v3:IViewController = new ViewController(new Sprite());
-			context.addViewControllers(v1, v2, v3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
 			Assert.assertTrue(context.containsViewController(v1));
 			Assert.assertTrue(context.containsViewController(v2));
 			Assert.assertTrue(context.containsViewController(v3));
@@ -103,9 +103,9 @@ package com.crazyfm.core.mvc
 			var v1:IViewController = new ViewController(new Sprite());
 			var v2:IViewController = new ViewController(new Sprite());
 			var v3:IViewController = new ViewController(new Sprite());
-			context.addViewControllers(v1, v2, v3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
 			Assert.assertEquals(context.numViewControllers, 3);
-			context.removeViewControllers(false, v1, v2, v3);
+			context.removeViewController(v1).removeViewController(v2).removeViewController(v3);
 			Assert.assertEquals(context.numViewControllers, 0)
 		}
 
@@ -118,8 +118,8 @@ package com.crazyfm.core.mvc
 			var m1:IModel = new Model();
 			var m2:IModel = new Model();
 			var m3:IModel = new Model();
-			context.addViewControllers(v1, v2, v3);
-			context.addModels(m1, m2, m3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
+			context.addModel(m1).addModel(m2).addModel(m3);
 			context.dispose();
 
 			Assert.assertEquals(context.numModels, 0);
@@ -142,8 +142,8 @@ package com.crazyfm.core.mvc
 			var m1:IModel = new Model();
 			var m2:IModel = new Model();
 			var m3:IModel = new Model();
-			context.addViewControllers(v1, v2, v3);
-			context.addModels(m1, m2, m3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
+			context.addModel(m1).addModel(m2).addModel(m3);
 			context.disposeWithAllChildren();
 
 			Assert.assertEquals(context.numModels, 0);
@@ -167,7 +167,7 @@ package com.crazyfm.core.mvc
 			var m1:IModel = new Model();
 			mc.addModel(m1);
 			context.addModel(mc);
-			context.addViewControllers(v1, v2, v3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
 
 			var viewsReceivedSignalCount:int;
 			var listener:Function = function(event:ISignalEvent):void{
@@ -189,7 +189,7 @@ package com.crazyfm.core.mvc
 			var v1:IViewController = new ViewController(new Sprite());
 			var v2:IViewController = new ViewController(new Sprite());
 			var v3:IViewController = new ViewController(new Sprite());
-			context.addViewControllers(v1, v2, v3);
+			context.addViewController(v1).addViewController(v2).addViewController(v3);
 
 			var receivedSignalFromViewsCount:int;
 			var listener:Function = function(event:ISignalEvent):void{
@@ -221,14 +221,6 @@ package com.crazyfm.core.mvc
 			Assert.assertEquals(context.numViewControllers, 0);
 
 			c2.disposeWithAllChildren();
-		}
-
-		[Test(expects="Error")]
-		public function testAddWrongType():void
-		{
-			var m1:IModel = new Model();
-
-			context.addViewControllers(m1);
 		}
 
 		/*[Test]

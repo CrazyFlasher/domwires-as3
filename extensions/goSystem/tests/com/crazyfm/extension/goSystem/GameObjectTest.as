@@ -1,16 +1,15 @@
 /**
- * Created by Anton Nefjodov on 10.03.2016.
+ * Created by Anton Nefjodov on 13.03.2016.
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.Model;
-
 	import flexunit.framework.Assert;
 
 	import starling.animation.Juggler;
 
 	public class GameObjectTest
 	{
+
 		private var go:IGameObject;
 
 		[Before]
@@ -22,7 +21,75 @@ package com.crazyfm.extension.goSystem
 		[After]
 		public function tearDown():void
 		{
+			go.disposeWithAllChildren();
+		}
+
+		[Test]
+		public function testRemoveComponent():void
+		{
+			Assert.assertEquals(go.numComponents, 0);
+			Assert.assertEquals(go.numModels, 0);
+
+			go.addComponent(new GameComponent());
+			Assert.assertEquals(go.numComponents, 1);
+			Assert.assertEquals(go.numModels, 1);
+		}
+
+		[Test]
+		public function testIsEnabled():void
+		{
+			Assert.assertTrue(go.isEnabled);
+		}
+
+		[Test]
+		public function testSetEnabled():void
+		{
+			go.setEnabled(false);
+			Assert.assertFalse(go.isEnabled);
+		}
+
+		[Test]
+		public function testGetComponentsByType():void
+		{
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new TestComponent();
+			go.addComponent(c).addComponent(c2);
+
+			Assert.assertEquals(go.getComponentsByType(TestComponent).length, 2);
+		}
+
+		[Test]
+		public function testDispose():void
+		{
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new TestComponent();
+			var c3:IGameComponent = new GameComponent();
+			go.addComponent(c).addComponent(c2).addComponent(c3);
 			go.dispose();
+
+			Assert.assertTrue(go.isDisposed);
+			Assert.assertEquals(go.numComponents, 0);
+			Assert.assertEquals(go.numModels, 0);
+			Assert.assertFalse(c.isDisposed);
+			Assert.assertFalse(c2.isDisposed);
+			Assert.assertFalse(c3.isDisposed);
+		}
+
+		[Test]
+		public function testDisposeWithAllChildren():void
+		{
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new TestComponent();
+			var c3:IGameComponent = new GameComponent();
+			go.addComponent(c).addComponent(c2).addComponent(c3);
+			go.disposeWithAllChildren();
+
+			Assert.assertTrue(go.isDisposed);
+			Assert.assertEquals(go.numComponents, 0);
+			Assert.assertEquals(go.numModels, 0);
+			Assert.assertTrue(c.isDisposed);
+			Assert.assertTrue(c2.isDisposed);
+			Assert.assertTrue(c3.isDisposed);
 		}
 
 		[Test]
@@ -32,69 +99,87 @@ package com.crazyfm.extension.goSystem
 		}
 
 		[Test]
-		public function testAddModel():void
+		public function testContainsComponent():void
 		{
-			go.addModel(new GameComponent());
-			Assert.assertEquals(go.numModels, 1);
-		}
-
-		[Test(expects='Error')]
-		public function testAddModelWrongType():void
-		{
-			go.addModel(new Model());
-		}
-
-		[Test]
-		public function testStopSimulation():void
-		{
-			Assert.assertTrue(go.isSimulating);
-			go.stopSimulation();
-			Assert.assertFalse(go.isSimulating);
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new TestComponent();
+			var c3:IGameComponent = new GameComponent();
+			Assert.assertFalse(go.containsComponent(c));
+			go.addComponent(c).addComponent(c2).addComponent(c3);
+			Assert.assertTrue(go.containsComponent(c));
+			Assert.assertTrue(go.containsComponent(c2));
+			Assert.assertTrue(go.containsComponent(c3));
 		}
 
 		[Test]
-		public function testStartSimulation():void
+		public function testNumComponents():void
 		{
-			Assert.assertTrue(go.isSimulating);
-			go.stopSimulation();
-			Assert.assertFalse(go.isSimulating);
-			go.startSimulation();
-			Assert.assertTrue(go.isSimulating);
-		}
-
-		[Test(expects='Error')]
-		public function testStopSimulation_noJuggler():void
-		{
-			go = new GameObject();
-			go.stopSimulation();
-		}
-
-		[Test(expects='Error')]
-		public function testStartSimulation_noJuggler():void
-		{
-			go = new GameObject();
-			go.startSimulation();
+			Assert.assertEquals(go.numComponents, 0);
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new TestComponent();
+			var c3:IGameComponent = new GameComponent();
+			go.addComponent(c).addComponent(c2).addComponent(c3);
+			Assert.assertEquals(go.numComponents, 3);
 		}
 
 		[Test]
-		public function testDispose():void
+		public function testRemoveAllComponents():void
 		{
-			go.dispose();
-			Assert.assertTrue(go.isDisposed);
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new TestComponent();
+			var c3:IGameComponent = new GameComponent();
+			Assert.assertNull(c.gameObject, c2.gameObject, c3.gameObject);
+
+			go.addComponent(c).addComponent(c2).addComponent(c3);
+			Assert.assertEquals(go.numComponents, 3);
+			Assert.assertEquals(c.parent, go);
+			Assert.assertEquals(c.gameObject, go);
+			go.removeAllComponents();
+			Assert.assertEquals(go.numComponents, 0);
+			Assert.assertNull(c.gameObject, c.parent);
 		}
 
-		[Test(expects='Error')]
-		public function testDispose_startSim():void
+		[Test]
+		public function testAddComponent():void
 		{
-			go.dispose();
-			go.startSimulation();
+			var c:IGameComponent = new TestComponent();
+			go.addComponent(c);
+			Assert.assertEquals(go.numComponents, 1);
+			Assert.assertEquals(c.gameObject, go);
+			Assert.assertEquals(c.parent, go);
 		}
 
-		[Test(expects='Error')]
-		public function testDispose_stopSim():void
+		[Test]
+		public function testComponentList():void
 		{
-			go.dispose();
-			go.stopSimulation();
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new TestComponent();
+			var c3:IGameComponent = new GameComponent();
+
+			Assert.assertNull(go.componentList);
+			go.addComponent(c).addComponent(c2).addComponent(c3);
+			Assert.assertNotNull(go.componentList);
 		}
+
+		[Test]
+		public function testGetComponentByType():void
+		{
+			var c:IGameComponent = new TestComponent();
+			var c2:IGameComponent = new GameComponent();
+			var c3:IGameComponent = new GameComponent();
+			go.addComponent(c).addComponent(c2).addComponent(c3);
+
+			Assert.assertEquals(go.getComponentByType(TestComponent), c);
+		}
+	}
+}
+
+import com.crazyfm.extension.goSystem.GameComponent;
+
+internal class TestComponent extends GameComponent
+{
+	public function TestComponent()
+	{
+		super();
 	}
 }

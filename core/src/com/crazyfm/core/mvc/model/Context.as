@@ -136,7 +136,7 @@ package com.crazyfm.core.mvc.model
 		 /**
 		 * @inheritDoc
 		 */
-		public function addViewController(viewController:IViewController):void
+		public function addViewController(viewController:IViewController):IContext
 		{
 			if (!_viewList)
 			{
@@ -155,29 +155,14 @@ package com.crazyfm.core.mvc.model
 				}
 				(viewController as HierarchyObject).setParent(this);
 			}
+
+			return this;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function addViewControllers(...viewControllers):void
-		{
-			for (var i:int = 0; i < viewControllers.length; i++)
-			{
-				if(viewControllers[i] is IViewController)
-				{
-					addViewController(viewControllers[i]);
-				}else
-				{
-					throw new Error("Object is not IViewController!");
-				}
-			}
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function removeViewController(viewController:IViewController, dispose:Boolean = false):void
+		public function removeViewController(viewController:IViewController, dispose:Boolean = false):IContext
 		{
 			var removed:Boolean = removeChild(viewController, _viewList);
 
@@ -193,23 +178,14 @@ package com.crazyfm.core.mvc.model
 					(viewController as ViewController).setParent(null);
 				}
 			}
+
+			return this;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function removeViewControllers(dispose:Boolean, ...viewControllers):void
-		{
-			for (var i:int = 0; i < viewControllers.length; i++)
-			{
-				removeViewController(viewControllers[i], dispose);
-			}
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function removeAllViewControllers(dispose:Boolean = false):void
+		public function removeAllViewControllers(dispose:Boolean = false):IContext
 		{
 			if (_viewList)
 			{
@@ -230,6 +206,8 @@ package com.crazyfm.core.mvc.model
 
 				_numViewControllers = 0;
 			}
+
+			return this;
 		}
 
 		/**

@@ -9,6 +9,6 @@ package com.crazyfm.extension.goSystem
 
 	public interface IGameComponent extends IModel, IAnimatable
 	{
-
+		function get gameObject():IGameObject;
 	}
 }

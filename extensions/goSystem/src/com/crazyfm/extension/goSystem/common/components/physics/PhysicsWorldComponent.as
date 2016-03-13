@@ -17,7 +17,7 @@ package com.crazyfm.extension.goSystem.common.components.physics
 	import nape.phys.Body;
 	import nape.space.Space;
 
-	public class NapePhysicsWorldComponent extends GameComponent implements INapePhysicsWorldComponent
+	public class PhysicsWorldComponent extends GameComponent implements IPhysicsWorldComponent
 	{
 		private var space:Space;
 
@@ -26,7 +26,7 @@ package com.crazyfm.extension.goSystem.common.components.physics
 		protected var gravityX:Number = 0;
 		protected var gravityY:Number = 9.8;
 
-		public function NapePhysicsWorldComponent()
+		public function PhysicsWorldComponent()
 		{
 			super();
 
@@ -63,8 +63,8 @@ package com.crazyfm.extension.goSystem.common.components.physics
 
 		private function bodyCollisionBeginHandler(collision:InteractionCallback):void
 		{
-			var po_1:INapePhysicsObjectComponent = (collision.int1 as Body).userData.clazz as INapePhysicsObjectComponent;
-			var po_2:INapePhysicsObjectComponent = (collision.int2 as Body).userData.clazz as INapePhysicsObjectComponent;
+			var po_1:IPhysicsObjectComponent = (collision.int1 as Body).userData.clazz as IPhysicsObjectComponent;
+			var po_2:IPhysicsObjectComponent = (collision.int2 as Body).userData.clazz as IPhysicsObjectComponent;
 
 			po_1.onBodyBeginCollision(collision);
 			po_2.onBodyBeginCollision(collision);

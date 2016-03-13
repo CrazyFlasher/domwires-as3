@@ -5,7 +5,7 @@ package com.crazyfm.extension.goSystem.common.components.physics
 {
 	import com.crazyfm.extension.goSystem.IGameComponent;
 
-	public interface INapePhysicsWorldComponent extends IGameComponent
+	public interface IPhysicsWorldComponent extends IGameComponent
 	{
 
 	}

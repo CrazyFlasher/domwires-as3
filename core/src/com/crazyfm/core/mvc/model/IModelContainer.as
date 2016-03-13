@@ -15,33 +15,20 @@ package com.crazyfm.core.mvc.model
 		 * Adds model to model list of current object.
 		 * @param model
 		 */
-		function addModel(model:IModel):void;
-
-		/**
-		 * Adds several model to model list of current object.
-		 * @param models
-		 */
-		function addModels(...models):void;
+		function addModel(model:IModel):IModelContainer;
 
 		/**
 		 * Removes model from model list of current object.
 		 * @param model
 		 * @param dispose
 		 */
-		function removeModel(model:IModel, dispose:Boolean = false):void;
-
-		/**
-		 * Removes several model from model list of current object.
-		 * @param dispose If true, then removed models will ne disposed
-		 * @param models
-		 */
-		function removeModels(dispose:Boolean, ...models):void;
+		function removeModel(model:IModel, dispose:Boolean = false):IModelContainer;
 
 		/**
 		 * Removes all models from model list of current object.
 		 * @param dispose If true, then removed models will ne disposed
 		 */
-		function removeAllModels(dispose:Boolean = false):void;
+		function removeAllModels(dispose:Boolean = false):IModelContainer;
 
 		/**
 		 * Returns number of added models to model list of current object.

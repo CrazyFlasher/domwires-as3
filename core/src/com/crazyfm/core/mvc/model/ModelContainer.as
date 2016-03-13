@@ -55,7 +55,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function addModel(model:IModel):void
+		public function addModel(model:IModel):IModelContainer
 		{
 			if (!_modelList)
 			{
@@ -74,29 +74,14 @@ package com.crazyfm.core.mvc.model
 				}
 				(model as HierarchyObject).setParent(this);
 			}
+
+			return this;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function addModels(...models):void
-		{
-			for (var i:int = 0; i < models.length; i++)
-			{
-				if (models[i] is IModel)
-				{
-					addModel(models[i]);
-				}else
-				{
-					throw new Error("Object is not IModel: ", typeof(models[i]));
-				}
-			}
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function removeModel(model:IModel, dispose:Boolean = false):void
+		public function removeModel(model:IModel, dispose:Boolean = false):IModelContainer
 		{
 			var removed:Boolean = removeChild(model, _modelList);
 
@@ -112,23 +97,14 @@ package com.crazyfm.core.mvc.model
 					(model as Model).setParent(null);
 				}
 			}
+
+			return this;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function removeModels(dispose:Boolean, ...models):void
-		{
-			for (var i:int = 0; i < models.length; i++)
-			{
-				removeModel(models[i], dispose);
-			}
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function removeAllModels(dispose:Boolean = false):void
+		public function removeAllModels(dispose:Boolean = false):IModelContainer
 		{
 			if (_modelList)
 			{
@@ -149,6 +125,8 @@ package com.crazyfm.core.mvc.model
 
 				_numModels = 0;
 			}
+
+			return this;
 		}
 
 		/**

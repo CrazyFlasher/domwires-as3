@@ -14,6 +14,12 @@ package com.crazyfm.extension.goSystem
 
 		public function advanceTime(time:Number):void
 		{
+
+		}
+
+		public function get gameObject():IGameObject
+		{
+			return parent as IGameObject;
 		}
 	}
 }

@@ -4,13 +4,11 @@
 package com.crazyfm.extension.goSystem.common.components.physics
 {
 	import com.crazyfm.extension.goSystem.IGameComponent;
-	import com.crazyfm.extension.goSystem.common.components.view.IViewComponent;
 
 	import nape.callbacks.InteractionCallback;
 
-	public interface INapePhysicsObjectComponent extends IGameComponent
+	public interface IPhysicsObjectComponent extends IGameComponent
 	{
 		function onBodyBeginCollision(collision:InteractionCallback):void;
-		function setView(value:IViewComponent):INapePhysicsObjectComponent;
 	}
 }
