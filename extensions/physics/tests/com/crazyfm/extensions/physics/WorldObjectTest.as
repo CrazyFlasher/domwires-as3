@@ -44,7 +44,7 @@ package com.crazyfm.extensions.physics
 		[After]
 		public function tearDown():void
 		{
-
+			w.space.clear();
 		}
 
 		[Test]
@@ -59,6 +59,13 @@ package com.crazyfm.extensions.physics
 			Assert.assertEquals(w.bodyObjectList.length, 3);
 			Assert.assertEquals(w.bodyObjectList[1].shapeObjectList.length, 3);
 			Assert.assertEquals(w.bodyObjectList[2].shapeObjectList[1].vertexObjectList[0].x, 60);
+		}
+
+		[Test]
+		public function testGetSpace():void
+		{
+			Assert.assertNotNull(w.space);
+			Assert.assertEquals(w.space.bodies.length, 3);
 		}
 	}
 }

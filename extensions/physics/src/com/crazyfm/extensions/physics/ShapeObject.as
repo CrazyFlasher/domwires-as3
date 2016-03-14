@@ -45,7 +45,7 @@ package com.crazyfm.extensions.physics
 				vertexObject.data = vertexData;
 
 				_vertexObjectList.push(vertexObject);
-				verticesVec2.push(new Vec2(vertexObject.vertex.x/* + _data.x*/, vertexObject.vertex.y/* + _data.y*/));
+				verticesVec2.push(new Vec2(vertexObject.vertex.x + _data.x, vertexObject.vertex.y + _data.y));
 			}
 
 			_shapes = new <Shape>[];

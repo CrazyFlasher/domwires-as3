@@ -6,7 +6,7 @@ package com.crazyfm.extensions.physics.vo
 	public class WorldDataVo
 	{
 		private var _id:String;
-		private var _gravity:GravityVo;
+		private var _gravity:GravityVo = new GravityVo();
 
 		private var _bodyDataList:Vector.<BodyDataVo>;
 
