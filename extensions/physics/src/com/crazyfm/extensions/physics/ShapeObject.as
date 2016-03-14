@@ -45,19 +45,19 @@ package com.crazyfm.extensions.physics
 				vertexObject.data = vertexData;
 
 				_vertexObjectList.push(vertexObject);
-				verticesVec2.push(new Vec2(vertexObject.vertex.x + _data.x, vertexObject.vertex.y + _data.y));
+				verticesVec2.push(new Vec2(vertexObject.vertex.x/* + _data.x*/, vertexObject.vertex.y/* + _data.y*/));
 			}
 
 			_shapes = new <Shape>[];
 
 			var geom:GeomPoly = new GeomPoly(verticesVec2);
 			var m:Mat23 = Mat23.rotation(_data.angle);
-			geom.transform(m);
+			//geom.transform(m);
 
 			var geomList:GeomPolyList = geom.convexDecomposition();
 			var materialData:ShapeMaterialVo = _data.material;
 			var material:Material = new Material(materialData.elasticity, materialData.dynamicFriction,
-					materialData.staticFriction, materialData.density, materialData.rollingFriction);
+						materialData.staticFriction, materialData.density, materialData.rollingFriction);
 
 			geomList.foreach(function(gp:GeomPoly):void {
 				var poly:Polygon = new Polygon(gp);

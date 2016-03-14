@@ -17,11 +17,19 @@ package com.crazyfm.extensions.physics
 		public function setUp():void
 		{
 			b = new BodyObject();
-			b.data = new BodyDataVo(new <ShapeDataVo>[
-					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(10, 10), new VertexDataVo(25, 30), new VertexDataVo(10, 50)]),
-					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(60, 60), new VertexDataVo(75, 80), new VertexDataVo(60, 100)]),
-					new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(110, 110), new VertexDataVo(125, 130), new VertexDataVo(110, 150)])
-			]);
+
+			var s_1:ShapeDataVo = new ShapeDataVo();
+			var s_2:ShapeDataVo = new ShapeDataVo();
+			var s_3:ShapeDataVo = new ShapeDataVo();
+
+			s_1.vertexDataList = new <VertexDataVo>[new VertexDataVo(10, 10), new VertexDataVo(25, 30), new VertexDataVo(10, 50)];
+			s_2.vertexDataList = new <VertexDataVo>[new VertexDataVo(60, 60), new VertexDataVo(75, 80), new VertexDataVo(60, 100)];
+			s_3.vertexDataList = new <VertexDataVo>[new VertexDataVo(110, 110), new VertexDataVo(125, 130), new VertexDataVo(110, 150)];
+
+			var bd:BodyDataVo = new BodyDataVo();
+			bd.shapeDataList = new <ShapeDataVo>[s_1, s_2, s_3];
+
+			b.data = bd;
 		}
 
 		[After]

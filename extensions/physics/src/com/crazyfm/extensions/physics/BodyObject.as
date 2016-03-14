@@ -7,6 +7,7 @@ package com.crazyfm.extensions.physics
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 
 	import nape.phys.Body;
+	import nape.phys.BodyType;
 
 	public class BodyObject implements IBodyObject
 	{
@@ -38,8 +39,23 @@ package com.crazyfm.extensions.physics
 				_shapeObjectList.push(shapeObject);
 			}
 
-			//TODO: body type
-			_body = new Body();
+			var bodyType:BodyType;
+			switch(_data.type)
+			{
+				case BodyDataVo.TYPE_STATIC:
+					bodyType = BodyType.STATIC;
+					break;
+				case BodyDataVo.TYPE_KINEMATIC:
+					bodyType = BodyType.KINEMATIC;
+					break;
+				default:
+					bodyType = BodyType.DYNAMIC;
+					break;
+			}
+
+			_body = new Body(bodyType);
+			_body.position.setxy(_data.x, _data.y);
+			_body.rotation = _data.angle;
 
 			for (var i:int = 0; i < _shapeObjectList.length; i++)
 			{

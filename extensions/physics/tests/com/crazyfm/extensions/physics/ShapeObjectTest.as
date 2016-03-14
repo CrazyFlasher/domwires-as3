@@ -16,7 +16,10 @@ package com.crazyfm.extensions.physics
 		public function setUp():void
 		{
 			s = new ShapeObject();
-			s.data = new ShapeDataVo(new <VertexDataVo>[new VertexDataVo(0, 0), new VertexDataVo(10, 10), new VertexDataVo(50, 75)]);
+			var sd:ShapeDataVo = new ShapeDataVo();
+			sd.vertexDataList = new <VertexDataVo>[new VertexDataVo(0, 0), new VertexDataVo(10, 10), new VertexDataVo(50, 75)];
+			s.data = sd;
+
 		}
 
 		[After]

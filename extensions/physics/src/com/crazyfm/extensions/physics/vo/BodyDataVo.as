@@ -9,11 +9,11 @@ package com.crazyfm.extensions.physics.vo
 		public static const TYPE_DYNAMIC:String = "dynamic";
 		public static const TYPE_KINEMATIC:String = "kinematic";
 
-		private var _name:String;
-		private var _type:String;
-		private var _x:Number;
-		private var _y:String;
-		private var _angle:Number;
+		private var _id:String;
+		private var _type:String = "dynamic";
+		private var _x:Number = 0;
+		private var _y:Number = 0;
+		private var _angle:Number = 0;
 
 		private var _shapeDataList:Vector.<ShapeDataVo>;
 
@@ -31,14 +31,14 @@ package com.crazyfm.extensions.physics.vo
 			return _shapeDataList;
 		}
 
-		public function get name():String
+		public function get id():String
 		{
-			return _name;
+			return _id;
 		}
 
-		public function set name(value:String):void
+		public function set id(value:String):void
 		{
-			_name = value;
+			_id = value;
 		}
 
 		public function get type():String
@@ -61,12 +61,12 @@ package com.crazyfm.extensions.physics.vo
 			_x = value;
 		}
 
-		public function get y():String
+		public function get y():Number
 		{
 			return _y;
 		}
 
-		public function set y(value:String):void
+		public function set y(value:Number):void
 		{
 			_y = value;
 		}

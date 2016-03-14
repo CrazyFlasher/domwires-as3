@@ -5,11 +5,11 @@ package com.crazyfm.extensions.physics.vo
 {
 	public class ShapeDataVo
 	{
-		private var _name:String;
-		private var _material:ShapeMaterialVo;
-		private var _x:Number;
-		private var _y:Number;
-		private var _angle:Number;
+		private var _id:String;
+		private var _material:ShapeMaterialVo = new ShapeMaterialVo();
+		private var _x:Number = 0;
+		private var _y:Number = 0;
+		private var _angle:Number = 0;
 
 		private var _vertexDataList:Vector.<VertexDataVo>;
 
@@ -27,14 +27,14 @@ package com.crazyfm.extensions.physics.vo
 			_vertexDataList = value;
 		}
 
-		public function get name():String
+		public function get id():String
 		{
-			return _name;
+			return _id;
 		}
 
 		public function set name(value:String):void
 		{
-			_name = value;
+			_id = value;
 		}
 
 		public function get material():ShapeMaterialVo
@@ -75,6 +75,11 @@ package com.crazyfm.extensions.physics.vo
 		public function set angle(value:Number):void
 		{
 			_angle = value;
+		}
+
+		public function set id(value:String):void
+		{
+			_id = value;
 		}
 	}
 }
