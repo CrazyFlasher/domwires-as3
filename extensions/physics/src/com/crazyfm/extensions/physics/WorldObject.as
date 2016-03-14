@@ -6,10 +6,13 @@ package com.crazyfm.extensions.physics
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.WorldDataVo;
 
-	import nape.phys.Body;
+	import nape.space.Space;
 
 	public class WorldObject implements IWorldObject
 	{
+		//TODO: create space, update function, dispose
+		private var _space:Space;
+
 		private var _data:WorldDataVo;
 
 		private var _bodyObjectList:Vector.<IBodyObject>;

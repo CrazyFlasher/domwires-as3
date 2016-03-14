@@ -6,8 +6,7 @@ package com.crazyfm.extensions.physics.vo
 	public class WorldDataVo
 	{
 		private var _id:String;
-		private var _gravityX:Number;
-		private var _gravityY:Number;
+		private var _gravity:GravityVo;
 
 		private var _bodyDataList:Vector.<BodyDataVo>;
 
@@ -35,24 +34,14 @@ package com.crazyfm.extensions.physics.vo
 			_id = value;
 		}
 
-		public function get gravityX():Number
+		public function get gravity():GravityVo
 		{
-			return _gravityX;
+			return _gravity;
 		}
 
-		public function set gravityX(value:Number):void
+		public function set gravity(value:GravityVo):void
 		{
-			_gravityX = value;
-		}
-
-		public function get gravityY():Number
-		{
-			return _gravityY;
-		}
-
-		public function set gravityY(value:Number):void
-		{
-			_gravityY = value;
+			_gravity = value;
 		}
 	}
 }

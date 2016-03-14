@@ -3,6 +3,7 @@
  */
 package com.crazyfm.extensions.physics.utils
 {
+	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.WorldDataVo;
 
 	import flexunit.framework.Assert;
@@ -57,7 +58,10 @@ package com.crazyfm.extensions.physics.utils
 
 			var w:WorldDataVo = PhysicsParser.parseWorld(obj);
 
+			Assert.assertEquals(w.gravity.x, 0);
+			Assert.assertEquals(w.gravity.y, 9.8);
 			Assert.assertEquals(w.bodyDataList.length, 1);
+			Assert.assertEquals(w.bodyDataList[0].type, BodyDataVo.TYPE_DYNAMIC);
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList.length, 1);
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList.length, 1);
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList[0].x, 5);

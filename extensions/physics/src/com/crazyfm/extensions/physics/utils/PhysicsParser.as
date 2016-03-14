@@ -4,6 +4,7 @@
 package com.crazyfm.extensions.physics.utils
 {
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
+	import com.crazyfm.extensions.physics.vo.GravityVo;
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 	import com.crazyfm.extensions.physics.vo.VertexDataVo;
@@ -99,8 +100,7 @@ package com.crazyfm.extensions.physics.utils
 			var data:WorldDataVo = new WorldDataVo();
 			data.bodyDataList = bodies;
 			data.id = worldJson.id;
-			data.gravityX = worldJson.gravityX;
-			data.gravityY = worldJson.gravityY;
+			data.gravity = new GravityVo(worldJson.gravity.x, worldJson.gravity.y);
 
 			return data;
 		}
