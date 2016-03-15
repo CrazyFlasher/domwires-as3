@@ -14,6 +14,7 @@ package com.crazyfm.extensions.physics
 	import nape.geom.Mat23;
 	import nape.geom.Vec2;
 	import nape.phys.Material;
+	import nape.shape.Circle;
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
 
@@ -36,42 +37,56 @@ package com.crazyfm.extensions.physics
 
 		public function set data(value:ShapeDataVo):void
 		{
+			//TODO: a lot of tests
+
 			_data = value;
 
-			_vertexObjectList = new <IVertexObject>[];
-			var verticesVec2:Vector.<Vec2> = new <Vec2>[];
-
-			for each (var vertexData:VertexDataVo in _data.vertexDataList)
-			{
-				var vertexObject:IVertexObject = new VertexObject();
-				vertexObject.data = vertexData;
-
-				_vertexObjectList.push(vertexObject);
-				verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
-			}
-
-			_shapes = new <Shape>[];
-
-			var geom:GeomPoly = new GeomPoly(verticesVec2);
-			var m_1:Mat23 = Mat23.rotation(_data.angle);
-			var m_2:Mat23 = Mat23.translation(_data.x, _data.y);
-			geom.transform( m_1.concat(m_2));
-
-			var geomList:GeomPolyList = geom.convexDecomposition();
 			var materialData:ShapeMaterialVo = _data.material;
 			var material:Material = new Material(materialData.elasticity, materialData.dynamicFriction,
-						materialData.staticFriction, materialData.density, materialData.rollingFriction);
+					materialData.staticFriction, materialData.density, materialData.rollingFriction);
 
 			var filterData:InteractionFilterVo = _data.interactionFilter;
 			var filter:InteractionFilter = new InteractionFilter(filterData.collisionGroup, filterData.collisionMask,
 					filterData.sensorGroup, filterData.sensorMask, filterData.fluidGroup, filterData.fluidMask);
 
-			geomList.foreach(function(gp:GeomPoly):void {
-				var poly:Polygon = new Polygon(gp);
-				poly.material = material;
-				poly.filter = filter;
-				_shapes.push(poly);
-			});
+			if (isNaN(_data.radius))
+			{
+				_vertexObjectList = new <IVertexObject>[];
+				var verticesVec2:Vector.<Vec2> = new <Vec2>[];
+
+				for each (var vertexData:VertexDataVo in _data.vertexDataList)
+				{
+					var vertexObject:IVertexObject = new VertexObject();
+					vertexObject.data = vertexData;
+
+					_vertexObjectList.push(vertexObject);
+					verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
+				}
+
+				_shapes = new <Shape>[];
+
+				var geom:GeomPoly = new GeomPoly(verticesVec2);
+				var m_1:Mat23 = Mat23.rotation(_data.angle);
+				var m_2:Mat23 = Mat23.translation(_data.x, _data.y);
+				geom.transform( m_1.concat(m_2));
+
+				var geomList:GeomPolyList = geom.convexDecomposition();
+
+				geomList.foreach(function(gp:GeomPoly):void {
+					var poly:Polygon = new Polygon(gp);
+					poly.sensorEnabled = _data.sensor;
+					poly.material = material;
+					poly.filter = filter;
+					_shapes.push(poly);
+				});
+			}else
+			{
+				var circlePoly:Circle = new Circle(_data.radius);
+				circlePoly.sensorEnabled = _data.sensor;
+				circlePoly.material = material;
+				circlePoly.filter = filter;
+				_shapes.push(circlePoly);
+			}
 		}
 
 		public function get data():ShapeDataVo

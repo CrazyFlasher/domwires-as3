@@ -8,10 +8,13 @@ package com.crazyfm.extensions.physics.vo
 		private var _id:String;
 		private var _material:ShapeMaterialVo = new ShapeMaterialVo();
 		private var _interactionFilter:InteractionFilterVo = new InteractionFilterVo();
+		private var _sensor:Boolean = false;
+
 		private var _x:Number = 0;
 		private var _y:Number = 0;
 		private var _angle:Number = 0;
 
+		private var _radius:Number;
 		private var _vertexDataList:Vector.<VertexDataVo>;
 
 		public function ShapeDataVo()
@@ -91,6 +94,26 @@ package com.crazyfm.extensions.physics.vo
 		public function set interactionFilter(value:InteractionFilterVo):void
 		{
 			_interactionFilter = value;
+		}
+
+		public function get sensor():Boolean
+		{
+			return _sensor;
+		}
+
+		public function set sensor(value:Boolean):void
+		{
+			_sensor = value;
+		}
+
+		public function get radius():Number
+		{
+			return _radius;
+		}
+
+		public function set radius(value:Number):void
+		{
+			_radius = value;
 		}
 	}
 }

@@ -48,6 +48,7 @@ package com.crazyfm.extensions.physics.utils
 									fluidGroup: 1,
 									fluidMask: -1
 								},
+								sensor:false,
 								material: {elasticity: 0.0, dynamicFriction: 1.0, staticFriction: 2.0, density: 1, rollingFriction: NaN},
 								x: 0,
 								y: 0,
@@ -69,6 +70,7 @@ package com.crazyfm.extensions.physics.utils
 									fluidGroup: 1,
 									fluidMask: -1
 								},
+								sensor:false,
 								material: {elasticity: 0.0, dynamicFriction: 1.0, staticFriction: 2.0, density: 1, rollingFriction: NaN},
 								x: 0,
 								y: 0,
@@ -79,6 +81,14 @@ package com.crazyfm.extensions.physics.utils
 										y: 7
 									}
 								]
+							},
+							{
+								id: "shape_3",
+								sensor:true,
+								x: 0,
+								y: 0,
+								angle: 0,
+								radius:50
 							}
 						]
 					}
