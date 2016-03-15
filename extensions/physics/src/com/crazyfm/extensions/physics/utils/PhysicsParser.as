@@ -6,6 +6,7 @@ package com.crazyfm.extensions.physics.utils
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.GravityVo;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
+	import com.crazyfm.extensions.physics.vo.JointDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 	import com.crazyfm.extensions.physics.vo.VertexDataVo;
@@ -33,6 +34,10 @@ package com.crazyfm.extensions.physics.utils
 			var data:ShapeDataVo = new ShapeDataVo();
 			data.vertexDataList = vertices;
 			data.id = shapeJson.id;
+			if(shapeJson.radius != null)
+			{
+				data.radius = shapeJson.radius;
+			}else
 			if(shapeJson.x != null)
 			{
 				data.x = shapeJson.x;
@@ -137,6 +142,31 @@ package com.crazyfm.extensions.physics.utils
 			return data;
 		}
 
+		private static function parseJoint(jointJson:Object):JointDataVo
+		{
+			var data:JointDataVo = new JointDataVo();
+			data.id = jointJson.id;
+			if(jointJson.x != null)
+			{
+				data.x = jointJson.x;
+			}
+			if(jointJson.y != null)
+			{
+				data.y = jointJson.y;
+			}
+			if(jointJson.minAngle != null)
+			{
+				data.minAngle = jointJson.minAngle;
+			}
+			if(jointJson.maxAngle != null)
+			{
+				data.maxAngle = jointJson.maxAngle;
+			}
+			data.type = jointJson.type;
+
+			return data;
+		}
+
 		public static function parseWorld(worldJson:Object):WorldDataVo
 		{
 			var bodies:Vector.<BodyDataVo> = new <BodyDataVo>[];
@@ -146,8 +176,16 @@ package com.crazyfm.extensions.physics.utils
 				bodies.push(bodyData);
 			}
 
+			var joints:Vector.<JointDataVo> = new <JointDataVo>[];
+			for each (var jointJson:Object in worldJson.joints)
+			{
+				var jointData:JointDataVo = parseJoint(jointJson);
+				joints.push(jointData);
+			}
+
 			var data:WorldDataVo = new WorldDataVo();
 			data.bodyDataList = bodies;
+			data.jointDataList = joints;
 			data.id = worldJson.id;
 			data.gravity = new GravityVo(worldJson.gravity.x, worldJson.gravity.y);
 

@@ -9,6 +9,7 @@ package com.crazyfm.extensions.physics.vo
 		private var _gravity:GravityVo = new GravityVo();
 
 		private var _bodyDataList:Vector.<BodyDataVo>;
+		private var _jointDataList:Vector.<JointDataVo>;
 
 		public function WorldDataVo()
 		{
@@ -42,6 +43,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set gravity(value:GravityVo):void
 		{
 			_gravity = value;
+		}
+
+		public function get jointDataList():Vector.<JointDataVo>
+		{
+			return _jointDataList;
+		}
+
+		public function set jointDataList(value:Vector.<JointDataVo>):void
+		{
+			_jointDataList = value;
 		}
 	}
 }

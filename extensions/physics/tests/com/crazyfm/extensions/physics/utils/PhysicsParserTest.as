@@ -30,6 +30,16 @@ package com.crazyfm.extensions.physics.utils
 			{
 				id: "world_1",
 				gravity: {x: 0, y: 9.8},
+				joints :[
+					{
+						id:"joint_1",
+						type:"pivot",
+						x:10,
+						y:10,
+						minAngle:0,
+						maxAngle:Math.PI / 2
+					}
+				],
 				bodies: [
 					{
 						id: "body_1",
@@ -101,7 +111,7 @@ package com.crazyfm.extensions.physics.utils
 			Assert.assertEquals(w.gravity.y, 9.8);
 			Assert.assertEquals(w.bodyDataList.length, 1);
 			Assert.assertEquals(w.bodyDataList[0].type, BodyDataVo.TYPE_DYNAMIC);
-			Assert.assertEquals(w.bodyDataList[0].shapeDataList.length, 2);
+			Assert.assertEquals(w.bodyDataList[0].shapeDataList.length, 3);
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList.length, 1);
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList[0].x, 5);
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList[0].y, 7);

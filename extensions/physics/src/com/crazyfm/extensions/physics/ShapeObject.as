@@ -49,6 +49,8 @@ package com.crazyfm.extensions.physics
 			var filter:InteractionFilter = new InteractionFilter(filterData.collisionGroup, filterData.collisionMask,
 					filterData.sensorGroup, filterData.sensorMask, filterData.fluidGroup, filterData.fluidMask);
 
+			_shapes = new <Shape>[];
+
 			if (isNaN(_data.radius))
 			{
 				_vertexObjectList = new <IVertexObject>[];
@@ -62,8 +64,6 @@ package com.crazyfm.extensions.physics
 					_vertexObjectList.push(vertexObject);
 					verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
 				}
-
-				_shapes = new <Shape>[];
 
 				var geom:GeomPoly = new GeomPoly(verticesVec2);
 				var m_1:Mat23 = Mat23.rotation(_data.angle);
@@ -85,6 +85,7 @@ package com.crazyfm.extensions.physics
 				circlePoly.sensorEnabled = _data.sensor;
 				circlePoly.material = material;
 				circlePoly.filter = filter;
+				circlePoly.transform(Mat23.translation(_data.x + _data.radius, _data.y + _data.radius));
 				_shapes.push(circlePoly);
 			}
 		}

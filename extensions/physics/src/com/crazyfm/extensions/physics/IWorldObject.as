@@ -12,7 +12,7 @@ package com.crazyfm.extensions.physics
 		function set data(value:WorldDataVo):void;
 		function get data():WorldDataVo;
 		function get bodyObjectList():Vector.<IBodyObject>;
+		function get jointObjectList():Vector.<IJointObject>;
 		function get space():Space;
-		//TODO: get joints
 	}
 }

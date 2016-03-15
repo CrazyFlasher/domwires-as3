@@ -4,10 +4,11 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
+	import com.crazyfm.extensions.physics.vo.JointDataVo;
 	import com.crazyfm.extensions.physics.vo.WorldDataVo;
 
 	import nape.geom.Vec2;
-
+	import nape.phys.BodyList;
 	import nape.space.Space;
 
 	public class WorldObject implements IWorldObject
@@ -17,6 +18,7 @@ package com.crazyfm.extensions.physics
 		private var _data:WorldDataVo;
 
 		private var _bodyObjectList:Vector.<IBodyObject>;
+		private var _jointObjectList:Vector.<IJointObject>;
 
 		public function WorldObject()
 		{
@@ -40,6 +42,29 @@ package com.crazyfm.extensions.physics
 
 				_space.bodies.add(bodyObject.body);
 			}
+
+			_jointObjectList = new <IJointObject>[];
+
+			for each (var jointData:JointDataVo in _data.jointDataList)
+			{
+				var jointObject:IJointObject = new JointObject();
+				jointObject.data = jointData;
+
+				var bodiesUnderJoint:BodyList = getBodiesUnderJoint(jointObject.data.x, jointObject.data.y);
+				if(bodiesUnderJoint.length > 1)
+				{
+					jointObject.connect(bodiesUnderJoint.at(0), bodiesUnderJoint.at(1));
+				}
+
+				_jointObjectList.push(jointObject);
+
+				_space.constraints.add(jointObject.joint);
+			}
+		}
+
+		private function getBodiesUnderJoint(jointX:Number, jointY:Number):BodyList
+		{
+			return space.bodiesUnderPoint(new Vec2(jointX, jointY));
 		}
 
 		public function get data():WorldDataVo
@@ -55,6 +80,11 @@ package com.crazyfm.extensions.physics
 		public function get space():Space
 		{
 			return _space;
+		}
+
+		public function get jointObjectList():Vector.<IJointObject>
+		{
+			return _jointObjectList;
 		}
 	}
 }
