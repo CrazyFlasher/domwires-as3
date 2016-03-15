@@ -5,6 +5,7 @@ package com.crazyfm.extensions.physics.utils
 {
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.GravityVo;
+	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 	import com.crazyfm.extensions.physics.vo.VertexDataVo;
@@ -29,19 +30,8 @@ package com.crazyfm.extensions.physics.utils
 				vertices.push(vertexData);
 			}
 
-			var material:ShapeMaterialVo = new ShapeMaterialVo();
-			if(shapeJson.material)
-			{
-				material.elasticity = shapeJson.material.elasticity;
-				material.dynamicFriction = shapeJson.material.dynamicFriction;
-				material.staticFriction = shapeJson.material.staticFriction;
-				material.density = shapeJson.material.density;
-				material.rollingFriction = shapeJson.material.rollingFriction;
-			}
-
 			var data:ShapeDataVo = new ShapeDataVo();
 			data.vertexDataList = vertices;
-			data.material = material;
 			data.id = shapeJson.id;
 			if(shapeJson.x != null)
 			{
@@ -54,6 +44,65 @@ package com.crazyfm.extensions.physics.utils
 			if(shapeJson.angle != null)
 			{
 				data.angle = shapeJson.angle;
+			}
+
+
+			if(shapeJson.material)
+			{
+				var material:ShapeMaterialVo = new ShapeMaterialVo();
+				if(shapeJson.material.elasticity)
+				{
+					material.elasticity = shapeJson.material.elasticity;
+				}
+				if(shapeJson.material.dynamicFriction)
+				{
+					material.dynamicFriction = shapeJson.material.dynamicFriction;
+				}
+				if(shapeJson.material.staticFriction)
+				{
+					material.staticFriction = shapeJson.material.staticFriction;
+				}
+				if(shapeJson.material.density)
+				{
+					material.density = shapeJson.material.density;
+				}
+				if(shapeJson.material.rollingFriction)
+				{
+					material.rollingFriction = shapeJson.material.rollingFriction;
+				}
+
+				data.material = material;
+			}
+
+			if(shapeJson.filter)
+			{
+				var filter:InteractionFilterVo = new InteractionFilterVo();
+				if(shapeJson.filter.collisionGroup)
+				{
+					filter.collisionGroup = shapeJson.filter.collisionGroup;
+				}
+				if(shapeJson.filter.collisionMask)
+				{
+					filter.collisionMask = shapeJson.filter.collisionMask;
+				}
+				if(shapeJson.filter.sensorGroup)
+				{
+					filter.sensorGroup = shapeJson.filter.sensorGroup;
+				}
+				if(shapeJson.filter.sensorMask)
+				{
+					filter.sensorMask = shapeJson.filter.sensorMask;
+				}
+				if(shapeJson.filter.fluidGroup)
+				{
+					filter.fluidGroup = shapeJson.filter.fluidGroup;
+				}
+				if(shapeJson.filter.fluidMask)
+				{
+					filter.fluidMask = shapeJson.filter.fluidMask;
+				}
+
+				data.interactionFilter = filter;
 			}
 
 			return data;

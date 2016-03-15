@@ -3,10 +3,12 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 	import com.crazyfm.extensions.physics.vo.VertexDataVo;
 
+	import nape.dynamics.InteractionFilter;
 	import nape.geom.GeomPoly;
 	import nape.geom.GeomPolyList;
 	import nape.geom.Mat23;
@@ -45,23 +47,29 @@ package com.crazyfm.extensions.physics
 				vertexObject.data = vertexData;
 
 				_vertexObjectList.push(vertexObject);
-				verticesVec2.push(new Vec2(vertexObject.vertex.x + _data.x, vertexObject.vertex.y + _data.y));
+				verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
 			}
 
 			_shapes = new <Shape>[];
 
 			var geom:GeomPoly = new GeomPoly(verticesVec2);
-			var m:Mat23 = Mat23.rotation(_data.angle);
-			//geom.transform(m);
+			var m_1:Mat23 = Mat23.rotation(_data.angle);
+			var m_2:Mat23 = Mat23.translation(_data.x, _data.y);
+			geom.transform( m_1.concat(m_2));
 
 			var geomList:GeomPolyList = geom.convexDecomposition();
 			var materialData:ShapeMaterialVo = _data.material;
 			var material:Material = new Material(materialData.elasticity, materialData.dynamicFriction,
 						materialData.staticFriction, materialData.density, materialData.rollingFriction);
 
+			var filterData:InteractionFilterVo = _data.interactionFilter;
+			var filter:InteractionFilter = new InteractionFilter(filterData.collisionGroup, filterData.collisionMask,
+					filterData.sensorGroup, filterData.sensorMask, filterData.fluidGroup, filterData.fluidMask);
+
 			geomList.foreach(function(gp:GeomPoly):void {
 				var poly:Polygon = new Polygon(gp);
 				poly.material = material;
+				poly.filter = filter;
 				_shapes.push(poly);
 			});
 		}

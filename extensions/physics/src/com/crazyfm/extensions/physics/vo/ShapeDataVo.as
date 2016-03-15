@@ -7,6 +7,7 @@ package com.crazyfm.extensions.physics.vo
 	{
 		private var _id:String;
 		private var _material:ShapeMaterialVo = new ShapeMaterialVo();
+		private var _interactionFilter:InteractionFilterVo = new InteractionFilterVo();
 		private var _x:Number = 0;
 		private var _y:Number = 0;
 		private var _angle:Number = 0;
@@ -80,6 +81,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set id(value:String):void
 		{
 			_id = value;
+		}
+
+		public function get interactionFilter():InteractionFilterVo
+		{
+			return _interactionFilter;
+		}
+
+		public function set interactionFilter(value:InteractionFilterVo):void
+		{
+			_interactionFilter = value;
 		}
 	}
 }
