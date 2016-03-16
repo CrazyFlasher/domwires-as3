@@ -64,6 +64,7 @@ package com.crazyfm.extensions.physics
 					_body.shapes.add(_shapeObjectList[i].shapes[i2]);
 				}
 			}
+			_body.align();
 		}
 
 		public function get data():BodyDataVo

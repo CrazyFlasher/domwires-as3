@@ -53,8 +53,14 @@ package com.crazyfm.extensions.physics
 				var bodiesUnderJoint:BodyList = getBodiesUnderJoint(jointObject.data.x, jointObject.data.y);
 				if(bodiesUnderJoint.length > 1)
 				{
-					_space.constraints.add(jointObject.connect(bodiesUnderJoint.at(0), bodiesUnderJoint.at(1)));
-					_space.constraints.add(jointObject.joint);
+					jointObject.connect(bodiesUnderJoint.at(0), bodiesUnderJoint.at(1));
+
+					_space.constraints.add(jointObject.pivotJoint);
+
+					if (jointObject.angleJoint != null)
+					{
+						_space.constraints.add(jointObject.angleJoint);
+					}
 
 					_jointObjectList.push(jointObject);
 				}

@@ -15,7 +15,7 @@ package com.crazyfm.extensions.physics
 		private var _data:JointDataVo;
 
 		private var _angleJoint:AngleJoint;
-		private var _pivotJoint:AngleJoint;
+		private var _pivotJoint:PivotJoint;
 
 		public function JointObject()
 		{
@@ -33,24 +33,27 @@ package com.crazyfm.extensions.physics
 
 		public function connect(body_1:Body, body_2:Body):void
 		{
-			//_joint = new AngleJoint(body_1, body_2, _data.minAngle, _data.maxAngle, 1);
 			var anchor_1:Vec2 = body_1.worldPointToLocal(new Vec2(_data.x, _data.y), true);
 			var anchor_2:Vec2 = body_2.worldPointToLocal(new Vec2(_data.x, _data.y), true);
-			var pivotJoint:PivotJoint = new PivotJoint(body_1, body_2, anchor_1, anchor_2);
-			_joint = new AngleJoint(body_1, body_2, _data.minAngle, _data.maxAngle, 1);
-			_joint.ignore = true;
+			_pivotJoint = new PivotJoint(body_1, body_2, anchor_1, anchor_2);
+			_pivotJoint.ignore = true;
+			_pivotJoint.stiff = false;
 
-			return pivotJoint;
+			if (!isNaN(_data.minAngle) && !isNaN(_data.maxAngle))
+			{
+				_angleJoint = new AngleJoint(body_1, body_2, _data.minAngle, _data.maxAngle, 1);
+				_angleJoint.stiff = false;
+			}
 		}
 
 		public function get pivotJoint():PivotJoint
 		{
-			return null;
+			return _pivotJoint;
 		}
 
 		public function get angleJoint():AngleJoint
 		{
-			return null;
+			return _angleJoint;
 		}
 	}
 }

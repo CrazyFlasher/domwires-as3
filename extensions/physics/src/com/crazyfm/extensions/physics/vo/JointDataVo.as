@@ -7,8 +7,8 @@ package com.crazyfm.extensions.physics.vo
 	{
 		private var _x:Number = 0;
 		private var _y:Number = 0;
-		private var _minAngle:Number = 0;
-		private var _maxAngle:Number = 0;
+		private var _minAngle:Number;
+		private var _maxAngle:Number;
 		private var _id:String;
 		private var _type:String;
 
