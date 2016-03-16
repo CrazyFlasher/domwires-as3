@@ -13,8 +13,10 @@ package com.crazyfm.extensions.physics
 	public class JointObject implements IJointObject
 	{
 		private var _data:JointDataVo;
-		private var _joint:AngleJoint;
-		
+
+		private var _angleJoint:AngleJoint;
+		private var _pivotJoint:AngleJoint;
+
 		public function JointObject()
 		{
 		}
@@ -29,12 +31,7 @@ package com.crazyfm.extensions.physics
 			_data = value;
 		}
 
-		public function get joint():AngleJoint
-		{
-			return _joint;
-		}
-
-		public function connect(body_1:Body, body_2:Body):PivotJoint
+		public function connect(body_1:Body, body_2:Body):void
 		{
 			//_joint = new AngleJoint(body_1, body_2, _data.minAngle, _data.maxAngle, 1);
 			var anchor_1:Vec2 = body_1.worldPointToLocal(new Vec2(_data.x, _data.y), true);
@@ -44,6 +41,16 @@ package com.crazyfm.extensions.physics
 			_joint.ignore = true;
 
 			return pivotJoint;
+		}
+
+		public function get pivotJoint():PivotJoint
+		{
+			return null;
+		}
+
+		public function get angleJoint():AngleJoint
+		{
+			return null;
 		}
 	}
 }

@@ -13,7 +13,8 @@ package com.crazyfm.extensions.physics
 	{
 		function get data():JointDataVo;
 		function set data(value:JointDataVo):void;
-		function get joint():AngleJoint;
-		function connect(body_1:Body, body_2:Body):PivotJoint;
+		function get pivotJoint():PivotJoint;
+		function get angleJoint():AngleJoint;
+		function connect(body_1:Body, body_2:Body):void;
 	}
 }
