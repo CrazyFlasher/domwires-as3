@@ -53,12 +53,11 @@ package com.crazyfm.extensions.physics
 				var bodiesUnderJoint:BodyList = getBodiesUnderJoint(jointObject.data.x, jointObject.data.y);
 				if(bodiesUnderJoint.length > 1)
 				{
-					jointObject.connect(bodiesUnderJoint.at(0), bodiesUnderJoint.at(1));
+					_space.constraints.add(jointObject.connect(bodiesUnderJoint.at(0), bodiesUnderJoint.at(1)));
+					_space.constraints.add(jointObject.joint);
+
+					_jointObjectList.push(jointObject);
 				}
-
-				_jointObjectList.push(jointObject);
-
-				_space.constraints.add(jointObject.joint);
 			}
 		}
 

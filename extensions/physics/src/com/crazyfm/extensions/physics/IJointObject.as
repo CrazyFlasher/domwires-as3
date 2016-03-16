@@ -6,7 +6,7 @@ package com.crazyfm.extensions.physics
 	import com.crazyfm.extensions.physics.vo.JointDataVo;
 
 	import nape.constraint.AngleJoint;
-
+	import nape.constraint.PivotJoint;
 	import nape.phys.Body;
 
 	public interface IJointObject
@@ -14,6 +14,6 @@ package com.crazyfm.extensions.physics
 		function get data():JointDataVo;
 		function set data(value:JointDataVo):void;
 		function get joint():AngleJoint;
-		function connect(body_1:Body, body_2:Body):void;
+		function connect(body_1:Body, body_2:Body):PivotJoint;
 	}
 }

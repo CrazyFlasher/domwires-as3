@@ -7,6 +7,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.constraint.AngleJoint;
 	import nape.constraint.PivotJoint;
+	import nape.geom.Vec2;
 	import nape.phys.Body;
 
 	public class JointObject implements IJointObject
@@ -33,10 +34,16 @@ package com.crazyfm.extensions.physics
 			return _joint;
 		}
 
-		public function connect(body_1:Body, body_2:Body):void
+		public function connect(body_1:Body, body_2:Body):PivotJoint
 		{
+			//_joint = new AngleJoint(body_1, body_2, _data.minAngle, _data.maxAngle, 1);
+			var anchor_1:Vec2 = body_1.worldPointToLocal(new Vec2(_data.x, _data.y), true);
+			var anchor_2:Vec2 = body_2.worldPointToLocal(new Vec2(_data.x, _data.y), true);
+			var pivotJoint:PivotJoint = new PivotJoint(body_1, body_2, anchor_1, anchor_2);
 			_joint = new AngleJoint(body_1, body_2, _data.minAngle, _data.maxAngle, 1);
 			_joint.ignore = true;
+
+			return pivotJoint;
 		}
 	}
 }
