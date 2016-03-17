@@ -162,6 +162,15 @@ package com.crazyfm.extensions.physics.utils
 			{
 				data.maxAngle = jointJson.maxAngle;
 			}
+			if(jointJson.bodies != null && jointJson.bodies.length > 0)
+			{
+				data.bodyToConnectIdList = new <String>[];
+
+				for each (var bodyId:String in jointJson.bodies)
+				{
+					data.bodyToConnectIdList.push(bodyId);
+				}
+			}
 			data.type = jointJson.type;
 
 			return data;

@@ -37,7 +37,7 @@ package com.crazyfm.extensions.physics
 			var anchor_2:Vec2 = body_2.worldPointToLocal(new Vec2(_data.x, _data.y), true);
 			_pivotJoint = new PivotJoint(body_1, body_2, anchor_1, anchor_2);
 			_pivotJoint.ignore = true;
-			_pivotJoint.stiff = false;
+			//_pivotJoint.stiff = false;
 
 			if (!isNaN(_data.minAngle) && !isNaN(_data.maxAngle))
 			{

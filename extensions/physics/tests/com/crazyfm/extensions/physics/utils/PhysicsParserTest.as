@@ -29,7 +29,7 @@ package com.crazyfm.extensions.physics.utils
 			var obj:Object =
 			{
 				id: "world_1",
-				gravity: {x: 0, y: 9.8},
+				gravity: {x: 0, y: 100},
 				joints :[
 					{
 						id:"joint_1",
@@ -37,7 +37,8 @@ package com.crazyfm.extensions.physics.utils
 						x:10,
 						y:10,
 						minAngle:0,
-						maxAngle:Math.PI / 2
+						maxAngle:Math.PI / 2,
+						bodies:["body_1", "$world"]
 					}
 				],
 				bodies: [

@@ -8,6 +8,7 @@ package com.crazyfm.extensions.physics
 	import com.crazyfm.extensions.physics.vo.WorldDataVo;
 
 	import nape.geom.Vec2;
+	import nape.phys.Body;
 	import nape.phys.BodyList;
 	import nape.space.Space;
 
@@ -50,10 +51,11 @@ package com.crazyfm.extensions.physics
 				var jointObject:IJointObject = new JointObject();
 				jointObject.data = jointData;
 
-				var bodiesUnderJoint:BodyList = getBodiesUnderJoint(jointObject.data.x, jointObject.data.y);
-				if(bodiesUnderJoint.length > 1)
+				var bodiesToConnect:Vector.<Body> = getBodiesToConnect(jointObject.data);
+
+				if(bodiesToConnect.length > 1)
 				{
-					jointObject.connect(bodiesUnderJoint.at(0), bodiesUnderJoint.at(1));
+					jointObject.connect(bodiesToConnect[0], bodiesToConnect[1]);
 
 					_space.constraints.add(jointObject.pivotJoint);
 
@@ -65,6 +67,40 @@ package com.crazyfm.extensions.physics
 					_jointObjectList.push(jointObject);
 				}
 			}
+		}
+
+		private function getBodiesToConnect(data:JointDataVo):Vector.<Body>
+		{
+			var bodiesToConnect:Vector.<Body> = new <Body>[];
+
+			if (data.bodyToConnectIdList && data.bodyToConnectIdList.length > 0)
+			{
+				for each (var bodyId:String in data.bodyToConnectIdList)
+				{
+					if (bodyId == "$world")
+					{
+						bodiesToConnect.push(_space.world);
+					}else
+					{
+						for each (var bodyObject:IBodyObject in _bodyObjectList)
+						{
+							if (bodyObject.data.id == bodyId)
+							{
+								bodiesToConnect.push(bodyObject.body);
+							}
+						}
+					}
+				}
+			}else
+			{
+				var bodiesUnderJoint:BodyList = getBodiesUnderJoint(data.x, data.y);
+				for (var i:int = 0; i < bodiesUnderJoint.length; i++)
+				{
+					bodiesToConnect.push(bodiesUnderJoint.at(i));
+				}
+			}
+
+			return bodiesToConnect;
 		}
 
 		private function getBodiesUnderJoint(jointX:Number, jointY:Number):BodyList

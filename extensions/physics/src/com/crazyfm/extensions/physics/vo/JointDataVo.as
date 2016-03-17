@@ -11,6 +11,7 @@ package com.crazyfm.extensions.physics.vo
 		private var _maxAngle:Number;
 		private var _id:String;
 		private var _type:String;
+		private var _bodyToConnectIdList:Vector.<String>;
 
 		public function JointDataVo()
 		{
@@ -74,6 +75,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set type(value:String):void
 		{
 			_type = value;
+		}
+
+		public function get bodyToConnectIdList():Vector.<String>
+		{
+			return _bodyToConnectIdList;
+		}
+
+		public function set bodyToConnectIdList(value:Vector.<String>):void
+		{
+			_bodyToConnectIdList = value;
 		}
 	}
 }
