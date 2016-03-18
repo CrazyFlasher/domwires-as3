@@ -8,35 +8,27 @@
 
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
-    <target name="package" depends="clean,build_all,asdoc"/>
-    <target name="build_all">
-        <echo>[build_all] Building core and all extensions...</echo>
+    <target name="package" depends="clean,build_all_modules,asdoc"/>
+    <target name="build_all_modules">
+        <echo>[build_all_modules] Building core and all extensions...</echo>
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/core" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/core" inheritall="false"/>
-		<!--copy todir="out/swc">
-			<fileset dir="core/out/swc"/>
-		</copy-->
+
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-		<!--copy todir="out/swc">
-			<fileset dir="extensions/starlingApp/out/swc"/>
-		</copy-->
+
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/goSystem" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/goSystem" inheritall="false"/>
-        <!--copy todir="out/swc">
-            <fileset dir="extensions/goSystem/out/swc"/>
-        </copy-->
+
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/physics" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/physics" inheritall="false"/>
-        <!--copy todir="out/swc">
-            <fileset dir="extensions/physics/out/swc"/>
-        </copy-->
+
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
-        <!--copy todir="out/swc">
-            <fileset dir="extensions/physics/out/swc"/>
-        </copy-->
     </target>
+    <!--target name="build_all_examples">
+        <echo>[build_all_examples] Building all examples...</echo>
+    </target-->
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating framework ASDOC documentation...</echo>
