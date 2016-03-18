@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
-<project name="crazyfm-ext-physics" basedir="." default="package">
-	
-	<property environment="env."/>
-	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
+<project name="crazyfm-ext-flashPhysicsEditor" basedir="." default="package">
+    <property environment="env."/>
+    <property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
 
-	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+    <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
     <property name="src" value="${basedir}/src"/>
     <property name="out" value="${basedir}/out"/>
@@ -15,29 +14,19 @@
     <property file="version.properties"/>
 
     <property name="ver.num" value="${build.release.number}.${build.major.number}.${build.minor.number}"/>
-	
-	<property name="swc_name" value="cfm-ext-physics-${ver.num}.swc"/>
 
-	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
+    <property name="swc_name" value="cfm-ext-flashPhysicsEditor-${ver.num}.swc"/>
 
+    <property name="jslf" value="${basedir}/tests/compile_fla.jsfl"/>
+    <property name="jslf_copy" value="${basedir}/tests/compile_fla_copy.jsfl"/>
+
+    <taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
     <target name="package" depends="clean,swc,copy_swc,test"/>
-    <target name="asdoc">
-        <echo>-----------------------------------</echo>
-        <echo>[asdoc] Generating physics extension ASDOC documentation...</echo>
-        <echo>-----------------------------------</echo>
-        <delete dir="${doc}"/>
-        <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
-            <doc-sources path-element="${src}"/>
-            <external-library-path dir="${libs_path}" includes="*"/>
-            <!--external-library-path dir="${as3-signals}" includes="*"/-->
-            <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller" /-->
-        </asdoc>
-    </target>
     <target name="swc">
         <echo>-----------------------------------</echo>
         <echo>[swc] Building physics extension SWC...</echo>
         <echo>-----------------------------------</echo>
-		<delete file="${libs_path}/crazyfm/${swc_name}"/>
+        <delete file="${libs_path}/crazyfm/${swc_name}"/>
         <compc output="${swc}/${swc_name}">
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
@@ -45,14 +34,17 @@
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </compc>
     </target>
-	<target name="copy_swc">
-		<copy file="${swc}/${swc_name}" todir="${libs_path}/crazyfm"/>
-	</target>
+    <target name="copy_swc">
+        <copy file="${swc}/${swc_name}" todir="${libs_path}/crazyfm"/>
+    </target>
     <target name="test">
+        <copy file="${jslf}" tofile="${jslf_copy}"/>
+        <replace file="${jslf_copy}" token="@@@" value="${basedir}/tests/"/>
+        <replace file="${jslf_copy}" token="\" value="/"/>
+        <exec executable="${flash_ide}">
+            <arg line="${jslf_copy}"/>
+        </exec>
         <mkdir dir="${out}/tests/report/html"/>
-        <echo>-----------------------------------</echo>
-        <echo>[test] Running Unit Tests...</echo>
-        <echo>-----------------------------------</echo>
         <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
             <arg value="${basedir}/tests/TestSuite.as"/>
             <arg value="-source-path+=${src}"/>
@@ -80,16 +72,14 @@
             <report format="frames" todir="${out}/tests/report/html"/>
         </junitreport>
         <fail if="flexunit.failure" message="Unit test(s) failed. See reports!"/>
-        <echo>-----------------------------------</echo>
-        <echo>[test] Finished running Unit Tests with success!</echo>
-        <echo>-----------------------------------</echo>
+        <delete file="${jslf_copy}" failonerror="false"/>
     </target>
     <target name="clean">
         <echo>-----------------------------------</echo>
         <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
         <delete failonerror="false">
-            <fileset dir="${libs_path}/crazyfm"  includes="cfm-ext-physics**"/>
+            <fileset dir="${libs_path}/crazyfm"  includes="cfm-ext-flashPhysicsEditor**"/>
         </delete>
         <delete dir="${out}"/>
     </target>

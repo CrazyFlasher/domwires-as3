@@ -13,6 +13,8 @@ package com.crazyfm.extensions.physics
 		function get data():WorldDataVo;
 		function get bodyObjectList():Vector.<IBodyObject>;
 		function get jointObjectList():Vector.<IJointObject>;
+		function bodyObjectById(id:String):IBodyObject;
+		function jointObjectById(id:String):IJointObject;
 		function get space():Space;
 	}
 }

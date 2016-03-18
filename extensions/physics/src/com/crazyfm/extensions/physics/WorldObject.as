@@ -127,5 +127,31 @@ package com.crazyfm.extensions.physics
 		{
 			return _jointObjectList;
 		}
+
+		public function bodyObjectById(id:String):IBodyObject
+		{
+			for each (var bodyObject:IBodyObject in _bodyObjectList)
+			{
+				if (bodyObject.data.id == id)
+				{
+					return bodyObject;
+				}
+			}
+
+			return null;
+		}
+
+		public function jointObjectById(id:String):IJointObject
+		{
+			for each (var jointObject:IJointObject in _jointObjectList)
+			{
+				if (jointObject.data.id == id)
+				{
+					return jointObject;
+				}
+			}
+
+			return null;
+		}
 	}
 }

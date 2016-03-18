@@ -109,7 +109,7 @@ package com.crazyfm.extensions.physics.utils
 			var w:WorldDataVo = PhysicsParser.parseWorld(obj);
 
 			Assert.assertEquals(w.gravity.x, 0);
-			Assert.assertEquals(w.gravity.y, 9.8);
+			Assert.assertEquals(w.gravity.y, 100);
 			Assert.assertEquals(w.bodyDataList.length, 1);
 			Assert.assertEquals(w.bodyDataList[0].type, BodyDataVo.TYPE_DYNAMIC);
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList.length, 3);

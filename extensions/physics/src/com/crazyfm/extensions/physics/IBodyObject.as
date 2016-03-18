@@ -13,5 +13,6 @@ package com.crazyfm.extensions.physics
 		function set data(value:BodyDataVo):void;
 		function get data():BodyDataVo;
 		function get body():Body;
+		function shapeObjectById(id:String):IShapeObject;
 	}
 }

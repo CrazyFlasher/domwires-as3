@@ -26,6 +26,19 @@ package com.crazyfm.extensions.physics
 			return _shapeObjectList;
 		}
 
+		public function shapeObjectById(id:String):IShapeObject
+		{
+			for each (var shapeObject:IShapeObject in _shapeObjectList)
+			{
+				if (shapeObject.data.id == id)
+				{
+					return shapeObject;
+				}
+			}
+
+			return null;
+		}
+
 		public function set data(value:BodyDataVo):void
 		{
 			_data = value;
