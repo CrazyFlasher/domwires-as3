@@ -3,10 +3,6 @@
  */
 package
 {
-	import com.crazyfm.extensions.physics.BodyObjectTest;
-	import com.crazyfm.extensions.physics.ShapeObjectTest;
-	import com.crazyfm.extensions.physics.VertexObjectTest;
-	import com.crazyfm.extensions.physics.WorldObjectTest;
 	import com.crazyfm.extensions.physics.utils.PhysicsParserTest;
 
 	import flash.display.Sprite;
@@ -21,11 +17,7 @@ package
 	public class TestSuite extends Sprite
 	{
 		public static const ALL_TESTS:Array = [
-				PhysicsParserTest,
-				BodyObjectTest,
-				ShapeObjectTest,
-				VertexObjectTest,
-				WorldObjectTest
+				PhysicsParserTest
 		];
 
 		private var _flexunit:FlexUnitCore;

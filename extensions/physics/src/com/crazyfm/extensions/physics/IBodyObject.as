@@ -3,11 +3,12 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.IDisposable;
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 
 	import nape.phys.Body;
 
-	public interface IBodyObject
+	public interface IBodyObject extends IDisposable
 	{
 		function get shapeObjectList():Vector.<IShapeObject>;
 		function set data(value:BodyDataVo):void;

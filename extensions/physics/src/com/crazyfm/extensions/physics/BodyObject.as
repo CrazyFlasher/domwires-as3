@@ -3,13 +3,15 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 
 	import nape.phys.Body;
 	import nape.phys.BodyType;
+	import nape.shape.Shape;
 
-	public class BodyObject implements IBodyObject
+	public class BodyObject extends Disposable implements IBodyObject
 	{
 		private var _body:Body;
 
@@ -88,6 +90,22 @@ package com.crazyfm.extensions.physics
 		public function get body():Body
 		{
 			return _body;
+		}
+
+		override public function dispose():void
+		{
+			for each (var shapeObject:IShapeObject in _shapeObjectList)
+			{
+				shapeObject.dispose();
+			}
+
+			_body.shapes.clear();
+
+			_shapeObjectList = null;
+			_body = null;
+			_data = null;
+
+			super.dispose();
 		}
 	}
 }

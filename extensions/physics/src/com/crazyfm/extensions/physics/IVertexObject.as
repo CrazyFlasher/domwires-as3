@@ -3,11 +3,12 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.IDisposable;
 	import com.crazyfm.extensions.physics.vo.VertexDataVo;
 
 	import nape.geom.Vec2;
 
-	public interface IVertexObject
+	public interface IVertexObject extends IDisposable
 	{
 		function get x():Number;
 		function get y():Number;

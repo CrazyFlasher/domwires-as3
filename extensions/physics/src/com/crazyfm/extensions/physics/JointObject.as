@@ -3,6 +3,7 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.extensions.physics.vo.JointDataVo;
 
 	import nape.constraint.AngleJoint;
@@ -10,7 +11,7 @@ package com.crazyfm.extensions.physics
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 
-	public class JointObject implements IJointObject
+	public class JointObject extends Disposable implements IJointObject
 	{
 		private var _data:JointDataVo;
 
@@ -54,6 +55,15 @@ package com.crazyfm.extensions.physics
 		public function get angleJoint():AngleJoint
 		{
 			return _angleJoint;
+		}
+
+		override public function dispose():void
+		{
+			_angleJoint = null;
+			_pivotJoint = null;
+			_data = null;
+
+			super.dispose();
 		}
 	}
 }

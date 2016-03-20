@@ -3,6 +3,7 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.JointDataVo;
 	import com.crazyfm.extensions.physics.vo.WorldDataVo;
@@ -12,7 +13,7 @@ package com.crazyfm.extensions.physics
 	import nape.phys.BodyList;
 	import nape.space.Space;
 
-	public class WorldObject implements IWorldObject
+	public class WorldObject extends Disposable implements IWorldObject
 	{
 		private var _space:Space;
 
@@ -27,8 +28,6 @@ package com.crazyfm.extensions.physics
 
 		public function set data(value:WorldDataVo):void
 		{
-			//TODO: dispose
-
 			_data = value;
 
 			_space = new Space(new Vec2(_data.gravity.x, _data.gravity.y));
@@ -152,6 +151,27 @@ package com.crazyfm.extensions.physics
 			}
 
 			return null;
+		}
+
+		override public function dispose():void
+		{
+			for each (var bodyObject:IBodyObject in _bodyObjectList)
+			{
+				bodyObject.dispose();
+			}
+			for each (var jointObject:IJointObject in _jointObjectList)
+			{
+				jointObject.dispose();
+			}
+
+			_space.bodies.clear();
+
+			_bodyObjectList = null;
+			_jointObjectList = null;
+			_space = null;
+			_data = null;
+
+			super.dispose();
 		}
 	}
 }

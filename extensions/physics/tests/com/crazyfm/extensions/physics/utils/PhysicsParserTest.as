@@ -10,23 +10,12 @@ package com.crazyfm.extensions.physics.utils
 
 	public class PhysicsParserTest
 	{
+		private var worldJson:Object;
 
 		[Before]
 		public function setUp():void
 		{
-
-		}
-
-		[After]
-		public function tearDown():void
-		{
-
-		}
-
-		[Test]
-		public function testParse():void
-		{
-			var obj:Object =
+			worldJson =
 			{
 				id: "world_1",
 				gravity: {x: 0, y: 100},
@@ -105,8 +94,18 @@ package com.crazyfm.extensions.physics.utils
 					}
 				]
 			};
+		}
 
-			var w:WorldDataVo = PhysicsParser.parseWorld(obj);
+		[After]
+		public function tearDown():void
+		{
+
+		}
+
+		[Test]
+		public function testParse():void
+		{
+			var w:WorldDataVo = PhysicsParser.parseWorld(worldJson);
 
 			Assert.assertEquals(w.gravity.x, 0);
 			Assert.assertEquals(w.gravity.y, 100);

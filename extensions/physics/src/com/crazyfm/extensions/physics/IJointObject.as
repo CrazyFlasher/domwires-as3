@@ -3,13 +3,14 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.IDisposable;
 	import com.crazyfm.extensions.physics.vo.JointDataVo;
 
 	import nape.constraint.AngleJoint;
 	import nape.constraint.PivotJoint;
 	import nape.phys.Body;
 
-	public interface IJointObject
+	public interface IJointObject extends IDisposable
 	{
 		function get data():JointDataVo;
 		function set data(value:JointDataVo):void;

@@ -3,11 +3,12 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.IDisposable;
 	import com.crazyfm.extensions.physics.vo.WorldDataVo;
 
 	import nape.space.Space;
 
-	public interface IWorldObject
+	public interface IWorldObject extends IDisposable
 	{
 		function set data(value:WorldDataVo):void;
 		function get data():WorldDataVo;

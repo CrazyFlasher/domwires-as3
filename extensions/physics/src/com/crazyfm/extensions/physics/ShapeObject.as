@@ -3,6 +3,7 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
@@ -18,7 +19,7 @@ package com.crazyfm.extensions.physics
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
 
-	public class ShapeObject implements IShapeObject
+	public class ShapeObject extends Disposable implements IShapeObject
 	{
 		private var _shapes:Vector.<Shape>;
 
@@ -98,6 +99,20 @@ package com.crazyfm.extensions.physics
 		public function get shapes():Vector.<Shape>
 		{
 			return _shapes;
+		}
+
+		override public function dispose():void
+		{
+			for each (var vertexObject:IVertexObject in _vertexObjectList)
+			{
+				vertexObject.dispose();
+			}
+			
+			_vertexObjectList = null;
+			_shapes = null;
+			_data = null;
+
+			super.dispose();
 		}
 	}
 }

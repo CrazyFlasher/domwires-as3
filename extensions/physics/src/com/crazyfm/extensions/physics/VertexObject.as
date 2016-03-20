@@ -3,11 +3,12 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.extensions.physics.vo.VertexDataVo;
 
 	import nape.geom.Vec2;
 
-	public class VertexObject implements IVertexObject
+	public class VertexObject extends Disposable implements IVertexObject
 	{
 		private var _vertex:Vec2;
 
@@ -43,6 +44,16 @@ package com.crazyfm.extensions.physics
 		public function get vertex():Vec2
 		{
 			return _vertex;
+		}
+
+		override public function dispose():void
+		{
+			_vertex.dispose();
+
+			_vertex = null;
+			_data = null;
+
+			super.dispose();
 		}
 	}
 }
