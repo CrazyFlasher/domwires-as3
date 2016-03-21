@@ -137,23 +137,23 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 					if(shape.material)
 					{
 						shapeData.material = {};
-						if(shape.material.elasticity)
+						if(shape.material.elasticity != null)
 						{
 							shapeData.material.elasticity = shape.material.elasticity;
 						}
-						if(shape.material.dynamicFriction)
+						if(shape.material.dynamicFriction != null)
 						{
 							shapeData.material.dynamicFriction = shape.material.dynamicFriction;
 						}
-						if(shape.material.staticFriction)
+						if(shape.material.staticFriction != null)
 						{
 							shapeData.material.staticFriction = shape.material.staticFriction;
 						}
-						if(shape.material.density)
+						if(shape.material.density != null)
 						{
 							shapeData.material.density = shape.material.density;
 						}
-						if(shape.material.rollingFriction)
+						if(shape.material.rollingFriction != null)
 						{
 							shapeData.material.rollingFriction = shape.material.rollingFriction;
 						}
