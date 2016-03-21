@@ -7,33 +7,17 @@ package com.crazyfm.extension.goSystem
 
 	import flash.utils.Dictionary;
 
-	import starling.animation.Juggler;
-	import starling.core.Starling;
-
 	public class GameObject extends Context implements IGameObject
 	{
-		protected var juggler:Juggler;
-
 		private var _isEnabled:Boolean;
 		private var _componentList:Dictionary/*IGameComponent, IGameComponent*/;
 		private var _numComponents:int;
 
-		public function GameObject(juggler:Juggler = null)
+		public function GameObject()
 		{
 			super();
 
-			if (juggler)
-			{
-				this.juggler = juggler;
-			}else
-			{
-				this.juggler = Starling.juggler;
-			}
-
-			if (juggler)
-			{
-				setEnabled(true);
-			}
+			setEnabled(true);
 		}
 
 		/**
@@ -56,8 +40,6 @@ package com.crazyfm.extension.goSystem
 		{
 			setEnabled(false);
 
-			juggler = null;
-
 			removeAllComponents();
 
 			super.dispose();
@@ -73,22 +55,9 @@ package com.crazyfm.extension.goSystem
 				throw new Error("Object disposed!");
 			}
 
-			if (!juggler)
-			{
-				throw new Error("No juggler!");
-			}
-
 			if (_isEnabled == value) return this;
 
 			_isEnabled = value;
-
-			if (_isEnabled)
-			{
-				juggler.add(this);
-			}else
-			{
-				juggler.remove(this);
-			}
 
 			return this;
 		}
@@ -236,6 +205,14 @@ package com.crazyfm.extension.goSystem
 			removeAllComponents(true);
 
 			super.disposeWithAllChildren();
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function get goSystem():IGOSystem
+		{
+			return parent as IGOSystem;
 		}
 	}
 }

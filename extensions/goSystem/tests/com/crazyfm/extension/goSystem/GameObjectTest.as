@@ -5,8 +5,6 @@ package com.crazyfm.extension.goSystem
 {
 	import flexunit.framework.Assert;
 
-	import starling.animation.Juggler;
-
 	public class GameObjectTest
 	{
 
@@ -15,7 +13,7 @@ package com.crazyfm.extension.goSystem
 		[Before]
 		public function setUp():void
 		{
-			go = new GameObject(new Juggler());
+			go = new GameObject();
 		}
 
 		[After]
@@ -170,6 +168,17 @@ package com.crazyfm.extension.goSystem
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 
 			Assert.assertEquals(go.getComponentByType(TestComponent), c);
+		}
+
+		[Test]
+		public function testGetGoSystem():void
+		{
+			Assert.assertNull(go.parent);
+			var sys:IGOSystem = new GOSystem();
+			sys.addGameObject(go);
+			Assert.assertEquals(go.parent, sys);
+			sys.removeGameObject(go);
+			Assert.assertNull(go.parent);
 		}
 	}
 }

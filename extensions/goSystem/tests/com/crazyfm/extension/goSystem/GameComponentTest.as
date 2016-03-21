@@ -3,6 +3,8 @@
  */
 package com.crazyfm.extension.goSystem
 {
+	import flexunit.framework.Assert;
+
 	public class GameComponentTest
 	{
 		private var c:IGameComponent;
@@ -23,6 +25,17 @@ package com.crazyfm.extension.goSystem
 		public function testAdvanceTime():void
 		{
 
+		}
+
+		[Test]
+		public function testGetGameObject():void
+		{
+			Assert.assertNull(c.parent);
+			var go:IGameObject = new GameObject();
+			go.addComponent(c);
+			Assert.assertEquals(c.parent, go);
+			go.removeComponent(c);
+			Assert.assertNull(c.parent);
 		}
 	}
 }
