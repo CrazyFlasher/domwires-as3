@@ -3,13 +3,13 @@
  */
 package com.crazyfm.extension.goSystem
 {
+	import com.crazyfm.extension.goSystem.mechanisms.EnterFrameMechanism;
+
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
-
-	import starling.animation.Juggler;
 
 	public class GOSystemTest
 	{
@@ -19,7 +19,7 @@ package com.crazyfm.extension.goSystem
 		public function setUp():void
 		{
 			s = new GOSystem()
-					.setJuggler(new Juggler());
+					.setMechanism(new EnterFrameMechanism());
 		}
 
 		[After]
@@ -41,17 +41,24 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testDisposeWithAllChildren():void
 		{
+			var c:IGameComponent = new GameComponent();
 			var go:IGameObject = new GameObject();
 			s.addGameObject(new GameObject())
-					.addGameObject(new GameObject())
-					.addGameObject(new GameObject())
-					.addGameObject(go);
+				.addGameObject(new GameObject())
+				.addGameObject(new GameObject())
+				.addGameObject(go
+					.addComponent(c));
+
+			assertTrue(c.gameObject, go);
+			assertTrue(c.parent, go);
 
 			s.disposeWithAllChildren();
 
 			assertTrue(s.isDisposed);
 			assertEquals(s.numGameObjects, 0);
 			assertTrue(go.isDisposed);
+			assertTrue(c.isDisposed);
+			assertNull(c.parent, c.gameObject);
 		}
 
 		[Test]
@@ -95,10 +102,10 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testSetJuggler():void
 		{
-			var j:Juggler = new Juggler();
-			s.setJuggler(j);
+			var m:IMechanism = new EnterFrameMechanism();
+			s.setMechanism(m);
 
-			assertEquals(j, s.juggler);
+			assertEquals(m, s.mechanism);
 		}
 
 		[Test]

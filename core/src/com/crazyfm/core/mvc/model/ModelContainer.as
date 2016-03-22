@@ -104,7 +104,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllModels(dispose:Boolean = false):IModelContainer
+		public function removeAllModels(dispose:Boolean = false, withChildren:Boolean = false):IModelContainer
 		{
 			if (_modelList)
 			{
@@ -114,7 +114,13 @@ package com.crazyfm.core.mvc.model
 
 					if (dispose)
 					{
-						_modelList[i].dispose();
+						if (withChildren && _modelList[i] is IModelContainer)
+						{
+							(_modelList[i] as IModelContainer).disposeWithAllChildren();
+						}else
+						{
+							_modelList[i].dispose();
+						}
 					} else
 					{
 						(_modelList[i] as Model).setParent(null);
@@ -223,7 +229,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function disposeWithAllChildren():void
 		{
-			removeAllModels(true);
+			removeAllModels(true, true);
 
 			super.dispose();
 		}

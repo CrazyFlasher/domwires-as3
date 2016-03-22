@@ -27,8 +27,9 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * Removes all models from model list of current object.
 		 * @param dispose If true, then removed models will ne disposed
+		 * @param withChildren If true, children will be disposed also
 		 */
-		function removeAllModels(dispose:Boolean = false):IModelContainer;
+		function removeAllModels(dispose:Boolean = false, withChildren:Boolean = false):IModelContainer;
 
 		/**
 		 * Returns number of added models to model list of current object.

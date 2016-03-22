@@ -3,16 +3,14 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.Context;
+	import com.crazyfm.core.mvc.model.IModelContainer;
+	import com.crazyfm.core.mvc.model.ModelContainer;
 
 	import flash.utils.Dictionary;
 
-	import starling.animation.IAnimatable;
-	import starling.animation.Juggler;
-
-	public class GOSystem extends Context implements IGOSystem, IAnimatable
+	public class GOSystem extends ModelContainer implements IGOSystem
 	{
-		private var _juggler:Juggler;
+		private var _mechanism:IMechanism;
 
 		private var _gameObjectList:Dictionary/*IGameObject, IGameObject*/;
 		private var _numGameObjects:int;
@@ -25,18 +23,18 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function setJuggler(juggler:Juggler):IGOSystem
+		public function setMechanism(mechanism:IMechanism):IGOSystem
 		{
-			if (_juggler != null)
+			if (_mechanism != null)
 			{
-				_juggler.remove(this);
+				_mechanism.removeGear(this);
 			}
 
-			_juggler = juggler;
+			_mechanism = mechanism;
 
-			if (_juggler != null)
+			if (_mechanism != null)
 			{
-				_juggler.add(this);
+				_mechanism.addGear(this);
 			}
 
 			return this;
@@ -89,7 +87,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllGameObjects(dispose:Boolean = false):IGOSystem
+		public function removeAllGameObjects(dispose:Boolean = false, withChildren:Boolean = false):IGOSystem
 		{
 			super.removeAllModels(false);
 
@@ -99,7 +97,13 @@ package com.crazyfm.extension.goSystem
 				{
 					if (dispose)
 					{
-						_gameObjectList[i].dispose();
+						if (withChildren && _gameObjectList[i] is IModelContainer)
+						{
+							(_gameObjectList[i] as IModelContainer).disposeWithAllChildren();
+						}else
+						{
+							_gameObjectList[i].dispose();
+						}
 					}
 				}
 
@@ -138,13 +142,13 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function advanceTime(time:Number):void
+		public function interact(timePassed:Number):void
 		{
 			for (var i:* in _gameObjectList)
 			{
 				if (_gameObjectList[i].isEnabled)
 				{
-					_gameObjectList[i].advanceTime(time);
+					_gameObjectList[i].interact(timePassed);
 				}
 			}
 		}
@@ -154,7 +158,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		override public function disposeWithAllChildren():void
 		{
-			removeAllGameObjects(true);
+			removeAllGameObjects(true, true);
 
 			super.disposeWithAllChildren();
 		}
@@ -164,10 +168,10 @@ package com.crazyfm.extension.goSystem
 		 */
 		override public function dispose():void
 		{
-			if (_juggler)
+			if (_mechanism)
 			{
-				_juggler.remove(this);
-				_juggler = null;
+				_mechanism.removeGear(this);
+				_mechanism = null;
 			}
 
 			removeAllGameObjects();
@@ -178,9 +182,9 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function get juggler():Juggler
+		public function get mechanism():IMechanism
 		{
-			return _juggler;
+			return _mechanism;
 		}
 	}
 }

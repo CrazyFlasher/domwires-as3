@@ -3,11 +3,7 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.IModel;
-
-	import starling.animation.IAnimatable;
-
-	public interface IGameComponent extends IModel, IAnimatable
+	public interface IGameComponent extends IGearWheel
 	{
 		function get gameObject():IGameObject;
 	}

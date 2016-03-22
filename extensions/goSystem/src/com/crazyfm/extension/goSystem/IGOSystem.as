@@ -3,22 +3,19 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.IContext;
+	import com.crazyfm.core.mvc.model.IModelContainer;
 
 	import flash.utils.Dictionary;
 
-	import starling.animation.IAnimatable;
-	import starling.animation.Juggler;
-
-	public interface IGOSystem extends IContext, IAnimatable
+	public interface IGOSystem extends IModelContainer, IGearWheel
 	{
 		function addGameObject(value:IGameObject):IGOSystem;
 		function removeGameObject(value:IGameObject, dispose:Boolean = false):IGOSystem;
-		function removeAllGameObjects(dispose:Boolean = false):IGOSystem;
+		function removeAllGameObjects(dispose:Boolean = false, withChildren:Boolean = false):IGOSystem;
 		function get numGameObjects():int;
 		function containsGameObject(value:IGameObject):Boolean;
 		function get gameObjectList():Dictionary;
-		function setJuggler(juggler:Juggler):IGOSystem;
-		function get juggler():Juggler;
+		function setMechanism(mechanism:IMechanism):IGOSystem;
+		function get mechanism():IMechanism;
 	}
 }

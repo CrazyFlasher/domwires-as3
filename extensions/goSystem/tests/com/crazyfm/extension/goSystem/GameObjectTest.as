@@ -3,7 +3,11 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import flexunit.framework.Assert;
+	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertNotNull;
+	import org.flexunit.asserts.assertNull;
+	import org.flexunit.asserts.assertTrue;
 
 	public class GameObjectTest
 	{
@@ -25,25 +29,25 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testRemoveComponent():void
 		{
-			Assert.assertEquals(go.numComponents, 0);
-			Assert.assertEquals(go.numModels, 0);
+			assertEquals(go.numComponents, 0);
+			assertEquals(go.numModels, 0);
 
 			go.addComponent(new GameComponent());
-			Assert.assertEquals(go.numComponents, 1);
-			Assert.assertEquals(go.numModels, 1);
+			assertEquals(go.numComponents, 1);
+			assertEquals(go.numModels, 1);
 		}
 
 		[Test]
 		public function testIsEnabled():void
 		{
-			Assert.assertTrue(go.isEnabled);
+			assertTrue(go.isEnabled);
 		}
 
 		[Test]
 		public function testSetEnabled():void
 		{
 			go.setEnabled(false);
-			Assert.assertFalse(go.isEnabled);
+			assertFalse(go.isEnabled);
 		}
 
 		[Test]
@@ -53,7 +57,7 @@ package com.crazyfm.extension.goSystem
 			var c2:IGameComponent = new TestComponent();
 			go.addComponent(c).addComponent(c2);
 
-			Assert.assertEquals(go.getComponentsByType(TestComponent).length, 2);
+			assertEquals(go.getComponentsByType(TestComponent).length, 2);
 		}
 
 		[Test]
@@ -65,12 +69,12 @@ package com.crazyfm.extension.goSystem
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 			go.dispose();
 
-			Assert.assertTrue(go.isDisposed);
-			Assert.assertEquals(go.numComponents, 0);
-			Assert.assertEquals(go.numModels, 0);
-			Assert.assertFalse(c.isDisposed);
-			Assert.assertFalse(c2.isDisposed);
-			Assert.assertFalse(c3.isDisposed);
+			assertTrue(go.isDisposed);
+			assertEquals(go.numComponents, 0);
+			assertEquals(go.numModels, 0);
+			assertFalse(c.isDisposed);
+			assertFalse(c2.isDisposed);
+			assertFalse(c3.isDisposed);
 		}
 
 		[Test]
@@ -82,12 +86,13 @@ package com.crazyfm.extension.goSystem
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 			go.disposeWithAllChildren();
 
-			Assert.assertTrue(go.isDisposed);
-			Assert.assertEquals(go.numComponents, 0);
-			Assert.assertEquals(go.numModels, 0);
-			Assert.assertTrue(c.isDisposed);
-			Assert.assertTrue(c2.isDisposed);
-			Assert.assertTrue(c3.isDisposed);
+			assertTrue(go.isDisposed);
+			assertEquals(go.numComponents, 0);
+			assertEquals(go.numModels, 0);
+			assertTrue(c.isDisposed);
+			assertTrue(c2.isDisposed);
+			assertTrue(c3.isDisposed);
+			assertNull(c.parent, c.gameObject);
 		}
 
 		[Test]
@@ -102,22 +107,22 @@ package com.crazyfm.extension.goSystem
 			var c:IGameComponent = new TestComponent();
 			var c2:IGameComponent = new TestComponent();
 			var c3:IGameComponent = new GameComponent();
-			Assert.assertFalse(go.containsComponent(c));
+			assertFalse(go.containsComponent(c));
 			go.addComponent(c).addComponent(c2).addComponent(c3);
-			Assert.assertTrue(go.containsComponent(c));
-			Assert.assertTrue(go.containsComponent(c2));
-			Assert.assertTrue(go.containsComponent(c3));
+			assertTrue(go.containsComponent(c));
+			assertTrue(go.containsComponent(c2));
+			assertTrue(go.containsComponent(c3));
 		}
 
 		[Test]
 		public function testNumComponents():void
 		{
-			Assert.assertEquals(go.numComponents, 0);
+			assertEquals(go.numComponents, 0);
 			var c:IGameComponent = new TestComponent();
 			var c2:IGameComponent = new TestComponent();
 			var c3:IGameComponent = new GameComponent();
 			go.addComponent(c).addComponent(c2).addComponent(c3);
-			Assert.assertEquals(go.numComponents, 3);
+			assertEquals(go.numComponents, 3);
 		}
 
 		[Test]
@@ -126,15 +131,15 @@ package com.crazyfm.extension.goSystem
 			var c:IGameComponent = new TestComponent();
 			var c2:IGameComponent = new TestComponent();
 			var c3:IGameComponent = new GameComponent();
-			Assert.assertNull(c.gameObject, c2.gameObject, c3.gameObject);
+			assertNull(c.gameObject, c2.gameObject, c3.gameObject);
 
 			go.addComponent(c).addComponent(c2).addComponent(c3);
-			Assert.assertEquals(go.numComponents, 3);
-			Assert.assertEquals(c.parent, go);
-			Assert.assertEquals(c.gameObject, go);
+			assertEquals(go.numComponents, 3);
+			assertEquals(c.parent, go);
+			assertEquals(c.gameObject, go);
 			go.removeAllComponents();
-			Assert.assertEquals(go.numComponents, 0);
-			Assert.assertNull(c.gameObject, c.parent);
+			assertEquals(go.numComponents, 0);
+			assertNull(c.gameObject, c.parent);
 		}
 
 		[Test]
@@ -142,9 +147,9 @@ package com.crazyfm.extension.goSystem
 		{
 			var c:IGameComponent = new TestComponent();
 			go.addComponent(c);
-			Assert.assertEquals(go.numComponents, 1);
-			Assert.assertEquals(c.gameObject, go);
-			Assert.assertEquals(c.parent, go);
+			assertEquals(go.numComponents, 1);
+			assertEquals(c.gameObject, go);
+			assertEquals(c.parent, go);
 		}
 
 		[Test]
@@ -154,9 +159,9 @@ package com.crazyfm.extension.goSystem
 			var c2:IGameComponent = new TestComponent();
 			var c3:IGameComponent = new GameComponent();
 
-			Assert.assertNull(go.componentList);
+			assertNull(go.componentList);
 			go.addComponent(c).addComponent(c2).addComponent(c3);
-			Assert.assertNotNull(go.componentList);
+			assertNotNull(go.componentList);
 		}
 
 		[Test]
@@ -167,18 +172,18 @@ package com.crazyfm.extension.goSystem
 			var c3:IGameComponent = new GameComponent();
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 
-			Assert.assertEquals(go.getComponentByType(TestComponent), c);
+			assertEquals(go.getComponentByType(TestComponent), c);
 		}
 
 		[Test]
 		public function testGetGoSystem():void
 		{
-			Assert.assertNull(go.parent);
+			assertNull(go.parent);
 			var sys:IGOSystem = new GOSystem();
 			sys.addGameObject(go);
-			Assert.assertEquals(go.parent, sys);
+			assertEquals(go.parent, sys);
 			sys.removeGameObject(go);
-			Assert.assertNull(go.parent);
+			assertNull(go.parent);
 		}
 	}
 }

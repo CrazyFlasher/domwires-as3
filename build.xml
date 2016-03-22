@@ -9,22 +9,22 @@
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
     <target name="package" depends="clean,build_all_modules,asdoc"/>
-    <target name="build_all_modules">
-        <echo>[build_all_modules] Building core and all extensions...</echo>
+    <target name="increase_minor_versions">
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/core" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/core" inheritall="false"/>
-
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/goSystem" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/goSystem" inheritall="false"/>
-
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/physics" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/physics" inheritall="false"/>
-
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/devkits/crazyflasher" inheritall="false"/>
+    </target>
+    <target name="build_all_modules">
+        <echo>[build_all_modules] Building core, all extensions and devkits...</echo>
+        <ant antfile="build.xml" target="package" dir="${basedir}/core" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/goSystem" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/physics" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/devkits/crazyflasher" inheritall="false"/>
     </target>
     <!--target name="build_all_examples">
         <echo>[build_all_examples] Building all examples...</echo>
@@ -43,6 +43,8 @@
             <doc-sources path-element="extensions/goSystem/src"/>
             <doc-sources path-element="extensions/physics/src"/>
             <doc-sources path-element="extensions/flashPhysicsEditor/src"/>
+            <!-- devkits -->
+            <doc-sources path-element="devkits/crazyflasher/src"/>
             <!-- external libs -->
             <external-library-path dir="${libs_path}" includes="*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>

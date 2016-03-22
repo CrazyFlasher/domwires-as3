@@ -8,8 +8,6 @@ package com.crazyfm.core.mvc
 	import com.crazyfm.core.mvc.model.Model;
 	import com.crazyfm.core.mvc.model.ModelContainer;
 
-	import flash.display.Sprite;
-
 	import flexunit.framework.Assert;
 
 	public class ModelContainerTest
@@ -179,12 +177,23 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function disposeWithAllChildren():void
 		{
-			mc.addModel(m1).addModel(m2).addModel(m3);
+			var mc2:IModelContainer = new ModelContainer();
+
+			mc.addModel(m1)
+			  .addModel(m2)
+			  .addModel(mc2
+			  	.addModel(m3));
+
+			Assert.assertTrue(m3.parent, mc2);
+
 			mc.disposeWithAllChildren();
 
 			Assert.assertTrue(m1.isDisposed);
 			Assert.assertTrue(m2.isDisposed);
 			Assert.assertTrue(m3.isDisposed);
+			Assert.assertNull(m3.parent);
+			Assert.assertTrue(mc2.isDisposed);
+			Assert.assertEquals(mc2.numModels, 0);
 		}
 
 		[Test]

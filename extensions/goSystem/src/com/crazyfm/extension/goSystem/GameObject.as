@@ -3,11 +3,12 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.Context;
+	import com.crazyfm.core.mvc.model.IModelContainer;
+	import com.crazyfm.core.mvc.model.ModelContainer;
 
 	import flash.utils.Dictionary;
 
-	public class GameObject extends Context implements IGameObject
+	public class GameObject extends ModelContainer implements IGameObject
 	{
 		private var _isEnabled:Boolean;
 		private var _componentList:Dictionary/*IGameComponent, IGameComponent*/;
@@ -23,16 +24,15 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function advanceTime(time:Number):void
+		public function interact(timePassed:Number):void
 		{
 			if (!_isEnabled) return;
 
 			for (var i:* in _componentList)
 			{
-				_componentList[i].advanceTime(time);
+				_componentList[i].interact(timePassed);
 			}
 		}
-
 		/**
 		 * @inheritDoc
 		 */
@@ -117,7 +117,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllComponents(dispose:Boolean = false):IGameObject
+		public function removeAllComponents(dispose:Boolean = false, withChildren:Boolean = false):IGameObject
 		{
 			super.removeAllModels(false);
 
@@ -127,7 +127,13 @@ package com.crazyfm.extension.goSystem
 				{
 					if (dispose)
 					{
-						_componentList[i].dispose();
+						if (withChildren && _componentList[i] is IModelContainer)
+						{
+							(_componentList[i] as IModelContainer).disposeWithAllChildren();
+						}else
+						{
+							_componentList[i].dispose();
+						}
 					}
 				}
 
@@ -202,7 +208,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		override public function disposeWithAllChildren():void
 		{
-			removeAllComponents(true);
+			removeAllComponents(true, true);
 
 			super.disposeWithAllChildren();
 		}
