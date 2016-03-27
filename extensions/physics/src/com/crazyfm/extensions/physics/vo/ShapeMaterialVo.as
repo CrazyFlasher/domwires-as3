@@ -9,7 +9,7 @@ package com.crazyfm.extensions.physics.vo
 		private var _dynamicFriction:Number = 1.0;
 		private var _staticFriction:Number = 2.0;
 		private var _density:Number = 1.0;
-		private var _rollingFriction:Number = NaN;
+		private var _rollingFriction:Number = 0.001;
 
 		public function ShapeMaterialVo()
 		{

@@ -139,23 +139,23 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 						shapeData.material = {};
 						if(shape.material.elasticity != null)
 						{
-							shapeData.material.elasticity = shape.material.elasticity;
+							shapeData.material.elasticity = getNumberValue(shape.material.elasticity);
 						}
 						if(shape.material.dynamicFriction != null)
 						{
-							shapeData.material.dynamicFriction = shape.material.dynamicFriction;
+							shapeData.material.dynamicFriction = getNumberValue(shapeData.material.dynamicFriction);
 						}
 						if(shape.material.staticFriction != null)
 						{
-							shapeData.material.staticFriction = shape.material.staticFriction;
+							shapeData.material.staticFriction = getNumberValue(shapeData.material.staticFriction);
 						}
 						if(shape.material.density != null)
 						{
-							shapeData.material.density = shape.material.density;
+							shapeData.material.density = getNumberValue(shapeData.material.density);
 						}
 						if(shape.material.rollingFriction != null)
 						{
-							shapeData.material.rollingFriction = shape.material.rollingFriction;
+							shapeData.material.rollingFriction = getNumberValue(shapeData.material.rollingFriction);
 						}
 					}
 					shapes.push(shapeData);
@@ -163,6 +163,16 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 			}
 
 			return shapes;
+		}
+
+		private function getNumberValue(value:Number):*
+		{
+			if (isNaN(value))
+			{
+				return "NaN";
+			}
+
+			return value;
 		}
 
 		private function getShapeVertices(shape:Object):Array

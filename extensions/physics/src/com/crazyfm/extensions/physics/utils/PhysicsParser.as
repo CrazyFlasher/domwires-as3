@@ -57,23 +57,23 @@ package com.crazyfm.extensions.physics.utils
 				var material:ShapeMaterialVo = new ShapeMaterialVo();
 				if(shapeJson.material.elasticity)
 				{
-					material.elasticity = shapeJson.material.elasticity;
+					material.elasticity = getNumberValue(shapeJson.material.elasticity);
 				}
 				if(shapeJson.material.dynamicFriction)
 				{
-					material.dynamicFriction = shapeJson.material.dynamicFriction;
+					material.dynamicFriction = getNumberValue(shapeJson.material.dynamicFriction);
 				}
 				if(shapeJson.material.staticFriction)
 				{
-					material.staticFriction = shapeJson.material.staticFriction;
+					material.staticFriction = getNumberValue(shapeJson.material.staticFriction);
 				}
 				if(shapeJson.material.density)
 				{
-					material.density = shapeJson.material.density;
+					material.density = getNumberValue(shapeJson.material.density);
 				}
 				if(shapeJson.material.rollingFriction)
 				{
-					material.rollingFriction = shapeJson.material.rollingFriction;
+					material.rollingFriction = getNumberValue(shapeJson.material.rollingFriction);
 				}
 
 				data.material = material;
@@ -111,6 +111,16 @@ package com.crazyfm.extensions.physics.utils
 			}
 
 			return data;
+		}
+
+		private static function getNumberValue(value:*):Number
+		{
+			if (value == "NaN")
+			{
+				return NaN;
+			}
+
+			return value as Number;
 		}
 
 		public static function parseBody(bodyJson:Object):BodyDataVo
