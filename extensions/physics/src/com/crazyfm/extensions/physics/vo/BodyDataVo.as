@@ -14,6 +14,7 @@ package com.crazyfm.extensions.physics.vo
 		private var _x:Number = 0;
 		private var _y:Number = 0;
 		private var _angle:Number = 0;
+		private var _allowRotation:Boolean = true;
 
 		private var _shapeDataList:Vector.<ShapeDataVo>;
 
@@ -79,6 +80,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set angle(value:Number):void
 		{
 			_angle = value;
+		}
+
+		public function get allowRotation():Boolean
+		{
+			return _allowRotation;
+		}
+
+		public function set allowRotation(value:Boolean):void
+		{
+			_allowRotation = value;
 		}
 	}
 }

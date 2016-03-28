@@ -147,6 +147,10 @@ package com.crazyfm.extensions.physics.utils
 			{
 				data.angle = bodyJson.angle;
 			}
+			if(bodyJson.allowRotation != null)
+			{
+				data.allowRotation = bodyJson.allowRotation;
+			}
 			data.type = bodyJson.type;
 
 			return data;

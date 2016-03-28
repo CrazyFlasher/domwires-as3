@@ -9,7 +9,6 @@ package com.crazyfm.extensions.physics
 
 	import nape.phys.Body;
 	import nape.phys.BodyType;
-	import nape.shape.Shape;
 
 	public class BodyObject extends Disposable implements IBodyObject
 	{
@@ -80,6 +79,8 @@ package com.crazyfm.extensions.physics
 				}
 			}
 			_body.align();
+
+			_body.allowRotation = _data.allowRotation;
 		}
 
 		public function get data():BodyDataVo

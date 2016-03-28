@@ -71,16 +71,21 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 					{
 						body = physObject;
 
-						worldData.bodies.push(
-								{
-									x:body.x,
-									y:body.y,
-									angle:body.rotation * Math.PI / 180,
-									id:body.name,
-									type:body.type,
-									shapes:getBodyShapes(body)
-								}
-						);
+						var bodyData:Object = {
+							x:body.x,
+							y:body.y,
+							angle:body.rotation * Math.PI / 180,
+							id:body.name,
+							type:body.type,
+							shapes:getBodyShapes(body)
+						};
+
+						if (body.allowRotation != null)
+						{
+							bodyData.allowRotation = body.allowRotation != false;
+						}
+
+						worldData.bodies.push(bodyData);
 					}
 				}
 			}
@@ -103,12 +108,12 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 						angle:shape.rotation * Math.PI / 180,
 						id:shape.name
 					};
-					if(getQualifiedClassName(shape) != "$circle_shape")
-					{
-						shapeData.vertices = getShapeVertices(shape);
-					}else
+					if(getQualifiedClassName(shape) == "$circle_shape")
 					{
 						shapeData.radius = shape.width / 2;
+					}else
+					{
+						shapeData.vertices = getShapeVertices(shape);
 					}
 					if(shape.filter)
 					{
@@ -143,19 +148,19 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 						}
 						if(shape.material.dynamicFriction != null)
 						{
-							shapeData.material.dynamicFriction = getNumberValue(shapeData.material.dynamicFriction);
+							shapeData.material.dynamicFriction = getNumberValue(shape.material.dynamicFriction);
 						}
 						if(shape.material.staticFriction != null)
 						{
-							shapeData.material.staticFriction = getNumberValue(shapeData.material.staticFriction);
+							shapeData.material.staticFriction = getNumberValue(shape.material.staticFriction);
 						}
 						if(shape.material.density != null)
 						{
-							shapeData.material.density = getNumberValue(shapeData.material.density);
+							shapeData.material.density = getNumberValue(shape.material.density);
 						}
 						if(shape.material.rollingFriction != null)
 						{
-							shapeData.material.rollingFriction = getNumberValue(shapeData.material.rollingFriction);
+							shapeData.material.rollingFriction = getNumberValue(shape.material.rollingFriction);
 						}
 					}
 					shapes.push(shapeData);
