@@ -9,6 +9,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.phys.Body;
 	import nape.phys.BodyType;
+	import nape.phys.Material;
 
 	public class BodyObject extends Disposable implements IBodyObject
 	{
@@ -54,7 +55,7 @@ package com.crazyfm.extensions.physics
 			}
 
 			var bodyType:BodyType;
-			switch(_data.type)
+			switch (_data.type)
 			{
 				case BodyDataVo.TYPE_STATIC:
 					bodyType = BodyType.STATIC;
@@ -78,6 +79,15 @@ package com.crazyfm.extensions.physics
 					_body.shapes.add(_shapeObjectList[i].shapes[i2]);
 				}
 			}
+
+			if (_data.material)
+			{
+				var material:Material = new Material(_data.material.elasticity, data.material.dynamicFriction,
+						data.material.staticFriction, data.material.density, data.material.rollingFriction);
+
+				_body.setShapeMaterials(material);
+			}
+
 			_body.align();
 
 			_body.allowRotation = _data.allowRotation;

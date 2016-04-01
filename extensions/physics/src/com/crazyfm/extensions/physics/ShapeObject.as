@@ -86,7 +86,7 @@ package com.crazyfm.extensions.physics
 				circlePoly.sensorEnabled = _data.sensor;
 				circlePoly.material = material;
 				circlePoly.filter = filter;
-				circlePoly.transform(Mat23.translation(_data.x + _data.radius, _data.y + _data.radius));
+				circlePoly.transform(Mat23.translation(_data.x, _data.y));
 				_shapes.push(circlePoly);
 			}
 		}

@@ -55,23 +55,23 @@ package com.crazyfm.extensions.physics.utils
 			if(shapeJson.material)
 			{
 				var material:ShapeMaterialVo = new ShapeMaterialVo();
-				if(shapeJson.material.elasticity)
+				if(shapeJson.material.elasticity != null)
 				{
 					material.elasticity = getNumberValue(shapeJson.material.elasticity);
 				}
-				if(shapeJson.material.dynamicFriction)
+				if(shapeJson.material.dynamicFriction != null)
 				{
 					material.dynamicFriction = getNumberValue(shapeJson.material.dynamicFriction);
 				}
-				if(shapeJson.material.staticFriction)
+				if(shapeJson.material.staticFriction != null)
 				{
 					material.staticFriction = getNumberValue(shapeJson.material.staticFriction);
 				}
-				if(shapeJson.material.density)
+				if(shapeJson.material.density != null)
 				{
 					material.density = getNumberValue(shapeJson.material.density);
 				}
-				if(shapeJson.material.rollingFriction)
+				if(shapeJson.material.rollingFriction != null)
 				{
 					material.rollingFriction = getNumberValue(shapeJson.material.rollingFriction);
 				}
@@ -82,27 +82,27 @@ package com.crazyfm.extensions.physics.utils
 			if(shapeJson.filter)
 			{
 				var filter:InteractionFilterVo = new InteractionFilterVo();
-				if(shapeJson.filter.collisionGroup)
+				if(shapeJson.filter.collisionGroup != null)
 				{
 					filter.collisionGroup = shapeJson.filter.collisionGroup;
 				}
-				if(shapeJson.filter.collisionMask)
+				if(shapeJson.filter.collisionMask != null)
 				{
 					filter.collisionMask = shapeJson.filter.collisionMask;
 				}
-				if(shapeJson.filter.sensorGroup)
+				if(shapeJson.filter.sensorGroup != null)
 				{
 					filter.sensorGroup = shapeJson.filter.sensorGroup;
 				}
-				if(shapeJson.filter.sensorMask)
+				if(shapeJson.filter.sensorMask != null)
 				{
 					filter.sensorMask = shapeJson.filter.sensorMask;
 				}
-				if(shapeJson.filter.fluidGroup)
+				if(shapeJson.filter.fluidGroup != null)
 				{
 					filter.fluidGroup = shapeJson.filter.fluidGroup;
 				}
-				if(shapeJson.filter.fluidMask)
+				if(shapeJson.filter.fluidMask != null)
 				{
 					filter.fluidMask = shapeJson.filter.fluidMask;
 				}
@@ -135,6 +135,32 @@ package com.crazyfm.extensions.physics.utils
 			var data:BodyDataVo = new BodyDataVo();
 			data.shapeDataList = shapes;
 			data.id = bodyJson.id;
+			if(bodyJson.material != null)
+			{
+				var material:ShapeMaterialVo = new ShapeMaterialVo();
+				if(bodyJson.material.elasticity != null)
+				{
+					material.elasticity = getNumberValue(bodyJson.material.elasticity);
+				}
+				if(bodyJson.material.dynamicFriction != null)
+				{
+					material.dynamicFriction = getNumberValue(bodyJson.material.dynamicFriction);
+				}
+				if(bodyJson.material.staticFriction != null)
+				{
+					material.staticFriction = getNumberValue(bodyJson.material.staticFriction);
+				}
+				if(bodyJson.material.density != null)
+				{
+					material.density = getNumberValue(bodyJson.material.density);
+				}
+				if(bodyJson.material.rollingFriction != null)
+				{
+					material.rollingFriction = getNumberValue(bodyJson.material.rollingFriction);
+				}
+
+				data.material = material;
+			}
 			if(bodyJson.x != null)
 			{
 				data.x = bodyJson.x;

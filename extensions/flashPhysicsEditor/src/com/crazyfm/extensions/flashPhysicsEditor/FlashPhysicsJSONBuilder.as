@@ -80,6 +80,31 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 							shapes:getBodyShapes(body)
 						};
 
+						if (body.material)
+						{
+							bodyData.material = {};
+							if(body.material.elasticity != null)
+							{
+								bodyData.material.elasticity = getNumberValue(body.material.elasticity);
+							}
+							if(body.material.dynamicFriction != null)
+							{
+								bodyData.material.dynamicFriction = getNumberValue(body.material.dynamicFriction);
+							}
+							if(body.material.staticFriction != null)
+							{
+								bodyData.material.staticFriction = getNumberValue(body.material.staticFriction);
+							}
+							if(body.material.density != null)
+							{
+								bodyData.material.density = getNumberValue(body.material.density);
+							}
+							if(body.material.rollingFriction != null)
+							{
+								bodyData.material.rollingFriction = getNumberValue(body.material.rollingFriction);
+							}
+						}
+
 						if (body.allowRotation != null)
 						{
 							bodyData.allowRotation = body.allowRotation != false;
@@ -110,7 +135,10 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 					};
 					if(getQualifiedClassName(shape) == "$circle_shape")
 					{
+						var currRot:Number = shape.rotation;
+						shape.rotation = 0;
 						shapeData.radius = shape.width / 2;
+						shape.rotation = currRot;
 					}else
 					{
 						shapeData.vertices = getShapeVertices(shape);
