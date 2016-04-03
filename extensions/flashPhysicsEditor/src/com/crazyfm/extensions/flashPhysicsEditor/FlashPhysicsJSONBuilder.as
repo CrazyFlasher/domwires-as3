@@ -80,6 +80,31 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 							shapes:getBodyShapes(body)
 						};
 
+						if (body.material != null)
+						{
+							bodyData.material = {};
+							if(body.material.elasticity != null)
+							{
+								bodyData.material.elasticity = getNumberValue(body.material.elasticity);
+							}
+							if(body.material.dynamicFriction != null)
+							{
+								bodyData.material.dynamicFriction = getNumberValue(body.material.dynamicFriction);
+							}
+							if(body.material.staticFriction != null)
+							{
+								bodyData.material.staticFriction = getNumberValue(body.material.staticFriction);
+							}
+							if(body.material.density != null)
+							{
+								bodyData.material.density = getNumberValue(body.material.density);
+							}
+							if(body.material.rollingFriction != null)
+							{
+								bodyData.material.rollingFriction = getNumberValue(body.material.rollingFriction);
+							}
+						}
+
 						if (body.allowRotation != null)
 						{
 							bodyData.allowRotation = body.allowRotation != false;
@@ -118,23 +143,23 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 					if(shape.filter)
 					{
 						shapeData.filter = {};
-						if(shape.filter.collisionGroup)
+						if(shape.filter.collisionGroup != null)
 						{
 							shapeData.filter.collisionGroup = shape.filter.collisionGroup;
 						}
-						if(shape.filter.collisionMask)
+						if(shape.filter.collisionMask != null)
 						{
 							shapeData.filter.collisionMask = shape.filter.collisionMask;
 						}
-						if(shape.filter.sensorGroup)
+						if(shape.filter.sensorGroup != null)
 						{
 							shapeData.filter.sensorGroup = shape.filter.sensorGroup;
 						}
-						if(shape.filter.sensorMask)
+						if(shape.filter.sensorMask != null)
 						{
 							shapeData.filter.sensorMask = shape.filter.sensorMask;
 						}
-						if(shape.filter.fluidGroup)
+						if(shape.filter.fluidGroup != null)
 						{
 							shapeData.filter.fluidGroup = shape.filter.fluidGroup;
 						}

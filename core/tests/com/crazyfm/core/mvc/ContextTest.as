@@ -17,6 +17,8 @@ package com.crazyfm.core.mvc
 
 	import flexunit.framework.Assert;
 
+	import testObject.MyCoolEnum;
+
 	public class ContextTest
 	{
 		private var context:Context;
@@ -174,11 +176,11 @@ package com.crazyfm.core.mvc
 				viewsReceivedSignalCount++;
 			};
 
-			v1.addSignalListener("test", listener);
-			v2.addSignalListener("test", listener);
-			v3.addSignalListener("test", listener);
+			v1.addSignalListener(MyCoolEnum.PREVED, listener);
+			v2.addSignalListener(MyCoolEnum.PREVED, listener);
+			v3.addSignalListener(MyCoolEnum.PREVED, listener);
 
-			m1.dispatchSignal("test");
+			m1.dispatchSignal(MyCoolEnum.PREVED);
 
 			Assert.assertEquals(viewsReceivedSignalCount, 3);
 		}
@@ -196,10 +198,10 @@ package com.crazyfm.core.mvc
 				receivedSignalFromViewsCount++;
 			};
 
-			context.addSignalListener("test", listener);
-			v1.dispatchSignal("test");
-			v2.dispatchSignal("test");
-			v3.dispatchSignal("test");
+			context.addSignalListener(MyCoolEnum.PREVED, listener);
+			v1.dispatchSignal(MyCoolEnum.PREVED);
+			v2.dispatchSignal(MyCoolEnum.PREVED);
+			v3.dispatchSignal(MyCoolEnum.PREVED);
 
 			Assert.assertEquals(receivedSignalFromViewsCount, 3);
 		}
@@ -226,15 +228,15 @@ package com.crazyfm.core.mvc
 		/*[Test]
 		public function testMapSignalTypeToCommand():void
 		{
-			context.mapSignalTypeToCommand("test", MockCommand);
+			context.mapSignalTypeToCommand(MyCoolEnum.PREVED, MockCommand);
 
 		}
 
 		[Test]
 		public function testContainsSignalToCommandMapping():void
 		{
-			context.mapSignalTypeToCommand("test", MockCommand);
-			Assert.assertTrue(context.containsSignalToCommandMapping("test", MockCommand));
+			context.mapSignalTypeToCommand(MyCoolEnum.PREVED, MockCommand);
+			Assert.assertTrue(context.containsSignalToCommandMapping(MyCoolEnum.PREVED, MockCommand));
 		}
 
 		[Test]

@@ -78,15 +78,17 @@ package com.crazyfm.extensions.physics
 					poly.sensorEnabled = _data.sensor;
 					poly.material = material;
 					poly.filter = filter;
+					poly.userData.id = _data.id;
 					_shapes.push(poly);
 				});
 			}else
 			{
-				var circlePoly:Circle = new Circle(_data.radius);
+				var circlePoly:Circle = new Circle(_data.radius/*, new Vec2(_data.x, _data.y)*/);
 				circlePoly.sensorEnabled = _data.sensor;
 				circlePoly.material = material;
 				circlePoly.filter = filter;
-				circlePoly.transform(Mat23.translation(_data.x + _data.radius, _data.y + _data.radius));
+				circlePoly.transform(Mat23.translation(_data.x, _data.y));
+				circlePoly.userData.id = _data.id;
 				_shapes.push(circlePoly);
 			}
 		}

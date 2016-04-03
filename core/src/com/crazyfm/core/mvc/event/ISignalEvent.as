@@ -3,6 +3,7 @@
  */
 package com.crazyfm.core.mvc.event
 {
+	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.common.IDisposable;
 
 	import org.osflash.signals.events.IEvent;
@@ -20,6 +21,6 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * Returns event type.
 		 */
-		function get type():String;
+		function get type():Enum;
 	}
 }

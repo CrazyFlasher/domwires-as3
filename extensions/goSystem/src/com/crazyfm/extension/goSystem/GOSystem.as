@@ -15,9 +15,11 @@ package com.crazyfm.extension.goSystem
 		private var _gameObjectList:Dictionary/*IGameObject, IGameObject*/;
 		private var _numGameObjects:int;
 
-		public function GOSystem()
+		public function GOSystem(mechanism:IMechanism)
 		{
 			super();
+
+			_mechanism = mechanism.addGear(this);
 		}
 
 		/**

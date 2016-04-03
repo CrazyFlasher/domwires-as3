@@ -4,7 +4,7 @@
 package com.crazyfm.extension.starlingApp.initializer.models
 {
 	import com.crazyfm.core.mvc.model.Context;
-	import com.crazyfm.extension.starlingApp.initializer.signals.StarlingInitializerSignal;
+	import com.crazyfm.extension.starlingApp.initializer.signals.StarlingInitializerSignalEnum;
 
 	import flash.display.Stage;
 	import flash.geom.Rectangle;
@@ -98,7 +98,7 @@ package com.crazyfm.extension.starlingApp.initializer.models
 
 		private function appInitialized():void
 		{
-			dispatchSignal(StarlingInitializerSignal.STARLING_INITIALIZED);
+			dispatchSignal(StarlingInitializerSignalEnum.STARLING_INITIALIZED);
 		}
 
 		private function onStageResize(e:ResizeEvent = null, w:int = 0, h:int = 0):void {

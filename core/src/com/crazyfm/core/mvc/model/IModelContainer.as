@@ -3,6 +3,8 @@
  */
 package com.crazyfm.core.mvc.model
 {
+	import com.crazyfm.core.common.Enum;
+
 	import flash.utils.Dictionary;
 
 	/**
@@ -55,9 +57,9 @@ package com.crazyfm.core.mvc.model
 
 		/**
 		 * Dispatches signal down to hierarchy.
-		 * @param type Signal type/name/id
+		 * @param type Signal type
 		 * @param data Optional data that will sent with signal
 		 */
-		function dispatchSignalToChildren(type:String, data:Object = null):void;
+		function dispatchSignalToChildren(type:Enum, data:Object = null):void;
 	}
 }

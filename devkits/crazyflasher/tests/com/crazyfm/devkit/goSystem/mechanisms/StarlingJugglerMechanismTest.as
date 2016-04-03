@@ -10,11 +10,12 @@ package com.crazyfm.devkit.goSystem.mechanisms
 	public class StarlingJugglerMechanismTest
 	{
 		private var m:IStarlingJugglerMechanism;
-
+		private var juggler:Juggler;
 		[Before]
 		public function setUp():void
 		{
-			m = new StarlingJugglerMechanism();
+			juggler = new Juggler();
+			m = new StarlingJugglerMechanism(juggler);
 		}
 
 		[After]
@@ -31,10 +32,8 @@ package com.crazyfm.devkit.goSystem.mechanisms
 		}
 
 		[Test]
-		public function testSetJuggler():void
+		public function testJuggler():void
 		{
-			var juggler:Juggler = new Juggler();
-			m.setJuggler(juggler);
 			assertTrue(juggler.contains(m));
 		}
 

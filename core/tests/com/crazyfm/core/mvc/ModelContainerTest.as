@@ -3,12 +3,15 @@
  */
 package com.crazyfm.core.mvc
 {
+	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.model.IModelContainer;
 	import com.crazyfm.core.mvc.model.Model;
 	import com.crazyfm.core.mvc.model.ModelContainer;
 
 	import flexunit.framework.Assert;
+
+	import testObject.MyCoolEnum;
 
 	public class ModelContainerTest
 	{
@@ -96,12 +99,12 @@ package com.crazyfm.core.mvc
 			mc.addModel(m1).addModel(m2).addModel(m3);
 
 			var listener:Function = function(event:ISignalEvent):void {};
-			mc.addSignalListener("test", listener);
-			Assert.assertTrue(mc.hasSignalListener("test"));
+			mc.addSignalListener(MyCoolEnum.PREVED, listener);
+			Assert.assertTrue(mc.hasSignalListener(MyCoolEnum.PREVED));
 
 			mc.dispose();
 			Assert.assertEquals(mc.numModels, 0);
-			Assert.assertFalse(mc.hasSignalListener("test"));
+			Assert.assertFalse(mc.hasSignalListener(MyCoolEnum.PREVED));
 			Assert.assertTrue(mc.isDisposed);
 
 			Assert.assertFalse(m1.isDisposed);
@@ -136,28 +139,28 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testOnEventBubbled():void
 		{
-			var bubbledType:String;
+			var bubbledType:Enum;
 			var bubbledData:Object;
 
-			mc.addSignalListener("test", function(event:ISignalEvent):void{
+			mc.addSignalListener(MyCoolEnum.PREVED, function(event:ISignalEvent):void{
 				bubbledType = event.type;
 				bubbledData = event.data;
 			});
 
-			m1.dispatchSignal("test", {name:"Anton"});
+			m1.dispatchSignal(MyCoolEnum.PREVED, {name:"Anton"});
 			Assert.assertNull(bubbledType);
 			Assert.assertNull(bubbledData);
 
 			mc.addModel(m1);
-			m1.dispatchSignal("test", {name:"Anton"});
-			Assert.assertEquals(bubbledType, "test");
+			m1.dispatchSignal(MyCoolEnum.PREVED, {name:"Anton"});
+			Assert.assertEquals(bubbledType, MyCoolEnum.PREVED);
 			Assert.assertEquals(bubbledData.name, "Anton");
 
 			bubbledType = null;
 			bubbledData = null;
 
 			mc.removeModel(m1);
-			m1.dispatchSignal("test", {name:"Anton"});
+			m1.dispatchSignal(MyCoolEnum.PREVED, {name:"Anton"});
 			Assert.assertNull(bubbledType);
 			Assert.assertNull(bubbledData);
 		}
@@ -229,21 +232,21 @@ package com.crazyfm.core.mvc
 				receivedSignalCount++;
 			};
 
-			mc.dispatchSignalToChildren("test");
+			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
 			Assert.assertEquals(receivedSignalCount, 0);
 
 			receivedSignalCount = 0;
 
-			m1.addSignalListener("test", listener);
-			mc.dispatchSignalToChildren("test");
+			m1.addSignalListener(MyCoolEnum.PREVED, listener);
+			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
 			Assert.assertEquals(receivedSignalCount, 1);
 
 			receivedSignalCount = 0;
 
-			m2.addSignalListener("test", listener);
-			m3.addSignalListener("test", listener);
+			m2.addSignalListener(MyCoolEnum.PREVED, listener);
+			m3.addSignalListener(MyCoolEnum.PREVED, listener);
 
-			mc.dispatchSignalToChildren("test");
+			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
 			Assert.assertEquals(receivedSignalCount, 3);
 		}
 
@@ -268,29 +271,29 @@ package com.crazyfm.core.mvc
 			var m2_received:Boolean;
 			var m3_received:Boolean;
 
-			mc2.addSignalListener("test", function(event:ISignalEvent):void{
+			mc2.addSignalListener(MyCoolEnum.PREVED, function(event:ISignalEvent):void{
 				mc2_received = true;
 			});
 
-			m1.addSignalListener("test", function(event:ISignalEvent):void{
+			m1.addSignalListener(MyCoolEnum.PREVED, function(event:ISignalEvent):void{
 				m1_received = true;
 			});
 
-			m2.addSignalListener("test", function(event:ISignalEvent):void{
+			m2.addSignalListener(MyCoolEnum.PREVED, function(event:ISignalEvent):void{
 				m2_received = true;
 			});
 
-			m2.addSignalListener("test", function(event:ISignalEvent):void{
+			m2.addSignalListener(MyCoolEnum.PREVED, function(event:ISignalEvent):void{
 				m3_received = true;
 			});
 
-			mc.dispatchSignalToChildren("test");
+			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
 			Assert.assertTrue(mc2_received, m1_received, m2_received, m3_received);
 
 			mc2_received = m1_received = m2_received = m3_received = false;
 
 			mc2.removeAllSignalListeners();
-			mc.dispatchSignalToChildren("test");
+			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
 			Assert.assertTrue(m1_received, m2_received, m3_received);
 			Assert.assertFalse(mc2_received);
 		}

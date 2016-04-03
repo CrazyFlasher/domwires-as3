@@ -3,6 +3,8 @@
  */
 package com.crazyfm.extension.goSystem
 {
+	import com.crazyfm.extension.goSystem.mechanisms.EnterFrameMechanism;
+
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
@@ -179,7 +181,7 @@ package com.crazyfm.extension.goSystem
 		public function testGetGoSystem():void
 		{
 			assertNull(go.parent);
-			var sys:IGOSystem = new GOSystem();
+			var sys:IGOSystem = new GOSystem(new EnterFrameMechanism());
 			sys.addGameObject(go);
 			assertEquals(go.parent, sys);
 			sys.removeGameObject(go);

@@ -3,6 +3,7 @@
  */
 package com.crazyfm.core.mvc.event
 {
+	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.common.IDisposable;
 
 	/**
@@ -12,16 +13,16 @@ package com.crazyfm.core.mvc.event
 	{
 		/**
 		 * Add signal listener to specified object. Listens bubbled events also.
-		 * @param type Signal type/name/id
+		 * @param type Signal type
 		 * @param listener Function that will be called when signal received
 		 */
-		function addSignalListener(type:String, listener:Function):void;
+		function addSignalListener(type:Enum, listener:Function):void;
 
 		/**
 		 * Removes signal listener from object. Bubbled signals will be also ignored.
-		 * @param type Signal type/name/id
+		 * @param type Signal type
 		 */
-		function removeSignalListener(type:String):void;
+		function removeSignalListener(type:Enum):void;
 
 		/**
 		 * Removes all signal listeners from object. Bubbled signals will be also ignored.
@@ -30,17 +31,17 @@ package com.crazyfm.core.mvc.event
 
 		/**
 		 * Dispatches signal from bottom to top of the hierarchy.
-		 * @param type Signal type/name/id
+		 * @param type Signal type
 		 * @param data Optional data that will sent with signal
 		 * @param bubbles If true, then signal will bubble up to hierarchy
 		 */
-		function dispatchSignal(type:String, data:Object = null, bubbles:Boolean = true):void;
+		function dispatchSignal(type:Enum, data:Object = null, bubbles:Boolean = true):void;
 
 		/**
 		 * Returns true if object listens for specific signal. Otherwise returns false.
-		 * @param type  Signal type/name/id
+		 * @param type  Signal type
 		 * @return
 		 */
-		function hasSignalListener(type:String):Boolean;
+		function hasSignalListener(type:Enum):Boolean;
 	}
 }

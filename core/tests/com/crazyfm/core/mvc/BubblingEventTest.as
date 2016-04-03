@@ -3,12 +3,15 @@
  */
 package com.crazyfm.core.mvc
 {
+	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.model.Context;
 	import com.crazyfm.core.mvc.model.Model;
 	import com.crazyfm.core.mvc.model.ModelContainer;
 
 	import flexunit.framework.Assert;
+
+	import testObject.MyCoolEnum;
 
 	public class BubblingEventTest
 	{
@@ -61,7 +64,7 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testBubblingFromBottomToTop():void
 		{
-			var bubbledEventType:String;
+			var bubbledEventType:Enum;
 
 			var successFunc:Function = function (event:ISignalEvent):Boolean
 			{
@@ -71,19 +74,19 @@ package com.crazyfm.core.mvc
 			};
 
 			//top element
-			c1.addSignalListener("testEventType", successFunc);
+			c1.addSignalListener(MyCoolEnum.PREVED, successFunc);
 
 			//bottom element
-			m1.dispatchSignal("testEventType", {name: "Anton"});
+			m1.dispatchSignal(MyCoolEnum.PREVED, {name: "Anton"});
 
-			Assert.assertEquals(bubbledEventType, "testEventType");
+			Assert.assertEquals(bubbledEventType, MyCoolEnum.PREVED);
 
 			bubbledEventType = null;
 
 			//bottom element
-			m1.dispatchSignal("testEventType", {name: "Anton"});
+			m1.dispatchSignal(MyCoolEnum.PREVED, {name: "Anton"});
 
-			Assert.assertEquals(bubbledEventType, "testEventType");
+			Assert.assertEquals(bubbledEventType, MyCoolEnum.PREVED);
 		}
 
 		[Test]

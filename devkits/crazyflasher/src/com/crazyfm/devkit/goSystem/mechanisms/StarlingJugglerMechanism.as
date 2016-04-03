@@ -11,23 +11,11 @@ package com.crazyfm.devkit.goSystem.mechanisms
 	{
 		private var juggler:Juggler;
 
-		public function StarlingJugglerMechanism()
+		public function StarlingJugglerMechanism(juggler:Juggler)
 		{
-
-		}
-
-		public function setJuggler(juggler:Juggler):IStarlingJugglerMechanism
-		{
-			if (this.juggler)
-			{
-				this.juggler.remove(this);
-			}
-
 			this.juggler = juggler;
 
 			this.juggler.add(this);
-
-			return this;
 		}
 
 		override public function dispose():void
@@ -43,7 +31,10 @@ package com.crazyfm.devkit.goSystem.mechanisms
 
 		public function advanceTime(time:Number):void
 		{
-			interact(time);
+			if (time > 0)
+			{
+				interact(time);
+			}
 		}
 	}
 }

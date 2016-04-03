@@ -4,6 +4,7 @@
 package com.crazyfm.core.mvc.event
 {
 	import com.crazyfm.core.common.Disposable;
+	import com.crazyfm.core.common.Enum;
 
 	import flash.utils.Dictionary;
 
@@ -26,7 +27,7 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchSignal(type:String, data:Object = null, bubbles:Boolean = true):void
+		public function dispatchSignal(type:Enum, data:Object = null, bubbles:Boolean = true):void
 		{
 			getSignal(type).dispatch(getGenericEvent(type, data, bubbles))
 		}
@@ -34,7 +35,7 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function addSignalListener(type:String, listener:Function):void
+		public function addSignalListener(type:Enum, listener:Function):void
 		{
 			getSignal(type).removeAll();
 			getSignal(type).add(listener);
@@ -43,7 +44,7 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function hasSignalListener(type:String):Boolean
+		public function hasSignalListener(type:Enum):Boolean
 		{
 			return _signals != null && _signals[type] != null;
 		}
@@ -51,7 +52,7 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function removeSignalListener(type:String):void
+		public function removeSignalListener(type:Enum):void
 		{
 			if (_signals[type] != null)
 			{
@@ -68,7 +69,7 @@ package com.crazyfm.core.mvc.event
 		{
 			if (_signals)
 			{
-				for (var type:String in _signals)
+				for (var type:* in _signals)
 				{
 					_signals[type].removeAll();
 				}
@@ -103,7 +104,7 @@ package com.crazyfm.core.mvc.event
 			return _signals;
 		}
 
-		private function getSignal(type:String):ISignal
+		private function getSignal(type:Enum):ISignal
 		{
 			if (getSignalsList()[type] == null)
 			{
@@ -113,7 +114,7 @@ package com.crazyfm.core.mvc.event
 			return getSignalsList()[type];
 		}
 
-		private function getGenericEvent(type:String, data:Object = null, bubbles:Boolean = true):IEvent
+		private function getGenericEvent(type:Enum, data:Object = null, bubbles:Boolean = true):IEvent
 		{
 			if (!_genericEvent)
 			{

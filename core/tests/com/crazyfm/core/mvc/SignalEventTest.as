@@ -8,6 +8,8 @@ package com.crazyfm.core.mvc
 
 	import flexunit.framework.Assert;
 
+	import testObject.MyCoolEnum;
+
 	public class SignalEventTest
 	{
 		private var event:ISignalEvent;
@@ -15,7 +17,7 @@ package com.crazyfm.core.mvc
 		[Before]
 		public function setUp():void
 		{
-			event = new SignalEvent("test", {name:"Anton"});
+			event = new SignalEvent(MyCoolEnum.PREVED, {name:"Anton"});
 		}
 
 		[After]
@@ -33,7 +35,7 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testType():void
 		{
-			Assert.assertEquals(event.type, "test");
+			Assert.assertEquals(event.type, MyCoolEnum.PREVED);
 		}
 
 		[Test]

@@ -9,6 +9,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.phys.Body;
 	import nape.phys.BodyType;
+	import nape.phys.Material;
 
 	public class BodyObject extends Disposable implements IBodyObject
 	{
@@ -78,7 +79,14 @@ package com.crazyfm.extensions.physics
 					_body.shapes.add(_shapeObjectList[i].shapes[i2]);
 				}
 			}
-			_body.align();
+
+			if (_data.material)
+			{
+				_body.setShapeMaterials(new Material(_data.material.elasticity, _data.material.dynamicFriction,
+						_data.material.staticFriction, _data.material.density, _data.material.rollingFriction));
+			}
+
+			//_body.align();
 
 			_body.allowRotation = _data.allowRotation;
 		}
