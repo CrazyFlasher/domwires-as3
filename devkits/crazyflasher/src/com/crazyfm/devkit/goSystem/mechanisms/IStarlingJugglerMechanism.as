@@ -10,6 +10,5 @@ package com.crazyfm.devkit.goSystem.mechanisms
 
 	public interface IStarlingJugglerMechanism extends IMechanism, IAnimatable
 	{
-		function setJuggler(juggler:Juggler):IStarlingJugglerMechanism;
 	}
 }

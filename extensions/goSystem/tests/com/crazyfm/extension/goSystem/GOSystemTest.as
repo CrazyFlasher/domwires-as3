@@ -18,8 +18,7 @@ package com.crazyfm.extension.goSystem
 		[Before]
 		public function setUp():void
 		{
-			s = new GOSystem()
-					.setMechanism(new EnterFrameMechanism());
+			s = new GOSystem(new EnterFrameMechanism())
 		}
 
 		[After]

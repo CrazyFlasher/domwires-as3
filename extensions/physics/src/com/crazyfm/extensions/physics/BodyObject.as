@@ -55,7 +55,7 @@ package com.crazyfm.extensions.physics
 			}
 
 			var bodyType:BodyType;
-			switch (_data.type)
+			switch(_data.type)
 			{
 				case BodyDataVo.TYPE_STATIC:
 					bodyType = BodyType.STATIC;
@@ -82,13 +82,11 @@ package com.crazyfm.extensions.physics
 
 			if (_data.material)
 			{
-				var material:Material = new Material(_data.material.elasticity, data.material.dynamicFriction,
-						data.material.staticFriction, data.material.density, data.material.rollingFriction);
-
-				_body.setShapeMaterials(material);
+				_body.setShapeMaterials(new Material(_data.material.elasticity, _data.material.dynamicFriction,
+						_data.material.staticFriction, _data.material.density, _data.material.rollingFriction));
 			}
 
-			_body.align();
+			//_body.align();
 
 			_body.allowRotation = _data.allowRotation;
 		}

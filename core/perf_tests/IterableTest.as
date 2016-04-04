@@ -10,6 +10,8 @@ package
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 
+	import testObject.MyCoolEnum;
+
 	public class IterableTest
 	{
 		private var v:Vector.<IModel>;
@@ -55,7 +57,7 @@ package
 
 			for (var i2:int = 0; i2 < v.length; i2++)
 			{
-				v[i2].addSignalListener("test", l);
+				v[i2].addSignalListener(MyCoolEnum.PREVED, l);
 			}
 
 			for (var i3:int = 0; i3 < v.length; i3++)
@@ -77,7 +79,7 @@ package
 
 			for each (var m2:IModel in v)
 			{
-				m2.addSignalListener("test", l);
+				m2.addSignalListener(MyCoolEnum.PREVED, l);
 			}
 			for each (var m3:IModel in v)
 			{
@@ -140,7 +142,7 @@ package
 
 			for (var m:* in d)
 			{
-				d[m].addSignalListener("test", l);
+				d[m].addSignalListener(MyCoolEnum.PREVED, l);
 			}
 
 			for (var m2:* in d)

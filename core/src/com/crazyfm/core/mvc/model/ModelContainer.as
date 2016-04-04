@@ -3,6 +3,7 @@
  */
 package com.crazyfm.core.mvc.model
 {
+	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 
 	import flash.utils.Dictionary;
@@ -150,7 +151,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function onEventBubbled(event:IEvent):Boolean
 		{
-			var type:String = (event as ISignalEvent).type;
+			var type:Enum = (event as ISignalEvent).type;
 
 			if (getBubbledSignalListeners()[type] != null)
 			{
@@ -163,7 +164,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		override public function addSignalListener(type:String, listener:Function):void
+		override public function addSignalListener(type:Enum, listener:Function):void
 		{
 			super.addSignalListener(type, listener);
 
@@ -173,7 +174,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		override public function removeSignalListener(type:String):void
+		override public function removeSignalListener(type:Enum):void
 		{
 			super.removeSignalListener(type);
 
@@ -189,7 +190,7 @@ package com.crazyfm.core.mvc.model
 
 			if (_bubbledSignalListeners)
 			{
-				for (var type:String in _bubbledSignalListeners)
+				for (var type:* in _bubbledSignalListeners)
 				{
 					delete _bubbledSignalListeners[type];
 				}
@@ -246,7 +247,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchSignalToChildren(type:String, data:Object = null):void
+		public function dispatchSignalToChildren(type:Enum, data:Object = null):void
 		{
 			for each (var model:IModel in _modelList)
 			{

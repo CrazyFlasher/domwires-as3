@@ -1,4 +1,4 @@
-﻿/**
+﻿﻿/**
  * Created by Anton Nefjodov on 14.03.2016.
  */
 package com.crazyfm.extensions.flashPhysicsEditor {
@@ -80,7 +80,7 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 							shapes:getBodyShapes(body)
 						};
 
-						if (body.material)
+						if (body.material != null)
 						{
 							bodyData.material = {};
 							if(body.material.elasticity != null)
@@ -135,10 +135,7 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 					};
 					if(getQualifiedClassName(shape) == "$circle_shape")
 					{
-						var currRot:Number = shape.rotation;
-						shape.rotation = 0;
 						shapeData.radius = shape.width / 2;
-						shape.rotation = currRot;
 					}else
 					{
 						shapeData.vertices = getShapeVertices(shape);
@@ -146,23 +143,23 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 					if(shape.filter)
 					{
 						shapeData.filter = {};
-						if(shape.filter.collisionGroup)
+						if(shape.filter.collisionGroup != null)
 						{
 							shapeData.filter.collisionGroup = shape.filter.collisionGroup;
 						}
-						if(shape.filter.collisionMask)
+						if(shape.filter.collisionMask != null)
 						{
 							shapeData.filter.collisionMask = shape.filter.collisionMask;
 						}
-						if(shape.filter.sensorGroup)
+						if(shape.filter.sensorGroup != null)
 						{
 							shapeData.filter.sensorGroup = shape.filter.sensorGroup;
 						}
-						if(shape.filter.sensorMask)
+						if(shape.filter.sensorMask != null)
 						{
 							shapeData.filter.sensorMask = shape.filter.sensorMask;
 						}
-						if(shape.filter.fluidGroup)
+						if(shape.filter.fluidGroup != null)
 						{
 							shapeData.filter.fluidGroup = shape.filter.fluidGroup;
 						}

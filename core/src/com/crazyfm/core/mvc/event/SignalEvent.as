@@ -3,6 +3,8 @@
  */
 package com.crazyfm.core.mvc.event
 {
+	import com.crazyfm.core.common.Enum;
+
 	import org.osflash.signals.events.GenericEvent;
 
 	/**
@@ -11,10 +13,10 @@ package com.crazyfm.core.mvc.event
 	public class SignalEvent extends GenericEvent implements ISignalEvent
 	{
 		private var _data:Object;
-		private var _type:String;
+		private var _type:Enum;
 		private var _isDisposed:Boolean;
 
-		public function SignalEvent(type:String, data:Object = null, bubbles:Boolean = true)
+		public function SignalEvent(type:Enum, data:Object = null, bubbles:Boolean = true)
 		{
 			super(bubbles);
 
@@ -33,7 +35,7 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function get type():String
+		public function get type():Enum
 		{
 			return _type;
 		}
@@ -43,7 +45,7 @@ package com.crazyfm.core.mvc.event
 			_data = value;
 		}
 
-		internal function setType(value:String):void
+		internal function setType(value:Enum):void
 		{
 			_type = value;
 		}
@@ -53,6 +55,7 @@ package com.crazyfm.core.mvc.event
 		 */
 		public function dispose():void
 		{
+			_type = null;
 			_data = null;
 			_target = null;
 			_currentTarget = null;

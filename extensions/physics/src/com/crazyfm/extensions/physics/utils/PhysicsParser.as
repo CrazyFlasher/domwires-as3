@@ -37,7 +37,7 @@ package com.crazyfm.extensions.physics.utils
 			if(shapeJson.radius != null)
 			{
 				data.radius = shapeJson.radius;
-			}else
+			}
 			if(shapeJson.x != null)
 			{
 				data.x = shapeJson.x;
@@ -135,7 +135,7 @@ package com.crazyfm.extensions.physics.utils
 			var data:BodyDataVo = new BodyDataVo();
 			data.shapeDataList = shapes;
 			data.id = bodyJson.id;
-			if(bodyJson.material != null)
+			if(bodyJson.material)
 			{
 				var material:ShapeMaterialVo = new ShapeMaterialVo();
 				if(bodyJson.material.elasticity != null)
