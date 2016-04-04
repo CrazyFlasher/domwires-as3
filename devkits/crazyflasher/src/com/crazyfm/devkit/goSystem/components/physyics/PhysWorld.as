@@ -88,7 +88,13 @@ package com.crazyfm.devkit.goSystem.components.physyics
 
 			if (space)
 			{
-				space.step(timePassed);
+				try
+				{
+					space.step(timePassed);
+				}catch (e:Error)
+				{
+					trace("pizdec: ", e.getStackTrace());
+				}
 			}
 
 		}
