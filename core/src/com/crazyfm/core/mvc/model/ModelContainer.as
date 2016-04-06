@@ -4,14 +4,11 @@
 package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 
-	import flash.utils.Dictionary;
-
 	import org.osflash.signals.events.IBubbleEventHandler;
-	import org.osflash.signals.events.IEvent;
 
 	use namespace ns_hierarchy;
 
@@ -19,40 +16,11 @@ package com.crazyfm.core.mvc.model
 	 * Extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
 	 * signals from children, sub-children and so on.
 	 */
-	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
+	public class ModelContainer extends HierarchyObjectContainer implements IModelContainer, IBubbleEventHandler
 	{
-		protected var _modelList:Dictionary/*IModel, IModel*/
-		protected var _bubbledSignalListeners:Dictionary;
-
-		private var _numModels:int;
-
 		public function ModelContainer()
 		{
 			super();
-		}
-
-		protected function addChild(child:Object, toList:Dictionary):Boolean
-		{
-			if (!toList[child])
-			{
-				toList[child] = child;
-
-				return true;
-			}
-
-			return false;
-		}
-
-		protected function removeChild(child:Object, fromList:Dictionary):Boolean
-		{
-			if (fromList && fromList[child])
-			{
-				delete fromList[child];
-
-				return true;
-			}
-
-			return false;
 		}
 
 		/**
@@ -60,23 +28,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function addModel(model:IModel):IModelContainer
 		{
-			if (!_modelList)
-			{
-				_modelList = new Dictionary();
-			}
-
-			var added:Boolean = addChild(model, _modelList);
-
-			if (added)
-			{
-				_numModels++;
-				
-				if (model.parent != null)
-				{
-					(model.parent as IModelContainer).removeModel(model);
-				}
-				(model as HierarchyObject).setParent(this);
-			}
+			add(model);
 
 			return this;
 		}
@@ -86,20 +38,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function removeModel(model:IModel, dispose:Boolean = false):IModelContainer
 		{
-			var removed:Boolean = removeChild(model, _modelList);
-
-			if (removed)
-			{
-				_numModels--;
-
-				if (dispose)
-				{
-					model.dispose();
-				} else
-				{
-					(model as Model).setParent(null);
-				}
-			}
+			remove(model, dispose);
 
 			return this;
 		}
@@ -107,108 +46,11 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllModels(dispose:Boolean = false, withChildren:Boolean = false):IModelContainer
+		public function removeAllModels(dispose:Boolean = false):IModelContainer
 		{
-			if (_modelList)
-			{
-				for (var i:* in _modelList)
-				{
-					//delete _modelList[i];
-
-					if (dispose)
-					{
-						if (withChildren && _modelList[i] is IModelContainer)
-						{
-							(_modelList[i] as IModelContainer).disposeWithAllChildren();
-						}else
-						{
-							_modelList[i].dispose();
-						}
-					} else
-					{
-						(_modelList[i] as Model).setParent(null);
-					}
-				}
-
-				_modelList = null;
-
-				_numModels = 0;
-			}
+			removeAll(dispose);
 
 			return this;
-		}
-
-		/**
-		 * Disposes object and removes all children models, but doesn't dispose them.
-		 */
-		override public function dispose():void
-		{
-			removeAllModels();
-
-			super.dispose();
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function onEventBubbled(event:IEvent):Boolean
-		{
-			var type:Enum = (event as ISignalEvent).type;
-
-			if (getBubbledSignalListeners()[type] != null)
-			{
-				return getBubbledSignalListeners()[type](event);
-			}
-
-			return true;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function addSignalListener(type:Enum, listener:Function):void
-		{
-			super.addSignalListener(type, listener);
-
-			getBubbledSignalListeners()[type] = listener;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function removeSignalListener(type:Enum):void
-		{
-			super.removeSignalListener(type);
-
-			delete getBubbledSignalListeners()[type];
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function removeAllSignalListeners():void
-		{
-			super.removeAllSignalListeners();
-
-			if (_bubbledSignalListeners)
-			{
-				for (var type:* in _bubbledSignalListeners)
-				{
-					delete _bubbledSignalListeners[type];
-				}
-
-				_bubbledSignalListeners = null
-			}
-		}
-
-		private function getBubbledSignalListeners():Dictionary
-		{
-			if (!_bubbledSignalListeners)
-			{
-				_bubbledSignalListeners = new Dictionary();
-			}
-
-			return _bubbledSignalListeners;
 		}
 
 		/**
@@ -216,7 +58,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function get numModels():int
 		{
-			return _numModels;
+			return _childrenList != null ? _childrenList.length : 0;
 		}
 
 		/**
@@ -224,44 +66,21 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function containsModel(model:IModel):Boolean
 		{
-			return _modelList && _modelList[model] != null;
+			return _childrenList.indexOf(model) != -1;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function disposeWithAllChildren():void
-		{
-			removeAllModels(true, true);
-
-			super.dispose();
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get modelList():Dictionary
+		public function get modelList():Vector.<IModel>
 		{
 			//better to return copy, but in sake of performance, we do that way.
-			return _modelList;
+			return _childrenList as Vector.<IModel>;
 		}
 
-		/**
-		 * @inheritDoc
-		 */
-		public function dispatchSignalToChildren(type:Enum, data:Object = null):void
+		public function dispatchSignalToModels(type:Enum, data:Object = null):void
 		{
-			for each (var model:IModel in _modelList)
-			{
-				if(model is IModel)
-				{
-					model.dispatchSignal(type, data, false);
-				}else
-				if(model is IModelContainer)
-				{
-					(model as IModelContainer).dispatchSignalToChildren(type, data);
-				}
-			}
+			dispatchSignalToChildren(type, data);
 		}
 	}
 }

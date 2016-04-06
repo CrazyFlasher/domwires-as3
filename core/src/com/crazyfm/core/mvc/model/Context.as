@@ -4,12 +4,10 @@
 package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 	import com.crazyfm.core.mvc.view.IViewController;
-	import com.crazyfm.core.mvc.view.ViewController;
-
-	import flash.utils.Dictionary;
 
 	import org.osflash.signals.events.IEvent;
 
@@ -25,9 +23,7 @@ package com.crazyfm.core.mvc.model
 //		private var _injector:Injector;
 //		private var _signalTypeToCommandMappings:Vector.<MappingVo>;
 
-		protected var _viewList:Dictionary/*IViewController, IViewController*/
-
-		private var _numViewControllers:int;
+		protected var _viewList:Vector.<IViewController> = new <IViewController>[];
 
 		public function Context()
 		{
@@ -140,23 +136,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function addViewController(viewController:IViewController):IContext
 		{
-			if (!_viewList)
-			{
-				_viewList = new Dictionary();
-			}
-
-			var added:Boolean = addChild(viewController, _viewList);
-
-			if (added)
-			{
-				_numViewControllers++;
-
-				if (viewController.parent != null)
-				{
-					(viewController.parent as IContext).removeViewController(viewController);
-				}
-				(viewController as HierarchyObject).setParent(this);
-			}
+			add(viewController, _viewList as Vector.<*>);
 
 			return this;
 		}
@@ -166,20 +146,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function removeViewController(viewController:IViewController, dispose:Boolean = false):IContext
 		{
-			var removed:Boolean = removeChild(viewController, _viewList);
-
-			if (removed)
-			{
-				_numViewControllers--;
-
-				if (dispose)
-				{
-					viewController.dispose();
-				} else
-				{
-					(viewController as ViewController).setParent(null);
-				}
-			}
+			remove(viewController, _viewList as Vector.<*>);
 
 			return this;
 		}
@@ -189,25 +156,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function removeAllViewControllers(dispose:Boolean = false):IContext
 		{
-			if (_viewList)
-			{
-				for (var i:* in _viewList)
-				{
-					//delete _viewList[i];
-
-					if (dispose)
-					{
-						_viewList[i].dispose();
-					} else
-					{
-						(_viewList[i] as HierarchyObject).setParent(null);
-					}
-				}
-
-				_viewList = null;
-
-				_numViewControllers = 0;
-			}
+			removeAll(dispose, _viewList as Vector.<*>);
 
 			return this;
 		}
@@ -217,7 +166,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function get numViewControllers():int
 		{
-			return _numViewControllers;
+			return _viewList != null ? _viewList.length : 0;
 		}
 
 		/**
@@ -225,7 +174,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function containsViewController(viewController:IViewController):Boolean
 		{
-			return _viewList && _viewList[viewController] != null;
+			return _viewList != null ? _viewList.indexOf(viewController) != -1 : false;
 		}
 
 		/**
@@ -254,10 +203,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function dispatchSignalToViewControllers(event:ISignalEvent):void
 		{
-			for each (var viewController:IViewController in _viewList)
-			{
-				viewController.dispatchSignal(event.type, event.data);
-			}
+			dispatchSignalToChildren(event.type, event.data, _viewList as Vector.<*>);
 		}
 
 		/**
@@ -279,9 +225,19 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function get viewControllerList():Dictionary
+		public function get viewControllerList():Vector.<IViewController>
 		{
 			return _viewList;
+		}
+
+		override public function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Vector.<*> = null):IHierarchyObjectContainer
+		{
+			if (child is IViewController)
+			{
+				super.remove(child, dispose, _viewList as Vector.<*>);
+			}
+
+			return this;
 		}
 	}
 }

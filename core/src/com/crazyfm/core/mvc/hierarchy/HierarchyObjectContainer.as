@@ -22,38 +22,16 @@ package com.crazyfm.core.mvc.hierarchy
 			super();
 		}
 
-		protected function addChild(child:IHierarchyObject, toList:Vector.<IHierarchyObject>):Boolean
-		{
-			if (!toList[child])
-			{
-				toList[child] = child;
-
-				return true;
-			}
-
-			return false;
-		}
-
-		protected function removeChild(child:Object, fromList:Dictionary):Boolean
-		{
-			if (fromList && fromList[child])
-			{
-				delete fromList[child];
-
-				return true;
-			}
-
-			return false;
-		}
-
 		/**
 		 * @inheritDoc
 		 */
-		public function add(child:IHierarchyObject):IHierarchyObjectContainer
+		public function add(child:IHierarchyObject, toList:Vector.<*> = null):IHierarchyObjectContainer
 		{
-			if (_childrenList.indexOf(child) == -1)
+			var list:Vector.<*> = (toList == null ? _childrenList as Vector.<*> : toList);
+
+			if (list.indexOf(child) == -1)
 			{
-				_childrenList.push(child);
+				list.push(child);
 
 				if (child.parent != null)
 				{
@@ -68,13 +46,15 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function remove(child:IHierarchyObject, dispose:Boolean = false):IHierarchyObjectContainer
+		public function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Vector.<*> = null):IHierarchyObjectContainer
 		{
-			var childIndex:int = _childrenList.indexOf(child);
+			var list:Vector.<*> = (fromList == null ? _childrenList as Vector.<*> : fromList);
 
-			if (childIndex == -1)
+			var childIndex:int = list.indexOf(child);
+
+			if (childIndex != -1)
 			{
-				_childrenList.removeAt(childIndex);
+				list.removeAt(childIndex);
 
 				if (dispose)
 				{
@@ -91,9 +71,11 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAll(dispose:Boolean = false):IHierarchyObjectContainer
+		public function removeAll(dispose:Boolean = false, fromList:Vector.<*> = null):IHierarchyObjectContainer
 		{
-			for each (var child:IHierarchyObject in _childrenList)
+			var list:Vector.<*> = (fromList == null ? _childrenList as Vector.<*> : fromList);
+
+			for each (var child:IHierarchyObject in list)
 			{
 				if (dispose)
 				{
@@ -109,6 +91,11 @@ package com.crazyfm.core.mvc.hierarchy
 				{
 					(child as HierarchyObject).setParent(null);
 				}
+			}
+
+			if (list)
+			{
+				list.splice(0, list.length);
 			}
 
 			return this;
@@ -192,22 +179,6 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function get childrenCount():int
-		{
-			return _childrenList ? _childrenList.length : 0;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function contains(child:IHierarchyObject):Boolean
-		{
-			return _childrenList.indexOf(child) != -1;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
 		public function disposeWithAllChildren():void
 		{
 			removeAll(true);
@@ -218,18 +189,11 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function get children():Vector.<IHierarchyObject>
+		public function dispatchSignalToChildren(type:Enum, data:Object = null, inList:Vector.<*> = null):void
 		{
-			//better to return copy, but in sake of performance, we do that way.
-			return _childrenList;
-		}
+			var list:Vector.<*> = (inList == null ? _childrenList as Vector.<*> : inList);
 
-		/**
-		 * @inheritDoc
-		 */
-		public function dispatchSignalToChildren(type:Enum, data:Object = null):void
-		{
-			for each (var child:IHierarchyObject in _childrenList)
+			for each (var child:IHierarchyObject in list)
 			{
 				if(child is IHierarchyObject)
 				{

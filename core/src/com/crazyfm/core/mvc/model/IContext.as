@@ -4,6 +4,7 @@
 package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
 	import com.crazyfm.core.mvc.view.IViewController;
 
 	import flash.utils.Dictionary;
@@ -49,6 +50,6 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * Returns children view controllers.
 		 */
-		function get viewControllerList():Dictionary;
+		function get viewControllerList():Vector.<IViewController>;
 	}
 }

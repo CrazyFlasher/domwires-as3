@@ -4,6 +4,8 @@
 package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
+	import com.crazyfm.core.mvc.model.IModel;
 
 	import flash.utils.Dictionary;
 
@@ -11,7 +13,7 @@ package com.crazyfm.core.mvc.model
 	 * Extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
 	 * signals from children, sub-children and so on.
 	 */
-	public interface IModelContainer extends IModel
+	public interface IModelContainer extends IModel, IHierarchyObjectContainer
 	{
 		/**
 		 * Adds model to model list of current object.
@@ -31,7 +33,7 @@ package com.crazyfm.core.mvc.model
 		 * @param dispose If true, then removed models will ne disposed
 		 * @param withChildren If true, children will be disposed also
 		 */
-		function removeAllModels(dispose:Boolean = false, withChildren:Boolean = false):IModelContainer;
+		function removeAllModels(dispose:Boolean = false):IModelContainer;
 
 		/**
 		 * Returns number of added models to model list of current object.
@@ -46,20 +48,15 @@ package com.crazyfm.core.mvc.model
 		function containsModel(model:IModel):Boolean;
 
 		/**
-		 * Disposes current object and disposes objects from its model list.
-		 */
-		function disposeWithAllChildren():void;
-
-		/**
 		 * Returns children models.
 		 */
-		function get modelList():Dictionary;
+		function get modelList():Vector.<IModel>;
 
 		/**
 		 * Dispatches signal down to hierarchy.
 		 * @param type Signal type
 		 * @param data Optional data that will sent with signal
 		 */
-		function dispatchSignalToChildren(type:Enum, data:Object = null):void;
+		function dispatchSignalToModels(type:Enum, data:Object = null):void;
 	}
 }
