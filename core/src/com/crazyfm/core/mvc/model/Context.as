@@ -4,6 +4,8 @@
 package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 	import com.crazyfm.core.mvc.view.IViewController;
 	import com.crazyfm.core.mvc.view.ViewController;
 

@@ -3,7 +3,7 @@
  */
 package com.crazyfm.core.mvc.view
 {
-	import com.crazyfm.core.mvc.model.HierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 
 	import flash.display.DisplayObjectContainer;
 

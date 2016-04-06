@@ -1,37 +1,28 @@
 /**
- * Created by Anton Nefjodov on 26.01.2016.
+ * Created by Anton Nefjodov on 6.04.2016.
  */
-package com.crazyfm.core.mvc.model
+package com.crazyfm.core.mvc.hierarchy
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
-	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 
 	import flash.utils.Dictionary;
 
-	import org.osflash.signals.events.IBubbleEventHandler;
 	import org.osflash.signals.events.IEvent;
 
 	use namespace ns_hierarchy;
 
-	/**
-	 * Extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
-	 * signals from children, sub-children and so on.
-	 */
-	public class ModelContainer extends Model implements IModelContainer, IBubbleEventHandler
+	public class HierarchyObjectContainer extends HierarchyObject implements IHierarchyObjectContainer
 	{
-		protected var _modelList:Dictionary/*IModel, IModel*/
+		protected var _childrenList:Vector.<IHierarchyObject> = new <IHierarchyObject>[];
 		protected var _bubbledSignalListeners:Dictionary;
 
-		private var _numModels:int;
-
-		public function ModelContainer()
+		public function HierarchyObjectContainer()
 		{
 			super();
 		}
 
-		protected function addChild(child:Object, toList:Dictionary):Boolean
+		protected function addChild(child:IHierarchyObject, toList:Vector.<IHierarchyObject>):Boolean
 		{
 			if (!toList[child])
 			{
@@ -58,24 +49,17 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function addModel(model:IModel):IModelContainer
+		public function add(child:IHierarchyObject):IHierarchyObjectContainer
 		{
-			if (!_modelList)
+			if (_childrenList.indexOf(child) == -1)
 			{
-				_modelList = new Dictionary();
-			}
+				_childrenList.push(child);
 
-			var added:Boolean = addChild(model, _modelList);
-
-			if (added)
-			{
-				_numModels++;
-				
-				if (model.parent != null)
+				if (child.parent != null)
 				{
-					(model.parent as IModelContainer).removeModel(model);
+					child.parent.remove(child);
 				}
-				(model as HierarchyObject).setParent(this);
+				(child as HierarchyObject).setParent(this);
 			}
 
 			return this;
@@ -84,20 +68,20 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeModel(model:IModel, dispose:Boolean = false):IModelContainer
+		public function remove(child:IHierarchyObject, dispose:Boolean = false):IHierarchyObjectContainer
 		{
-			var removed:Boolean = removeChild(model, _modelList);
+			var childIndex:int = _childrenList.indexOf(child);
 
-			if (removed)
+			if (childIndex == -1)
 			{
-				_numModels--;
+				_childrenList.removeAt(childIndex);
 
 				if (dispose)
 				{
-					model.dispose();
+					child.dispose();
 				} else
 				{
-					(model as Model).setParent(null);
+					(child as HierarchyObject).setParent(null);
 				}
 			}
 
@@ -107,43 +91,37 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllModels(dispose:Boolean = false, withChildren:Boolean = false):IModelContainer
+		public function removeAll(dispose:Boolean = false):IHierarchyObjectContainer
 		{
-			if (_modelList)
+			for each (var child:IHierarchyObject in _childrenList)
 			{
-				for (var i:* in _modelList)
+				if (dispose)
 				{
-					//delete _modelList[i];
-
-					if (dispose)
+					if (child is IHierarchyObjectContainer)
 					{
-						if (withChildren && _modelList[i] is IModelContainer)
-						{
-							(_modelList[i] as IModelContainer).disposeWithAllChildren();
-						}else
-						{
-							_modelList[i].dispose();
-						}
-					} else
+						(child as IHierarchyObjectContainer).disposeWithAllChildren();
+					}else
 					{
-						(_modelList[i] as Model).setParent(null);
+						child.dispose();
 					}
+
+				} else
+				{
+					(child as HierarchyObject).setParent(null);
 				}
-
-				_modelList = null;
-
-				_numModels = 0;
 			}
 
 			return this;
 		}
 
 		/**
-		 * Disposes object and removes all children models, but doesn't dispose them.
+		 * Disposes object and removes all children, but doesn't dispose them.
 		 */
 		override public function dispose():void
 		{
-			removeAllModels();
+			removeAll();
+
+			_childrenList = null;
 
 			super.dispose();
 		}
@@ -214,17 +192,17 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function get numModels():int
+		public function get childrenCount():int
 		{
-			return _numModels;
+			return _childrenList ? _childrenList.length : 0;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function containsModel(model:IModel):Boolean
+		public function contains(child:IHierarchyObject):Boolean
 		{
-			return _modelList && _modelList[model] != null;
+			return _childrenList.indexOf(child) != -1;
 		}
 
 		/**
@@ -232,7 +210,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function disposeWithAllChildren():void
 		{
-			removeAllModels(true, true);
+			removeAll(true);
 
 			super.dispose();
 		}
@@ -240,10 +218,10 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function get modelList():Dictionary
+		public function get children():Vector.<IHierarchyObject>
 		{
 			//better to return copy, but in sake of performance, we do that way.
-			return _modelList;
+			return _childrenList;
 		}
 
 		/**
@@ -251,15 +229,15 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function dispatchSignalToChildren(type:Enum, data:Object = null):void
 		{
-			for each (var model:IModel in _modelList)
+			for each (var child:IHierarchyObject in _childrenList)
 			{
-				if(model is IModel)
+				if(child is IHierarchyObject)
 				{
-					model.dispatchSignal(type, data, false);
+					child.dispatchSignal(type, data, false);
 				}else
-				if(model is IModelContainer)
+				if(child is IHierarchyObjectContainer)
 				{
-					(model as IModelContainer).dispatchSignalToChildren(type, data);
+					(child as IHierarchyObjectContainer).dispatchSignalToChildren(type, data);
 				}
 			}
 		}

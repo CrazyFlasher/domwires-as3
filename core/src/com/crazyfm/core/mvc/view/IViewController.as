@@ -3,7 +3,7 @@
  */
 package com.crazyfm.core.mvc.view
 {
-	import com.crazyfm.core.mvc.model.IHierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
 
 	/**
 	 * Object that can be connected to IContext for further model <-> view communication via signals or direct

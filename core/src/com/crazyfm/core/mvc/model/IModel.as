@@ -3,8 +3,10 @@
  */
 package com.crazyfm.core.mvc.model
 {
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
+
 	/**
-	 * Simple object that can contain data and do some logic. Can dispatch to hierarchy and receive signals from model hierarchy.
+	 * Object that can contains data.
 	 */
 	public interface IModel extends IHierarchyObject
 	{
