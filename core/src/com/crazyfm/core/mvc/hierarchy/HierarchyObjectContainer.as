@@ -203,5 +203,11 @@ package com.crazyfm.core.mvc.hierarchy
 				}
 			}
 		}
+
+
+		public function get children():Array
+		{
+			return _childrenList;
+		}
 	}
 }

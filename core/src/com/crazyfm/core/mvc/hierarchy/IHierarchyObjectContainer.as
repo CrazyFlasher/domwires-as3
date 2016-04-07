@@ -20,5 +20,7 @@ package com.crazyfm.core.mvc.hierarchy
 		function disposeWithAllChildren():void;
 
 		function dispatchSignalToChildren(type:Enum, data:Object = null):void;
+
+		function get children():Array;
 	}
 }
