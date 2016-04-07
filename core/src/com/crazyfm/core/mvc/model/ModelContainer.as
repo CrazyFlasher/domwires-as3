@@ -5,7 +5,6 @@ package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
-	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 
 	import org.osflash.signals.events.IBubbleEventHandler;
@@ -72,12 +71,15 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function get modelList():Vector.<IModel>
+		public function get modelList():Array
 		{
 			//better to return copy, but in sake of performance, we do that way.
-			return _childrenList as Vector.<IModel>;
+			return _childrenList;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function dispatchSignalToModels(type:Enum, data:Object = null):void
 		{
 			dispatchSignalToChildren(type, data);

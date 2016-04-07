@@ -12,7 +12,7 @@ package com.crazyfm.core.mvc.hierarchy
 		 * @param child
 		 * @param toList
 		 */
-		function add(child:IHierarchyObject, toList:Vector.<*> = null):IHierarchyObjectContainer;
+		function add(child:IHierarchyObject, toList:Array = null):IHierarchyObjectContainer;
 
 		/**
 		 * Removes object from children list of current object.
@@ -20,14 +20,14 @@ package com.crazyfm.core.mvc.hierarchy
 		 * @param dispose
 		 * @param fromList
 		 */
-		function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Vector.<*> = null):IHierarchyObjectContainer;
+		function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer;
 
 		/**
 		 * Removes all children from all lists of current object.
 		 * @param dispose If true, then removed children will be disposed
 		 * @param fromList If true, then removed children will be disposed
 		 */
-		function removeAll(dispose:Boolean = false, fromList:Vector.<*> = null):IHierarchyObjectContainer;
+		function removeAll(dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer;
 
 		/**
 		 * Disposes current object and disposes objects from its object list.
@@ -40,6 +40,6 @@ package com.crazyfm.core.mvc.hierarchy
 		 * @param data Optional data that will sent with signal
 		 * @param inList
 		 */
-		function dispatchSignalToChildren(type:Enum, data:Object = null, inList:Vector.<*> = null):void;
+		function dispatchSignalToChildren(type:Enum, data:Object = null, inList:Array = null):void;
 	}
 }

@@ -3,7 +3,7 @@
  */
 package com.crazyfm.extension.starlingApp.mvc.view
 {
-	import com.crazyfm.core.mvc.model.HierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 	import com.crazyfm.core.mvc.view.IViewController;
 
 	import starling.display.DisplayObjectContainer;

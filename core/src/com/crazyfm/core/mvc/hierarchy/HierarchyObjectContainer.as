@@ -14,7 +14,11 @@ package com.crazyfm.core.mvc.hierarchy
 
 	public class HierarchyObjectContainer extends HierarchyObject implements IHierarchyObjectContainer
 	{
-		protected var _childrenList:Vector.<IHierarchyObject> = new <IHierarchyObject>[];
+		/*
+		* Have to use Array instead of Vector, because of Vector casing issues and
+		* "abc bytecode decoding failed" compile error.
+		*/
+		protected var _childrenList:Array = [];
 		protected var _bubbledSignalListeners:Dictionary;
 
 		public function HierarchyObjectContainer()
@@ -25,9 +29,9 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function add(child:IHierarchyObject, toList:Vector.<*> = null):IHierarchyObjectContainer
+		public function add(child:IHierarchyObject, toList:Array = null):IHierarchyObjectContainer
 		{
-			var list:Vector.<*> = (toList == null ? _childrenList as Vector.<*> : toList);
+			var list:Array = (toList == null ? _childrenList : toList);
 
 			if (list.indexOf(child) == -1)
 			{
@@ -46,9 +50,9 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Vector.<*> = null):IHierarchyObjectContainer
+		public function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer
 		{
-			var list:Vector.<*> = (fromList == null ? _childrenList as Vector.<*> : fromList);
+			var list:Array = (fromList == null ? _childrenList : fromList);
 
 			var childIndex:int = list.indexOf(child);
 
@@ -71,9 +75,9 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAll(dispose:Boolean = false, fromList:Vector.<*> = null):IHierarchyObjectContainer
+		public function removeAll(dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer
 		{
-			var list:Vector.<*> = (fromList == null ? _childrenList as Vector.<*> : fromList);
+			var list:Array = (fromList == null ? _childrenList : fromList);
 
 			for each (var child:IHierarchyObject in list)
 			{
@@ -189,9 +193,9 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchSignalToChildren(type:Enum, data:Object = null, inList:Vector.<*> = null):void
+		public function dispatchSignalToChildren(type:Enum, data:Object = null, inList:Array = null):void
 		{
-			var list:Vector.<*> = (inList == null ? _childrenList as Vector.<*> : inList);
+			var list:Array = (inList == null ? _childrenList : inList);
 
 			for each (var child:IHierarchyObject in list)
 			{

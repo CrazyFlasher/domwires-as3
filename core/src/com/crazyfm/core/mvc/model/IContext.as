@@ -4,10 +4,7 @@
 package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
 	import com.crazyfm.core.mvc.view.IViewController;
-
-	import flash.utils.Dictionary;
 
 	/**
 	 * Extends IModelContainer and is able to communicate with IViewController objects via signals and/or direct connection
@@ -50,6 +47,6 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * Returns children view controllers.
 		 */
-		function get viewControllerList():Vector.<IViewController>;
+		function get viewControllerList():Array;
 	}
 }

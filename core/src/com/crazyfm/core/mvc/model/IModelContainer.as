@@ -5,9 +5,6 @@ package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
-	import com.crazyfm.core.mvc.model.IModel;
-
-	import flash.utils.Dictionary;
 
 	/**
 	 * Extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
@@ -31,7 +28,6 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * Removes all models from model list of current object.
 		 * @param dispose If true, then removed models will ne disposed
-		 * @param withChildren If true, children will be disposed also
 		 */
 		function removeAllModels(dispose:Boolean = false):IModelContainer;
 
@@ -50,7 +46,7 @@ package com.crazyfm.core.mvc.model
 		/**
 		 * Returns children models.
 		 */
-		function get modelList():Vector.<IModel>;
+		function get modelList():Array;
 
 		/**
 		 * Dispatches signal down to hierarchy.
