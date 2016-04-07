@@ -16,7 +16,7 @@ package com.crazyfm.core.mvc.hierarchy
 
 		public function HierarchyObject()
 		{
-
+			super();
 		}
 
 		ns_hierarchy function setParent(value:IHierarchyObjectContainer):void

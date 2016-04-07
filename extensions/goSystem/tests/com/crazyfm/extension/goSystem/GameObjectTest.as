@@ -32,11 +32,9 @@ package com.crazyfm.extension.goSystem
 		public function testRemoveComponent():void
 		{
 			assertEquals(go.numComponents, 0);
-			assertEquals(go.numModels, 0);
 
 			go.addComponent(new GameComponent());
 			assertEquals(go.numComponents, 1);
-			assertEquals(go.numModels, 1);
 		}
 
 		[Test]
@@ -73,7 +71,6 @@ package com.crazyfm.extension.goSystem
 
 			assertTrue(go.isDisposed);
 			assertEquals(go.numComponents, 0);
-			assertEquals(go.numModels, 0);
 			assertFalse(c.isDisposed);
 			assertFalse(c2.isDisposed);
 			assertFalse(c3.isDisposed);
@@ -90,7 +87,6 @@ package com.crazyfm.extension.goSystem
 
 			assertTrue(go.isDisposed);
 			assertEquals(go.numComponents, 0);
-			assertEquals(go.numModels, 0);
 			assertTrue(c.isDisposed);
 			assertTrue(c2.isDisposed);
 			assertTrue(c3.isDisposed);
@@ -161,7 +157,7 @@ package com.crazyfm.extension.goSystem
 			var c2:IGameComponent = new TestComponent();
 			var c3:IGameComponent = new GameComponent();
 
-			assertNull(go.componentList);
+			assertEquals(go.componentList.length, 0);
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 			assertNotNull(go.componentList);
 		}

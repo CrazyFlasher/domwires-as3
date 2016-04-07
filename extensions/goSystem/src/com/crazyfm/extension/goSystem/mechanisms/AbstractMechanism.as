@@ -3,20 +3,15 @@
  */
 package com.crazyfm.extension.goSystem.mechanisms
 {
-	import com.crazyfm.core.mvc.model.ModelContainer;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.extension.goSystem.IGearWheel;
 	import com.crazyfm.extension.goSystem.IMechanism;
 
-	import flash.utils.Dictionary;
-
-	public class AbstractMechanism extends ModelContainer implements IMechanism
+	public class AbstractMechanism extends HierarchyObjectContainer implements IMechanism
 	{
-		private var _gearList:Dictionary;
-		private var _numGears:int;
-		
 		public function AbstractMechanism()
 		{
-
+			super();
 		}
 
 		/**
@@ -24,19 +19,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		 */
 		public function addGear(value:IGearWheel):IMechanism
 		{
-			super.addModel(value);
-
-			if (!_gearList)
-			{
-				_gearList = new Dictionary();
-			}
-
-			var added:Boolean = addChild(value, _gearList);
-
-			if (added)
-			{
-				_numGears++;
-			}
+			add(value);
 
 			return this;
 		}
@@ -46,19 +29,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		 */
 		public function removeGear(value:IGearWheel, dispose:Boolean = false):IMechanism
 		{
-			super.removeModel(value, false);
-
-			var removed:Boolean = removeChild(value, _gearList);
-
-			if (removed)
-			{
-				_numGears--;
-
-				if (dispose)
-				{
-					value.dispose();
-				}
-			}
+			remove(value, dispose);
 
 			return this;
 		}
@@ -68,22 +39,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		 */
 		public function removeAllGears(dispose:Boolean = false):IMechanism
 		{
-			super.removeAllModels(false);
-
-			if (_gearList)
-			{
-				for (var i:* in _gearList)
-				{
-					if (dispose)
-					{
-						_gearList[i].dispose();
-					}
-				}
-
-				_gearList = null;
-
-				_numGears = 0;
-			}
+			removeAll(dispose);
 
 			return this;
 		}
@@ -93,7 +49,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		 */
 		public function get numGears():int
 		{
-			return _numGears;
+			return _childrenList ? _childrenList.length : 0;
 		}
 
 		/**
@@ -101,15 +57,15 @@ package com.crazyfm.extension.goSystem.mechanisms
 		 */
 		public function containsGear(value:IGearWheel):Boolean
 		{
-			return _gearList && _gearList[value] != null;
+			return _childrenList && _childrenList.indexOf(value) != -1;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function get gearList():Dictionary
+		public function get gearList():Array
 		{
-			return _gearList;
+			return _childrenList;
 		}
 
 		/**
@@ -137,9 +93,9 @@ package com.crazyfm.extension.goSystem.mechanisms
 		 */
 		public function interact(passedTime:Number):void
 		{
-			for (var i:* in _gearList)
+			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				_gearList[i].interact(passedTime);
+				_childrenList[i].interact(passedTime);
 			}
 		}
 	}

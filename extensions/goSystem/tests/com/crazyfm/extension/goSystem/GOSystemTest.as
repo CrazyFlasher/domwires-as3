@@ -7,7 +7,6 @@ package com.crazyfm.extension.goSystem
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
-	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
@@ -99,15 +98,6 @@ package com.crazyfm.extension.goSystem
 		}
 
 		[Test]
-		public function testSetJuggler():void
-		{
-			var m:IMechanism = new EnterFrameMechanism();
-			s.setMechanism(m);
-
-			assertEquals(m, s.mechanism);
-		}
-
-		[Test]
 		public function testRemoveGameObject():void
 		{
 			var go_1:IGameObject = new GameObject();
@@ -132,9 +122,11 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testGameObjectList():void
 		{
-			assertNull(s.gameObjectList);
+			assertEquals(s.gameObjectList.length, 0);
 			s.addGameObject(new GameObject());
-			assertNotNull(s.gameObjectList);
+			assertEquals(s.gameObjectList.length, 1);
+			s.disposeWithAllChildren();
+			assertNull(s.gameObjectList);
 		}
 
 		[Test]

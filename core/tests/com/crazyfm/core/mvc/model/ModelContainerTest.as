@@ -1,15 +1,16 @@
 /**
  * Created by Anton Nefjodov on 29.01.2016.
  */
-package com.crazyfm.core.mvc
+package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.model.IModelContainer;
-	import com.crazyfm.core.mvc.model.Model;
-	import com.crazyfm.core.mvc.model.ModelContainer;
 
-	import flexunit.framework.Assert;
+	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertNotNull;
+	import org.flexunit.asserts.assertNull;
+	import org.flexunit.asserts.assertTrue;
 
 	import testObject.MyCoolEnum;
 
@@ -43,7 +44,7 @@ package com.crazyfm.core.mvc
 		public function testNumModels():void
 		{
 			mc.addModel(m1).addModel(m2).addModel(m3);
-			Assert.assertEquals(mc.numModels, 3);
+			assertEquals(mc.numModels, 3);
 		}
 
 		[Test]
@@ -51,46 +52,46 @@ package com.crazyfm.core.mvc
 		{
 			mc.addModel(m1).addModel(m2).addModel(m3);
 			mc.removeModel(m1);
-			Assert.assertEquals(mc.numModels, 2);
-			Assert.assertNull(m1.parent);
+			assertEquals(mc.numModels, 2);
+			assertNull(m1.parent);
 		}
 
 		[Test]
 		public function testContainsModel():void
 		{
-			Assert.assertFalse(mc.containsModel(m1));
-			Assert.assertFalse(mc.containsModel(m2));
-			Assert.assertFalse(mc.containsModel(m3));
+			assertFalse(mc.containsModel(m1));
+			assertFalse(mc.containsModel(m2));
+			assertFalse(mc.containsModel(m3));
 
 			mc.addModel(m1).addModel(m2).addModel(m3);
-			Assert.assertTrue(mc.containsModel(m1));
-			Assert.assertTrue(mc.containsModel(m2));
-			Assert.assertTrue(mc.containsModel(m3));
+			assertTrue(mc.containsModel(m1));
+			assertTrue(mc.containsModel(m2));
+			assertTrue(mc.containsModel(m3));
 
 			mc.removeModel(m1);
-			Assert.assertFalse(mc.containsModel(m1));
-			Assert.assertTrue(mc.containsModel(m2));
-			Assert.assertTrue(mc.containsModel(m3));
+			assertFalse(mc.containsModel(m1));
+			assertTrue(mc.containsModel(m2));
+			assertTrue(mc.containsModel(m3));
 		}
 
 		[Test]
 		public function testAddModel():void
 		{
-			Assert.assertEquals(mc.numModels, 0);
+			assertEquals(mc.numModels, 0);
 			mc.addModel(m1);
-			Assert.assertEquals(mc.numModels, 1);
+			assertEquals(mc.numModels, 1);
 			mc.addModel(m1);
 			mc.addModel(m1);
 			mc.addModel(m1);
-			Assert.assertEquals(mc.numModels, 1);
+			assertEquals(mc.numModels, 1);
 		}
 
 		[Test]
 		public function testAddModels():void
 		{
-			Assert.assertEquals(mc.numModels, 0);
+			assertEquals(mc.numModels, 0);
 			mc.addModel(m1).addModel(m2).addModel(m3);
-			Assert.assertEquals(mc.numModels, 3);
+			assertEquals(mc.numModels, 3);
 		}
 
 		[Test]
@@ -100,40 +101,40 @@ package com.crazyfm.core.mvc
 
 			var listener:Function = function(event:ISignalEvent):void {};
 			mc.addSignalListener(MyCoolEnum.PREVED, listener);
-			Assert.assertTrue(mc.hasSignalListener(MyCoolEnum.PREVED));
+			assertTrue(mc.hasSignalListener(MyCoolEnum.PREVED));
 
 			mc.dispose();
-			Assert.assertEquals(mc.numModels, 0);
-			Assert.assertFalse(mc.hasSignalListener(MyCoolEnum.PREVED));
-			Assert.assertTrue(mc.isDisposed);
+			assertEquals(mc.numModels, 0);
+			assertFalse(mc.hasSignalListener(MyCoolEnum.PREVED));
+			assertTrue(mc.isDisposed);
 
-			Assert.assertFalse(m1.isDisposed);
-			Assert.assertFalse(m2.isDisposed);
-			Assert.assertFalse(m3.isDisposed);
+			assertFalse(m1.isDisposed);
+			assertFalse(m2.isDisposed);
+			assertFalse(m3.isDisposed);
 		}
 
 		[Test]
 		public function testRemoveAllModels():void
 		{
-			Assert.assertEquals(mc.numModels, 0);
+			assertEquals(mc.numModels, 0);
 
 			mc.addModel(m1).addModel(m2).addModel(m3);
 
-			Assert.assertNotNull(m1.parent);
-			Assert.assertNotNull(m2.parent);
-			Assert.assertNotNull(m3.parent);
-			Assert.assertEquals(mc.numModels, 3);
+			assertNotNull(m1.parent);
+			assertNotNull(m2.parent);
+			assertNotNull(m3.parent);
+			assertEquals(mc.numModels, 3);
 
 			mc.removeAllModels();
 
-			Assert.assertEquals(mc.numModels, 0);
-			Assert.assertFalse(mc.containsModel(m1));
-			Assert.assertFalse(mc.containsModel(m2));
-			Assert.assertFalse(mc.containsModel(m3));
+			assertEquals(mc.numModels, 0);
+			assertFalse(mc.containsModel(m1));
+			assertFalse(mc.containsModel(m2));
+			assertFalse(mc.containsModel(m3));
 
-			Assert.assertNull(m1.parent);
-			Assert.assertNull(m2.parent);
-			Assert.assertNull(m3.parent);
+			assertNull(m1.parent);
+			assertNull(m2.parent);
+			assertNull(m3.parent);
 		}
 
 		[Test]
@@ -148,21 +149,21 @@ package com.crazyfm.core.mvc
 			});
 
 			m1.dispatchSignal(MyCoolEnum.PREVED, {name:"Anton"});
-			Assert.assertNull(bubbledType);
-			Assert.assertNull(bubbledData);
+			assertNull(bubbledType);
+			assertNull(bubbledData);
 
 			mc.addModel(m1);
 			m1.dispatchSignal(MyCoolEnum.PREVED, {name:"Anton"});
-			Assert.assertEquals(bubbledType, MyCoolEnum.PREVED);
-			Assert.assertEquals(bubbledData.name, "Anton");
+			assertEquals(bubbledType, MyCoolEnum.PREVED);
+			assertEquals(bubbledData.name, "Anton");
 
 			bubbledType = null;
 			bubbledData = null;
 
 			mc.removeModel(m1);
 			m1.dispatchSignal(MyCoolEnum.PREVED, {name:"Anton"});
-			Assert.assertNull(bubbledType);
-			Assert.assertNull(bubbledData);
+			assertNull(bubbledType);
+			assertNull(bubbledData);
 		}
 
 		[Test]
@@ -171,10 +172,10 @@ package com.crazyfm.core.mvc
 			mc.addModel(m1).addModel(m2).addModel(m3);
 			mc.removeModel(m2).removeModel(m3);
 
-			Assert.assertEquals(mc.numModels, 1);
-			Assert.assertTrue(mc.containsModel(m1));
-			Assert.assertFalse(mc.containsModel(m2));
-			Assert.assertFalse(mc.containsModel(m3));
+			assertEquals(mc.numModels, 1);
+			assertTrue(mc.containsModel(m1));
+			assertFalse(mc.containsModel(m2));
+			assertFalse(mc.containsModel(m3));
 		}
 
 		[Test]
@@ -187,31 +188,31 @@ package com.crazyfm.core.mvc
 			  .addModel(mc2
 			  	.addModel(m3));
 
-			Assert.assertTrue(m3.parent, mc2);
+			assertTrue(m3.parent, mc2);
 
 			mc.disposeWithAllChildren();
 
-			Assert.assertTrue(m1.isDisposed);
-			Assert.assertTrue(m2.isDisposed);
-			Assert.assertTrue(m3.isDisposed);
-			Assert.assertNull(m3.parent);
-			Assert.assertTrue(mc2.isDisposed);
-			Assert.assertEquals(mc2.numModels, 0);
+			assertTrue(m1.isDisposed);
+			assertTrue(m2.isDisposed);
+			assertTrue(m3.isDisposed);
+			assertNull(m3.parent);
+			assertTrue(mc2.isDisposed);
+			assertEquals(mc2.numModels, 0);
 		}
 
 		[Test]
 		public function testAddedToNewParent():void
 		{
 			var mc2:IModelContainer = new ModelContainer();
-			Assert.assertNull(m1.parent);
+			assertNull(m1.parent);
 
 			mc.addModel(m1);
-			Assert.assertEquals(m1.parent, mc);
+			assertEquals(m1.parent, mc);
 
 			mc2.addModel(m1);
-			Assert.assertEquals(m1.parent, mc2);
+			assertEquals(m1.parent, mc2);
 
-			Assert.assertEquals(mc.numModels, 0);
+			assertEquals(mc.numModels, 0);
 
 			mc2.disposeWithAllChildren();
 		}
@@ -233,13 +234,13 @@ package com.crazyfm.core.mvc
 			};
 
 			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
-			Assert.assertEquals(receivedSignalCount, 0);
+			assertEquals(receivedSignalCount, 0);
 
 			receivedSignalCount = 0;
 
 			m1.addSignalListener(MyCoolEnum.PREVED, listener);
 			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
-			Assert.assertEquals(receivedSignalCount, 1);
+			assertEquals(receivedSignalCount, 1);
 
 			receivedSignalCount = 0;
 
@@ -247,7 +248,7 @@ package com.crazyfm.core.mvc
 			m3.addSignalListener(MyCoolEnum.PREVED, listener);
 
 			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
-			Assert.assertEquals(receivedSignalCount, 3);
+			assertEquals(receivedSignalCount, 3);
 		}
 
 		[Test]
@@ -288,14 +289,14 @@ package com.crazyfm.core.mvc
 			});
 
 			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
-			Assert.assertTrue(mc2_received, m1_received, m2_received, m3_received);
+			assertTrue(mc2_received, m1_received, m2_received, m3_received);
 
 			mc2_received = m1_received = m2_received = m3_received = false;
 
 			mc2.removeAllSignalListeners();
 			mc.dispatchSignalToChildren(MyCoolEnum.PREVED);
-			Assert.assertTrue(m1_received, m2_received, m3_received);
-			Assert.assertFalse(mc2_received);
+			assertTrue(m1_received, m2_received, m3_received);
+			assertFalse(mc2_received);
 		}
 	}
 }

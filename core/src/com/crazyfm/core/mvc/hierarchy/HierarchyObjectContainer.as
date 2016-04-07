@@ -187,6 +187,8 @@ package com.crazyfm.core.mvc.hierarchy
 		{
 			removeAll(true);
 
+			_childrenList = null;
+
 			super.dispose();
 		}
 

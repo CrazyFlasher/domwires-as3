@@ -12,6 +12,7 @@ package com.crazyfm.core.mvc.model
 	{
 		public function Model()
 		{
+			super();
 		}
 	}
 }

@@ -3,16 +3,11 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.IModelContainer;
-	import com.crazyfm.core.mvc.model.ModelContainer;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
-	import flash.utils.Dictionary;
-
-	public class GameObject extends ModelContainer implements IGameObject
+	public class GameObject extends HierarchyObjectContainer implements IGameObject
 	{
 		private var _isEnabled:Boolean;
-		private var _componentList:Dictionary/*IGameComponent, IGameComponent*/;
-		private var _numComponents:int;
 
 		public function GameObject()
 		{
@@ -28,9 +23,9 @@ package com.crazyfm.extension.goSystem
 		{
 			if (!_isEnabled) return;
 
-			for (var i:* in _componentList)
+			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				_componentList[i].interact(timePassed);
+				_childrenList[i].interact(timePassed);
 			}
 		}
 		/**
@@ -75,19 +70,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function addComponent(component:IGameComponent):IGameObject
 		{
-			super.addModel(component);
-
-			if (!_componentList)
-			{
-				_componentList = new Dictionary();
-			}
-
-			var added:Boolean = addChild(component, _componentList);
-
-			if (added)
-			{
-				_numComponents++;
-			}
+			add(component);
 
 			return this;
 		}
@@ -97,19 +80,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function removeComponent(component:IGameComponent, dispose:Boolean = false):IGameObject
 		{
-			super.removeModel(component, false);
-
-			var removed:Boolean = removeChild(component, _componentList);
-
-			if (removed)
-			{
-				_numComponents--;
-
-				if (dispose)
-				{
-					component.dispose();
-				}
-			}
+			remove(component, dispose);
 
 			return this;
 		}
@@ -117,30 +88,9 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllComponents(dispose:Boolean = false, withChildren:Boolean = false):IGameObject
+		public function removeAllComponents(dispose:Boolean = false):IGameObject
 		{
-			super.removeAllModels(false);
-
-			if (_componentList)
-			{
-				for (var i:* in _componentList)
-				{
-					if (dispose)
-					{
-						if (withChildren && _componentList[i] is IModelContainer)
-						{
-							(_componentList[i] as IModelContainer).disposeWithAllChildren();
-						}else
-						{
-							_componentList[i].dispose();
-						}
-					}
-				}
-
-				_componentList = null;
-
-				_numComponents = 0;
-			}
+			removeAll(dispose);
 
 			return this;
 		}
@@ -150,7 +100,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function get numComponents():int
 		{
-			return _numComponents;
+			return _childrenList ? _childrenList.length : 0;
 		}
 
 		/**
@@ -158,15 +108,15 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function containsComponent(component:IGameComponent):Boolean
 		{
-			return _componentList && _componentList[component] != null;
+			return _childrenList && _childrenList.indexOf(component) != -1;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function get componentList():Dictionary
+		public function get componentList():Array
 		{
-			return _componentList;
+			return _childrenList;
 		}
 
 		/**
@@ -174,11 +124,11 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function getComponentByType(clazz:Class):IGameComponent
 		{
-			for (var i:* in _componentList)
+			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				if (_componentList[i] is clazz)
+				if (_childrenList[i] is clazz)
 				{
-					return _componentList[i]
+					return _childrenList[i]
 				}
 			}
 
@@ -192,11 +142,11 @@ package com.crazyfm.extension.goSystem
 		{
 			var components:Vector.<IGameComponent> = new <IGameComponent>[];
 
-			for (var i:* in _componentList)
+			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				if (_componentList[i] is clazz)
+				if (_childrenList[i] is clazz)
 				{
-					components.push(_componentList[i]);
+					components.push(_childrenList[i]);
 				}
 			}
 
@@ -208,7 +158,9 @@ package com.crazyfm.extension.goSystem
 		 */
 		override public function disposeWithAllChildren():void
 		{
-			removeAllComponents(true, true);
+			removeAllComponents(true);
+
+			_childrenList = null;
 
 			super.disposeWithAllChildren();
 		}

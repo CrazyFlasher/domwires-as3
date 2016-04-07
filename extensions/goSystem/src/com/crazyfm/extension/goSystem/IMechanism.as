@@ -3,18 +3,16 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.IModelContainer;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
 
-	import flash.utils.Dictionary;
-
-	public interface IMechanism extends IModelContainer
+	public interface IMechanism extends IHierarchyObjectContainer
 	{
 		function addGear(value:IGearWheel):IMechanism;
 		function removeGear(value:IGearWheel, dispose:Boolean = false):IMechanism;
 		function removeAllGears(dispose:Boolean = false):IMechanism;
 		function get numGears():int;
 		function containsGear(value:IGearWheel):Boolean;
-		function get gearList():Dictionary;
+		function get gearList():Array;
 		function interact(passedTime:Number):void;
 	}
 }

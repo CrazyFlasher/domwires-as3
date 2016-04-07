@@ -15,6 +15,8 @@ package com.crazyfm.extension.goSystem.mechanisms
 
 		public function EnterFrameMechanism()
 		{
+			super();
+
 			init();
 		}
 

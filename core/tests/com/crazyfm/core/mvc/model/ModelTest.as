@@ -1,12 +1,11 @@
 /**
  * Created by Anton Nefjodov on 29.01.2016.
  */
-package com.crazyfm.core.mvc
+package com.crazyfm.core.mvc.model
 {
-	import com.crazyfm.core.mvc.model.Model;
-	import com.crazyfm.core.mvc.model.ModelContainer;
-
-	import flexunit.framework.Assert;
+	import org.flexunit.asserts.assertNotNull;
+	import org.flexunit.asserts.assertNull;
+	import org.flexunit.asserts.assertTrue;
 
 	public class ModelTest
 	{
@@ -27,14 +26,14 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testParent():void
 		{
-			Assert.assertNull(model.parent);
+			assertNull(model.parent);
 
 			var mc:ModelContainer = new ModelContainer();
 			mc.addModel(model);
-			Assert.assertNotNull(model.parent);
+			assertNotNull(model.parent);
 
 			mc.removeModel(model);
-			Assert.assertNull(model.parent);
+			assertNull(model.parent);
 
 			mc.dispose();
 		}
@@ -44,11 +43,11 @@ package com.crazyfm.core.mvc
 		{
 			var mc:ModelContainer = new ModelContainer();
 			mc.addModel(model);
-			Assert.assertNotNull(model.parent);
+			assertNotNull(model.parent);
 
 			model.dispose();
-			Assert.assertNull(model.parent);
-			Assert.assertTrue(model.isDisposed);
+			assertNull(model.parent);
+			assertTrue(model.isDisposed);
 		}
 	}
 }

@@ -1,15 +1,15 @@
 /**
  * Created by Anton Nefjodov on 26.01.2016.
  */
-package com.crazyfm.core.mvc
+package com.crazyfm.core.mvc.event
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.model.Context;
+	import com.crazyfm.core.mvc.context.Context;
 	import com.crazyfm.core.mvc.model.Model;
 	import com.crazyfm.core.mvc.model.ModelContainer;
 
-	import flexunit.framework.Assert;
+	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertTrue;
 
 	import testObject.MyCoolEnum;
 
@@ -79,27 +79,27 @@ package com.crazyfm.core.mvc
 			//bottom element
 			m1.dispatchSignal(MyCoolEnum.PREVED, {name: "Anton"});
 
-			Assert.assertEquals(bubbledEventType, MyCoolEnum.PREVED);
+			assertEquals(bubbledEventType, MyCoolEnum.PREVED);
 
 			bubbledEventType = null;
 
 			//bottom element
 			m1.dispatchSignal(MyCoolEnum.PREVED, {name: "Anton"});
 
-			Assert.assertEquals(bubbledEventType, MyCoolEnum.PREVED);
+			assertEquals(bubbledEventType, MyCoolEnum.PREVED);
 		}
 
 		[Test]
 		public function testHierarchy():void
 		{
-			Assert.assertTrue(c3.parent == c1);
-			Assert.assertTrue(mc3.parent == c3);
-			Assert.assertTrue(mc4.parent == c4);
-			Assert.assertTrue(m1.parent == mc2);
-			Assert.assertTrue(m1.parent != mc1);
-			Assert.assertTrue(mc2.parent == mc1);
-			Assert.assertTrue(mc2.parent != c2);
-			Assert.assertTrue(m1.parent != c1);
+			assertTrue(c3.parent == c1);
+			assertTrue(mc3.parent == c3);
+			assertTrue(mc4.parent == c4);
+			assertTrue(m1.parent == mc2);
+			assertTrue(m1.parent != mc1);
+			assertTrue(mc2.parent == mc1);
+			assertTrue(mc2.parent != c2);
+			assertTrue(m1.parent != c1);
 		}
 
 		[After]

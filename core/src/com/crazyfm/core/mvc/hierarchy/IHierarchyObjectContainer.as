@@ -5,6 +5,8 @@ package com.crazyfm.core.mvc.hierarchy
 {
 	import com.crazyfm.core.common.Enum;
 
+	use namespace ns_hierarchy;
+
 	public interface IHierarchyObjectContainer extends IHierarchyObject
 	{
 		/**
@@ -23,9 +25,9 @@ package com.crazyfm.core.mvc.hierarchy
 		function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer;
 
 		/**
-		 * Removes all children from all lists of current object.
+		 * Removes all children from specified (or default) list of current object.
 		 * @param dispose If true, then removed children will be disposed
-		 * @param fromList If true, then removed children will be disposed
+		 * @param fromList
 		 */
 		function removeAll(dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer;
 

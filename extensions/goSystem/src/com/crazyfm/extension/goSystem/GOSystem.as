@@ -3,17 +3,11 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.IModelContainer;
 	import com.crazyfm.core.mvc.model.ModelContainer;
-
-	import flash.utils.Dictionary;
 
 	public class GOSystem extends ModelContainer implements IGOSystem
 	{
 		private var _mechanism:IMechanism;
-
-		private var _gameObjectList:Dictionary/*IGameObject, IGameObject*/;
-		private var _numGameObjects:int;
 
 		public function GOSystem(mechanism:IMechanism)
 		{
@@ -25,41 +19,9 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function setMechanism(mechanism:IMechanism):IGOSystem
-		{
-			if (_mechanism != null)
-			{
-				_mechanism.removeGear(this);
-			}
-
-			_mechanism = mechanism;
-
-			if (_mechanism != null)
-			{
-				_mechanism.addGear(this);
-			}
-
-			return this;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
 		public function addGameObject(value:IGameObject):IGOSystem
 		{
-			super.addModel(value);
-
-			if (!_gameObjectList)
-			{
-				_gameObjectList = new Dictionary();
-			}
-
-			var added:Boolean = addChild(value, _gameObjectList);
-
-			if (added)
-			{
-				_numGameObjects++;
-			}
+			add(value);
 
 			return this;
 		}
@@ -69,19 +31,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function removeGameObject(value:IGameObject, dispose:Boolean = false):IGOSystem
 		{
-			super.removeModel(value, false);
-
-			var removed:Boolean = removeChild(value, _gameObjectList);
-
-			if (removed)
-			{
-				_numGameObjects--;
-
-				if (dispose)
-				{
-					value.dispose();
-				}
-			}
+			remove(value, dispose);
 
 			return this;
 		}
@@ -89,30 +39,9 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllGameObjects(dispose:Boolean = false, withChildren:Boolean = false):IGOSystem
+		public function removeAllGameObjects(dispose:Boolean = false):IGOSystem
 		{
-			super.removeAllModels(false);
-
-			if (_gameObjectList)
-			{
-				for (var i:* in _gameObjectList)
-				{
-					if (dispose)
-					{
-						if (withChildren && _gameObjectList[i] is IModelContainer)
-						{
-							(_gameObjectList[i] as IModelContainer).disposeWithAllChildren();
-						}else
-						{
-							_gameObjectList[i].dispose();
-						}
-					}
-				}
-
-				_gameObjectList = null;
-
-				_numGameObjects = 0;
-			}
+			removeAll(dispose);
 
 			return this;
 		}
@@ -122,7 +51,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function get numGameObjects():int
 		{
-			return _numGameObjects;
+			return _childrenList ? _childrenList.length : 0;
 		}
 
 		/**
@@ -130,15 +59,15 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function containsGameObject(value:IGameObject):Boolean
 		{
-			return _gameObjectList && _gameObjectList[value] != null;
+			return _childrenList && _childrenList.indexOf(value) != -1;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function get gameObjectList():Dictionary
+		public function get gameObjectList():Array
 		{
-			return _gameObjectList;
+			return _childrenList;
 		}
 
 		/**
@@ -146,11 +75,11 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function interact(timePassed:Number):void
 		{
-			for (var i:* in _gameObjectList)
+			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				if (_gameObjectList[i].isEnabled)
+				if (_childrenList[i].isEnabled)
 				{
-					_gameObjectList[i].interact(timePassed);
+					_childrenList[i].interact(timePassed);
 				}
 			}
 		}
@@ -160,7 +89,9 @@ package com.crazyfm.extension.goSystem
 		 */
 		override public function disposeWithAllChildren():void
 		{
-			removeAllGameObjects(true, true);
+			removeMechanism();
+
+			removeAllGameObjects(true);
 
 			super.disposeWithAllChildren();
 		}
@@ -170,11 +101,7 @@ package com.crazyfm.extension.goSystem
 		 */
 		override public function dispose():void
 		{
-			if (_mechanism)
-			{
-				_mechanism.removeGear(this);
-				_mechanism = null;
-			}
+			removeMechanism();
 
 			removeAllGameObjects();
 
@@ -187,6 +114,15 @@ package com.crazyfm.extension.goSystem
 		public function get mechanism():IMechanism
 		{
 			return _mechanism;
+		}
+
+		private function removeMechanism():void
+		{
+			if (_mechanism)
+			{
+				_mechanism.removeGear(this);
+				_mechanism = null;
+			}
 		}
 	}
 }

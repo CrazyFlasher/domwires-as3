@@ -1,12 +1,10 @@
 /**
  * Created by Anton Nefjodov on 30.01.2016.
  */
-package com.crazyfm.core.mvc
+package com.crazyfm.core.common
 {
-	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.core.common.IDisposable;
-
-	import flexunit.framework.Assert;
+	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertTrue;
 
 	public class DisposableTest
 	{
@@ -28,9 +26,9 @@ package com.crazyfm.core.mvc
 		[Test]
 		public function testDispose():void
 		{
-			Assert.assertFalse(d.isDisposed);
+			assertFalse(d.isDisposed);
 			d.dispose();
-			Assert.assertTrue(d.isDisposed);
+			assertTrue(d.isDisposed);
 		}
 	}
 }

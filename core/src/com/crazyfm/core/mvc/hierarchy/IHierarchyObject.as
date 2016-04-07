@@ -6,7 +6,7 @@ package com.crazyfm.core.mvc.hierarchy
 	import com.crazyfm.core.mvc.event.ISignalDispatcher;
 
 	/**
-	 * Object, that part of hierarchy. Can dispatch and receive signals from hierarchy branch.
+	 * Object, that is a part of hierarchy. Can dispatch and receive signals from hierarchy branch.
 	 */
 	public interface IHierarchyObject extends ISignalDispatcher
 	{

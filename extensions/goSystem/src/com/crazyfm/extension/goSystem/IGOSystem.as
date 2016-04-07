@@ -3,18 +3,16 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.IModelContainer;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
 
-	import flash.utils.Dictionary;
-
-	public interface IGOSystem extends IModelContainer, IGearWheel
+	public interface IGOSystem extends IHierarchyObjectContainer, IGearWheel
 	{
 		function addGameObject(value:IGameObject):IGOSystem;
 		function removeGameObject(value:IGameObject, dispose:Boolean = false):IGOSystem;
-		function removeAllGameObjects(dispose:Boolean = false, withChildren:Boolean = false):IGOSystem;
+		function removeAllGameObjects(dispose:Boolean = false):IGOSystem;
 		function get numGameObjects():int;
 		function containsGameObject(value:IGameObject):Boolean;
-		function get gameObjectList():Dictionary;
+		function get gameObjectList():Array;
 		function get mechanism():IMechanism;
 	}
 }

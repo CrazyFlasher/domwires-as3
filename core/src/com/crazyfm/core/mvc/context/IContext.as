@@ -1,9 +1,10 @@
 /**
  * Created by Anton Nefjodov on 26.01.2016.
  */
-package com.crazyfm.core.mvc.model
+package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.model.*;
 	import com.crazyfm.core.mvc.view.IViewController;
 
 	/**

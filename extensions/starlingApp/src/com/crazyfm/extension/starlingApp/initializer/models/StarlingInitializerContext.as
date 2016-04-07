@@ -3,7 +3,7 @@
  */
 package com.crazyfm.extension.starlingApp.initializer.models
 {
-	import com.crazyfm.core.mvc.model.Context;
+	import com.crazyfm.core.mvc.context.Context;
 	import com.crazyfm.extension.starlingApp.initializer.signals.StarlingInitializerSignalEnum;
 
 	import flash.display.Stage;
