@@ -3,9 +3,9 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.model.ModelContainer;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
-	public class GOSystem extends ModelContainer implements IGOSystem
+	public class GOSystem extends HierarchyObjectContainer implements IGOSystem
 	{
 		private var _mechanism:IMechanism;
 

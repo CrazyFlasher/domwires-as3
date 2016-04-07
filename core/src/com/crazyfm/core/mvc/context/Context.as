@@ -4,6 +4,7 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 	import com.crazyfm.core.mvc.model.*;
@@ -14,7 +15,7 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.mvc.view.IViewContainer;
 	import com.crazyfm.core.mvc.view.ViewContainer;
 
-	import flash.display.DisplayObjectContainer;
+	import org.osflash.signals.events.IEvent;
 
 	use namespace ns_hierarchy;
 
@@ -24,7 +25,7 @@ package com.crazyfm.core.mvc.context
 		protected var viewContainer:IViewContainer;
 		protected var serviceContainer:IServiceContainer;
 
-		public function Context(viewPort:DisplayObjectContainer = null)
+		public function Context()
 		{
 			super();
 
@@ -34,11 +35,8 @@ package com.crazyfm.core.mvc.context
 			serviceContainer = new ServiceContainer();
 			add(serviceContainer);
 
-			if (viewPort)
-			{
-				viewContainer = new ViewContainer(viewPort);
-				add(viewContainer);
-			}
+			viewContainer = new ViewContainer();
+			add(viewContainer);
 		}
 
 		public function addModel(model:IModel):IModelContainer
@@ -149,10 +147,7 @@ package com.crazyfm.core.mvc.context
 		override public function dispose():void
 		{
 			modelContainer.dispose();
-			if (viewContainer)
-			{
-				viewContainer.dispose();
-			}
+			viewContainer.dispose();
 			serviceContainer.dispose();
 
 			modelContainer = null;
@@ -174,5 +169,29 @@ package com.crazyfm.core.mvc.context
 
 			super.disposeWithAllChildren();
 		}
+
+		override public function onEventBubbled(event:IEvent):Boolean
+		{
+			var e:ISignalEvent = event as ISignalEvent;
+
+			if (event.target is IModel)
+			{
+				dispatchSignalToViews(e.type, e.data);
+				dispatchSignalToServices(e.type, e.data);
+			}else
+			if (event.target is IService)
+			{
+				dispatchSignalToViews(e.type, e.data);
+				dispatchSignalToModels(e.type, e.data);
+			}else
+			if (event.target is IView)
+			{
+				dispatchSignalToServices(e.type, e.data);
+				dispatchSignalToModels(e.type, e.data);
+			}
+
+			return super.onEventBubbled(event);
+		}
+
 	}
 }

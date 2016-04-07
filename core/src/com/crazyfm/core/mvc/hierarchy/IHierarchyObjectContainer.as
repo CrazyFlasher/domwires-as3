@@ -5,9 +5,11 @@ package com.crazyfm.core.mvc.hierarchy
 {
 	import com.crazyfm.core.common.Enum;
 
+	import org.osflash.signals.events.IBubbleEventHandler;
+
 	use namespace ns_hierarchy;
 
-	public interface IHierarchyObjectContainer extends IHierarchyObject
+	public interface IHierarchyObjectContainer extends IHierarchyObject, IBubbleEventHandler
 	{
 		function add(child:IHierarchyObject):IHierarchyObjectContainer;
 

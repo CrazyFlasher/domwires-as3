@@ -6,21 +6,17 @@ package com.crazyfm.core.mvc.view
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
-	import flash.display.DisplayObjectContainer;
-
 	public class ViewContainer extends HierarchyObjectContainer implements IViewContainer
 	{
-		protected var container:DisplayObjectContainer;
-
-		public function ViewContainer(container:DisplayObjectContainer)
+		public function ViewContainer()
 		{
 			super();
-
-			this.container = container;
 		}
 
 		public function addView(view:IView):IViewContainer
 		{
+			add(view);
+
 			return this;
 		}
 
@@ -56,20 +52,6 @@ package com.crazyfm.core.mvc.view
 		public function dispatchSignalToViews(type:Enum, data:Object = null):void
 		{
 			dispatchSignalToChildren(type, data);
-		}
-
-		override public function dispose():void
-		{
-			container = null;
-
-			super.dispose();
-		}
-
-		override public function disposeWithAllChildren():void
-		{
-			container = null;
-
-			super.disposeWithAllChildren();
 		}
 	}
 }
