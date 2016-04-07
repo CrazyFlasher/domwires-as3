@@ -9,39 +9,14 @@ package com.crazyfm.core.mvc.hierarchy
 
 	public interface IHierarchyObjectContainer extends IHierarchyObject
 	{
-		/**
-		 * Adds object to object list of current object.
-		 * @param child
-		 * @param toList
-		 */
-		function add(child:IHierarchyObject, toList:Array = null):IHierarchyObjectContainer;
+		function add(child:IHierarchyObject):IHierarchyObjectContainer;
 
-		/**
-		 * Removes object from children list of current object.
-		 * @param child
-		 * @param dispose
-		 * @param fromList
-		 */
-		function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer;
+		function remove(child:IHierarchyObject, dispose:Boolean = false):IHierarchyObjectContainer;
 
-		/**
-		 * Removes all children from specified (or default) list of current object.
-		 * @param dispose If true, then removed children will be disposed
-		 * @param fromList
-		 */
-		function removeAll(dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer;
+		function removeAll(dispose:Boolean = false):IHierarchyObjectContainer;
 
-		/**
-		 * Disposes current object and disposes objects from its object list.
-		 */
 		function disposeWithAllChildren():void;
 
-		/**
-		 * Dispatches signal down to hierarchy.
-		 * @param type Signal type
-		 * @param data Optional data that will sent with signal
-		 * @param inList
-		 */
-		function dispatchSignalToChildren(type:Enum, data:Object = null, inList:Array = null):void;
+		function dispatchSignalToChildren(type:Enum, data:Object = null):void;
 	}
 }

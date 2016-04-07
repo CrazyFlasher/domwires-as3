@@ -3,138 +3,176 @@
  */
 package com.crazyfm.core.mvc.context
 {
-	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
-	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
+	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 	import com.crazyfm.core.mvc.model.*;
-	import com.crazyfm.core.mvc.view.IViewController;
+	import com.crazyfm.core.mvc.service.IService;
+	import com.crazyfm.core.mvc.service.IServiceContainer;
+	import com.crazyfm.core.mvc.service.ServiceContainer;
+	import com.crazyfm.core.mvc.view.IView;
+	import com.crazyfm.core.mvc.view.IViewContainer;
+	import com.crazyfm.core.mvc.view.ViewContainer;
 
-	import org.osflash.signals.events.IEvent;
+	import flash.display.DisplayObjectContainer;
 
 	use namespace ns_hierarchy;
 
-	/**
-	 * Extends IModelContainer and is able to communicate with IViewController objects via signals and/or direct connection
-	 * (interface methods calls). Re-dispatches received from model hierarchy signals to IViewControllers, that are connected to current
-	 * IContext.
-	 */
-	public class Context extends ModelContainer implements IContext
+	public class Context extends HierarchyObjectContainer implements IContext
 	{
-		protected var _viewList:Array = [];
+		protected var modelContainer:IModelContainer;
+		protected var viewContainer:IViewContainer;
+		protected var serviceContainer:IServiceContainer;
 
-		public function Context()
+		public function Context(viewPort:DisplayObjectContainer = null)
 		{
 			super();
+
+			modelContainer = new ModelContainer();
+			add(modelContainer);
+
+			serviceContainer = new ServiceContainer();
+			add(serviceContainer);
+
+			if (viewPort)
+			{
+				viewContainer = new ViewContainer(viewPort);
+				add(viewContainer);
+			}
 		}
 
-		 /**
-		 * @inheritDoc
-		 */
-		public function addViewController(viewController:IViewController):IContext
+		public function addModel(model:IModel):IModelContainer
 		{
-			add(viewController, _viewList);
-
-			return this;
+			return modelContainer.addModel(model);
 		}
 
-		/**
-		 * @inheritDoc
-		 */
-		public function removeViewController(viewController:IViewController, dispose:Boolean = false):IContext
+		public function removeModel(model:IModel, dispose:Boolean = false):IModelContainer
 		{
-			remove(viewController, _viewList);
-
-			return this;
+			return modelContainer.removeModel(model, dispose);
 		}
 
-		/**
-		 * @inheritDoc
-		 */
-		public function removeAllViewControllers(dispose:Boolean = false):IContext
+		public function removeAllModels(dispose:Boolean = false):IModelContainer
 		{
-			removeAll(dispose, _viewList);
-
-			return this;
+			return modelContainer.removeAllModels(dispose);
 		}
 
-		/**
-		 * @inheritDoc
-		 */
-		public function get numViewControllers():int
+		public function get numModels():int
 		{
-			return _viewList != null ? _viewList.length : 0;
+			return modelContainer.numModels;
 		}
 
-		/**
-		 * @inheritDoc
-		 */
-		public function containsViewController(viewController:IViewController):Boolean
+		public function containsModel(model:IModel):Boolean
 		{
-			return _viewList != null ? _viewList.indexOf(viewController) != -1 : false;
+			return modelContainer.containsModel(model);
 		}
 
-		/**
-		 * Disposes current object and disposes models from its model list and views from view list.
-		 */
-		override public function disposeWithAllChildren():void
+		public function get modelList():Array
 		{
-			removeAllViewControllers(true);
-
-			super.disposeWithAllChildren();
+			return modelContainer.modelList;
 		}
 
-		/**
-		 * Disposes object and removes all children models and views, but doesn't dispose them.
-		 */
+		public function dispatchSignalToModels(type:Enum, data:Object = null):void
+		{
+			modelContainer.dispatchSignalToModels(type, data);
+		}
+
+		public function addView(view:IView):IViewContainer
+		{
+			return viewContainer.addView(view);
+		}
+
+		public function removeView(view:IView, dispose:Boolean = false):IViewContainer
+		{
+			return viewContainer.removeView(view, dispose);
+		}
+
+		public function removeAllViews(dispose:Boolean = false):IViewContainer
+		{
+			return viewContainer.removeAllViews(dispose);
+		}
+
+		public function get numViews():int
+		{
+			return viewContainer.numViews;
+		}
+
+		public function containsView(view:IView):Boolean
+		{
+			return viewContainer.containsView(view);
+		}
+
+		public function get viewList():Array
+		{
+			return viewContainer.viewList;
+		}
+
+		public function dispatchSignalToViews(type:Enum, data:Object = null):void
+		{
+			viewContainer.dispatchSignalToViews(type, data);
+		}
+
+		public function addService(service:IService):IServiceContainer
+		{
+			return serviceContainer.addService(service);
+		}
+
+		public function removeService(service:IService, dispose:Boolean = false):IServiceContainer
+		{
+			return serviceContainer.removeService(service, dispose);
+		}
+
+		public function removeAllServices(dispose:Boolean = false):IServiceContainer
+		{
+			return serviceContainer.removeAllServices(dispose);
+		}
+
+		public function get numServices():int
+		{
+			return serviceContainer.numServices;
+		}
+
+		public function containsService(service:IService):Boolean
+		{
+			return serviceContainer.containsService(service);
+		}
+
+		public function get serviceList():Array
+		{
+			return serviceContainer.serviceList;
+		}
+
+		public function dispatchSignalToServices(type:Enum, data:Object = null):void
+		{
+			serviceContainer.dispatchSignalToServices(type, data);
+		}
+
 		override public function dispose():void
 		{
-			removeAllViewControllers();
+			modelContainer.dispose();
+			if (viewContainer)
+			{
+				viewContainer.dispose();
+			}
+			serviceContainer.dispose();
+
+			modelContainer = null;
+			viewContainer = null;
+			serviceContainer = null;
 
 			super.dispose();
 		}
 
-		/**
-		 * @inheritDoc
-		 * Broadcasts received from hierarchy signal.
-		 */
-		public function dispatchSignalToViewControllers(event:ISignalEvent):void
+		override public function disposeWithAllChildren():void
 		{
-			dispatchSignalToChildren(event.type, event.data, _viewList);
-		}
+			modelContainer.disposeWithAllChildren();
+			viewContainer.disposeWithAllChildren();
+			serviceContainer.disposeWithAllChildren();
 
-		/**
-		 * Handler for event bubbling.
-		 * Dispatches bubbled event to IViewControllers.
-		 * @param    event The event that bubbled up.
-		 * @return whether to continue bubbling this event
-		 */
-		override public function onEventBubbled(event:IEvent):Boolean
-		{
-			if (!(event.target is IViewController))
-			{
-				dispatchSignalToViewControllers(event as ISignalEvent);
-			}
+			modelContainer = null;
+			viewContainer = null;
+			serviceContainer = null;
 
-			return super.onEventBubbled(event);
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get viewControllerList():Array
-		{
-			return _viewList;
-		}
-
-		override public function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer
-		{
-			if (child is IViewController)
-			{
-				super.remove(child, dispose, _viewList);
-			}
-
-			return this;
+			super.disposeWithAllChildren();
 		}
 	}
 }

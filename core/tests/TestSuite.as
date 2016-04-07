@@ -5,7 +5,6 @@ package
 {
 	import com.crazyfm.core.common.DisposableTest;
 	import com.crazyfm.core.common.EnumTest;
-	import com.crazyfm.core.mvc.context.ContextTest;
 	import com.crazyfm.core.mvc.event.BubblingEventTest;
 	import com.crazyfm.core.mvc.event.SignalDispatcherTest;
 	import com.crazyfm.core.mvc.event.SignalEventTest;
@@ -25,7 +24,6 @@ package
 	{
 		public static const ALL_TESTS:Array = [
 			BubblingEventTest,
-			ContextTest,
 			DisposableTest,
 			ModelContainerTest,
 			ModelTest,

@@ -29,13 +29,11 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function add(child:IHierarchyObject, toList:Array = null):IHierarchyObjectContainer
+		public function add(child:IHierarchyObject):IHierarchyObjectContainer
 		{
-			var list:Array = (toList == null ? _childrenList : toList);
-
-			if (list.indexOf(child) == -1)
+			if (_childrenList.indexOf(child) == -1)
 			{
-				list.push(child);
+				_childrenList.push(child);
 
 				if (child.parent != null)
 				{
@@ -50,15 +48,13 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function remove(child:IHierarchyObject, dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer
+		public function remove(child:IHierarchyObject, dispose:Boolean = false):IHierarchyObjectContainer
 		{
-			var list:Array = (fromList == null ? _childrenList : fromList);
-
-			var childIndex:int = list.indexOf(child);
+			var childIndex:int = _childrenList.indexOf(child);
 
 			if (childIndex != -1)
 			{
-				list.removeAt(childIndex);
+				_childrenList.removeAt(childIndex);
 
 				if (dispose)
 				{
@@ -75,11 +71,9 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAll(dispose:Boolean = false, fromList:Array = null):IHierarchyObjectContainer
+		public function removeAll(dispose:Boolean = false):IHierarchyObjectContainer
 		{
-			var list:Array = (fromList == null ? _childrenList : fromList);
-
-			for each (var child:IHierarchyObject in list)
+			for each (var child:IHierarchyObject in _childrenList)
 			{
 				if (dispose)
 				{
@@ -97,9 +91,9 @@ package com.crazyfm.core.mvc.hierarchy
 				}
 			}
 
-			if (list)
+			if (_childrenList)
 			{
-				list.splice(0, list.length);
+				_childrenList.splice(0, _childrenList.length);
 			}
 
 			return this;
@@ -195,11 +189,9 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchSignalToChildren(type:Enum, data:Object = null, inList:Array = null):void
+		public function dispatchSignalToChildren(type:Enum, data:Object = null):void
 		{
-			var list:Array = (inList == null ? _childrenList : inList);
-
-			for each (var child:IHierarchyObject in list)
+			for each (var child:IHierarchyObject in _childrenList)
 			{
 				if(child is IHierarchyObject)
 				{
