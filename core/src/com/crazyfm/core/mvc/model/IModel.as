@@ -5,9 +5,6 @@ package com.crazyfm.core.mvc.model
 {
 	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
 
-	/**
-	 * Object that can contains data.
-	 */
 	public interface IModel extends IHierarchyObject
 	{
 

@@ -9,10 +9,6 @@ package com.crazyfm.core.mvc.model
 
 	use namespace ns_hierarchy;
 
-	/**
-	 * Extends IModel and is able to add or remove other IModel objects (can be parent of them). Also receives all
-	 * signals from children, sub-children and so on.
-	 */
 	public class ModelContainer extends HierarchyObjectContainer implements IModelContainer
 	{
 		public function ModelContainer()

@@ -5,6 +5,7 @@ package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 	import com.crazyfm.core.mvc.model.*;
@@ -41,17 +42,24 @@ package com.crazyfm.core.mvc.context
 
 		public function addModel(model:IModel):IModelContainer
 		{
-			return modelContainer.addModel(model);
+			modelContainer.addModel(model);
+			(model as HierarchyObject).setParent(this);
+
+			return this;
 		}
 
 		public function removeModel(model:IModel, dispose:Boolean = false):IModelContainer
 		{
-			return modelContainer.removeModel(model, dispose);
+			modelContainer.removeModel(model, dispose);
+
+			return this;
 		}
 
 		public function removeAllModels(dispose:Boolean = false):IModelContainer
 		{
-			return modelContainer.removeAllModels(dispose);
+			modelContainer.removeAllModels(dispose);
+
+			return this;
 		}
 
 		public function get numModels():int
@@ -76,17 +84,24 @@ package com.crazyfm.core.mvc.context
 
 		public function addView(view:IView):IViewContainer
 		{
-			return viewContainer.addView(view);
+			viewContainer.addView(view);
+			(view as HierarchyObject).setParent(this);
+
+			return this;
 		}
 
 		public function removeView(view:IView, dispose:Boolean = false):IViewContainer
 		{
-			return viewContainer.removeView(view, dispose);
+			viewContainer.removeView(view, dispose);
+
+			return this;
 		}
 
 		public function removeAllViews(dispose:Boolean = false):IViewContainer
 		{
-			return viewContainer.removeAllViews(dispose);
+			viewContainer.removeAllViews(dispose);
+
+			return this;
 		}
 
 		public function get numViews():int
@@ -111,17 +126,24 @@ package com.crazyfm.core.mvc.context
 
 		public function addService(service:IService):IServiceContainer
 		{
-			return serviceContainer.addService(service);
+			serviceContainer.addService(service);
+			(service as HierarchyObject).setParent(this);
+
+			return this;
 		}
 
 		public function removeService(service:IService, dispose:Boolean = false):IServiceContainer
 		{
-			return serviceContainer.removeService(service, dispose);
+			serviceContainer.removeService(service, dispose);
+
+			return this;
 		}
 
 		public function removeAllServices(dispose:Boolean = false):IServiceContainer
 		{
-			return serviceContainer.removeAllServices(dispose);
+			serviceContainer.removeAllServices(dispose);
+
+			return this;
 		}
 
 		public function get numServices():int

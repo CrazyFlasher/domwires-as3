@@ -102,13 +102,13 @@ package com.crazyfm.core.mvc.event
 		public function testHierarchy():void
 		{
 			assertTrue(c3.parent == c1);
-			assertTrue(mc3.parent.parent == c3);
-			assertTrue(mc4.parent.parent == c4);
+			assertTrue(mc3.parent == c3);
+			assertTrue(mc4.parent == c4);
 			assertTrue(m1.parent == mc2);
 			assertTrue(m1.parent != mc1);
 			assertTrue(mc2.parent == mc1);
-			assertTrue(mc2.parent.parent != c2);
-			assertTrue(m1.parent.parent != c1);
+			assertTrue(mc2.parent != c2);
+			assertTrue(m1.parent != c1);
 		}
 
 		[After]

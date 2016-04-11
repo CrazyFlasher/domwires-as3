@@ -12,43 +12,57 @@ package com.crazyfm.core.mvc.service
 		{
 			super();
 		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public function addService(service:IService):IServiceContainer
 		{
 			add(service);
 
 			return this;
 		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public function removeService(service:IService, dispose:Boolean = false):IServiceContainer
 		{
 			remove(service, dispose);
 
 			return this;
 		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllServices(dispose:Boolean = false):IServiceContainer
 		{
 			removeAll(dispose);
 
 			return this;
 		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public function get numServices():int
 		{
 			return _childrenList ? _childrenList.length : 0;
 		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public function containsService(service:IService):Boolean
 		{
 			return _childrenList && _childrenList.indexOf(service) != -1;
 		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public function get serviceList():Array
 		{
 			return _childrenList;
 		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public function dispatchSignalToServices(type:Enum, data:Object = null):void
 		{
 			dispatchSignalToChildren(type, data);
