@@ -31,10 +31,7 @@ package com.crazyfm.devkit.goSystem.mechanisms
 
 		public function advanceTime(time:Number):void
 		{
-			if (time > 0)
-			{
-				interact(time);
-			}
+			interact(time);
 		}
 	}
 }

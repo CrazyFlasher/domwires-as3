@@ -30,7 +30,7 @@ package com.crazyfm.extension.starlingApp.initializer.models
 		private var _iOS:Boolean;
 		private var _rootClass:Class;
 
-		private var _properties:StarlingProperties;
+		private var _config:StarlingConfig;
 		private var _stage:Stage;
 
 		/**
@@ -38,21 +38,21 @@ package com.crazyfm.extension.starlingApp.initializer.models
 		 * @param stage The Flash (2D) stage.
 		 * @param rootClass A subclass of 'starling.display.DisplayObject'. It will be created as soon as initialization is finished and
 		 * will become the first child of the Starling stage. Pass null if you don't want to create a root object right away. (You can use the rootClass property later to make that happen).
-		 * @param properties
+		 * @param config
 		 */
-		public function StarlingInitializerContext(stage:Stage, rootClass:Class, properties:StarlingProperties = null)
+		public function StarlingInitializerContext(stage:Stage, rootClass:Class, config:StarlingConfig = null)
 		{
 			super();
 
 			_stage = stage;
 			_rootClass = rootClass;
 
-			if (!properties)
+			if (!config)
 			{
-				_properties = new StarlingProperties();
+				_config = new StarlingConfig();
 			}else
 			{
-				_properties = properties;
+				_config = config;
 			}
 
 			init();
@@ -67,9 +67,9 @@ package com.crazyfm.extension.starlingApp.initializer.models
 
 			RenderTexture.optimizePersistentBuffers = _iOS; // safe on iOS, dangerous on Android
 
-			_starling = new Starling(_rootClass, _stage, null, null, _properties.renderMode, _properties.context3DProfile);
+			_starling = new Starling(_rootClass, _stage, null, null, _config.renderMode, _config.context3DProfile);
 			_starling.addEventListener(Event.ROOT_CREATED, rootClassInitialized);
-			_starling.antiAliasing = _properties.antiAliasing;
+			_starling.antiAliasing = _config.antiAliasing;
 
 			_starling.enableErrorChecking = Capabilities.isDebugger;
 			_starling.simulateMultitouch = false;
@@ -81,7 +81,7 @@ package com.crazyfm.extension.starlingApp.initializer.models
 			_starling.start();
 
 
-			if (_properties.scaleMode != ScaleMode.NONE)
+			if (_config.scaleMode != ScaleMode.NONE)
 			{
 				_starling.stage.addEventListener(ResizeEvent.RESIZE, onStageResize);
 
@@ -105,15 +105,15 @@ package com.crazyfm.extension.starlingApp.initializer.models
 			var width:int = e == null ? w : e.width;
 			var height:int = e == null ? h : e.height;
 
-			_starling.stage.stageWidth = _properties.stageWidth;  // <- same size on all devices!
-			_starling.stage.stageHeight = _properties.stageHeight; // <- same size on all devices!
+			_starling.stage.stageWidth = _config.stageWidth;  // <- same size on all devices!
+			_starling.stage.stageHeight = _config.stageHeight; // <- same size on all devices!
 
 			var fullScreenWidth:int = width;
 			var fullScreenHeight:int = height;
 
-			var stageSize:Rectangle  = new Rectangle(0, 0, _properties.stageWidth, _properties.stageHeight);
+			var stageSize:Rectangle  = new Rectangle(0, 0, _config.stageWidth, _config.stageHeight);
 			var screenSize:Rectangle = new Rectangle(0, 0, fullScreenWidth, fullScreenHeight);
-			var viewPort:Rectangle = RectangleUtil.fit(stageSize, screenSize, _properties.scaleMode, _iOS);
+			var viewPort:Rectangle = RectangleUtil.fit(stageSize, screenSize, _config.scaleMode, _iOS);
 
 			_starling.viewPort = viewPort;
 		}
@@ -130,7 +130,7 @@ package com.crazyfm.extension.starlingApp.initializer.models
 				_starling = null;
 			}
 
-			_properties = null;
+			_config = null;
 			_stage = null;
 			_rootClass = null;
 

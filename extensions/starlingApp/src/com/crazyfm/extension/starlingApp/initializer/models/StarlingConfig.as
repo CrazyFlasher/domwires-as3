@@ -10,7 +10,7 @@ package com.crazyfm.extension.starlingApp.initializer.models
 	/**
 	 * Configuration object, that is used for new Starling instance creation.
 	 */
-	public class StarlingProperties
+	public class StarlingConfig
 	{
 		/**
 		 * Starling stage width.
@@ -45,7 +45,7 @@ package com.crazyfm.extension.starlingApp.initializer.models
 		/**
 		 * Creates new StarlingProperties object with default values.
 		 */
-		public function StarlingProperties()
+		public function StarlingConfig()
 		{
 		}
 	}

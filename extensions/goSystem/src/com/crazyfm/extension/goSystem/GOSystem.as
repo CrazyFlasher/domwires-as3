@@ -78,6 +78,8 @@ package com.crazyfm.extension.goSystem
 		 */
 		public function interact(timePassed:Number):void
 		{
+			trace("timePassed: ", timePassed);
+
 			for (var i:int = 0; i < _childrenList.length; i++)
 			{
 				if (_childrenList[i].isEnabled)

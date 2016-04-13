@@ -4,6 +4,7 @@
 package com.crazyfm.extension.goSystem.mechanisms
 {
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.utils.getTimer;
 
@@ -32,13 +33,15 @@ package com.crazyfm.extension.goSystem.mechanisms
 		{
 			var currentTime:Number = getTimer();
 			var passedTime:Number = currentTime - time;
+			time = currentTime;
 
-			interact(passedTime);
+			interact(passedTime / 1000);
 		}
 
 		override public function dispose():void
 		{
 			sprite.removeEventListener(Event.ENTER_FRAME, enterFrame);
+
 			sprite = null;
 
 			super.dispose();
