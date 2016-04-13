@@ -1,7 +1,7 @@
 /**
  * Created by Anton Nefjodov on 21.03.2016.
  */
-package com.crazyfm.devkit.goSystem.components.physyics
+package com.crazyfm.devkit.goSystem.components.physyics.model
 {
 	import com.crazyfm.extension.goSystem.GameComponent;
 
@@ -16,11 +16,11 @@ package com.crazyfm.devkit.goSystem.components.physyics
 	import nape.phys.Body;
 	import nape.space.Space;
 
-	public class PhysWorld extends GameComponent implements IPhysWorld
+	public class PhysWorldModel extends GameComponent implements IPhysWorldModel
 	{
 		private var space:Space;
 
-		public function PhysWorld(space:Space)
+		public function PhysWorldModel(space:Space)
 		{
 			super();
 
@@ -47,8 +47,8 @@ package com.crazyfm.devkit.goSystem.components.physyics
 
 		private function bodyCollisionBeginHandler(collision:InteractionCallback):void
 		{
-			var po_1:IPhysBodyObject = (collision.int1 as Body).userData.clazz as IPhysBodyObject;
-			var po_2:IPhysBodyObject = (collision.int2 as Body).userData.clazz as IPhysBodyObject;
+			var po_1:IPhysBodyObjectModel = (collision.int1 as Body).userData.clazz as IPhysBodyObjectModel;
+			var po_2:IPhysBodyObjectModel = (collision.int2 as Body).userData.clazz as IPhysBodyObjectModel;
 
 			po_1.onBodyBeginCollision(collision);
 			po_2.onBodyBeginCollision(collision);
@@ -56,8 +56,8 @@ package com.crazyfm.devkit.goSystem.components.physyics
 
 		private function bodyOnGoingCollisionListener(collision:InteractionCallback):void
 		{
-			var po_1:IPhysBodyObject = (collision.int1 as Body).userData.clazz as IPhysBodyObject;
-			var po_2:IPhysBodyObject = (collision.int2 as Body).userData.clazz as IPhysBodyObject;
+			var po_1:IPhysBodyObjectModel = (collision.int1 as Body).userData.clazz as IPhysBodyObjectModel;
+			var po_2:IPhysBodyObjectModel = (collision.int2 as Body).userData.clazz as IPhysBodyObjectModel;
 
 			po_1.onBodyOnGoingCollision(collision);
 			po_2.onBodyOnGoingCollision(collision);
@@ -65,8 +65,8 @@ package com.crazyfm.devkit.goSystem.components.physyics
 
 		private function bodyCollisionEndHandler(collision:InteractionCallback):void
 		{
-			var po_1:IPhysBodyObject = (collision.int1 as Body).userData.clazz as IPhysBodyObject;
-			var po_2:IPhysBodyObject = (collision.int2 as Body).userData.clazz as IPhysBodyObject;
+			var po_1:IPhysBodyObjectModel = (collision.int1 as Body).userData.clazz as IPhysBodyObjectModel;
+			var po_2:IPhysBodyObjectModel = (collision.int2 as Body).userData.clazz as IPhysBodyObjectModel;
 
 			po_1.onBodyEndCollision(collision);
 			po_2.onBodyEndCollision(collision);

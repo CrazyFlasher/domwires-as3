@@ -1,14 +1,14 @@
 /**
  * Created by Anton Nefjodov on 2.04.2016.
  */
-package com.crazyfm.devkit.goSystem.components.physyics
+package com.crazyfm.devkit.goSystem.components.physyics.model
 {
 	import com.crazyfm.extension.goSystem.IGameComponent;
 
 	import nape.callbacks.InteractionCallback;
 	import nape.phys.Body;
 
-	public interface IPhysBodyObject extends IGameComponent
+	public interface IPhysBodyObjectModel extends IGameComponent
 	{
 		function get body():Body;
 		function onBodyBeginCollision(collision:InteractionCallback):void;

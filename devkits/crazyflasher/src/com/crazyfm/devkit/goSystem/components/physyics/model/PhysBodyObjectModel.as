@@ -1,19 +1,19 @@
 /**
  * Created by Anton Nefjodov on 21.03.2016.
  */
-package com.crazyfm.devkit.goSystem.components.physyics
+package com.crazyfm.devkit.goSystem.components.physyics.model
 {
+	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
 	import com.crazyfm.extension.goSystem.GameComponent;
 
 	import nape.callbacks.InteractionCallback;
-
 	import nape.phys.Body;
 
-	public class PhysBodyObject extends GameComponent implements IPhysBodyObject
+	public class PhysBodyObjectModel extends GameComponent implements IPhysBodyObjectModel
 	{
 		private var _body:Body;
 
-		public function PhysBodyObject(body:Body)
+		public function PhysBodyObjectModel(body:Body)
 		{
 			super();
 

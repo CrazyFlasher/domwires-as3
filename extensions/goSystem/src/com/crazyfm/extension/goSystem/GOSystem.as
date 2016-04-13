@@ -4,10 +4,13 @@
 package com.crazyfm.extension.goSystem
 {
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
+	import com.crazyfm.extension.goSystem.events.GOSystemSignalEnum;
 
 	public class GOSystem extends HierarchyObjectContainer implements IGOSystem
 	{
 		private var _mechanism:IMechanism;
+
+		private var initialized:Boolean;
 
 		public function GOSystem(mechanism:IMechanism)
 		{
@@ -82,6 +85,15 @@ package com.crazyfm.extension.goSystem
 					_childrenList[i].interact(timePassed);
 				}
 			}
+
+			if (!initialized)
+			{
+				initialized = true;
+
+				dispatchSignal(GOSystemSignalEnum.INITIALIZED);
+			}
+
+			dispatchSignal(GOSystemSignalEnum.STEP);
 		}
 
 		/**
@@ -123,6 +135,13 @@ package com.crazyfm.extension.goSystem
 				_mechanism.removeGear(this);
 				_mechanism = null;
 			}
+		}
+
+		public function updateNow():IGOSystem
+		{
+			interact(1);
+
+			return this;
 		}
 	}
 }

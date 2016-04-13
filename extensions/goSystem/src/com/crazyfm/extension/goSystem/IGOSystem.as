@@ -14,5 +14,6 @@ package com.crazyfm.extension.goSystem
 		function containsGameObject(value:IGameObject):Boolean;
 		function get gameObjectList():Array;
 		function get mechanism():IMechanism;
+		function updateNow():IGOSystem;
 	}
 }

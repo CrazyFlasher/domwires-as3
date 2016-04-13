@@ -1,7 +1,7 @@
 /**
  * Created by Anton Nefjodov on 2.04.2016.
  */
-package com.crazyfm.devkit.goSystem.components.physyics
+package com.crazyfm.devkit.goSystem.components.physyics.event
 {
 	import com.crazyfm.core.common.Enum;
 

@@ -1,7 +1,7 @@
 /**
  * Created by Anton Nefjodov on 21.03.2016.
  */
-package com.crazyfm.devkit.goSystem.components.view
+package com.crazyfm.devkit.goSystem.components.view.flash
 {
 	import com.crazyfm.extension.goSystem.GameComponent;
 

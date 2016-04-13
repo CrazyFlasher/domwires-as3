@@ -1,16 +1,17 @@
 /**
  * Created by Anton Nefjodov on 24.03.2016.
  */
-package com.crazyfm.devkit.goSystem.components.view
+package com.crazyfm.devkit.goSystem.components.physyics.view.flash
 {
-	import flash.display.DisplayObjectContainer;
+	import com.crazyfm.devkit.goSystem.components.physyics.view.IPhysDebugView;
+	import com.crazyfm.devkit.goSystem.components.view.flash.FlashView;
 
-	import nape.space.Space;
+	import flash.display.DisplayObjectContainer;
 
 	import nape.space.Space;
 	import nape.util.BitmapDebug;
 
-	public class PhysDebugView extends FlashView
+	public class PhysDebugView extends FlashView implements IPhysDebugView
 	{
 		private var debug:BitmapDebug;
 		private var space:Space;
