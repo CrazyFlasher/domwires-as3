@@ -1,19 +1,23 @@
 /**
- * Created by Anton Nefjodov on 22.03.2016.
+ * Created by Anton Nefjodov on 14.04.2016.
  */
-package com.crazyfm.extension.goSystem.mechanisms
+package com.crazyfm.devkit.goSystem.mechanisms
 {
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import com.crazyfm.extension.goSystem.mechanisms.AbstractMechanism;
+
 	import flash.utils.getTimer;
 
-	public class EnterFrameMechanism extends AbstractMechanism
+	import starling.core.Starling;
+	import starling.display.Sprite;
+	import starling.events.Event;
+
+	public class StarlingEnterFrameMechanism extends AbstractMechanism
 	{
 		private var time:Number;
 
 		private var sprite:Sprite;
 
-		public function EnterFrameMechanism(constantPassedTime:Number = NaN)
+		public function StarlingEnterFrameMechanism(constantPassedTime:Number = NaN)
 		{
 			super(constantPassedTime);
 
@@ -24,11 +28,12 @@ package com.crazyfm.extension.goSystem.mechanisms
 		{
 			sprite = new Sprite();
 			sprite.addEventListener(Event.ENTER_FRAME, enterFrame);
+			Starling.current.stage.addChild(sprite);
 
 			time = getTimer();
 		}
 
-		private function enterFrame(event:Event):void
+		private function enterFrame():void
 		{
 			var currentTime:Number = getTimer();
 			var passedTime:Number = currentTime - time;
@@ -40,6 +45,8 @@ package com.crazyfm.extension.goSystem.mechanisms
 		override public function dispose():void
 		{
 			sprite.removeEventListener(Event.ENTER_FRAME, enterFrame);
+
+			sprite.removeFromParent(true);
 
 			sprite = null;
 

@@ -9,7 +9,7 @@ package com.crazyfm.devkit.goSystem.mechanisms
 
 	public class StarlingJugglerMechanismTest
 	{
-		private var m:IStarlingJugglerMechanism;
+		private var m:StarlingJugglerMechanism;
 		private var juggler:Juggler;
 		[Before]
 		public function setUp():void

@@ -9,9 +9,13 @@ package com.crazyfm.extension.goSystem.mechanisms
 
 	public class AbstractMechanism extends HierarchyObjectContainer implements IMechanism
 	{
-		public function AbstractMechanism()
+		private var constantPassedTime:Number;
+
+		public function AbstractMechanism(constantPassedTime:Number = NaN)
 		{
 			super();
+
+			this.constantPassedTime = constantPassedTime;
 		}
 
 		/**
@@ -95,7 +99,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		{
 			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				_childrenList[i].interact(passedTime);
+				_childrenList[i].interact(isNaN(constantPassedTime) ? passedTime : constantPassedTime);
 			}
 		}
 	}
