@@ -6,21 +6,16 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import com.crazyfm.extension.goSystem.IGameComponent;
 
 	import nape.callbacks.InteractionCallback;
-	import nape.geom.Vec2;
+	import nape.phys.Body;
 
 	public interface IPhysBodyObjectModel extends IGameComponent
 	{
+		function get body():Body;
 		function onBodyBeginCollision(collision:InteractionCallback):void;
 		function onBodyEndCollision(collision:InteractionCallback):void;
 		function onBodyOnGoingCollision(collision:InteractionCallback):void;
-
-		function setVelocityX(value:Number):IPhysBodyObjectModel;
-		function setVelocityY(value:Number):IPhysBodyObjectModel;
-		function get velocityX():Number;
-		function get velocityY():Number;
-		function setRotation(value:Number):IPhysBodyObjectModel
-		function setAllowRotation(value:Boolean):IPhysBodyObjectModel
-		function putToSleep():IPhysBodyObjectModel
-		function worldVectorToLocal(input:Vec2):Vec2;
+		function onBodyBeginSensor(collision:InteractionCallback):void;
+		function onBodyEndSensor(collision:InteractionCallback):void;
+		function onBodyOnGoingSensor(collision:InteractionCallback):void;
 	}
 }

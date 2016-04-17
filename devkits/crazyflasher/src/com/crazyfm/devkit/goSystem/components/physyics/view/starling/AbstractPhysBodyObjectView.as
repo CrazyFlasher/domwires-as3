@@ -9,14 +9,15 @@ package com.crazyfm.devkit.goSystem.components.physyics.view.starling
 
 	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
+	import starling.display.Sprite;
 
-	public class PhysBodyObjectView extends StarlingView implements IPhysBodyObjectView
+	public class AbstractPhysBodyObjectView extends StarlingView implements IPhysBodyObjectView
 	{
 		protected var model:IPhysBodyObjectModel;
 
 		protected var _skin:DisplayObject;
 
-		public function PhysBodyObjectView(viewContainer:DisplayObjectContainer)
+		public function AbstractPhysBodyObjectView(viewContainer:DisplayObjectContainer)
 		{
 			super(viewContainer);
 		}
@@ -29,6 +30,24 @@ package com.crazyfm.devkit.goSystem.components.physyics.view.starling
 			{
 				model = gameObject.getComponentByType(IPhysBodyObjectModel) as IPhysBodyObjectModel;
 			}
+
+			if (!skin)
+			{
+				_skin = new Sprite();
+				viewContainer.addChild(_skin);
+
+				drawSkin();
+			}
+
+			skin.x = model.body.position.x;
+			skin.y = model.body.position.y;
+			skin.rotation = model.body.rotation;
+		}
+
+		protected function drawSkin():void
+		{
+			//override to draw skin here
+			throw new Error("Abstract method. Require override!");
 		}
 
 		override public function dispose():void

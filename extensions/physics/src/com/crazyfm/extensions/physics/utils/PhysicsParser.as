@@ -34,6 +34,10 @@ package com.crazyfm.extensions.physics.utils
 			var data:ShapeDataVo = new ShapeDataVo();
 			data.vertexDataList = vertices;
 			data.id = shapeJson.id;
+			if(shapeJson.isSensor != null)
+			{
+				data.sensor = shapeJson.isSensor;
+			}
 			if(shapeJson.radius != null)
 			{
 				data.radius = shapeJson.radius;
@@ -50,7 +54,6 @@ package com.crazyfm.extensions.physics.utils
 			{
 				data.angle = shapeJson.angle;
 			}
-
 
 			if(shapeJson.material)
 			{

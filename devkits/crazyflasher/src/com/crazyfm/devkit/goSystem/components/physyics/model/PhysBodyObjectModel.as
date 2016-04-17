@@ -5,22 +5,20 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 {
 	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
 	import com.crazyfm.extension.goSystem.GameComponent;
-	import com.crazyfm.extensions.physics.IBodyObject;
 
 	import nape.callbacks.InteractionCallback;
-	import nape.geom.Vec2;
-	import nape.hacks.ForcedSleep;
+	import nape.dynamics.ArbiterList;
 	import nape.phys.Body;
 
 	public class PhysBodyObjectModel extends GameComponent implements IPhysBodyObjectModel
 	{
 		private var _body:Body;
 
-		public function PhysBodyObjectModel(bodyObject:IBodyObject)
+		public function PhysBodyObjectModel(body:Body)
 		{
 			super();
 
-			_body = bodyObject.body;
+			_body = body;
 
 			_body.userData.clazz = this;
 		}
@@ -30,6 +28,11 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			_body = null;
 
 			super.dispose();
+		}
+
+		public function get body():Body
+		{
+			return _body;
 		}
 
 		public function onBodyBeginCollision(collision:InteractionCallback):void
@@ -56,55 +59,41 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			}
 		}
 
-		public function setVelocityX(value:Number):IPhysBodyObjectModel
+		private function hasSensorShape(arbiters:ArbiterList):Boolean
 		{
-			_body.velocity.setxy(value, _body.velocity.y);
+			for (var i:int = 0; i < arbiters.length; i++)
+			{
+				if (arbiters.at(i).shape1.sensorEnabled || arbiters.at(i).shape2.sensorEnabled)
+				{
+					return true;
+				}
+			}
 
-			return this;
+			return false;
 		}
 
-		public function setVelocityY(value:Number):IPhysBodyObjectModel
+		public function onBodyBeginSensor(collision:InteractionCallback):void
 		{
-			_body.velocity.setxy(_body.velocity.x, value);
-
-			return this;
+			if (!_body.isStatic())
+			{
+				dispatchSignal(PhysObjectSignalEnum.SENSOR_BEGIN, collision);
+			}
 		}
 
-		public function get velocityX():Number
+		public function onBodyEndSensor(collision:InteractionCallback):void
 		{
-			return _body.velocity.x;
+			if (!_body.isStatic())
+			{
+				dispatchSignal(PhysObjectSignalEnum.SENSOR_END, collision);
+			}
 		}
 
-		public function get velocityY():Number
+		public function onBodyOnGoingSensor(collision:InteractionCallback):void
 		{
-			return _body.velocity.y;
-		}
-
-		public function setRotation(value:Number):IPhysBodyObjectModel
-		{
-			_body.rotation = value
-
-			return this;
-		}
-
-		public function setAllowRotation(value:Boolean):IPhysBodyObjectModel
-		{
-			_body.allowRotation = value
-
-			return this;
-		}
-
-		public function putToSleep():IPhysBodyObjectModel
-		{
-			_body.velocity.setxy(0, 0);
-			ForcedSleep.sleepBody(_body);
-
-			return this;
-		}
-
-		public function worldVectorToLocal(input:Vec2):Vec2
-		{
-			return _body.worldVectorToLocal(input);
+			if (!_body.isStatic())
+			{
+				dispatchSignal(PhysObjectSignalEnum.SENSOR_ONGOING, collision);
+			}
 		}
 	}
 }

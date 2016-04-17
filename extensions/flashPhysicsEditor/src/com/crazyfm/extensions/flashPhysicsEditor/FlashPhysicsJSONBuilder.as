@@ -1,4 +1,4 @@
-﻿﻿/**
+﻿/**
  * Created by Anton Nefjodov on 14.03.2016.
  */
 package com.crazyfm.extensions.flashPhysicsEditor {
@@ -187,6 +187,10 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 						{
 							shapeData.material.rollingFriction = getNumberValue(shape.material.rollingFriction);
 						}
+					}
+					if (shape.isSensor != null)
+					{
+						shapeData.isSensor = shape.isSensor;
 					}
 					shapes.push(shapeData);
 				}
