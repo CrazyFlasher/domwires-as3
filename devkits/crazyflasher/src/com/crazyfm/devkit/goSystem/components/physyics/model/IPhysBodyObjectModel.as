@@ -7,15 +7,13 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 	import nape.callbacks.InteractionCallback;
 	import nape.phys.Body;
+	import nape.shape.Shape;
 
 	public interface IPhysBodyObjectModel extends IGameComponent
 	{
 		function get body():Body;
-		function onBodyBeginCollision(collision:InteractionCallback):void;
-		function onBodyEndCollision(collision:InteractionCallback):void;
-		function onBodyOnGoingCollision(collision:InteractionCallback):void;
-		function onBodyBeginSensor(collision:InteractionCallback):void;
-		function onBodyEndSensor(collision:InteractionCallback):void;
-		function onBodyOnGoingSensor(collision:InteractionCallback):void;
+		function onBodyBeginCollision(collision:InteractionCallback, currentShape:Shape, otherShape:Shape):void;
+		function onBodyEndCollision(collision:InteractionCallback, currentShape:Shape, otherShape:Shape):void;
+		function onBodyOnGoingCollision(collision:InteractionCallback, currentShape:Shape, otherShape:Shape):void;
 	}
 }

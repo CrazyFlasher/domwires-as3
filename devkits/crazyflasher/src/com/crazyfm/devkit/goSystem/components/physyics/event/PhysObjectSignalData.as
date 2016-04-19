@@ -3,15 +3,16 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.event
 {
-	import com.crazyfm.core.common.Disposable;
-
 	import nape.callbacks.InteractionCallback;
 	import nape.shape.Shape;
 
-	public class PhysObjectSignalData extends Disposable
+	use namespace ns_collision_signaldata;
+
+	public class PhysObjectSignalData
 	{
 		private var _collision:InteractionCallback;
-		private var _collidedShape:Shape;
+		private var _currentShape:Shape;
+		private var _otherShape:Shape;
 
 		public function PhysObjectSignalData()
 		{
@@ -23,27 +24,35 @@ package com.crazyfm.devkit.goSystem.components.physyics.event
 			return _collision;
 		}
 
-		public function get collidedShape():Shape
+		public function get currentShape():Shape
 		{
-			return _collidedShape;
+			return _currentShape;
 		}
 
-		override public function dispose():void
+		public function get otherShape():Shape
 		{
-			_collision = null;
-			_collidedShape = null;
-
-			super.dispose();
+			return _otherShape;
 		}
 
-		public function set collision(value:InteractionCallback):void
+		ns_collision_signaldata function setCollision(value:InteractionCallback):PhysObjectSignalData
 		{
 			_collision = value;
+
+			return this;
 		}
 
-		public function set collidedShape(value:Shape):void
+		ns_collision_signaldata function setCurrentShape(value:Shape):PhysObjectSignalData
 		{
-			_collidedShape = value;
+			_currentShape = value;
+
+			return this;
+		}
+
+		ns_collision_signaldata function setOtherShape(value:Shape):PhysObjectSignalData
+		{
+			_otherShape = value;
+
+			return this;
 		}
 	}
 }
