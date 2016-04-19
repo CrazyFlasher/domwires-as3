@@ -21,20 +21,23 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	{
 		private var space:Space;
 
+		private var interactors:CollisionInteractors;
+
 		public function PhysWorldModel(space:Space)
 		{
 			super();
 
 			this.space = space;
+			interactors = new CollisionInteractors();
 
 			createPhysicsListeners();
 		}
 
 		protected function createPhysicsListeners():void
 		{
-			space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.ANY, CbType.ANY_SHAPE, CbType.ANY_BODY, bodyCollisionBeginHandler));
-			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.ANY, CbType.ANY_SHAPE, CbType.ANY_BODY, bodyOnGoingCollisionListener));
-			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.ANY, CbType.ANY_SHAPE, CbType.ANY_BODY, bodyCollisionEndHandler));
+			space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.ANY, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyCollisionBeginHandler));
+//			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.ANY, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyOnGoingCollisionListener));
+			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.ANY, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyCollisionEndHandler));
 
 //			space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_BODY, bodySensorBeginHandler));
 //			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_BODY, bodyOnGoingSensorListener));
@@ -52,29 +55,26 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 		private function bodyCollisionBeginHandler(collision:InteractionCallback):void
 		{
-			var po_1:IPhysBodyObjectModel = (collision.int1 as Shape).body.userData.clazz as IPhysBodyObjectModel;
-			var po_2:IPhysBodyObjectModel = (collision.int2 as Shape).body.userData.clazz as IPhysBodyObjectModel;
+			interactors.update(collision);
 
-			po_1.onBodyBeginCollision(collision, collision.int1 as Shape, collision.int2 as Shape);
-			po_2.onBodyBeginCollision(collision, collision.int2 as Shape, collision.int1 as Shape);
+			interactors.po_1.onBodyBeginCollision(collision, interactors.otherBody, interactors.otherShape);
+			interactors.po_2.onBodyBeginCollision(collision, interactors.currentBody, interactors.currentShape);
 		}
 
 		private function bodyOnGoingCollisionListener(collision:InteractionCallback):void
 		{
-			var po_1:IPhysBodyObjectModel = (collision.int1 as Shape).body.userData.clazz as IPhysBodyObjectModel;
-			var po_2:IPhysBodyObjectModel = (collision.int2 as Shape).body.userData.clazz as IPhysBodyObjectModel;
+			interactors.update(collision);
 
-			po_1.onBodyOnGoingCollision(collision, collision.int1 as Shape, collision.int2 as Shape);
-			po_2.onBodyOnGoingCollision(collision, collision.int2 as Shape, collision.int1 as Shape);
+			interactors.po_1.onBodyOnGoingCollision(collision, interactors.otherBody, interactors.otherShape);
+			interactors.po_2.onBodyOnGoingCollision(collision, interactors.currentBody, interactors.currentShape);
 		}
 
 		private function bodyCollisionEndHandler(collision:InteractionCallback):void
 		{
-			var po_1:IPhysBodyObjectModel = (collision.int1 as Shape).body.userData.clazz as IPhysBodyObjectModel;
-			var po_2:IPhysBodyObjectModel = (collision.int2 as Shape).body.userData.clazz as IPhysBodyObjectModel;
+			interactors.update(collision);
 
-			po_1.onBodyEndCollision(collision, collision.int1 as Shape, collision.int2 as Shape);
-			po_2.onBodyEndCollision(collision, collision.int2 as Shape, collision.int1 as Shape);
+			interactors.po_1.onBodyEndCollision(collision, interactors.otherBody, interactors.otherShape);
+			interactors.po_2.onBodyEndCollision(collision, interactors.currentBody, interactors.currentShape);
 		}
 
 		override public function dispose():void
@@ -93,5 +93,88 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 			space.step(timePassed);
 		}
+	}
+}
+
+import com.crazyfm.devkit.goSystem.components.physyics.model.IPhysBodyObjectModel;
+
+import nape.callbacks.InteractionCallback;
+import nape.phys.Body;
+import nape.shape.Shape;
+
+internal class CollisionInteractors
+{
+	private var _currentBody:Body;
+	private var _currentShape:Shape;
+	private var _otherBody:Body;
+	private var _otherShape:Shape;
+	private var _po_1:IPhysBodyObjectModel;
+	private var _po_2:IPhysBodyObjectModel;
+
+	public function CollisionInteractors()
+	{
+
+	}
+
+	public function update(collision:InteractionCallback):void
+	{
+		if (collision.int1.isBody())
+		{
+			_currentBody = collision.int1 as Body;
+			_otherShape = collision.int2 as Shape;
+		}else
+		if (collision.int1.isShape())
+		{
+			_currentShape = collision.int1 as Shape;
+			_otherBody = collision.int2 as Body;
+		}
+
+		if (currentBody)
+		{
+			_po_1 = currentBody.userData.clazz as IPhysBodyObjectModel;
+		}else
+		if (currentShape)
+		{
+			_po_1 = currentShape.body.userData.clazz as IPhysBodyObjectModel;
+		}
+
+		if (otherBody)
+		{
+			_po_2 = otherBody.userData.clazz as IPhysBodyObjectModel;
+		}else
+		if (otherShape)
+		{
+			_po_2 = otherShape.body.userData.clazz as IPhysBodyObjectModel;
+		}
+	}
+
+	public function get currentBody():Body
+	{
+		return _currentBody;
+	}
+
+	public function get currentShape():Shape
+	{
+		return _currentShape;
+	}
+
+	public function get otherBody():Body
+	{
+		return _otherBody;
+	}
+
+	public function get otherShape():Shape
+	{
+		return _otherShape;
+	}
+
+	public function get po_1():IPhysBodyObjectModel
+	{
+		return _po_1;
+	}
+
+	public function get po_2():IPhysBodyObjectModel
+	{
+		return _po_2;
 	}
 }

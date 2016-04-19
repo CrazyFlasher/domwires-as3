@@ -4,6 +4,7 @@
 package com.crazyfm.devkit.goSystem.components.physyics.event
 {
 	import nape.callbacks.InteractionCallback;
+	import nape.phys.Body;
 	import nape.shape.Shape;
 
 	use namespace ns_collision_signaldata;
@@ -11,7 +12,8 @@ package com.crazyfm.devkit.goSystem.components.physyics.event
 	public class PhysObjectSignalData
 	{
 		private var _collision:InteractionCallback;
-		private var _currentShape:Shape;
+
+		private var _otherBody:Body;
 		private var _otherShape:Shape;
 
 		public function PhysObjectSignalData()
@@ -22,11 +24,6 @@ package com.crazyfm.devkit.goSystem.components.physyics.event
 		public function get collision():InteractionCallback
 		{
 			return _collision;
-		}
-
-		public function get currentShape():Shape
-		{
-			return _currentShape;
 		}
 
 		public function get otherShape():Shape
@@ -41,9 +38,9 @@ package com.crazyfm.devkit.goSystem.components.physyics.event
 			return this;
 		}
 
-		ns_collision_signaldata function setCurrentShape(value:Shape):PhysObjectSignalData
+		ns_collision_signaldata function setOtherBody(value:Body):PhysObjectSignalData
 		{
-			_currentShape = value;
+			_otherBody = value;
 
 			return this;
 		}
