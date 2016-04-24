@@ -12,9 +12,6 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import nape.callbacks.InteractionType;
 	import nape.callbacks.PreCallback;
 	import nape.callbacks.PreFlag;
-	import nape.callbacks.PreListener;
-	import nape.phys.Body;
-	import nape.shape.Shape;
 	import nape.space.Space;
 
 	public class PhysWorldModel extends GameComponent implements IPhysWorldModel
@@ -22,6 +19,9 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		private var space:Space;
 
 		private var interactors:CollisionInteractors;
+
+		protected var velocityIterations:int = 10;
+		protected var positionIterations:int = 10;
 
 		public function PhysWorldModel(space:Space)
 		{
@@ -91,7 +91,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		{
 			super.interact(timePassed);
 
-			space.step(timePassed);
+			space.step(timePassed, velocityIterations, positionIterations);
 		}
 	}
 }
