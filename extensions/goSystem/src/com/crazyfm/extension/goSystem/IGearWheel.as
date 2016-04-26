@@ -3,9 +3,9 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.hierarchy.IHierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
 
-	public interface IGearWheel extends IHierarchyObject
+	public interface IGearWheel extends IHierarchyObjectContainer
 	{
 		function interact(timePassed:Number):void;
 	}
