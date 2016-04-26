@@ -3,9 +3,9 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
+	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 
-	public class GameComponent extends HierarchyObjectContainer implements IGameComponent
+	public class GameComponent extends HierarchyObject implements IGameComponent
 	{
 		public function GameComponent()
 		{
