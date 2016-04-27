@@ -3,22 +3,22 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.model
 {
-	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalData;
 	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
-	import com.crazyfm.devkit.goSystem.components.physyics.event.ns_collision_signaldata;
+	import com.crazyfm.devkit.goSystem.components.physyics.model.vo.LatestCollisionDataVo;
+	import com.crazyfm.devkit.goSystem.components.physyics.model.vo.ns_collision_data;
 	import com.crazyfm.extension.goSystem.GameComponent;
 
 	import nape.callbacks.InteractionCallback;
 	import nape.phys.Body;
 	import nape.shape.Shape;
 
-	use namespace ns_collision_signaldata;
+	use namespace ns_collision_data;
 
 	public class PhysBodyObjectModel extends GameComponent implements IPhysBodyObjectModel
 	{
 		private var _body:Body;
 
-		private var signalData:PhysObjectSignalData;
+		protected var latestCollisionData:LatestCollisionDataVo;
 
 		public function PhysBodyObjectModel(body:Body)
 		{
@@ -26,7 +26,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 			_body = body;
 
-			signalData = new PhysObjectSignalData();
+			latestCollisionData = new LatestCollisionDataVo();
 
 			if (_body.isDynamic())
 			{
@@ -49,7 +49,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		override public function dispose():void
 		{
 			_body = null;
-			signalData = null;
+			latestCollisionData = null;
 
 			super.dispose();
 		}
@@ -63,30 +63,95 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		{
 			if (!_body.isStatic())
 			{
-				signalData.setCollision(collision).setOtherBody(otherBody).setOtherShape(otherShape);
+				updateLatestCollisionData(collision, otherBody, otherShape);
 
-				dispatchSignal(PhysObjectSignalEnum.COLLISION_BEGIN, signalData);
+				handleBeginCollision();
 			}
+		}
+
+		protected function handleBeginCollision():void
+		{
+			dispatchSignal(PhysObjectSignalEnum.COLLISION_BEGIN, latestCollisionData);
 		}
 
 		public function onBodyEndCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
 			if (!_body.isStatic())
 			{
-				signalData.setCollision(collision).setOtherBody(otherBody).setOtherShape(otherShape);
+				updateLatestCollisionData(collision, otherBody, otherShape);
 
-				dispatchSignal(PhysObjectSignalEnum.COLLISION_END, signalData);
+				handleEndCollision();
 			}
+		}
+
+		protected function handleEndCollision():void
+		{
+			dispatchSignal(PhysObjectSignalEnum.COLLISION_END, latestCollisionData);
 		}
 
 		public function onBodyOnGoingCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
 			if (!_body.isStatic())
 			{
-				signalData.setCollision(collision).setOtherBody(otherBody).setOtherShape(otherShape);
+				updateLatestCollisionData(collision, otherBody, otherShape);
 
-				dispatchSignal(PhysObjectSignalEnum.COLLISION_ONGOING, signalData);
+				handleOnGoingCollision();
 			}
+		}
+
+		protected function handleOnGoingCollision():void
+		{
+			dispatchSignal(PhysObjectSignalEnum.COLLISION_ONGOING, latestCollisionData);
+		}
+
+		public function onBodyBeginSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
+		{
+			if (!_body.isStatic())
+			{
+				updateLatestCollisionData(collision, otherBody, otherShape);
+
+				handleBeginSensor();
+			}
+		}
+
+		private function handleBeginSensor():void
+		{
+			dispatchSignal(PhysObjectSignalEnum.SENSOR_BEGIN, latestCollisionData);
+		}
+
+		public function onBodyEndSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
+		{
+			if (!_body.isStatic())
+			{
+				updateLatestCollisionData(collision, otherBody, otherShape);
+
+				handleEndSensor();
+			}
+		}
+
+		protected function handleEndSensor():void
+		{
+			dispatchSignal(PhysObjectSignalEnum.SENSOR_END, latestCollisionData);
+		}
+
+		public function onBodyOnGoingSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
+		{
+			if (!_body.isStatic())
+			{
+				updateLatestCollisionData(collision, otherBody, otherShape);
+
+				handleOnGoingSensor();
+			}
+		}
+
+		protected function handleOnGoingSensor():void
+		{
+			dispatchSignal(PhysObjectSignalEnum.SENSOR_ONGOING, latestCollisionData);
+		}
+
+		private function updateLatestCollisionData(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
+		{
+			updateLatestCollisionData(collision, otherBody, otherShape);
 		}
 	}
 }

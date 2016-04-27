@@ -1,22 +1,22 @@
 /**
  * Created by Anton Nefjodov on 2.04.2016.
  */
-package com.crazyfm.devkit.goSystem.components.physyics.event
+package com.crazyfm.devkit.goSystem.components.physyics.model.vo
 {
 	import nape.callbacks.InteractionCallback;
 	import nape.phys.Body;
 	import nape.shape.Shape;
 
-	use namespace ns_collision_signaldata;
+	use namespace ns_collision_data;
 
-	public class PhysObjectSignalData
+	public class LatestCollisionDataVo
 	{
 		private var _collision:InteractionCallback;
 
 		private var _otherBody:Body;
 		private var _otherShape:Shape;
 
-		public function PhysObjectSignalData()
+		public function LatestCollisionDataVo()
 		{
 
 		}
@@ -31,21 +31,21 @@ package com.crazyfm.devkit.goSystem.components.physyics.event
 			return _otherShape;
 		}
 
-		ns_collision_signaldata function setCollision(value:InteractionCallback):PhysObjectSignalData
+		ns_collision_data function setCollision(value:InteractionCallback):LatestCollisionDataVo
 		{
 			_collision = value;
 
 			return this;
 		}
 
-		ns_collision_signaldata function setOtherBody(value:Body):PhysObjectSignalData
+		ns_collision_data function setOtherBody(value:Body):LatestCollisionDataVo
 		{
 			_otherBody = value;
 
 			return this;
 		}
 
-		ns_collision_signaldata function setOtherShape(value:Shape):PhysObjectSignalData
+		ns_collision_data function setOtherShape(value:Shape):LatestCollisionDataVo
 		{
 			_otherShape = value;
 

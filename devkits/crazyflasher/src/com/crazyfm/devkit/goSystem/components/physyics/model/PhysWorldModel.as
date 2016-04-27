@@ -39,9 +39,9 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 //			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.ANY, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyOnGoingCollisionListener));
 			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.ANY, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyCollisionEndHandler));
 
-//			space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_BODY, bodySensorBeginHandler));
+			space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_SHAPE, bodySensorBeginHandler));
 //			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_BODY, bodyOnGoingSensorListener));
-//			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_BODY, bodySensorEndHandler));
+			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_SHAPE, bodySensorEndHandler));
 
 //			space.listeners.add(new PreListener(InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, bodyPreCollisionHandler));
 		}
@@ -75,6 +75,30 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 			interactors.po_1.onBodyEndCollision(collision, interactors.otherBody, interactors.otherShape);
 			interactors.po_2.onBodyEndCollision(collision, interactors.currentBody, interactors.currentShape);
+		}
+
+		private function bodySensorBeginHandler(collision:InteractionCallback):void
+		{
+			interactors.update(collision);
+
+			interactors.po_1.onBodyBeginSensor(collision, interactors.otherBody, interactors.otherShape);
+			interactors.po_2.onBodyBeginSensor(collision, interactors.currentBody, interactors.currentShape);
+		}
+
+		private function bodyOnGoingSensorListener(collision:InteractionCallback):void
+		{
+			interactors.update(collision);
+
+			interactors.po_1.onBodyOnGoingSensor(collision, interactors.otherBody, interactors.otherShape);
+			interactors.po_2.onBodyOnGoingSensor(collision, interactors.currentBody, interactors.currentShape);
+		}
+
+		private function bodySensorEndHandler(collision:InteractionCallback):void
+		{
+			interactors.update(collision);
+
+			interactors.po_1.onBodyEndSensor(collision, interactors.otherBody, interactors.otherShape);
+			interactors.po_2.onBodyEndSensor(collision, interactors.currentBody, interactors.currentShape);
 		}
 
 		override public function dispose():void
