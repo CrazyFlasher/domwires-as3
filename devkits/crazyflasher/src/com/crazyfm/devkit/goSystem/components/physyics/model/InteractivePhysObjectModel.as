@@ -7,12 +7,14 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import nape.geom.Vec2;
 	import nape.hacks.ForcedSleep;
 	import nape.phys.Body;
+	import nape.phys.GravMassMode;
 
 	public class InteractivePhysObjectModel extends PhysBodyObjectModel implements IInteractivePhysObjectModel
 	{
 		private const SLEEP_VELOCITY:Vec2 = new Vec2(10, 10);
 
 		private var _isOnLegs:Boolean;
+		private var gravityMass:Number;
 
 		//need to prevent nape lib bug, after putting object manually to sleep.
 		private var collisionJustEnded:Boolean;
@@ -20,6 +22,8 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		public function InteractivePhysObjectModel(body:Body)
 		{
 			super(body);
+
+			gravityMass = body.gravMass;
 		}
 
 		override public function interact(timePassed:Number):void
@@ -54,10 +58,19 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			collisionJustEnded = true;
 		}
 
+		override protected function handleOnGoingCollision():void
+		{
+			_isOnLegs = computeIsOnLegs(latestCollisionData.collision);
+
+			super.handleOnGoingCollision();
+		}
+
 		protected function tryToSleep():void
 		{
 			if (!body.isSleeping)
 			{
+				body.velocity.setxy(0, 0);
+
 				ForcedSleep.sleepBody(body);
 			}
 		}
@@ -80,6 +93,25 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			}
 
 			return true;
+		}
+
+		public function setZeroGravity(value:Boolean):IInteractivePhysObjectModel
+		{
+			if (value)
+			{
+				body.gravMass = 0;
+			}else
+			{
+				body.gravMass = gravityMass;
+				body.gravMassMode = GravMassMode.DEFAULT;
+			}
+
+			return this;
+		}
+
+		public function get zeroGravity():Boolean
+		{
+			return body.gravMass == 0;
 		}
 	}
 }
