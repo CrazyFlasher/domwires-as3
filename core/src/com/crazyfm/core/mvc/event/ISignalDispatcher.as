@@ -22,7 +22,7 @@ package com.crazyfm.core.mvc.event
 		 * Removes signal listener from object. Bubbled signals will be also ignored.
 		 * @param type Signal type
 		 */
-		function removeSignalListener(type:Enum):void;
+		function removeSignalListener(type:Enum, listener:Function):void;
 
 		/**
 		 * Removes all signal listeners from object. Bubbled signals will be also ignored.

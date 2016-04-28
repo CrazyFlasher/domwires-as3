@@ -138,18 +138,14 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function getComponentsByType(clazz:Class):Vector.<IGameComponent>
+		public function getComponentsByType(clazz:Class):Array
 		{
-			var components:Vector.<IGameComponent>;
+			var components:Array = [];
 
 			for (var i:int = 0; i < _childrenList.length; i++)
 			{
 				if (_childrenList[i] is clazz)
 				{
-					if (!components)
-					{
-						components = new <IGameComponent>[];
-					}
 					components.push(_childrenList[i]);
 				}
 			}

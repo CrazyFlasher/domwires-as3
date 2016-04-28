@@ -16,7 +16,7 @@ package com.crazyfm.extension.goSystem
 		function containsComponent(component:IGameComponent):Boolean;
 		function get componentList():Array;
 		function getComponentByType(clazz:Class):IGameComponent;
-		function getComponentsByType(clazz:Class):Vector.<IGameComponent>;
+		function getComponentsByType(clazz:Class):Array;
 		function get goSystem():IGOSystem;
 	}
 }

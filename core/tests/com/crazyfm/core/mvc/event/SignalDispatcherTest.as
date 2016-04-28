@@ -5,6 +5,10 @@ package com.crazyfm.core.mvc.event
 {
 	import com.crazyfm.core.common.Enum;
 
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
+
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
@@ -84,11 +88,11 @@ package com.crazyfm.core.mvc.event
 			assertFalse(d.hasSignalListener(MyCoolEnum.BOGA));
 
 			d.addSignalListener(MyCoolEnum.BOGA, listener);
-			d.removeSignalListener(MyCoolEnum.PREVED);
+			d.removeSignalListener(MyCoolEnum.PREVED, listener);
 			assertFalse(d.hasSignalListener(MyCoolEnum.PREVED));
 			assertTrue(d.hasSignalListener(MyCoolEnum.BOGA));
 
-			d.removeSignalListener(MyCoolEnum.BOGA);
+			d.removeSignalListener(MyCoolEnum.BOGA, listener);
 			assertFalse(d.hasSignalListener(MyCoolEnum.BOGA));
 		}
 
@@ -110,7 +114,52 @@ package com.crazyfm.core.mvc.event
 		[Test]
 		public function testHasSignalListener():void
 		{
+			var listener:Function = function(event:ISignalEvent):void{};
+			d.addSignalListener(MyCoolEnum.PREVED, listener);
+			assertTrue(d.hasSignalListener(MyCoolEnum.PREVED));
+		}
 
+		[Test]
+		public function testEveryBodyReceivedSignal():void
+		{
+			var sr_1:ISignalDispatcher = new SignalDispatcher();
+			var sr_2:ISignalDispatcher = new SignalDispatcher();
+
+			var a:Boolean;
+			var b:Boolean;
+
+			var listener_1:Function = function(event:ISignalEvent):void{a = true;};
+			var listener_2:Function = function(event:ISignalEvent):void{b = true;};
+
+			d.addSignalListener(MyCoolEnum.PREVED, listener_1);
+			d.addSignalListener(MyCoolEnum.PREVED, listener_2);
+
+			d.dispatchSignal(MyCoolEnum.PREVED);
+
+			assertTrue(a);
+			assertTrue(b);
+		}
+
+		[Test]
+		public function testEveryBodyReceivedEvent():void
+		{
+			var d:IEventDispatcher = new EventDispatcher();
+			var sr_1:IEventDispatcher = new EventDispatcher();
+			var sr_2:IEventDispatcher = new EventDispatcher();
+
+			var a:Boolean;
+			var b:Boolean;
+
+			var listener_1:Function = function(event:Event):void{a = true;};
+			var listener_2:Function = function(event:Event):void{b = true;};
+
+			d.addEventListener("test", listener_1);
+			d.addEventListener("test", listener_2);
+
+			d.dispatchEvent(new Event("test"));
+
+			assertTrue(a);
+			assertTrue(b);
 		}
 	}
 }

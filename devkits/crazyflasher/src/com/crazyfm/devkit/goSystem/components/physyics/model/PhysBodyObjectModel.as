@@ -151,7 +151,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 		private function updateLatestCollisionData(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
-			updateLatestCollisionData(collision, otherBody, otherShape);
+			latestCollisionData.setCollision(collision).setOtherBody(otherBody).setOtherShape(otherShape);
 		}
 	}
 }

@@ -139,10 +139,11 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		override public function removeSignalListener(type:Enum):void
+		override public function removeSignalListener(type:Enum, listener:Function):void
 		{
-			super.removeSignalListener(type);
+			super.removeSignalListener(type, listener);
 
+			//TODO: additional tests!
 			delete getBubbledSignalListeners()[type];
 		}
 

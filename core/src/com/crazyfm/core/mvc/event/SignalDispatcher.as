@@ -17,7 +17,7 @@ package com.crazyfm.core.mvc.event
 	 */
 	public class SignalDispatcher extends Disposable implements ISignalDispatcher
 	{
-		private var _signals:Dictionary;/*String, ISignal*/
+		private var _signals:Dictionary;/*Enum, ISignal*/
 		private var _genericEvent:ISignalEvent;
 
 		public function SignalDispatcher()
@@ -37,7 +37,7 @@ package com.crazyfm.core.mvc.event
 		 */
 		public function addSignalListener(type:Enum, listener:Function):void
 		{
-			getSignal(type).removeAll();
+//			getSignal(type).removeAll();
 			getSignal(type).add(listener);
 		}
 
@@ -52,11 +52,11 @@ package com.crazyfm.core.mvc.event
 		/**
 		 * @inheritDoc
 		 */
-		public function removeSignalListener(type:Enum):void
+		public function removeSignalListener(type:Enum, listener:Function):void
 		{
 			if (_signals[type] != null)
 			{
-				_signals[type].removeAll();
+				_signals[type].remove(listener);
 			}
 
 			delete _signals[type];
@@ -94,7 +94,7 @@ package com.crazyfm.core.mvc.event
 			super.dispose();
 		}
 
-		private function getSignalsList():Dictionary/*String, ISignal*/
+		private function getSignalsList():Dictionary/*Enum, ISignal*/
 		{
 			if (!_signals)
 			{

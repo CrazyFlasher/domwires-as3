@@ -6,7 +6,6 @@ package com.crazyfm.core.mvc.hierarchy
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 
 	import org.flexunit.asserts.assertEquals;
-
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
@@ -116,7 +115,7 @@ package com.crazyfm.core.mvc.hierarchy
 			var eventHandler:Function = function(e:ISignalEvent):void {};
 
 			hoc.addSignalListener(MyCoolEnum.PREVED, eventHandler);
-			hoc.removeSignalListener(MyCoolEnum.PREVED);
+			hoc.removeSignalListener(MyCoolEnum.PREVED, eventHandler);
 
 			assertFalse(hoc.hasSignalListener(MyCoolEnum.PREVED));
 		}
