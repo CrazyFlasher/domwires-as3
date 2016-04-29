@@ -9,13 +9,11 @@ package com.crazyfm.devkit.goSystem.components.controllable
 	import com.crazyfm.devkit.goSystem.components.physyics.model.IInteractivePhysObjectModel;
 	import com.crazyfm.extension.goSystem.GameComponent;
 
-	import nape.phys.Body;
 	import nape.shape.Shape;
 
 	public class AbstractPhysControllable extends GameComponent implements IControllable
 	{
 		protected var intPhysObject:IInteractivePhysObjectModel;
-		protected var body:Body;
 
 		public function AbstractPhysControllable()
 		{
@@ -42,8 +40,6 @@ package com.crazyfm.devkit.goSystem.components.controllable
 
 			intPhysObject.addSignalListener(PhysObjectSignalEnum.SENSOR_BEGIN, handleSensorBegin);
 			intPhysObject.addSignalListener(PhysObjectSignalEnum.SENSOR_END, handleSensorEnd);
-
-			body = intPhysObject.body;
 		}
 
 		protected function handleCollisionOngoing(e:ISignalEvent):void
@@ -86,7 +82,6 @@ package com.crazyfm.devkit.goSystem.components.controllable
 			intPhysObject.removeSignalListener(PhysObjectSignalEnum.SENSOR_END, handleSensorEnd);
 
 			intPhysObject = null;
-			body = null;
 
 			super.dispose();
 		}

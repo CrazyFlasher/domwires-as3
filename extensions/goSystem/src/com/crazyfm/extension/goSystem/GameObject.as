@@ -149,6 +149,11 @@ package com.crazyfm.extension.goSystem
 					components.push(_childrenList[i]);
 				}
 			}
+			log("test");
+			if (components.length == 0)
+			{
+
+			}
 
 			return components;
 		}

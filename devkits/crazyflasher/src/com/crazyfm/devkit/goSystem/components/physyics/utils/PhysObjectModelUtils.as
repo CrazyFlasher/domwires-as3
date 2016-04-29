@@ -3,17 +3,18 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.utils
 {
-	import nape.callbacks.InteractionCallback;
-	import nape.phys.Body;
+	import com.crazyfm.devkit.goSystem.components.physyics.model.IPhysBodyObjectModel;
 
-	public class BodyUtils
+	import nape.callbacks.InteractionCallback;
+
+	public class PhysObjectModelUtils
 	{
-		public static function rotate(body:Body, angle:Number):void
+		public static function rotate(model:IPhysBodyObjectModel, angle:Number):void
 		{
-			body.rotation = angle;
+			model.rotation = angle;
 		}
 
-		public static function rotateBodyToInteractionCallbackNormal(body:Body, collision:InteractionCallback):void
+		public static function rotateBodyToInteractionCallbackNormal(model:IPhysBodyObjectModel, collision:InteractionCallback):void
 		{
 			if (collision.arbiters.length > 0)
 			{
@@ -21,10 +22,10 @@ package com.crazyfm.devkit.goSystem.components.physyics.utils
 
 				if ((angle < Math.PI / 3.5 && angle > 0) || (angle > -Math.PI / 3.5 && angle < 0))
 				{
-					rotate(body, angle);
+					rotate(model, angle);
 				}else
 				{
-					rotate(body, 0);
+					rotate(model, 0);
 				}
 			}
 		}

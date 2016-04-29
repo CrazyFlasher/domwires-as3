@@ -9,6 +9,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import com.crazyfm.extension.goSystem.GameComponent;
 
 	import nape.callbacks.InteractionCallback;
+	import nape.geom.Vec2;
 	import nape.phys.Body;
 	import nape.shape.Shape;
 
@@ -16,7 +17,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 	public class PhysBodyObjectModel extends GameComponent implements IPhysBodyObjectModel
 	{
-		private var _body:Body;
+		protected var _body:Body;
 
 		protected var latestCollisionData:LatestCollisionDataVo;
 
@@ -54,7 +55,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			super.dispose();
 		}
 
-		public function get body():Body
+		ns_inter_physobject function get body():Body
 		{
 			return _body;
 		}
@@ -152,6 +153,26 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		private function updateLatestCollisionData(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
 			latestCollisionData.setCollision(collision).setOtherBody(otherBody).setOtherShape(otherShape);
+		}
+
+		public function get position():Vec2
+		{
+			return _body.position;
+		}
+
+		public function get velocity():Vec2
+		{
+			return _body.velocity;
+		}
+
+		public function get rotation():Number
+		{
+			return _body.rotation;
+		}
+
+		public function set rotation(value:Number):void
+		{
+			_body.rotation = value;
 		}
 	}
 }

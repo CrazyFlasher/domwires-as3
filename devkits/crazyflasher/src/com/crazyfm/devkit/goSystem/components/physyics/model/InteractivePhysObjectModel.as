@@ -23,14 +23,14 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		{
 			super(body);
 
-			gravityMass = body.gravMass;
+			gravityMass = _body.gravMass;
 		}
 
 		override public function interact(timePassed:Number):void
 		{
 			super.interact(timePassed);
 
-			if (_isOnLegs && body.velocity.length < SLEEP_VELOCITY.length && !collisionJustEnded)
+			if (_isOnLegs && _body.velocity.length < SLEEP_VELOCITY.length && !collisionJustEnded)
 			{
 				tryToSleep();
 			}
@@ -67,11 +67,11 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 		protected function tryToSleep():void
 		{
-			if (!body.isSleeping)
+			if (!_body.isSleeping)
 			{
-				body.velocity.setxy(0, 0);
+				_body.velocity.setxy(0, 0);
 
-				ForcedSleep.sleepBody(body);
+				ForcedSleep.sleepBody(_body);
 			}
 		}
 
@@ -86,7 +86,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 			for (var i:int = 0; i < collision.arbiters.length; i++)
 			{
-				if (body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal).y < 0.3)
+				if (_body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal).y < 0.3)
 				{
 					return false;
 				}
@@ -99,11 +99,11 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		{
 			if (value)
 			{
-				body.gravMass = 0;
+				_body.gravMass = 0;
 			}else
 			{
-				body.gravMass = gravityMass;
-				body.gravMassMode = GravMassMode.DEFAULT;
+				_body.gravMass = gravityMass;
+				_body.gravMassMode = GravMassMode.DEFAULT;
 			}
 
 			return this;
@@ -111,7 +111,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 		public function get zeroGravity():Boolean
 		{
-			return body.gravMass == 0;
+			return _body.gravMass == 0;
 		}
 	}
 }
