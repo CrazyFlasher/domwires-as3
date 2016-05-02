@@ -15,7 +15,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.view.starling
 	{
 		protected var model:IPhysBodyObjectModel;
 
-		protected var _skin:DisplayObject;
+		protected var _skin:DisplayObjectContainer;
 
 		public function AbstractPhysBodyObjectView(viewContainer:DisplayObjectContainer)
 		{
@@ -31,7 +31,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.view.starling
 				model = gameObject.getComponentByType(IPhysBodyObjectModel) as IPhysBodyObjectModel;
 			}
 
-			if (!skin)
+			if (!_skin)
 			{
 				_skin = new Sprite();
 				viewContainer.addChild(_skin);
@@ -39,9 +39,9 @@ package com.crazyfm.devkit.goSystem.components.physyics.view.starling
 				drawSkin();
 			}
 
-			skin.x = model.position.x;
-			skin.y = model.position.y;
-			skin.rotation = model.rotation;
+			_skin.x = model.position.x;
+			_skin.y = model.position.y;
+			_skin.rotation = model.rotation;
 		}
 
 		protected function drawSkin():void
