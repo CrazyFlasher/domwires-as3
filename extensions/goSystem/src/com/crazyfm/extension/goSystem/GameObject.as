@@ -3,6 +3,8 @@
  */
 package com.crazyfm.extension.goSystem
 {
+	import avmplus.getQualifiedClassName;
+
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
 	public class GameObject extends HierarchyObjectContainer implements IGameObject
@@ -149,10 +151,10 @@ package com.crazyfm.extension.goSystem
 					components.push(_childrenList[i]);
 				}
 			}
-			log("test");
+
 			if (components.length == 0)
 			{
-
+				log("Warning: components [" + getQualifiedClassName(clazz) + "] not found in this GameObject!");
 			}
 
 			return components;
