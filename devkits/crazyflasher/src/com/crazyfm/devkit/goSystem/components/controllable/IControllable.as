@@ -3,11 +3,11 @@
  */
 package com.crazyfm.devkit.goSystem.components.controllable
 {
-	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionEnum;
+	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionVo;
 	import com.crazyfm.extension.goSystem.IGameComponent;
 
 	public interface IControllable extends IGameComponent
 	{
-		function inputAction(action:AbstractInputActionEnum):IControllable;
+		function inputAction(actionVo:AbstractInputActionVo):IControllable;
 	}
 }

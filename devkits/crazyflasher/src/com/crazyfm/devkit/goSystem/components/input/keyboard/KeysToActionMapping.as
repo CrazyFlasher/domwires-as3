@@ -1,15 +1,17 @@
 /**
  * Created by Anton Nefjodov on 29.04.2016.
  */
-package com.crazyfm.devkit.goSystem.components.input
+package com.crazyfm.devkit.goSystem.components.input.keyboard
 {
-	public class KeysToActionVo
+	import com.crazyfm.core.common.Enum;
+
+	public class KeysToActionMapping
 	{
 		private var _keysDown:Vector.<uint>;
 		private var _keysUp:Vector.<uint>;
-		private var _action:AbstractInputActionEnum;
+		private var _action:Enum;
 
-		public function KeysToActionVo(action:AbstractInputActionEnum, keysDown:Vector.<uint> = null, keysUp:Vector.<uint> = null)
+		public function KeysToActionMapping(action:Enum, keysDown:Vector.<uint> = null, keysUp:Vector.<uint> = null)
 		{
 			_action = action;
 			_keysDown = keysDown;
@@ -26,7 +28,7 @@ package com.crazyfm.devkit.goSystem.components.input
 			return _keysUp;
 		}
 
-		internal function get action():AbstractInputActionEnum
+		internal function get action():Enum
 		{
 			return _action;
 		}

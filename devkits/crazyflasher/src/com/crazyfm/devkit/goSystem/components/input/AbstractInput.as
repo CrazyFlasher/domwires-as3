@@ -3,26 +3,47 @@
  */
 package com.crazyfm.devkit.goSystem.components.input
 {
+	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.devkit.goSystem.components.controllable.IControllable;
 	import com.crazyfm.extension.goSystem.GameComponent;
+
+	use namespace ns_input;
 
 	public class AbstractInput extends GameComponent implements IInput
 	{
 		protected var controllableComponents:Array/*IControllable*/
 
+		protected var actionVo:AbstractInputActionVo;
+
 		public function AbstractInput()
 		{
 			super();
+
+			createActionVo();
 		}
 
-		public function sendActionToControllables(action:AbstractInputActionEnum):IInput
+		protected function createActionVo():void
 		{
+			actionVo = new AbstractInputActionVo();
+		}
+
+		public function sendActionToControllables(action:Enum):IInput
+		{
+			updateActionVo(action);
+
 			for each (var controllable:IControllable in controllableComponents)
 			{
-				controllable.inputAction(action);
+				controllable.inputAction(actionVo);
 			}
 
 			return this;
+		}
+
+		protected function updateActionVo(action:Enum):AbstractInputActionVo
+		{
+			actionVo.setAction(action);
+
+			return actionVo;
 		}
 
 		override public function interact(timePassed:Number):void

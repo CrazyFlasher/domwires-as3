@@ -4,7 +4,7 @@
 package com.crazyfm.devkit.goSystem.components.controllable
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionEnum;
+	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionVo;
 	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
 	import com.crazyfm.devkit.goSystem.components.physyics.model.IInteractivePhysObjectModel;
 	import com.crazyfm.extension.goSystem.GameComponent;
@@ -67,7 +67,7 @@ package com.crazyfm.devkit.goSystem.components.controllable
 
 		}
 
-		public function inputAction(action:AbstractInputActionEnum):IControllable
+		public function inputAction(actionVo:AbstractInputActionVo):IControllable
 		{
 			return this;
 		}

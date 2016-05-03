@@ -1,8 +1,10 @@
 /**
  * Created by Anton Nefjodov on 28.04.2016.
  */
-package com.crazyfm.devkit.goSystem.components.input
+package com.crazyfm.devkit.goSystem.components.input.keyboard
 {
+	import com.crazyfm.devkit.goSystem.components.input.*;
+
 	import starling.display.Stage;
 	import starling.events.KeyboardEvent;
 
@@ -10,18 +12,26 @@ package com.crazyfm.devkit.goSystem.components.input
 	{
 		private var keyDownList:Vector.<uint> = new <uint>[];
 		private var stage:Stage;
-		private var keysToActions:Vector.<KeysToActionVo>;
+		private var keysToActions:Vector.<KeysToActionMapping>;
 
-		public function KeyboardInput(stage:Stage, keysToActions:Vector.<KeysToActionVo>)
+		private var keyboardActionVo:KeyboardActionVo;
+
+		public function KeyboardInput(stage:Stage, keysToActions:Vector.<KeysToActionMapping>)
 		{
 			super();
 
 			this.stage = stage;
-
 			this.keysToActions = keysToActions;
 
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+		}
+
+		override protected function createActionVo():void
+		{
+			actionVo = new KeyboardActionVo();
+
+			keyboardActionVo = actionVo as KeyboardActionVo;
 		}
 
 		override public function interact(timePassed:Number):void
@@ -44,6 +54,7 @@ package com.crazyfm.devkit.goSystem.components.input
 
 			stage = null;
 			keyDownList = null;
+			keyboardActionVo = null;
 
 			super.dispose();
 		}
@@ -78,7 +89,7 @@ package com.crazyfm.devkit.goSystem.components.input
 			var applyAction:Boolean;
 			var keys:Vector.<uint>;
 
-			for each (var vo:KeysToActionVo in keysToActions)
+			for each (var vo:KeysToActionMapping in keysToActions)
 			{
 				keys = isDown ? vo.keysDown : vo.keysUp;
 
