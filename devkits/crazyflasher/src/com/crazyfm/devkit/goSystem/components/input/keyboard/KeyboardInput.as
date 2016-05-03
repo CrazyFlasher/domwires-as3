@@ -14,8 +14,6 @@ package com.crazyfm.devkit.goSystem.components.input.keyboard
 		private var stage:Stage;
 		private var keysToActions:Vector.<KeysToActionMapping>;
 
-		private var keyboardActionVo:KeyboardActionVo;
-
 		public function KeyboardInput(stage:Stage, keysToActions:Vector.<KeysToActionMapping>)
 		{
 			super();
@@ -25,13 +23,6 @@ package com.crazyfm.devkit.goSystem.components.input.keyboard
 
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
-		}
-
-		override protected function createActionVo():void
-		{
-			actionVo = new KeyboardActionVo();
-
-			keyboardActionVo = actionVo as KeyboardActionVo;
 		}
 
 		override public function interact(timePassed:Number):void
@@ -54,7 +45,6 @@ package com.crazyfm.devkit.goSystem.components.input.keyboard
 
 			stage = null;
 			keyDownList = null;
-			keyboardActionVo = null;
 
 			super.dispose();
 		}
