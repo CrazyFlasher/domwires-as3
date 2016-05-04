@@ -24,5 +24,6 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		function get velocity():Vec2;
 		function get rotation():Number;
 		function set rotation(value:Number):void;
+		function get localCenterOfMass():Vec2;
 	}
 }

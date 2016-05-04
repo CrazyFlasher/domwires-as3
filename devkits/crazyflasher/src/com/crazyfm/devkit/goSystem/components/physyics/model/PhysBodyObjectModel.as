@@ -174,5 +174,10 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		{
 			_body.rotation = value;
 		}
+
+		public function get localCenterOfMass():Vec2
+		{
+			return _body.localCOM;
+		}
 	}
 }
