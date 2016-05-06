@@ -8,7 +8,9 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionVo;
 	import com.crazyfm.devkit.goSystem.components.input.ns_input;
 
-	import starling.display.Stage;
+	import flash.geom.Point;
+
+	import starling.display.DisplayObjectContainer;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -17,24 +19,23 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 
 	public class MouseInput extends AbstractInput
 	{
-		private var stage:Stage;
+		private var viewContainer:DisplayObjectContainer;
 		private var mouseToActions:Vector.<MouseToActionMapping>;
 
 		private var touch:Touch;
 
 		private var mouseActionVo:MouseActionVo;
 
-		private var touchPosX:Number;
-		private var touchPosY:Number;
+		private var touchPosition:Point = new Point();
 
-		public function MouseInput(stage:Stage, mouseToActions:Vector.<MouseToActionMapping>)
+		public function MouseInput(viewContainer:DisplayObjectContainer, mouseToActions:Vector.<MouseToActionMapping>)
 		{
 			super();
 
-			this.stage = stage;
+			this.viewContainer = viewContainer;
 			this.mouseToActions = mouseToActions;
 
-			stage.addEventListener(TouchEvent.TOUCH, onTouch);
+			viewContainer.addEventListener(TouchEvent.TOUCH, onTouch);
 		}
 
 		override protected function createActionVo():void
@@ -46,9 +47,9 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 
 		override public function dispose():void
 		{
-			stage.removeEventListener(TouchEvent.TOUCH, onTouch);
+			viewContainer.removeEventListener(TouchEvent.TOUCH, onTouch);
 
-			stage = null;
+			viewContainer = null;
 			mouseToActions = null;
 			touch = null;
 			mouseActionVo = null;
@@ -65,11 +66,9 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 
 				if (touch)
 				{
-					touchPosX = touch.globalX;
-					touchPosY = touch.globalY;
-
 					if (touch.phase == TouchPhase.HOVER)
 					{
+						touch.getLocation(viewContainer, touchPosition);
 						tryToSendAction(false, false, true);
 					}
 				}
@@ -92,7 +91,7 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 		{
 			super.updateActionVo(action);
 
-			mouseActionVo.setPosition(touchPosX, touchPosY);
+			mouseActionVo.setPosition(touchPosition.x, touchPosition.y);
 
 			return actionVo;
 		}

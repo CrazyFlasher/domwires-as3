@@ -179,5 +179,10 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		{
 			return _body.localCOM;
 		}
+
+		public function get worldCenterOfMass():Vec2
+		{
+			return _body.worldCOM;
+		}
 	}
 }
