@@ -10,6 +10,8 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 
 	import flash.geom.Point;
 
+	import starling.core.Starling;
+
 	import starling.display.DisplayObjectContainer;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -26,7 +28,7 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 
 		private var mouseActionVo:MouseActionVo;
 
-		private var touchPosition:Point = new Point();
+		private var mousePosition:Point = new Point();
 
 		public function MouseInput(viewContainer:DisplayObjectContainer, mouseToActions:Vector.<MouseToActionMapping>)
 		{
@@ -53,10 +55,17 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 			mouseToActions = null;
 			touch = null;
 			mouseActionVo = null;
+			mousePosition = null;
 
 			super.dispose();
 		}
 
+		override public function interact(timePassed:Number):void
+		{
+			super.interact(timePassed);
+
+			tryToSendAction(false, false, false, true);
+		}
 
 		private function onTouch(event:TouchEvent):void
 		{
@@ -68,19 +77,28 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 				{
 					if (touch.phase == TouchPhase.HOVER)
 					{
-						touch.getLocation(viewContainer, touchPosition);
-						tryToSendAction(false, false, true);
+						tryToSendAction(false, false, true, false);
 					}
 				}
 			}
 		}
 
-		private function tryToSendAction(mouseUp:Boolean, mouseDown:Boolean, mouseMove:Boolean):void
+		private function tryToSendAction(mouseUp:Boolean, mouseDown:Boolean, mouseMove:Boolean, onInteract:Boolean):void
 		{
 			for each (var vo:MouseToActionMapping in mouseToActions)
 			{
-				if (vo.mouseMove == mouseMove && vo.mouseDown == mouseDown && vo.mouseUp == mouseUp)
+				if (vo.mouseMove == mouseMove && vo.mouseDown == mouseDown && vo.mouseUp == mouseUp && vo.onInteract == onInteract)
 				{
+					if (mouseUp || mouseDown || mouseMove)
+					{
+						touch.getLocation(viewContainer, mousePosition);
+					}else
+					if (onInteract)
+					{
+						mousePosition.x = Starling.current.nativeStage.mouseX;
+						mousePosition.y = Starling.current.nativeStage.mouseY;
+						viewContainer.globalToLocal(mousePosition, mousePosition);
+					}
 					sendActionToControllables(vo.action);
 				}
 			}
@@ -91,7 +109,7 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 		{
 			super.updateActionVo(action);
 
-			mouseActionVo.setPosition(touchPosition.x, touchPosition.y);
+			mouseActionVo.setPosition(mousePosition.x, mousePosition.y);
 
 			return actionVo;
 		}

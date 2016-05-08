@@ -11,13 +11,15 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 		private var _mouseUp:Boolean;
 		private var _mouseMove:Boolean;
 		private var _mouseDown:Boolean;
+		private var _onInteract:Boolean;
 
-		public function MouseToActionMapping(action:Enum, mouseUp:Boolean, mouseDown:Boolean, mouseMove:Boolean)
+		public function MouseToActionMapping(action:Enum, mouseUp:Boolean, mouseDown:Boolean, mouseMove:Boolean, onInteract:Boolean = false)
 		{
 			_action = action;
 			_mouseUp = mouseUp;
 			_mouseDown = mouseDown;
 			_mouseMove = mouseMove;
+			_onInteract = onInteract;
 		}
 
 		public function get action():Enum
@@ -38,6 +40,11 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 		public function get mouseDown():Boolean
 		{
 			return _mouseDown;
+		}
+
+		public function get onInteract():Boolean
+		{
+			return _onInteract;
 		}
 	}
 }
