@@ -39,8 +39,23 @@ package com.crazyfm.devkit.goSystem.components.physyics.view.starling
 				drawSkin();
 			}
 
+			setPositionX(model.position.x);
+			setPositionY(model.position.y);
+			setRotation(model.rotation);
+		}
+
+		protected function setPositionX(value:Number):void
+		{
 			_skin.x = model.position.x;
+		}
+
+		protected function setPositionY(value:Number):void
+		{
 			_skin.y = model.position.y;
+		}
+
+		protected function setRotation(value:Number):void
+		{
 			_skin.rotation = model.rotation;
 		}
 
