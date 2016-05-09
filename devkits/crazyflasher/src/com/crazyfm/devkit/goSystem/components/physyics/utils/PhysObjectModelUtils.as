@@ -20,7 +20,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.utils
 			{
 				var angle:Number = collision.arbiters.at(0).collisionArbiter.normal.angle - Math.PI / 2;
 
-				if ((angle < Math.PI / 3.5 && angle > 0) || (angle > -Math.PI / 3.5 && angle < 0))
+				if ((angle < Math.PI / 4.5 && angle > 0) || (angle > -Math.PI / 4.5 && angle < 0))
 				{
 					rotate(model, angle);
 				}else

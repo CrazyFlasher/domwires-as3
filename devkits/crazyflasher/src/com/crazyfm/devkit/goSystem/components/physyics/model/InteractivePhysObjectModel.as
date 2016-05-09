@@ -12,6 +12,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	public class InteractivePhysObjectModel extends PhysBodyObjectModel implements IInteractivePhysObjectModel
 	{
 		private const SLEEP_VELOCITY:Vec2 = new Vec2(10, 10);
+		private const IS_ON_LEGS_COLLISION_Y:Number = 0.65;
 
 		private var _isOnLegs:Boolean;
 		private var gravityMass:Number;
@@ -86,7 +87,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 			for (var i:int = 0; i < collision.arbiters.length; i++)
 			{
-				if (_body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal).y < 0.3)
+				if (_body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal).y < IS_ON_LEGS_COLLISION_Y)
 				{
 					return false;
 				}
