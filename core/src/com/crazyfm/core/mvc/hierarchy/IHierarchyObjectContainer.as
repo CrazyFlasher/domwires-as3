@@ -11,7 +11,7 @@ package com.crazyfm.core.mvc.hierarchy
 
 	public interface IHierarchyObjectContainer extends IHierarchyObject, IBubbleEventHandler
 	{
-		function add(child:IHierarchyObject):IHierarchyObjectContainer;
+		function add(child:IHierarchyObject, index:int = -1):IHierarchyObjectContainer;
 
 		function remove(child:IHierarchyObject, dispose:Boolean = false):IHierarchyObjectContainer;
 

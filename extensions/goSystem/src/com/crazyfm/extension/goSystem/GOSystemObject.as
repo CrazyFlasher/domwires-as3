@@ -70,9 +70,9 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function addComponent(component:IGOSystemComponent):IGOSystemObject
+		public function addComponent(component:IGOSystemComponent, priority:int = -1):IGOSystemObject
 		{
-			add(component);
+			add(component, priority);
 
 			return this;
 		}

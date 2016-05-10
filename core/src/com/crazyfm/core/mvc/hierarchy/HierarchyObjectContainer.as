@@ -29,11 +29,30 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function add(child:IHierarchyObject):IHierarchyObjectContainer
+		public function add(child:IHierarchyObject, index:int = -1):IHierarchyObjectContainer
 		{
-			if (_childrenList.indexOf(child) == -1)
+			if (index != -1 && index > _childrenList.length)
 			{
-				_childrenList.push(child);
+				throw new Error("Invalid child index! Index shouldn't be bigger that children list length!");
+			}
+
+			var contains:Boolean = _childrenList.indexOf(child) != -1;
+
+			if (index != -1)
+			{
+				if (contains)
+				{
+					_childrenList.removeAt(_childrenList.indexOf(child))
+				}
+				_childrenList.insertAt(index, child);
+			}
+
+			if (!contains)
+			{
+				if (index == -1)
+				{
+					_childrenList.push(child);
+				}
 
 				if (child.parent != null)
 				{

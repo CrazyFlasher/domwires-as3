@@ -153,7 +153,7 @@ package com.crazyfm.core.mvc.hierarchy
 		}
 
 		[Test]
-		public function changeParent():void
+		public function testChangeParent():void
 		{
 			var ho_1:IHierarchyObject = new HierarchyObject();
 			hoc.add(ho_1);
@@ -166,6 +166,47 @@ package com.crazyfm.core.mvc.hierarchy
 
 			assertEquals(ho_1.parent, hoc_2);
 			assertEquals(hoc.children.length, 0);
+		}
+
+		[Test]
+		public function testAddAt():void
+		{
+			var ho_1:IHierarchyObject = new HierarchyObject();
+			var ho_2:IHierarchyObject = new HierarchyObject();
+			var ho_3:IHierarchyObject = new HierarchyObject();
+
+			hoc.add(ho_1);
+			hoc.add(ho_2);
+			hoc.add(ho_3);
+
+			assertEquals(hoc.children.indexOf(ho_1), 0);
+			assertEquals(hoc.children.indexOf(ho_2), 1);
+			assertEquals(hoc.children.indexOf(ho_3), 2);
+
+			assertEquals(ho_1.parent, hoc);
+			assertEquals(ho_2.parent, hoc);
+			assertEquals(ho_3.parent, hoc);
+
+			hoc.add(ho_3, 0);
+
+			trace("hoc.children.indexOf(ho_3) ", hoc.children.indexOf(ho_3))
+			assertEquals(hoc.children.indexOf(ho_3), 0);
+
+			assertEquals(ho_3.parent, hoc);
+		}
+
+		[Test]
+		public function testAddAtParent():void
+		{
+			var ho_1:IHierarchyObject = new HierarchyObject();
+			hoc.add(ho_1, 0);
+			assertTrue(ho_1.parent, hoc);
+		}
+
+		[Test(expects="Error")]
+		public function testAddAtError():void
+		{
+			hoc.add(new HierarchyObject(), 5);
 		}
 	}
 }

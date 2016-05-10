@@ -9,7 +9,7 @@ package com.crazyfm.extension.goSystem
 	{
 		function setEnabled(value:Boolean):IGOSystemObject;
 		function get isEnabled():Boolean;
-		function addComponent(component:IGOSystemComponent):IGOSystemObject;
+		function addComponent(component:IGOSystemComponent, priority:int = -1):IGOSystemObject;
 		function removeComponent(component:IGOSystemComponent, dispose:Boolean = false):IGOSystemObject;
 		function removeAllComponents(dispose:Boolean = false):IGOSystemObject;
 		function get numComponents():int;
