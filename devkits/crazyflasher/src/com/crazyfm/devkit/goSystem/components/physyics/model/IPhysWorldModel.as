@@ -3,9 +3,9 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.model
 {
-	import com.crazyfm.extension.goSystem.IGameComponent;
+	import com.crazyfm.extension.goSystem.IGOSystemComponent;
 
-	public interface IPhysWorldModel extends IGameComponent
+	public interface IPhysWorldModel extends IGOSystemComponent
 	{
 	}
 }

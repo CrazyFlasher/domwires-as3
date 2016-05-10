@@ -5,9 +5,9 @@ package com.crazyfm.extension.goSystem
 {
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 
-	public class GameComponent extends HierarchyObject implements IGameComponent
+	public class GOSystemComponent extends HierarchyObject implements IGOSystemComponent
 	{
-		public function GameComponent()
+		public function GOSystemComponent()
 		{
 			super();
 		}
@@ -15,9 +15,9 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function get gameObject():IGameObject
+		public function get gameObject():IGOSystemObject
 		{
-			return parent as IGameObject;
+			return parent as IGOSystemObject;
 		}
 
 		/**

@@ -29,9 +29,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testNumGameObjects():void
 		{
-			s.addGameObject(new GameObject())
-					.addGameObject(new GameObject())
-					.addGameObject(new GameObject());
+			s.addGameObject(new GOSystemObject())
+					.addGameObject(new GOSystemObject())
+					.addGameObject(new GOSystemObject());
 
 			assertEquals(s.numGameObjects, 3);
 		}
@@ -39,11 +39,11 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testDisposeWithAllChildren():void
 		{
-			var c:IGameComponent = new GameComponent();
-			var go:IGameObject = new GameObject();
-			s.addGameObject(new GameObject())
-				.addGameObject(new GameObject())
-				.addGameObject(new GameObject())
+			var c:IGOSystemComponent = new GOSystemComponent();
+			var go:IGOSystemObject = new GOSystemObject();
+			s.addGameObject(new GOSystemObject())
+				.addGameObject(new GOSystemObject())
+				.addGameObject(new GOSystemObject())
 				.addGameObject(go
 					.addComponent(c));
 
@@ -62,9 +62,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testRemoveAllGameObjects():void
 		{
-			var go_1:IGameObject = new GameObject();
-			var go_2:IGameObject = new GameObject();
-			var go_3:IGameObject = new GameObject();
+			var go_1:IGOSystemObject = new GOSystemObject();
+			var go_2:IGOSystemObject = new GOSystemObject();
+			var go_3:IGOSystemObject = new GOSystemObject();
 
 			s.addGameObject(go_1).addGameObject(go_2).addGameObject(go_3);
 			s.removeAllGameObjects();
@@ -77,9 +77,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testDispose():void
 		{
-			var go_1:IGameObject = new GameObject();
-			var go_2:IGameObject = new GameObject();
-			var go_3:IGameObject = new GameObject();
+			var go_1:IGOSystemObject = new GOSystemObject();
+			var go_2:IGOSystemObject = new GOSystemObject();
+			var go_3:IGOSystemObject = new GOSystemObject();
 
 			s.addGameObject(go_1).addGameObject(go_2).addGameObject(go_3);
 
@@ -100,9 +100,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testRemoveGameObject():void
 		{
-			var go_1:IGameObject = new GameObject();
-			var go_2:IGameObject = new GameObject();
-			var go_3:IGameObject = new GameObject();
+			var go_1:IGOSystemObject = new GOSystemObject();
+			var go_2:IGOSystemObject = new GOSystemObject();
+			var go_3:IGOSystemObject = new GOSystemObject();
 
 			s.addGameObject(go_1).addGameObject(go_2).addGameObject(go_3);
 			s.removeGameObject(go_2);
@@ -115,7 +115,7 @@ package com.crazyfm.extension.goSystem
 		public function testAddGameObject():void
 		{
 			assertEquals(s.numGameObjects, 0);
-			s.addGameObject(new GameObject());
+			s.addGameObject(new GOSystemObject());
 			assertEquals(s.numGameObjects, 1);
 		}
 
@@ -123,7 +123,7 @@ package com.crazyfm.extension.goSystem
 		public function testGameObjectList():void
 		{
 			assertEquals(s.gameObjectList.length, 0);
-			s.addGameObject(new GameObject());
+			s.addGameObject(new GOSystemObject());
 			assertEquals(s.gameObjectList.length, 1);
 			s.disposeWithAllChildren();
 			assertNull(s.gameObjectList);
@@ -132,9 +132,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testContainsGameObject():void
 		{
-			var go_1:IGameObject = new GameObject();
-			var go_2:IGameObject = new GameObject();
-			var go_3:IGameObject = new GameObject();
+			var go_1:IGOSystemObject = new GOSystemObject();
+			var go_2:IGOSystemObject = new GOSystemObject();
+			var go_3:IGOSystemObject = new GOSystemObject();
 
 			s.addGameObject(go_1).addGameObject(go_2);
 

@@ -8,11 +8,11 @@ package com.crazyfm.extension.goSystem
 
 	public class GOSystem extends HierarchyObjectContainer implements IGOSystem
 	{
-		private var _mechanism:IMechanism;
+		private var _mechanism:IGOSystemMechanism;
 
 		private var initialized:Boolean;
 
-		public function GOSystem(mechanism:IMechanism)
+		public function GOSystem(mechanism:IGOSystemMechanism)
 		{
 			super();
 
@@ -22,7 +22,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function addGameObject(value:IGameObject):IGOSystem
+		public function addGameObject(value:IGOSystemObject):IGOSystem
 		{
 			add(value);
 
@@ -32,7 +32,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function removeGameObject(value:IGameObject, dispose:Boolean = false):IGOSystem
+		public function removeGameObject(value:IGOSystemObject, dispose:Boolean = false):IGOSystem
 		{
 			remove(value, dispose);
 
@@ -60,7 +60,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function containsGameObject(value:IGameObject):Boolean
+		public function containsGameObject(value:IGOSystemObject):Boolean
 		{
 			return _childrenList && _childrenList.indexOf(value) != -1;
 		}
@@ -123,7 +123,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function get mechanism():IMechanism
+		public function get mechanism():IGOSystemMechanism
 		{
 			return _mechanism;
 		}

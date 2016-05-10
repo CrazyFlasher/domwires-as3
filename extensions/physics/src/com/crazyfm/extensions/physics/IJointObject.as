@@ -13,9 +13,9 @@ package com.crazyfm.extensions.physics
 	public interface IJointObject extends IDisposable
 	{
 		function get data():JointDataVo;
-		function set data(value:JointDataVo):void;
 		function get pivotJoint():PivotJoint;
 		function get angleJoint():AngleJoint;
 		function connect(body_1:Body, body_2:Body):void;
+		function clone():IJointObject;
 	}
 }

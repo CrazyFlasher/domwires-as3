@@ -6,7 +6,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
 	import com.crazyfm.devkit.goSystem.components.physyics.model.vo.LatestCollisionDataVo;
 	import com.crazyfm.devkit.goSystem.components.physyics.model.vo.ns_collision_data;
-	import com.crazyfm.extension.goSystem.GameComponent;
+	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
 	import nape.callbacks.InteractionCallback;
 	import nape.geom.Vec2;
@@ -15,7 +15,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 	use namespace ns_collision_data;
 
-	public class PhysBodyObjectModel extends GameComponent implements IPhysBodyObjectModel
+	public class PhysBodyObjectModel extends GOSystemComponent implements IPhysBodyObjectModel
 	{
 		protected var _body:Body;
 

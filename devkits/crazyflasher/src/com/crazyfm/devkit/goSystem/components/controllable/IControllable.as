@@ -4,9 +4,9 @@
 package com.crazyfm.devkit.goSystem.components.controllable
 {
 	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionVo;
-	import com.crazyfm.extension.goSystem.IGameComponent;
+	import com.crazyfm.extension.goSystem.IGOSystemComponent;
 
-	public interface IControllable extends IGameComponent
+	public interface IControllable extends IGOSystemComponent
 	{
 		function inputAction(actionVo:AbstractInputActionVo):IControllable;
 	}

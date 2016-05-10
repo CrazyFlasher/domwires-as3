@@ -13,6 +13,8 @@ package com.crazyfm.extensions.physics
 	import nape.phys.BodyList;
 	import nape.space.Space;
 
+	use namespace ns_ext_physics;
+
 	public class WorldObject extends Disposable implements IWorldObject
 	{
 		private var _space:Space;
@@ -26,7 +28,7 @@ package com.crazyfm.extensions.physics
 		{
 		}
 
-		public function set data(value:WorldDataVo):void
+		public function setData(value:WorldDataVo):IWorldObject
 		{
 			_data = value;
 
@@ -36,8 +38,8 @@ package com.crazyfm.extensions.physics
 
 			for each (var bodyData:BodyDataVo in _data.bodyDataList)
 			{
-				var bodyObject:IBodyObject = new BodyObject();
-				bodyObject.data = bodyData;
+				var bodyObject:BodyObject = new BodyObject();
+				bodyObject.setData(bodyData);
 				_bodyObjectList.push(bodyObject);
 
 				_space.bodies.add(bodyObject.body);
@@ -47,8 +49,8 @@ package com.crazyfm.extensions.physics
 
 			for each (var jointData:JointDataVo in _data.jointDataList)
 			{
-				var jointObject:IJointObject = new JointObject();
-				jointObject.data = jointData;
+				var jointObject:JointObject = new JointObject();
+				jointObject.setData(jointData);
 
 				var bodiesToConnect:Vector.<Body> = getBodiesToConnect(jointObject.data);
 
@@ -66,6 +68,8 @@ package com.crazyfm.extensions.physics
 					_jointObjectList.push(jointObject);
 				}
 			}
+
+			return this;
 		}
 
 		private function getBodiesToConnect(data:JointDataVo):Vector.<Body>
@@ -172,6 +176,13 @@ package com.crazyfm.extensions.physics
 			_data = null;
 
 			super.dispose();
+		}
+
+		public function clone():IWorldObject
+		{
+			var c:WorldObject = new WorldObject();
+			c.setData(_data);
+			return c;
 		}
 	}
 }

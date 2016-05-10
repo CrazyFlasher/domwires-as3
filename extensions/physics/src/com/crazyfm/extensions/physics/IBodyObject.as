@@ -11,9 +11,9 @@ package com.crazyfm.extensions.physics
 	public interface IBodyObject extends IDisposable
 	{
 		function get shapeObjectList():Vector.<IShapeObject>;
-		function set data(value:BodyDataVo):void;
 		function get data():BodyDataVo;
 		function get body():Body;
 		function shapeObjectById(id:String):IShapeObject;
+		function clone():IBodyObject;
 	}
 }

@@ -12,8 +12,8 @@ package com.crazyfm.extensions.physics
 	{
 		function get x():Number;
 		function get y():Number;
-		function set data(value:VertexDataVo):void;
 		function get data():VertexDataVo;
 		function get vertex():Vec2;
+		function clone():IVertexObject;
 	}
 }

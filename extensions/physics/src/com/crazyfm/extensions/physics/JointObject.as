@@ -11,6 +11,8 @@ package com.crazyfm.extensions.physics
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 
+	use namespace ns_ext_physics;
+
 	public class JointObject extends Disposable implements IJointObject
 	{
 		private var _data:JointDataVo;
@@ -27,9 +29,11 @@ package com.crazyfm.extensions.physics
 			return _data;
 		}
 
-		public function set data(value:JointDataVo):void
+		ns_ext_physics function setData(value:JointDataVo):IJointObject
 		{
 			_data = value;
+
+			return this;
 		}
 
 		public function connect(body_1:Body, body_2:Body):void
@@ -64,6 +68,13 @@ package com.crazyfm.extensions.physics
 			_data = null;
 
 			super.dispose();
+		}
+
+		public function clone():IJointObject
+		{
+			var c:JointObject = new JointObject();
+			c.setData(_data);
+			return c;
 		}
 	}
 }

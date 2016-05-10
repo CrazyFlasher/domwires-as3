@@ -7,12 +7,12 @@ package com.crazyfm.extension.goSystem
 
 	public class GameComponentTest
 	{
-		private var c:IGameComponent;
+		private var c:IGOSystemComponent;
 
 		[Before]
 		public function setUp():void
 		{
-			c = new GameComponent();
+			c = new GOSystemComponent();
 		}
 
 		[After]
@@ -31,7 +31,7 @@ package com.crazyfm.extension.goSystem
 		public function testGetGameObject():void
 		{
 			Assert.assertNull(c.parent);
-			var go:IGameObject = new GameObject();
+			var go:IGOSystemObject = new GOSystemObject();
 			go.addComponent(c);
 			Assert.assertEquals(c.parent, go);
 			go.removeComponent(c);

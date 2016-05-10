@@ -3,7 +3,7 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.model
 {
-	import com.crazyfm.extension.goSystem.GameComponent;
+	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
 	import nape.callbacks.CbEvent;
 	import nape.callbacks.CbType;
@@ -14,7 +14,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import nape.callbacks.PreFlag;
 	import nape.space.Space;
 
-	public class PhysWorldModel extends GameComponent implements IPhysWorldModel
+	public class PhysWorldModel extends GOSystemComponent implements IPhysWorldModel
 	{
 		private var space:Space;
 

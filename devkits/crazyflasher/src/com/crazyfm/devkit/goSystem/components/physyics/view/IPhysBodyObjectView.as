@@ -3,11 +3,11 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.view
 {
-	import com.crazyfm.extension.goSystem.IGameComponent;
+	import com.crazyfm.extension.goSystem.IGOSystemComponent;
 
 	import starling.display.DisplayObject;
 
-	public interface IPhysBodyObjectView extends IGameComponent
+	public interface IPhysBodyObjectView extends IGOSystemComponent
 	{
 		function get skin():DisplayObject;
 	}

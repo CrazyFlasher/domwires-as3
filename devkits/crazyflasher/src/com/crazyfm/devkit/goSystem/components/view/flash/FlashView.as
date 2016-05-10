@@ -3,11 +3,11 @@
  */
 package com.crazyfm.devkit.goSystem.components.view.flash
 {
-	import com.crazyfm.extension.goSystem.GameComponent;
+	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
 	import flash.display.DisplayObjectContainer;
 
-	public class FlashView extends GameComponent
+	public class FlashView extends GOSystemComponent
 	{
 		protected var viewContainer:DisplayObjectContainer;
 

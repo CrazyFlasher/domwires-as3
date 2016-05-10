@@ -7,11 +7,11 @@ package com.crazyfm.extension.goSystem
 
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
-	public class GameObject extends HierarchyObjectContainer implements IGameObject
+	public class GOSystemObject extends HierarchyObjectContainer implements IGOSystemObject
 	{
 		private var _isEnabled:Boolean;
 
-		public function GameObject()
+		public function GOSystemObject()
 		{
 			super();
 
@@ -45,7 +45,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function setEnabled(value:Boolean):IGameObject
+		public function setEnabled(value:Boolean):IGOSystemObject
 		{
 			if (isDisposed)
 			{
@@ -70,7 +70,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function addComponent(component:IGameComponent):IGameObject
+		public function addComponent(component:IGOSystemComponent):IGOSystemObject
 		{
 			add(component);
 
@@ -80,7 +80,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function removeComponent(component:IGameComponent, dispose:Boolean = false):IGameObject
+		public function removeComponent(component:IGOSystemComponent, dispose:Boolean = false):IGOSystemObject
 		{
 			remove(component, dispose);
 
@@ -90,7 +90,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllComponents(dispose:Boolean = false):IGameObject
+		public function removeAllComponents(dispose:Boolean = false):IGOSystemObject
 		{
 			removeAll(dispose);
 
@@ -108,7 +108,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function containsComponent(component:IGameComponent):Boolean
+		public function containsComponent(component:IGOSystemComponent):Boolean
 		{
 			return _childrenList && _childrenList.indexOf(component) != -1;
 		}
@@ -124,7 +124,7 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function getComponentByType(clazz:Class):IGameComponent
+		public function getComponentByType(clazz:Class):IGOSystemComponent
 		{
 			for (var i:int = 0; i < _childrenList.length; i++)
 			{
@@ -154,7 +154,7 @@ package com.crazyfm.extension.goSystem
 
 			if (components.length == 0)
 			{
-				log("Warning: components [" + getQualifiedClassName(clazz) + "] not found in this GameObject!");
+				log("Warning: components [" + getQualifiedClassName(clazz) + "] not found in this GOSystemObject!");
 			}
 
 			return components;

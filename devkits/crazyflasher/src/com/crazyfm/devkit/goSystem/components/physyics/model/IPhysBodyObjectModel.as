@@ -3,14 +3,14 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.model
 {
-	import com.crazyfm.extension.goSystem.IGameComponent;
+	import com.crazyfm.extension.goSystem.IGOSystemComponent;
 
 	import nape.callbacks.InteractionCallback;
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 	import nape.shape.Shape;
 
-	public interface IPhysBodyObjectModel extends IGameComponent
+	public interface IPhysBodyObjectModel extends IGOSystemComponent
 	{
 		function onBodyBeginCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;
 		function onBodyEndCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;

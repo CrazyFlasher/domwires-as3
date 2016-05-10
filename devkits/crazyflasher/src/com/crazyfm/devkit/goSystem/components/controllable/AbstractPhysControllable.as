@@ -7,11 +7,11 @@ package com.crazyfm.devkit.goSystem.components.controllable
 	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionVo;
 	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
 	import com.crazyfm.devkit.goSystem.components.physyics.model.IInteractivePhysObjectModel;
-	import com.crazyfm.extension.goSystem.GameComponent;
+	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
 	import nape.shape.Shape;
 
-	public class AbstractPhysControllable extends GameComponent implements IControllable
+	public class AbstractPhysControllable extends GOSystemComponent implements IControllable
 	{
 		protected var intPhysObject:IInteractivePhysObjectModel;
 

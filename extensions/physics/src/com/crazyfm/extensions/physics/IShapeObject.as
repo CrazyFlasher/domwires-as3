@@ -11,8 +11,8 @@ package com.crazyfm.extensions.physics
 	public interface IShapeObject extends IDisposable
 	{
 		function get vertexObjectList():Vector.<IVertexObject>;
-		function set data(value:ShapeDataVo):void;
 		function get data():ShapeDataVo;
 		function get shapes():Vector.<Shape>;
+		function clone():IShapeObject;
 	}
 }

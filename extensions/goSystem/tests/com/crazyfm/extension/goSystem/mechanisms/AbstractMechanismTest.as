@@ -3,11 +3,11 @@
  */
 package com.crazyfm.extension.goSystem.mechanisms
 {
-	import com.crazyfm.extension.goSystem.IMechanism;
+	import com.crazyfm.extension.goSystem.IGOSystemMechanism;
 
 	public class AbstractMechanismTest
 	{
-		private var m:IMechanism;
+		private var m:IGOSystemMechanism;
 
 		[Before]
 		public function setUp():void

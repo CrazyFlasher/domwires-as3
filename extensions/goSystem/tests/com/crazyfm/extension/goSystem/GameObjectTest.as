@@ -14,12 +14,12 @@ package com.crazyfm.extension.goSystem
 	public class GameObjectTest
 	{
 
-		private var go:IGameObject;
+		private var go:IGOSystemObject;
 
 		[Before]
 		public function setUp():void
 		{
-			go = new GameObject();
+			go = new GOSystemObject();
 		}
 
 		[After]
@@ -33,7 +33,7 @@ package com.crazyfm.extension.goSystem
 		{
 			assertEquals(go.numComponents, 0);
 
-			go.addComponent(new GameComponent());
+			go.addComponent(new GOSystemComponent());
 			assertEquals(go.numComponents, 1);
 		}
 
@@ -53,8 +53,8 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testGetComponentsByType():void
 		{
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new TestComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new TestComponent();
 			go.addComponent(c).addComponent(c2);
 
 			assertEquals(go.getComponentsByType(TestComponent).length, 2);
@@ -63,9 +63,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testDispose():void
 		{
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new TestComponent();
-			var c3:IGameComponent = new GameComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new TestComponent();
+			var c3:IGOSystemComponent = new GOSystemComponent();
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 			go.dispose();
 
@@ -79,9 +79,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testDisposeWithAllChildren():void
 		{
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new TestComponent();
-			var c3:IGameComponent = new GameComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new TestComponent();
+			var c3:IGOSystemComponent = new GOSystemComponent();
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 			go.disposeWithAllChildren();
 
@@ -102,9 +102,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testContainsComponent():void
 		{
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new TestComponent();
-			var c3:IGameComponent = new GameComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new TestComponent();
+			var c3:IGOSystemComponent = new GOSystemComponent();
 			assertFalse(go.containsComponent(c));
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 			assertTrue(go.containsComponent(c));
@@ -116,9 +116,9 @@ package com.crazyfm.extension.goSystem
 		public function testNumComponents():void
 		{
 			assertEquals(go.numComponents, 0);
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new TestComponent();
-			var c3:IGameComponent = new GameComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new TestComponent();
+			var c3:IGOSystemComponent = new GOSystemComponent();
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 			assertEquals(go.numComponents, 3);
 		}
@@ -126,9 +126,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testRemoveAllComponents():void
 		{
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new TestComponent();
-			var c3:IGameComponent = new GameComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new TestComponent();
+			var c3:IGOSystemComponent = new GOSystemComponent();
 			assertNull(c.gameObject, c2.gameObject, c3.gameObject);
 
 			go.addComponent(c).addComponent(c2).addComponent(c3);
@@ -143,7 +143,7 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testAddComponent():void
 		{
-			var c:IGameComponent = new TestComponent();
+			var c:IGOSystemComponent = new TestComponent();
 			go.addComponent(c);
 			assertEquals(go.numComponents, 1);
 			assertEquals(c.gameObject, go);
@@ -153,9 +153,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testComponentList():void
 		{
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new TestComponent();
-			var c3:IGameComponent = new GameComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new TestComponent();
+			var c3:IGOSystemComponent = new GOSystemComponent();
 
 			assertEquals(go.componentList.length, 0);
 			go.addComponent(c).addComponent(c2).addComponent(c3);
@@ -165,9 +165,9 @@ package com.crazyfm.extension.goSystem
 		[Test]
 		public function testGetComponentByType():void
 		{
-			var c:IGameComponent = new TestComponent();
-			var c2:IGameComponent = new GameComponent();
-			var c3:IGameComponent = new GameComponent();
+			var c:IGOSystemComponent = new TestComponent();
+			var c2:IGOSystemComponent = new GOSystemComponent();
+			var c3:IGOSystemComponent = new GOSystemComponent();
 			go.addComponent(c).addComponent(c2).addComponent(c3);
 
 			assertEquals(go.getComponentByType(TestComponent), c);
@@ -186,9 +186,9 @@ package com.crazyfm.extension.goSystem
 	}
 }
 
-import com.crazyfm.extension.goSystem.GameComponent;
+import com.crazyfm.extension.goSystem.GOSystemComponent;
 
-internal class TestComponent extends GameComponent
+internal class TestComponent extends GOSystemComponent
 {
 	public function TestComponent()
 	{

@@ -11,6 +11,8 @@ package com.crazyfm.extensions.physics
 	import nape.phys.BodyType;
 	import nape.phys.Material;
 
+	use namespace ns_ext_physics;
+
 	public class BodyObject extends Disposable implements IBodyObject
 	{
 		private var _body:Body;
@@ -41,7 +43,7 @@ package com.crazyfm.extensions.physics
 			return null;
 		}
 
-		public function set data(value:BodyDataVo):void
+		ns_ext_physics function setData(value:BodyDataVo):IBodyObject
 		{
 			_data = value;
 
@@ -49,8 +51,8 @@ package com.crazyfm.extensions.physics
 
 			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
-				var shapeObject:IShapeObject = new ShapeObject();
-				shapeObject.data = shapeData;
+				var shapeObject:ShapeObject = new ShapeObject();
+				shapeObject.setData(shapeData);
 				_shapeObjectList.push(shapeObject);
 			}
 
@@ -89,6 +91,8 @@ package com.crazyfm.extensions.physics
 			//_body.align();
 
 			_body.allowRotation = _data.allowRotation;
+
+			return this;
 		}
 
 		public function get data():BodyDataVo
@@ -115,6 +119,13 @@ package com.crazyfm.extensions.physics
 			_data = null;
 
 			super.dispose();
+		}
+
+		public function clone():IBodyObject
+		{
+			var c:BodyObject = new BodyObject();
+			c.setData(_data);
+			return c;
 		}
 	}
 }

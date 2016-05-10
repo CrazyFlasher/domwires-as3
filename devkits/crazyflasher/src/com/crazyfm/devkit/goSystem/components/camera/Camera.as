@@ -3,13 +3,13 @@
  */
 package com.crazyfm.devkit.goSystem.components.camera
 {
-	import com.crazyfm.extension.goSystem.GameComponent;
+	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
 	import flash.geom.Rectangle;
 
 	import starling.display.DisplayObject;
 
-	public class Camera extends GameComponent implements ICamera
+	public class Camera extends GOSystemComponent implements ICamera
 	{
 		private var focusObject:DisplayObject;
 

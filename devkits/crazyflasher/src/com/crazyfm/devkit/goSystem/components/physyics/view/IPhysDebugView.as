@@ -3,9 +3,9 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.view
 {
-	import com.crazyfm.extension.goSystem.IGameComponent;
+	import com.crazyfm.extension.goSystem.IGOSystemComponent;
 
-	public interface IPhysDebugView extends IGameComponent
+	public interface IPhysDebugView extends IGOSystemComponent
 	{
 	}
 }

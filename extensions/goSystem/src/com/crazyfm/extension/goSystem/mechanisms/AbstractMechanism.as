@@ -4,10 +4,10 @@
 package com.crazyfm.extension.goSystem.mechanisms
 {
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
-	import com.crazyfm.extension.goSystem.IGearWheel;
-	import com.crazyfm.extension.goSystem.IMechanism;
+	import com.crazyfm.extension.goSystem.IGOSystemGearWheel;
+	import com.crazyfm.extension.goSystem.IGOSystemMechanism;
 
-	public class AbstractMechanism extends HierarchyObjectContainer implements IMechanism
+	public class AbstractMechanism extends HierarchyObjectContainer implements IGOSystemMechanism
 	{
 		private var constantPassedTime:Number;
 
@@ -21,7 +21,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		/**
 		 * @inheritDoc
 		 */
-		public function addGear(value:IGearWheel):IMechanism
+		public function addGear(value:IGOSystemGearWheel):IGOSystemMechanism
 		{
 			add(value);
 
@@ -31,7 +31,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		/**
 		 * @inheritDoc
 		 */
-		public function removeGear(value:IGearWheel, dispose:Boolean = false):IMechanism
+		public function removeGear(value:IGOSystemGearWheel, dispose:Boolean = false):IGOSystemMechanism
 		{
 			remove(value, dispose);
 
@@ -41,7 +41,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAllGears(dispose:Boolean = false):IMechanism
+		public function removeAllGears(dispose:Boolean = false):IGOSystemMechanism
 		{
 			removeAll(dispose);
 
@@ -59,7 +59,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		/**
 		 * @inheritDoc
 		 */
-		public function containsGear(value:IGearWheel):Boolean
+		public function containsGear(value:IGOSystemGearWheel):Boolean
 		{
 			return _childrenList && _childrenList.indexOf(value) != -1;
 		}

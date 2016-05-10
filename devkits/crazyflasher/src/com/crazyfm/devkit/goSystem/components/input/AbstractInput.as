@@ -5,11 +5,11 @@ package com.crazyfm.devkit.goSystem.components.input
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.devkit.goSystem.components.controllable.IControllable;
-	import com.crazyfm.extension.goSystem.GameComponent;
+	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
 	use namespace ns_input;
 
-	public class AbstractInput extends GameComponent implements IInput
+	public class AbstractInput extends GOSystemComponent implements IInput
 	{
 		protected var controllableComponents:Array/*IControllable*/
 
