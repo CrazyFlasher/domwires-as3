@@ -16,7 +16,7 @@ package com.crazyfm.extensions.physics
 		function shapeObjectById(id:String):IShapeObject;
 		function clone():IBodyObject;
 
-		function addShapeObject(value:IShapeObject):IBodyObject;
-		function removeShapeObject(value:IShapeObject):IBodyObject;
+//		function addShapeObject(value:IShapeObject):IBodyObject;
+//		function removeShapeObject(value:IShapeObject):IBodyObject;
 	}
 }

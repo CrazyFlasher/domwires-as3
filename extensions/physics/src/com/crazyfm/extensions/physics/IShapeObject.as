@@ -15,7 +15,7 @@ package com.crazyfm.extensions.physics
 		function get shapes():Vector.<Shape>;
 		function clone():IShapeObject;
 
-		function addVertexObject(value:IVertexObject):IShapeObject;
-		function removeVertexObject(value:IVertexObject):IShapeObject;
+//		function addVertexObject(value:IVertexObject):IShapeObject;
+//		function removeVertexObject(value:IVertexObject):IShapeObject;
 	}
 }

@@ -18,9 +18,9 @@ package com.crazyfm.extensions.physics
 		function get space():Space;
 		function clone():IWorldObject;
 
-		function addBodyObject(value:IBodyObject):IWorldObject;
-		function removeBodyObject(value:IBodyObject):IWorldObject;
-		function addJointObject(value:IJointObject):IWorldObject;
-		function removeJointObject(value:IJointObject):IWorldObject;
+//		function addBodyObject(value:IBodyObject):IWorldObject;
+//		function removeBodyObject(value:IBodyObject):IWorldObject;
+//		function addJointObject(value:IJointObject):IWorldObject;
+//		function removeJointObject(value:IJointObject):IWorldObject;
 	}
 }
