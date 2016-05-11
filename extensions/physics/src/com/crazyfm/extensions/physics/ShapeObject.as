@@ -19,8 +19,6 @@ package com.crazyfm.extensions.physics
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
 
-	use namespace ns_ext_physics;
-
 	public class ShapeObject extends Disposable implements IShapeObject
 	{
 		private var _shapes:Vector.<Shape>;
@@ -29,20 +27,11 @@ package com.crazyfm.extensions.physics
 
 		private var _vertexObjectList:Vector.<IVertexObject>;
 
-		public function ShapeObject()
-		{
-		}
-
-		public function get vertexObjectList():Vector.<IVertexObject>
-		{
-			return _vertexObjectList;
-		}
-
-		ns_ext_physics function setData(value:ShapeDataVo):IShapeObject
+		public function ShapeObject(data:ShapeDataVo)
 		{
 			//TODO: a lot of tests
 
-			_data = value;
+			_data = data;
 
 			var materialData:ShapeMaterialVo = _data.material;
 			var material:Material = new Material(materialData.elasticity, materialData.dynamicFriction,
@@ -61,8 +50,7 @@ package com.crazyfm.extensions.physics
 
 				for each (var vertexData:VertexDataVo in _data.vertexDataList)
 				{
-					var vertexObject:VertexObject = new VertexObject();
-					vertexObject.setData(vertexData);
+					var vertexObject:VertexObject = new VertexObject(vertexData);
 
 					_vertexObjectList.push(vertexObject);
 					verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
@@ -93,8 +81,11 @@ package com.crazyfm.extensions.physics
 				circlePoly.userData.id = _data.id;
 				_shapes.push(circlePoly);
 			}
+		}
 
-			return this;
+		public function get vertexObjectList():Vector.<IVertexObject>
+		{
+			return _vertexObjectList;
 		}
 
 		public function get data():ShapeDataVo
@@ -123,8 +114,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IShapeObject
 		{
-			var c:ShapeObject = new ShapeObject();
-			c.setData(_data);
+			var c:IShapeObject = new ShapeObject(_data);
 			return c;
 		}
 	}

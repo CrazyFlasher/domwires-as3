@@ -80,30 +80,8 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 							shapes:getBodyShapes(body)
 						};
 
-						if (body.material != null)
-						{
-							bodyData.material = {};
-							if(body.material.elasticity != null)
-							{
-								bodyData.material.elasticity = getNumberValue(body.material.elasticity);
-							}
-							if(body.material.dynamicFriction != null)
-							{
-								bodyData.material.dynamicFriction = getNumberValue(body.material.dynamicFriction);
-							}
-							if(body.material.staticFriction != null)
-							{
-								bodyData.material.staticFriction = getNumberValue(body.material.staticFriction);
-							}
-							if(body.material.density != null)
-							{
-								bodyData.material.density = getNumberValue(body.material.density);
-							}
-							if(body.material.rollingFriction != null)
-							{
-								bodyData.material.rollingFriction = getNumberValue(body.material.rollingFriction);
-							}
-						}
+						addMaterial(body, bodyData);
+						addFilter(body, bodyData);
 
 						if (body.allowRotation != null)
 						{
@@ -140,54 +118,10 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 					{
 						shapeData.vertices = getShapeVertices(shape);
 					}
-					if(shape.filter)
-					{
-						shapeData.filter = {};
-						if(shape.filter.collisionGroup != null)
-						{
-							shapeData.filter.collisionGroup = shape.filter.collisionGroup;
-						}
-						if(shape.filter.collisionMask != null)
-						{
-							shapeData.filter.collisionMask = shape.filter.collisionMask;
-						}
-						if(shape.filter.sensorGroup != null)
-						{
-							shapeData.filter.sensorGroup = shape.filter.sensorGroup;
-						}
-						if(shape.filter.sensorMask != null)
-						{
-							shapeData.filter.sensorMask = shape.filter.sensorMask;
-						}
-						if(shape.filter.fluidGroup != null)
-						{
-							shapeData.filter.fluidGroup = shape.filter.fluidGroup;
-						}
-					}
-					if(shape.material)
-					{
-						shapeData.material = {};
-						if(shape.material.elasticity != null)
-						{
-							shapeData.material.elasticity = getNumberValue(shape.material.elasticity);
-						}
-						if(shape.material.dynamicFriction != null)
-						{
-							shapeData.material.dynamicFriction = getNumberValue(shape.material.dynamicFriction);
-						}
-						if(shape.material.staticFriction != null)
-						{
-							shapeData.material.staticFriction = getNumberValue(shape.material.staticFriction);
-						}
-						if(shape.material.density != null)
-						{
-							shapeData.material.density = getNumberValue(shape.material.density);
-						}
-						if(shape.material.rollingFriction != null)
-						{
-							shapeData.material.rollingFriction = getNumberValue(shape.material.rollingFriction);
-						}
-					}
+
+					addMaterial(shape, shapeData);
+					addFilter(shape, shapeData);
+
 					if (shape.isSensor != null)
 					{
 						shapeData.isSensor = shape.isSensor;
@@ -197,6 +131,64 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 			}
 
 			return shapes;
+		}
+
+		private function addFilter(fromObject:Object, toObject:Object):void
+		{
+			if(fromObject.filter)
+			{
+				toObject.filter = {};
+
+				if(fromObject.filter.collisionGroup != null)
+				{
+					toObject.filter.collisionGroup = fromObject.filter.collisionGroup;
+				}
+				if(fromObject.filter.collisionMask != null)
+				{
+					toObject.filter.collisionMask = fromObject.filter.collisionMask;
+				}
+				if(fromObject.filter.sensorGroup != null)
+				{
+					toObject.filter.sensorGroup = fromObject.filter.sensorGroup;
+				}
+				if(fromObject.filter.sensorMask != null)
+				{
+					toObject.filter.sensorMask = fromObject.filter.sensorMask;
+				}
+				if(fromObject.filter.fluidGroup != null)
+				{
+					toObject.filter.fluidGroup = fromObject.filter.fluidGroup;
+				}
+			}
+		}
+
+		private function addMaterial(fromObject:Object, toObject:Object):void
+		{
+			if(fromObject.material)
+			{
+				toObject.material = {};
+
+				if(fromObject.material.elasticity != null)
+				{
+					toObject.material.elasticity = getNumberValue(fromObject.material.elasticity);
+				}
+				if(fromObject.material.dynamicFriction != null)
+				{
+					toObject.material.dynamicFriction = getNumberValue(fromObject.material.dynamicFriction);
+				}
+				if(fromObject.material.staticFriction != null)
+				{
+					toObject.material.staticFriction = getNumberValue(fromObject.material.staticFriction);
+				}
+				if(fromObject.material.density != null)
+				{
+					toObject.material.density = getNumberValue(fromObject.material.density);
+				}
+				if(fromObject.material.rollingFriction != null)
+				{
+					toObject.material.rollingFriction = getNumberValue(fromObject.material.rollingFriction);
+				}
+			}
 		}
 
 		private function getNumberValue(value:Number):*

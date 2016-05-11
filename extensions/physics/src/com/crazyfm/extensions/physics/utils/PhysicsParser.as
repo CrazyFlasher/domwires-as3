@@ -164,6 +164,37 @@ package com.crazyfm.extensions.physics.utils
 
 				data.material = material;
 			}
+			if(bodyJson.filter)
+			{
+				var filter:InteractionFilterVo = new InteractionFilterVo();
+				if(bodyJson.filter.collisionGroup != null)
+				{
+					filter.collisionGroup = bodyJson.filter.collisionGroup;
+				}
+				if(bodyJson.filter.collisionMask != null)
+				{
+					filter.collisionMask = bodyJson.filter.collisionMask;
+				}
+				if(bodyJson.filter.sensorGroup != null)
+				{
+					filter.sensorGroup = bodyJson.filter.sensorGroup;
+				}
+				if(bodyJson.filter.sensorMask != null)
+				{
+					filter.sensorMask = bodyJson.filter.sensorMask;
+				}
+				if(bodyJson.filter.fluidGroup != null)
+				{
+					filter.fluidGroup = bodyJson.filter.fluidGroup;
+				}
+				if(bodyJson.filter.fluidMask != null)
+				{
+					filter.fluidMask = bodyJson.filter.fluidMask;
+				}
+
+				data.interactionFilter = filter;
+			}
+
 			if(bodyJson.x != null)
 			{
 				data.x = bodyJson.x;

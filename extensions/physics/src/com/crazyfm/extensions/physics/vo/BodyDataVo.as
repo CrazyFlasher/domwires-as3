@@ -16,6 +16,7 @@ package com.crazyfm.extensions.physics.vo
 		private var _angle:Number = 0;
 		private var _allowRotation:Boolean = true;
 		private var _material:ShapeMaterialVo;
+		private var _interactionFilter:InteractionFilterVo;
 
 		private var _shapeDataList:Vector.<ShapeDataVo>;
 
@@ -101,6 +102,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set material(value:ShapeMaterialVo):void
 		{
 			_material = value;
+		}
+
+		public function get interactionFilter():InteractionFilterVo
+		{
+			return _interactionFilter;
+		}
+
+		public function set interactionFilter(value:InteractionFilterVo):void
+		{
+			_interactionFilter = value;
 		}
 	}
 }

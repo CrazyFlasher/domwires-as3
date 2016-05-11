@@ -134,6 +134,8 @@ package com.crazyfm.extension.goSystem
 				}
 			}
 
+			log("Warning: components [" + getQualifiedClassName(clazz) + "] not found in this GOSystemObject!");
+
 			return null;
 		}
 

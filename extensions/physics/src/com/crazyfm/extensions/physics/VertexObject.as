@@ -8,17 +8,17 @@ package com.crazyfm.extensions.physics
 
 	import nape.geom.Vec2;
 
-	use namespace ns_ext_physics;
-
 	public class VertexObject extends Disposable implements IVertexObject
 	{
 		private var _vertex:Vec2;
 
 		private var _data:VertexDataVo;
 
-		public function VertexObject()
+		public function VertexObject(data:VertexDataVo)
 		{
+			_data = data;
 
+			_vertex = new Vec2(_data.x, _data.y);
 		}
 
 		public function get x():Number
@@ -29,15 +29,6 @@ package com.crazyfm.extensions.physics
 		public function get y():Number
 		{
 			return _data.y;
-		}
-
-		ns_ext_physics function setData(value:VertexDataVo):IVertexObject
-		{
-			_data = value;
-
-			_vertex = new Vec2(value.x, value.y);
-
-			return this;
 		}
 
 		public function get data():VertexDataVo
@@ -62,8 +53,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IVertexObject
 		{
-			var c:VertexObject = new VertexObject();
-			c.setData(_data);
+			var c:IVertexObject = new VertexObject(_data);
 			return c;
 		}
 	}

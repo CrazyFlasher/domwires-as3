@@ -14,6 +14,8 @@ package com.crazyfm.extensions.flashPhysicsEditor
 
 	import flexunit.framework.Assert;
 
+	use namespace ns_ext_physics;
+
 	public class FlashPhysicsJSONBuilderTest
 	{
 
@@ -25,8 +27,8 @@ package com.crazyfm.extensions.flashPhysicsEditor
 		[Before]
 		public function setUp():void
 		{
-			world = new WorldObject();
-			world.data = PhysicsParser.parseWorld(JSON.parse((new WorldClass() as ByteArray).toString()));
+			world = new WorldObject()
+				.setData(PhysicsParser.parseWorld(JSON.parse((new WorldClass() as ByteArray).toString())));
 		}
 
 		[Test]

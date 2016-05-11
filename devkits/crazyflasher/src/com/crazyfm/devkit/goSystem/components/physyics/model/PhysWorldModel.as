@@ -40,7 +40,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyCollisionEndHandler));
 
 			space.listeners.add(new InteractionListener(CbEvent.BEGIN, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_SHAPE, bodySensorBeginHandler));
-			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_BODY, bodyOnGoingSensorListener));
+			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyOnGoingSensorListener));
 			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_SHAPE, bodySensorEndHandler));
 
 //			space.listeners.add(new PreListener(InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, bodyPreCollisionHandler));

@@ -7,11 +7,10 @@ package com.crazyfm.extensions.physics
 	import com.crazyfm.extensions.physics.vo.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 
+	import nape.dynamics.InteractionFilter;
 	import nape.phys.Body;
 	import nape.phys.BodyType;
 	import nape.phys.Material;
-
-	use namespace ns_ext_physics;
 
 	public class BodyObject extends Disposable implements IBodyObject
 	{
@@ -21,38 +20,15 @@ package com.crazyfm.extensions.physics
 
 		private var _shapeObjectList:Vector.<IShapeObject>;
 
-		public function BodyObject()
+		public function BodyObject(data:BodyDataVo)
 		{
-		}
-
-		public function get shapeObjectList():Vector.<IShapeObject>
-		{
-			return _shapeObjectList;
-		}
-
-		public function shapeObjectById(id:String):IShapeObject
-		{
-			for each (var shapeObject:IShapeObject in _shapeObjectList)
-			{
-				if (shapeObject.data.id == id)
-				{
-					return shapeObject;
-				}
-			}
-
-			return null;
-		}
-
-		ns_ext_physics function setData(value:BodyDataVo):IBodyObject
-		{
-			_data = value;
+			_data = data;
 
 			_shapeObjectList = new <IShapeObject>[];
 
 			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
-				var shapeObject:ShapeObject = new ShapeObject();
-				shapeObject.setData(shapeData);
+				var shapeObject:ShapeObject = new ShapeObject(shapeData);
 				_shapeObjectList.push(shapeObject);
 			}
 
@@ -88,11 +64,35 @@ package com.crazyfm.extensions.physics
 						_data.material.staticFriction, _data.material.density, _data.material.rollingFriction));
 			}
 
+			if (_data.interactionFilter)
+			{
+				_body.setShapeFilters(new InteractionFilter(_data.interactionFilter.collisionGroup,
+						_data.interactionFilter.collisionMask, _data.interactionFilter.sensorGroup,
+						_data.interactionFilter.sensorMask, _data.interactionFilter.fluidGroup,
+						_data.interactionFilter.fluidMask));
+			}
+
 			//_body.align();
 
 			_body.allowRotation = _data.allowRotation;
+		}
 
-			return this;
+		public function get shapeObjectList():Vector.<IShapeObject>
+		{
+			return _shapeObjectList;
+		}
+
+		public function shapeObjectById(id:String):IShapeObject
+		{
+			for each (var shapeObject:IShapeObject in _shapeObjectList)
+			{
+				if (shapeObject.data.id == id)
+				{
+					return shapeObject;
+				}
+			}
+
+			return null;
 		}
 
 		public function get data():BodyDataVo
@@ -123,8 +123,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IBodyObject
 		{
-			var c:BodyObject = new BodyObject();
-			c.setData(_data);
+			var c:IBodyObject = new BodyObject(_data);
 			return c;
 		}
 	}
