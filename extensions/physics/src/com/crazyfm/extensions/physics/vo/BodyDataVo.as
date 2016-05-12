@@ -3,6 +3,7 @@
  */
 package com.crazyfm.extensions.physics.vo
 {
+	//TODO: create from builder. Mark setters as internal.
 	public class BodyDataVo
 	{
 		public static const TYPE_STATIC:String = "static";
@@ -39,19 +40,14 @@ package com.crazyfm.extensions.physics.vo
 			return _id;
 		}
 
-		public function set id(value:String):void
-		{
-			_id = value;
-		}
-
 		public function get type():String
 		{
 			return _type;
 		}
 
-		public function set type(value:String):void
+		public function set id(value:String):void
 		{
-			_type = value;
+			_id = value;
 		}
 
 		public function get x():Number
@@ -59,19 +55,9 @@ package com.crazyfm.extensions.physics.vo
 			return _x;
 		}
 
-		public function set x(value:Number):void
-		{
-			_x = value;
-		}
-
 		public function get y():Number
 		{
 			return _y;
-		}
-
-		public function set y(value:Number):void
-		{
-			_y = value;
 		}
 
 		public function get angle():Number
@@ -79,19 +65,9 @@ package com.crazyfm.extensions.physics.vo
 			return _angle;
 		}
 
-		public function set angle(value:Number):void
-		{
-			_angle = value;
-		}
-
 		public function get allowRotation():Boolean
 		{
 			return _allowRotation;
-		}
-
-		public function set allowRotation(value:Boolean):void
-		{
-			_allowRotation = value;
 		}
 
 		public function get material():ShapeMaterialVo
@@ -99,14 +75,39 @@ package com.crazyfm.extensions.physics.vo
 			return _material;
 		}
 
-		public function set material(value:ShapeMaterialVo):void
-		{
-			_material = value;
-		}
-
 		public function get interactionFilter():InteractionFilterVo
 		{
 			return _interactionFilter;
+		}
+
+		public function set type(value:String):void
+		{
+			_type = value;
+		}
+
+		public function set x(value:Number):void
+		{
+			_x = value;
+		}
+
+		public function set y(value:Number):void
+		{
+			_y = value;
+		}
+
+		public function set angle(value:Number):void
+		{
+			_angle = value;
+		}
+
+		public function set allowRotation(value:Boolean):void
+		{
+			_allowRotation = value;
+		}
+
+		public function set material(value:ShapeMaterialVo):void
+		{
+			_material = value;
 		}
 
 		public function set interactionFilter(value:InteractionFilterVo):void
