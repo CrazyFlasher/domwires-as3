@@ -12,6 +12,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import nape.callbacks.InteractionType;
 	import nape.callbacks.PreCallback;
 	import nape.callbacks.PreFlag;
+	import nape.callbacks.PreListener;
 	import nape.space.Space;
 
 	public class PhysWorldModel extends GOSystemComponent implements IPhysWorldModel
@@ -43,12 +44,17 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			space.listeners.add(new InteractionListener(CbEvent.ONGOING, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyOnGoingSensorListener));
 			space.listeners.add(new InteractionListener(CbEvent.END, InteractionType.SENSOR, CbType.ANY_BODY, CbType.ANY_SHAPE, bodySensorEndHandler));
 
-//			space.listeners.add(new PreListener(InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_BODY, bodyPreCollisionHandler));
+			space.listeners.add(new PreListener(InteractionType.COLLISION, CbType.ANY_BODY, CbType.ANY_SHAPE, bodyPreCollisionHandler));
 		}
 
 		private function bodyPreCollisionHandler(preCollision:PreCallback):PreFlag
 		{
 			//TODO
+
+			interactors.update(preCollision);
+
+			interactors.po_1.onBodyPreCollision(preCollision, interactors.otherBody, interactors.otherShape);
+			interactors.po_2.onBodyPreCollision(preCollision, interactors.currentBody, interactors.currentShape);
 
 			return PreFlag.ACCEPT;
 		}

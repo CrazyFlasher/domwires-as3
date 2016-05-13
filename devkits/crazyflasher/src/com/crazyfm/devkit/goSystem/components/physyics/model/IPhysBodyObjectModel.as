@@ -15,6 +15,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		function onBodyBeginCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;
 		function onBodyEndCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;
 		function onBodyOnGoingCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;
+		function onBodyPreCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;
 
 		function onBodyBeginSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;
 		function onBodyEndSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;

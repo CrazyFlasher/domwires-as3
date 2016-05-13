@@ -145,6 +145,10 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			}
 		}
 
+		public function onBodyPreCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
+		{
+		}
+
 		protected function handleOnGoingSensor():void
 		{
 			dispatchSignal(PhysObjectSignalEnum.SENSOR_ONGOING, latestCollisionData);
