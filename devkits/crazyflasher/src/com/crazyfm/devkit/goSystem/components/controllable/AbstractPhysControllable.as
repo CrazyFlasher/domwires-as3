@@ -39,6 +39,7 @@ package com.crazyfm.devkit.goSystem.components.controllable
 			intPhysObject.addSignalListener(PhysObjectSignalEnum.COLLISION_END, handleCollisionEnd);
 
 			intPhysObject.addSignalListener(PhysObjectSignalEnum.SENSOR_BEGIN, handleSensorBegin);
+			intPhysObject.addSignalListener(PhysObjectSignalEnum.SENSOR_ONGOING, handleSensorOngoing);
 			intPhysObject.addSignalListener(PhysObjectSignalEnum.SENSOR_END, handleSensorEnd);
 		}
 
@@ -67,6 +68,11 @@ package com.crazyfm.devkit.goSystem.components.controllable
 
 		}
 
+		protected function handleSensorOngoing(e:ISignalEvent):void
+		{
+
+		}
+
 		public function inputAction(actionVo:AbstractInputActionVo):IControllable
 		{
 			return this;
@@ -87,9 +93,19 @@ package com.crazyfm.devkit.goSystem.components.controllable
 		}
 
 		//TODO: do other way!
-		protected final function isLadder(shape:Shape):Boolean
+		/**
+		 * Checks if shape is ladder
+		 * @param shape
+		 * @return x position or NaN
+		 */
+		protected final function isLadder(shape:Shape):Number
 		{
-			return shape.userData.id.search("ladder") != -1;
+			return shape.userData.id.search("ladder") != -1 ? shape.bounds.min.x : NaN;
+		}
+
+		protected final function canLeaveLadder(shape:Shape):Boolean
+		{
+			return isLadder(shape) && shape.bounds.min.y > intPhysObject.bounds.min.y;
 		}
 	}
 }

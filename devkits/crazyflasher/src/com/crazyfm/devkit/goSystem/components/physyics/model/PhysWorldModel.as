@@ -51,10 +51,10 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		{
 			//TODO
 
-			interactors.update(preCollision);
+			//interactors.update(preCollision);
 
-			interactors.po_1.onBodyPreCollision(preCollision, interactors.otherBody, interactors.otherShape);
-			interactors.po_2.onBodyPreCollision(preCollision, interactors.currentBody, interactors.currentShape);
+			//interactors.po_1.onBodyPreCollision(preCollision, interactors.otherBody, interactors.otherShape);
+			//interactors.po_2.onBodyPreCollision(preCollision, interactors.currentBody, interactors.currentShape);
 
 			return PreFlag.ACCEPT;
 		}

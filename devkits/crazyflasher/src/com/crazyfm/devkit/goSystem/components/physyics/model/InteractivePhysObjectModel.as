@@ -4,6 +4,7 @@
 package com.crazyfm.devkit.goSystem.components.physyics.model
 {
 	import nape.callbacks.InteractionCallback;
+	import nape.geom.AABB;
 	import nape.geom.Vec2;
 	import nape.hacks.ForcedSleep;
 	import nape.phys.Body;
@@ -113,6 +114,11 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		public function get zeroGravity():Boolean
 		{
 			return _body.gravMass == 0;
+		}
+
+		public function get bounds():AABB
+		{
+			return _body.bounds;
 		}
 	}
 }
