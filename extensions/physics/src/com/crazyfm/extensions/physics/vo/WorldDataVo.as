@@ -11,6 +11,8 @@ package com.crazyfm.extensions.physics.vo
 		private var _bodyDataList:Vector.<BodyDataVo>;
 		private var _jointDataList:Vector.<JointDataVo>;
 
+		private var _customData:Object;
+
 		public function WorldDataVo()
 		{
 		}
@@ -53,6 +55,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set jointDataList(value:Vector.<JointDataVo>):void
 		{
 			_jointDataList = value;
+		}
+
+		public function set customData(customData:Object):void
+		{
+			_customData = customData;
+		}
+
+		public function get customData():Object
+		{
+			return _customData;
 		}
 	}
 }

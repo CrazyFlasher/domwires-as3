@@ -113,6 +113,11 @@ package com.crazyfm.extensions.physics.utils
 				data.interactionFilter = filter;
 			}
 
+			if (shapeJson.customData)
+			{
+				data.customData = shapeJson.customData;
+			}
+
 			return data;
 		}
 
@@ -213,6 +218,11 @@ package com.crazyfm.extensions.physics.utils
 			}
 			data.type = bodyJson.type;
 
+			if (bodyJson.customData)
+			{
+				data.customData = bodyJson.customData;
+			}
+
 			return data;
 		}
 
@@ -271,6 +281,11 @@ package com.crazyfm.extensions.physics.utils
 			data.jointDataList = joints;
 			data.id = worldJson.id;
 			data.gravity = new GravityVo(worldJson.gravity.x, worldJson.gravity.y);
+
+			if (worldJson.customData)
+			{
+				data.customData = worldJson.customData;
+			}
 
 			return data;
 		}

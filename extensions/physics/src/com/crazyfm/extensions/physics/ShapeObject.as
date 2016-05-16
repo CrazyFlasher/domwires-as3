@@ -104,7 +104,7 @@ package com.crazyfm.extensions.physics
 			{
 				vertexObject.dispose();
 			}
-			
+
 			_vertexObjectList = null;
 			_shapes = null;
 			_data = null;

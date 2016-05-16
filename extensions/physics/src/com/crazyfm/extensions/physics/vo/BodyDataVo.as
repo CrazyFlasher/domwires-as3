@@ -21,6 +21,8 @@ package com.crazyfm.extensions.physics.vo
 
 		private var _shapeDataList:Vector.<ShapeDataVo>;
 
+		private var _customData:Object;
+
 		public function BodyDataVo()
 		{
 		}
@@ -113,6 +115,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set interactionFilter(value:InteractionFilterVo):void
 		{
 			_interactionFilter = value;
+		}
+
+		public function set customData(customData:Object):void
+		{
+			_customData = customData;
+		}
+
+		public function get customData():Object
+		{
+			return _customData;
 		}
 	}
 }

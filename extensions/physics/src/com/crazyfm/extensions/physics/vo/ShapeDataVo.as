@@ -17,6 +17,8 @@ package com.crazyfm.extensions.physics.vo
 		private var _radius:Number;
 		private var _vertexDataList:Vector.<VertexDataVo>;
 
+		private var _customData:Object;
+
 		public function ShapeDataVo()
 		{
 		}
@@ -114,6 +116,16 @@ package com.crazyfm.extensions.physics.vo
 		public function set radius(value:Number):void
 		{
 			_radius = value;
+		}
+
+		public function get customData():Object
+		{
+			return _customData;
+		}
+
+		public function set customData(value:Object):void
+		{
+			_customData = value;
 		}
 	}
 }

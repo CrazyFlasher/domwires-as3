@@ -27,13 +27,11 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 			var worldData:Object =
 			{
 				id:world.name,
-				bodies:[
-
-				],
-				joints:[
-
-				]
+				bodies:[],
+				joints:[]
 			};
+
+			addCustomData(world, worldData);
 
 			if(world.gravity)
 			{
@@ -67,6 +65,9 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 							jointData.bodies = joint.bodies;
 						}
 						worldData.joints.push(jointData);
+
+						addCustomData(joint, jointData);
+
 					}else
 					{
 						body = physObject;
@@ -82,6 +83,7 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 
 						addMaterial(body, bodyData);
 						addFilter(body, bodyData);
+						addCustomData(body, bodyData);
 
 						if (body.allowRotation != null)
 						{
@@ -121,6 +123,7 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 
 					addMaterial(shape, shapeData);
 					addFilter(shape, shapeData);
+					addCustomData(shape, shapeData);
 
 					if (shape.isSensor != null)
 					{
@@ -187,6 +190,18 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 				if(fromObject.material.rollingFriction != null)
 				{
 					toObject.material.rollingFriction = getNumberValue(fromObject.material.rollingFriction);
+				}
+			}
+		}
+
+		private function addCustomData(fromObject:Object, toObject:Object):void
+		{
+			if (fromObject.customData != null)
+			{
+				toObject.customData = {};
+				for (var i:* in fromObject.customData)
+				{
+					toObject[i] = fromObject[i];
 				}
 			}
 		}
