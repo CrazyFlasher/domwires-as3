@@ -19,16 +19,19 @@ package com.crazyfm.extensions.physics
 		private var _data:BodyDataVo;
 
 		private var _shapeObjectList:Vector.<IShapeObject>;
+		private var factory:IPhysicsFactory;
 
-		public function BodyObject(data:BodyDataVo)
+		public function BodyObject(data:BodyDataVo, factory:IPhysicsFactory = null)
 		{
+			this.factory = factory;
+
 			_data = data;
 
 			_shapeObjectList = new <IShapeObject>[];
 
 			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
-				var shapeObject:ShapeObject = new ShapeObject(shapeData);
+				var shapeObject:IShapeObject = factory ? factory.getShape(shapeData) : new ShapeObject(shapeData, factory);
 				_shapeObjectList.push(shapeObject);
 			}
 
@@ -75,6 +78,8 @@ package com.crazyfm.extensions.physics
 			//_body.align();
 
 			_body.allowRotation = _data.allowRotation;
+
+			_body.userData.dataObject = this;
 		}
 
 		public function get shapeObjectList():Vector.<IShapeObject>
@@ -117,13 +122,14 @@ package com.crazyfm.extensions.physics
 			_shapeObjectList = null;
 			_body = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IBodyObject
 		{
-			var c:IBodyObject = new BodyObject(_data);
+			var c:IBodyObject = factory ? factory.getBody(_data) : new BodyObject(_data, factory);
 			return c;
 		}
 	}

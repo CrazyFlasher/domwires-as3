@@ -201,7 +201,7 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 				toObject.customData = {};
 				for (var i:* in fromObject.customData)
 				{
-					toObject[i] = fromObject[i];
+					toObject.customData[i] = fromObject.customData[i];
 				}
 			}
 		}

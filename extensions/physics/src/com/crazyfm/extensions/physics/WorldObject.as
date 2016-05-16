@@ -22,8 +22,12 @@ package com.crazyfm.extensions.physics
 		private var _bodyObjectList:Vector.<IBodyObject>;
 		private var _jointObjectList:Vector.<IJointObject>;
 
-		public function WorldObject(data:WorldDataVo)
+		private var factory:IPhysicsFactory;
+
+		public function WorldObject(data:WorldDataVo, factory:IPhysicsFactory = null)
 		{
+			this.factory = factory;
+
 			_data = data;
 
 			_space = new Space(new Vec2(_data.gravity.x, _data.gravity.y));
@@ -32,7 +36,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var bodyData:BodyDataVo in _data.bodyDataList)
 			{
-				var bodyObject:BodyObject = new BodyObject(bodyData);
+				var bodyObject:IBodyObject = factory ? factory.getBody(bodyData) : new BodyObject(bodyData, factory);
 				_bodyObjectList.push(bodyObject);
 
 				_space.bodies.add(bodyObject.body);
@@ -42,7 +46,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var jointData:JointDataVo in _data.jointDataList)
 			{
-				var jointObject:JointObject = new JointObject(jointData);
+				var jointObject:IJointObject = factory ? factory.getJoint(jointData) : new JointObject(jointData, factory);
 
 				var bodiesToConnect:Vector.<Body> = getBodiesToConnect(jointObject.data);
 
@@ -60,6 +64,8 @@ package com.crazyfm.extensions.physics
 					_jointObjectList.push(jointObject);
 				}
 			}
+
+			_space.userData.dataObject = this;
 		}
 
 		private function getBodiesToConnect(data:JointDataVo):Vector.<Body>
@@ -164,13 +170,14 @@ package com.crazyfm.extensions.physics
 			_jointObjectList = null;
 			_space = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IWorldObject
 		{
-			var c:IWorldObject = new WorldObject(_data);
+			var c:IWorldObject = factory ? factory.getWorld(_data) : new WorldObject(_data, factory);
 			return c;
 		}
 	}

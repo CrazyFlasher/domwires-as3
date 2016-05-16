@@ -17,8 +17,9 @@ package com.crazyfm.extensions.physics.vo
 		private var _radius:Number;
 		private var _vertexDataList:Vector.<VertexDataVo>;
 
-		private var _customData:Object;
+		private var _customData:Object = {};
 
+		//TODO: create factory
 		public function ShapeDataVo()
 		{
 		}

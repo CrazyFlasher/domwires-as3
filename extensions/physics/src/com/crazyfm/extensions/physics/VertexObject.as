@@ -13,9 +13,12 @@ package com.crazyfm.extensions.physics
 		private var _vertex:Vec2;
 
 		private var _data:VertexDataVo;
+		private var factory:IPhysicsFactory;
 
-		public function VertexObject(data:VertexDataVo)
+		public function VertexObject(data:VertexDataVo, factory:IPhysicsFactory = null)
 		{
+			this.factory = factory;
+
 			_data = data;
 
 			_vertex = new Vec2(_data.x, _data.y);
@@ -53,7 +56,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IVertexObject
 		{
-			var c:IVertexObject = new VertexObject(_data);
+			var c:IVertexObject = factory ? factory.getVertex(_data) : new VertexObject(_data, factory);
 			return c;
 		}
 	}

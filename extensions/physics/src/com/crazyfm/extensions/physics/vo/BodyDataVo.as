@@ -21,7 +21,7 @@ package com.crazyfm.extensions.physics.vo
 
 		private var _shapeDataList:Vector.<ShapeDataVo>;
 
-		private var _customData:Object;
+		private var _customData:Object = {};
 
 		public function BodyDataVo()
 		{

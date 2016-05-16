@@ -17,10 +17,13 @@ package com.crazyfm.extensions.physics
 
 		private var _angleJoint:AngleJoint;
 		private var _pivotJoint:PivotJoint;
+		private var factory:IPhysicsFactory;
 
-		public function JointObject(data:JointDataVo)
+		public function JointObject(data:JointDataVo, factory:IPhysicsFactory = null)
 		{
 			_data = data;
+
+			this.factory = factory;
 		}
 
 		public function get data():JointDataVo
@@ -35,11 +38,13 @@ package com.crazyfm.extensions.physics
 			_pivotJoint = new PivotJoint(body_1, body_2, anchor_1, anchor_2);
 			_pivotJoint.ignore = true;
 			//_pivotJoint.stiff = false;
+			_pivotJoint.userData.dataObject = this;
 
 			if (!isNaN(_data.minAngle) && !isNaN(_data.maxAngle))
 			{
 				_angleJoint = new AngleJoint(body_1, body_2, _data.minAngle, _data.maxAngle, 1);
 				_angleJoint.stiff = false;
+				_angleJoint.userData.dataObject = this;
 			}
 		}
 
@@ -58,13 +63,14 @@ package com.crazyfm.extensions.physics
 			_angleJoint = null;
 			_pivotJoint = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IJointObject
 		{
-			var c:IJointObject = new JointObject(_data);
+			var c:IJointObject = factory ? factory.getJoint(_data) : new JointObject(_data, factory);
 			return c;
 		}
 	}

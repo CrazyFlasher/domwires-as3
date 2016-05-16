@@ -7,6 +7,7 @@ package com.crazyfm.devkit.goSystem.components.controllable
 	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionVo;
 	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
 	import com.crazyfm.devkit.goSystem.components.physyics.model.IInteractivePhysObjectModel;
+	import com.crazyfm.devkit.physics.ICFShapeObject;
 	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
 	import nape.shape.Shape;
@@ -98,14 +99,19 @@ package com.crazyfm.devkit.goSystem.components.controllable
 		 * @param shape
 		 * @return x position or NaN
 		 */
-		protected final function isLadder(shape:Shape):Number
+		/*protected final function isLadder(shape:Shape):Number
 		{
-			return shape.userData.id.search("ladder") != -1 ? shape.bounds.min.x : NaN;
+			if (shape.userData.dataObject is ICFShapeObject)
+			{
+				return (shape.userData.dataObject as ICFShapeObject).isLadder ? shape.bounds.min.x : NaN;
+			}
+
+			return NaN;
 		}
 
 		protected final function canLeaveLadder(shape:Shape):Boolean
 		{
 			return isLadder(shape) && shape.bounds.min.y > intPhysObject.bounds.min.y;
-		}
+		}*/
 	}
 }
