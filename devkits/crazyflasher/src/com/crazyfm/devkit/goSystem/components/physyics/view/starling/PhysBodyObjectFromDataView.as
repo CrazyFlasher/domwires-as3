@@ -3,11 +3,10 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.view.starling
 {
-	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
-	import com.crazyfm.extensions.physics.vo.VertexDataVo;
+	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
+	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
 
 	import flash.geom.Matrix;
-
 	import flash.geom.Point;
 
 	import nape.geom.Mat23;

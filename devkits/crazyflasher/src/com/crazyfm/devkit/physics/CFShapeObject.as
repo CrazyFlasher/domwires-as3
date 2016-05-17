@@ -3,33 +3,53 @@
  */
 package com.crazyfm.devkit.physics
 {
-	import com.crazyfm.extensions.physics.IPhysicsFactory;
+	import com.crazyfm.devkit.physics.vo.units.CFShapeDataVo;
 	import com.crazyfm.extensions.physics.ShapeObject;
-	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
+	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
 
 	import nape.shape.Shape;
 
 	public class CFShapeObject extends ShapeObject implements ICFShapeObject
 	{
-		public function CFShapeObject(data:ShapeDataVo, factory:IPhysicsFactory = null)
-		{
-			super(data, factory);
-		}
+		private var _data:CFShapeDataVo;
 
-		public function get isLadder():Boolean
+		public function CFShapeObject(data:CFShapeDataVo, factory:IPhysicsObjectFactory = null)
 		{
-			return data.customData.isLadder;
+			_data = data;
+
+			super(data, factory);
 		}
 
 		override protected function applyCustomData(shape:Shape):void
 		{
 			super.applyCustomData(shape);
 
-			if (data.customData.isLadder || data.customData.isLadderExitFrom || data.customData.isLadderExitTo)
+			if (isLadder)
 			{
 				shape.sensorEnabled = true;
-				data.customData.isLadder = true;
 			}
+		}
+
+		override public function dispose():void
+		{
+			_data = null;
+
+			super.dispose();
+		}
+
+		public function get isLadder():Boolean
+		{
+			return _data.isLadder;
+		}
+
+		public function get exitFromShapeId():String
+		{
+			return _data.exitFromShapeId;
+		}
+
+		public function get exitToShapeId():String
+		{
+			return _data.exitToShapeId;
 		}
 	}
 }

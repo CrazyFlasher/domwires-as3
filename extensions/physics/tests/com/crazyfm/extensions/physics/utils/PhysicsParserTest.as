@@ -3,8 +3,9 @@
  */
 package com.crazyfm.extensions.physics.utils
 {
-	import com.crazyfm.extensions.physics.vo.BodyDataVo;
-	import com.crazyfm.extensions.physics.vo.WorldDataVo;
+	import com.crazyfm.extensions.physics.factories.PhysicsVoFactory;
+	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
+	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
 
 	import flexunit.framework.Assert;
 
@@ -105,7 +106,7 @@ package com.crazyfm.extensions.physics.utils
 		[Test]
 		public function testParse():void
 		{
-			var w:WorldDataVo = PhysicsParser.parseWorld(worldJson);
+			var w:WorldDataVo = PhysicsVoFactory.parseWorld(worldJson);
 
 			Assert.assertEquals(w.gravity.x, 0);
 			Assert.assertEquals(w.gravity.y, 100);

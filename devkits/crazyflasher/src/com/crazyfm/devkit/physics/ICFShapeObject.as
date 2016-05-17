@@ -8,5 +8,7 @@ package com.crazyfm.devkit.physics
 	public interface ICFShapeObject extends IShapeObject
 	{
 		function get isLadder():Boolean;
+		function get exitFromShapeId():String;
+		function get exitToShapeId():String;
 	}
 }

@@ -4,7 +4,7 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.IDisposable;
-	import com.crazyfm.extensions.physics.vo.VertexDataVo;
+	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
 
 	import nape.geom.Vec2;
 

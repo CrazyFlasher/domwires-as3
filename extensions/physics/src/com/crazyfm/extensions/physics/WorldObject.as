@@ -4,9 +4,10 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.extensions.physics.vo.BodyDataVo;
-	import com.crazyfm.extensions.physics.vo.JointDataVo;
-	import com.crazyfm.extensions.physics.vo.WorldDataVo;
+	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
+	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
+	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
+	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
 
 	import nape.geom.Vec2;
 	import nape.phys.Body;
@@ -22,9 +23,9 @@ package com.crazyfm.extensions.physics
 		private var _bodyObjectList:Vector.<IBodyObject>;
 		private var _jointObjectList:Vector.<IJointObject>;
 
-		private var factory:IPhysicsFactory;
+		private var factory:IPhysicsObjectFactory;
 
-		public function WorldObject(data:WorldDataVo, factory:IPhysicsFactory = null)
+		public function WorldObject(data:WorldDataVo, factory:IPhysicsObjectFactory = null)
 		{
 			this.factory = factory;
 

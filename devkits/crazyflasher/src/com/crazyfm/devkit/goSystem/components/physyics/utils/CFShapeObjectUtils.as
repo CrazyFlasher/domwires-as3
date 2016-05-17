@@ -4,8 +4,7 @@
 package com.crazyfm.devkit.goSystem.components.physyics.utils
 {
 	import com.crazyfm.devkit.physics.ICFShapeObject;
-
-	import nape.geom.AABB;
+	import com.crazyfm.extensions.physics.IShapeObject;
 
 	import nape.shape.Shape;
 
@@ -18,14 +17,10 @@ package com.crazyfm.devkit.goSystem.components.physyics.utils
 					(shape.userData.dataObject as ICFShapeObject).isLadder;
 		}
 
-		public static function getLadderBounds(shape:Shape):AABB
+		public static function isExitOfLadder(shape:Shape, ladderShape:Shape):Boolean
 		{
-			if (isLadder(shape))
-			{
-				return shape.bounds;
-			}
-
-			return null;
+			return (shape.userData.dataObject as IShapeObject).data.id ==
+					(ladderShape.userData.dataObject as ICFShapeObject).exitFromShapeId;
 		}
 	}
 }

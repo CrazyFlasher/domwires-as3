@@ -4,7 +4,7 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.IDisposable;
-	import com.crazyfm.extensions.physics.vo.JointDataVo;
+	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
 
 	import nape.constraint.AngleJoint;
 	import nape.constraint.PivotJoint;

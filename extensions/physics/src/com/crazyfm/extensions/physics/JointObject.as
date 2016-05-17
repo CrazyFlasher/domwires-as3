@@ -4,7 +4,8 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.extensions.physics.vo.JointDataVo;
+	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
+	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
 
 	import nape.constraint.AngleJoint;
 	import nape.constraint.PivotJoint;
@@ -17,9 +18,9 @@ package com.crazyfm.extensions.physics
 
 		private var _angleJoint:AngleJoint;
 		private var _pivotJoint:PivotJoint;
-		private var factory:IPhysicsFactory;
+		private var factory:IPhysicsObjectFactory;
 
-		public function JointObject(data:JointDataVo, factory:IPhysicsFactory = null)
+		public function JointObject(data:JointDataVo, factory:IPhysicsObjectFactory = null)
 		{
 			_data = data;
 

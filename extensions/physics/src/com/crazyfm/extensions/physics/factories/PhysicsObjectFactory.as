@@ -1,17 +1,18 @@
 /**
  * Created by Anton Nefjodov on 16.05.2016.
  */
-package com.crazyfm.extensions.physics
+package com.crazyfm.extensions.physics.factories
 {
-	import com.crazyfm.extensions.physics.vo.BodyDataVo;
-	import com.crazyfm.extensions.physics.vo.JointDataVo;
-	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
-	import com.crazyfm.extensions.physics.vo.VertexDataVo;
-	import com.crazyfm.extensions.physics.vo.WorldDataVo;
+	import com.crazyfm.extensions.physics.*;
+	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
+	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
+	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
+	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
+	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
 
-	public class PhysicsFactory implements IPhysicsFactory
+	public class PhysicsObjectFactory implements IPhysicsObjectFactory
 	{
-		public function PhysicsFactory()
+		public function PhysicsObjectFactory()
 		{
 		}
 
@@ -37,7 +38,7 @@ package com.crazyfm.extensions.physics
 
 		public function getVertex(data:VertexDataVo):IVertexObject
 		{
-			return new VertexObject(data);
+			return new VertexObject(data, this);
 		}
 	}
 }

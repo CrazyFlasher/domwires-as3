@@ -1,27 +1,25 @@
 /**
  * Created by Anton Nefjodov on 11.03.2016.
  */
-package com.crazyfm.extensions.physics.vo
+package com.crazyfm.extensions.physics.vo.units
 {
-	public class ShapeDataVo
+	import com.crazyfm.extensions.physics.vo.*;
+
+	public class ShapeDataVo extends PhysicsUnitDataVo
 	{
-		private var _id:String;
-		private var _material:ShapeMaterialVo = new ShapeMaterialVo();
-		private var _interactionFilter:InteractionFilterVo = new InteractionFilterVo();
+		private var _material:ShapeMaterialVo;
+		private var _interactionFilter:InteractionFilterVo;
 		private var _sensor:Boolean = false;
 
-		private var _x:Number = 0;
-		private var _y:Number = 0;
 		private var _angle:Number = 0;
 
 		private var _radius:Number;
 		private var _vertexDataList:Vector.<VertexDataVo>;
 
-		private var _customData:Object = {};
-
 		//TODO: create factory
 		public function ShapeDataVo()
 		{
+			super();
 		}
 
 		public function get vertexDataList():Vector.<VertexDataVo>
@@ -34,16 +32,6 @@ package com.crazyfm.extensions.physics.vo
 			_vertexDataList = value;
 		}
 
-		public function get id():String
-		{
-			return _id;
-		}
-
-		public function set name(value:String):void
-		{
-			_id = value;
-		}
-
 		public function get material():ShapeMaterialVo
 		{
 			return _material;
@@ -54,26 +42,6 @@ package com.crazyfm.extensions.physics.vo
 			_material = value;
 		}
 
-		public function get x():Number
-		{
-			return _x;
-		}
-
-		public function set x(value:Number):void
-		{
-			_x = value;
-		}
-
-		public function get y():Number
-		{
-			return _y;
-		}
-
-		public function set y(value:Number):void
-		{
-			_y = value;
-		}
-
 		public function get angle():Number
 		{
 			return _angle;
@@ -82,11 +50,6 @@ package com.crazyfm.extensions.physics.vo
 		public function set angle(value:Number):void
 		{
 			_angle = value;
-		}
-
-		public function set id(value:String):void
-		{
-			_id = value;
 		}
 
 		public function get interactionFilter():InteractionFilterVo
@@ -117,16 +80,6 @@ package com.crazyfm.extensions.physics.vo
 		public function set radius(value:Number):void
 		{
 			_radius = value;
-		}
-
-		public function get customData():Object
-		{
-			return _customData;
-		}
-
-		public function set customData(value:Object):void
-		{
-			_customData = value;
 		}
 	}
 }

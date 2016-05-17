@@ -4,7 +4,8 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.extensions.physics.vo.VertexDataVo;
+	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
+	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
 
 	import nape.geom.Vec2;
 
@@ -13,9 +14,9 @@ package com.crazyfm.extensions.physics
 		private var _vertex:Vec2;
 
 		private var _data:VertexDataVo;
-		private var factory:IPhysicsFactory;
+		private var factory:IPhysicsObjectFactory;
 
-		public function VertexObject(data:VertexDataVo, factory:IPhysicsFactory = null)
+		public function VertexObject(data:VertexDataVo, factory:IPhysicsObjectFactory = null)
 		{
 			this.factory = factory;
 

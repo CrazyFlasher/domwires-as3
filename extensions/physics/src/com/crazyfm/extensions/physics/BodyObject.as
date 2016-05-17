@@ -4,8 +4,9 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.extensions.physics.vo.BodyDataVo;
-	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
+	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
+	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
+	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
 
 	import nape.dynamics.InteractionFilter;
 	import nape.phys.Body;
@@ -19,9 +20,9 @@ package com.crazyfm.extensions.physics
 		private var _data:BodyDataVo;
 
 		private var _shapeObjectList:Vector.<IShapeObject>;
-		private var factory:IPhysicsFactory;
+		private var factory:IPhysicsObjectFactory;
 
-		public function BodyObject(data:BodyDataVo, factory:IPhysicsFactory = null)
+		public function BodyObject(data:BodyDataVo, factory:IPhysicsObjectFactory = null)
 		{
 			this.factory = factory;
 

@@ -4,10 +4,11 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.Disposable;
+	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
-	import com.crazyfm.extensions.physics.vo.ShapeDataVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
-	import com.crazyfm.extensions.physics.vo.VertexDataVo;
+	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
+	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
 
 	import nape.dynamics.InteractionFilter;
 	import nape.geom.GeomPoly;
@@ -26,9 +27,9 @@ package com.crazyfm.extensions.physics
 		private var _data:ShapeDataVo;
 
 		private var _vertexObjectList:Vector.<IVertexObject>;
-		private var factory:IPhysicsFactory;
+		private var factory:IPhysicsObjectFactory;
 
-		public function ShapeObject(data:ShapeDataVo, factory:IPhysicsFactory = null)
+		public function ShapeObject(data:ShapeDataVo, factory:IPhysicsObjectFactory = null)
 		{
 			//TODO: a lot of tests
 
