@@ -32,8 +32,7 @@ package com.crazyfm.devkit.physics.factories
 			super.parseShape(shapeJson, data);
 
 			data.isLadder = data.customData.isLadder;
-			data.exitFromShapeId = data.customData.exitFromShapeId;
-			data.exitToShapeId = data.customData.exitToShapeId;
+			data.teleportExitId = data.customData.teleportExitId;
 
 			return data;
 		}

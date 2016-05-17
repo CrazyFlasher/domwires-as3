@@ -8,8 +8,8 @@ package com.crazyfm.devkit.physics.vo.units
 	public class CFShapeDataVo extends ShapeDataVo
 	{
 		private var _isLadder:Boolean;
-		private var _exitFromShapeId:String;
-		private var _exitToShapeId:String;
+
+		private var _teleportExitId:String;
 
 		public function CFShapeDataVo()
 		{
@@ -26,24 +26,14 @@ package com.crazyfm.devkit.physics.vo.units
 			_isLadder = value;
 		}
 
-		public function get exitFromShapeId():String
+		public function get teleportExitId():String
 		{
-			return _exitFromShapeId;
+			return _teleportExitId;
 		}
 
-		public function set exitFromShapeId(value:String):void
+		public function set teleportExitId(value:String):void
 		{
-			_exitFromShapeId = value;
-		}
-
-		public function get exitToShapeId():String
-		{
-			return _exitToShapeId;
-		}
-
-		public function set exitToShapeId(value:String):void
-		{
-			_exitToShapeId = value;
+			_teleportExitId = value;
 		}
 	}
 }

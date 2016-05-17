@@ -17,10 +17,18 @@ package com.crazyfm.devkit.goSystem.components.physyics.utils
 					(shape.userData.dataObject as ICFShapeObject).isLadder;
 		}
 
-		public static function isExitOfLadder(shape:Shape, ladderShape:Shape):Boolean
+		public static function isTeleportEntrance(shape:Shape):Boolean
 		{
-			return (shape.userData.dataObject as IShapeObject).data.id ==
-					(ladderShape.userData.dataObject as ICFShapeObject).exitFromShapeId;
+			return shape.userData.dataObject &&
+					shape.userData.dataObject is ICFShapeObject &&
+					(shape.userData.dataObject as ICFShapeObject).isTeleportEntrance;
+		}
+
+		public static function isTeleportExit(shape:Shape):Boolean
+		{
+			return shape.userData.dataObject &&
+					shape.userData.dataObject is ICFShapeObject &&
+					(shape.userData.dataObject as ICFShapeObject).isTeleportExit;
 		}
 	}
 }

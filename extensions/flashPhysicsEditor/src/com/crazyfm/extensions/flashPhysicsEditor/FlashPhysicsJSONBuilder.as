@@ -28,8 +28,7 @@ package com.crazyfm.extensions.flashPhysicsEditor {
 			{
 				id:world.name,
 				bodies:[],
-				joints:[],
-				compounds:[]
+				joints:[]
 			};
 
 			addCustomData(world, worldData);

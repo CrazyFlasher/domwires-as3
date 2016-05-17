@@ -10,6 +10,8 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import nape.phys.Body;
 	import nape.phys.GravMassMode;
 
+	import starling.animation.DelayedCall;
+
 	public class InteractivePhysObjectModel extends PhysBodyObjectModel implements IInteractivePhysObjectModel
 	{
 		private const SLEEP_VELOCITY:Vec2 = new Vec2(10, 10);
@@ -20,6 +22,10 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 		//need to prevent nape lib bug, after putting object manually to sleep.
 		private var collisionJustEnded:Boolean;
+
+		//TODO: connect to mechanism;
+		private var delayedCall:DelayedCall;
+		private var _isTeleporting:Boolean;
 
 		public function InteractivePhysObjectModel(body:Body)
 		{
@@ -119,6 +125,39 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		public function get bounds():AABB
 		{
 			return _body.bounds;
+		}
+
+		public function teleportTo(x:Number, y:Number, time:int = 0):IInteractivePhysObjectModel
+		{
+			_isTeleporting = true;
+
+			if (time == 0)
+			{
+				completeTeleport(x, y);
+			}else
+			{
+				if (!delayedCall)
+				{
+					delayedCall = new DelayedCall(completeTeleport, time, [x, y]);
+				}else
+				{
+					delayedCall.reset(completeTeleport, time, [x, y]);
+				}
+			}
+
+			return this;
+		}
+
+		private function completeTeleport(x:Number, y:Number):void
+		{
+			position.setxy(x, y);
+
+			_isTeleporting = false;
+		}
+
+		public function get isTeleporting():Boolean
+		{
+			return _isTeleporting;
 		}
 	}
 }

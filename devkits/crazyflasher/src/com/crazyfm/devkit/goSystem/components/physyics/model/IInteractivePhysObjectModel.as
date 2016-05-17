@@ -11,5 +11,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 		function setZeroGravity(value:Boolean):IInteractivePhysObjectModel;
 		function get zeroGravity():Boolean;
 		function get bounds():AABB;
+		function teleportTo(x:Number, y:Number, time:int = 0):IInteractivePhysObjectModel;
+		function get isTeleporting():Boolean;
 	}
 }
