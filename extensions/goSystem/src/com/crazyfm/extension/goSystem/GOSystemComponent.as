@@ -3,9 +3,7 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
-
-	public class GOSystemComponent extends HierarchyObject implements IGOSystemComponent
+	public class GOSystemComponent extends AbstractGOSystemGearWheel implements IGOSystemComponent
 	{
 		public function GOSystemComponent()
 		{
@@ -18,14 +16,6 @@ package com.crazyfm.extension.goSystem
 		public function get gameObject():IGOSystemObject
 		{
 			return parent as IGOSystemObject;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function interact(timePassed:Number):void
-		{
-
 		}
 	}
 }

@@ -5,29 +5,26 @@ package com.crazyfm.extension.goSystem
 {
 	import avmplus.getQualifiedClassName;
 
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
-
-	public class GOSystemObject extends HierarchyObjectContainer implements IGOSystemObject
+	public class GOSystemObject extends AbstractGOSystemGearWheelContainer implements IGOSystemObject
 	{
-		private var _isEnabled:Boolean;
-
 		public function GOSystemObject()
 		{
 			super();
-
-			setEnabled(true);
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function interact(timePassed:Number):void
+		override public function interact(timePassed:Number):void
 		{
-			if (!_isEnabled) return;
+			super.interact(timePassed);
 
 			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				_childrenList[i].interact(timePassed);
+				if (_childrenList[i].isEnabled)
+				{
+					_childrenList[i].interact(timePassed);
+				}
 			}
 		}
 		/**
@@ -40,31 +37,6 @@ package com.crazyfm.extension.goSystem
 			removeAllComponents();
 
 			super.dispose();
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function setEnabled(value:Boolean):IGOSystemObject
-		{
-			if (isDisposed)
-			{
-				throw new Error("Object disposed!");
-			}
-
-			if (_isEnabled == value) return this;
-
-			_isEnabled = value;
-
-			return this;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get isEnabled():Boolean
-		{
-			return _isEnabled;
 		}
 
 		/**

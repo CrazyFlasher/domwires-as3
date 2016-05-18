@@ -8,6 +8,9 @@ package com.crazyfm.extension.goSystem
 	public interface IGOSystemGearWheel extends IHierarchyObject
 	{
 		function interact(timePassed:Number):void;
+		function setEnabled(value:Boolean):IGOSystemGearWheel;
+		function get isEnabled():Boolean;
+
 		//TODO
 //		function interactStarted():void;
 	}

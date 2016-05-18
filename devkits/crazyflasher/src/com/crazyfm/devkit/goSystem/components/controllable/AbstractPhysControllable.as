@@ -7,10 +7,7 @@ package com.crazyfm.devkit.goSystem.components.controllable
 	import com.crazyfm.devkit.goSystem.components.input.AbstractInputActionVo;
 	import com.crazyfm.devkit.goSystem.components.physyics.event.PhysObjectSignalEnum;
 	import com.crazyfm.devkit.goSystem.components.physyics.model.IInteractivePhysObjectModel;
-	import com.crazyfm.devkit.physics.ICFShapeObject;
 	import com.crazyfm.extension.goSystem.GOSystemComponent;
-
-	import nape.shape.Shape;
 
 	public class AbstractPhysControllable extends GOSystemComponent implements IControllable
 	{
@@ -76,7 +73,16 @@ package com.crazyfm.devkit.goSystem.components.controllable
 
 		public function inputAction(actionVo:AbstractInputActionVo):IControllable
 		{
+			if (intPhysObject.isEnabledForInteraction)
+			{
+				handleInputAction(actionVo);
+			}
 			return this;
+		}
+
+		protected function handleInputAction(actionVo:AbstractInputActionVo):void
+		{
+
 		}
 
 		override public function dispose():void
@@ -92,26 +98,5 @@ package com.crazyfm.devkit.goSystem.components.controllable
 
 			super.dispose();
 		}
-
-		//TODO: do other way!
-		/**
-		 * Checks if shape is ladder
-		 * @param shape
-		 * @return x position or NaN
-		 */
-		/*protected final function isLadder(shape:Shape):Number
-		{
-			if (shape.userData.dataObject is ICFShapeObject)
-			{
-				return (shape.userData.dataObject as ICFShapeObject).isLadder ? shape.bounds.min.x : NaN;
-			}
-
-			return NaN;
-		}
-
-		protected final function canLeaveLadder(shape:Shape):Boolean
-		{
-			return isLadder(shape) && shape.bounds.min.y > intPhysObject.bounds.min.y;
-		}*/
 	}
 }

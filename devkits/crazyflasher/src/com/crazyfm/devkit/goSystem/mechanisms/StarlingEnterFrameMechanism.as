@@ -3,7 +3,7 @@
  */
 package com.crazyfm.devkit.goSystem.mechanisms
 {
-	import com.crazyfm.extension.goSystem.mechanisms.AbstractMechanism;
+	import com.crazyfm.extension.goSystem.AbstractGOSystemMechanism;
 
 	import flash.utils.getTimer;
 
@@ -11,7 +11,7 @@ package com.crazyfm.devkit.goSystem.mechanisms
 	import starling.display.Sprite;
 	import starling.events.Event;
 
-	public class StarlingEnterFrameMechanism extends AbstractMechanism
+	public class StarlingEnterFrameMechanism extends AbstractGOSystemMechanism
 	{
 		private var time:Number;
 

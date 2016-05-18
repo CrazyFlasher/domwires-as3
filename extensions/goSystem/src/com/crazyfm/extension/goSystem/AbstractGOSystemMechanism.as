@@ -1,17 +1,13 @@
 /**
  * Created by Anton Nefjodov on 22.03.2016.
  */
-package com.crazyfm.extension.goSystem.mechanisms
+package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
-	import com.crazyfm.extension.goSystem.IGOSystemGearWheel;
-	import com.crazyfm.extension.goSystem.IGOSystemMechanism;
-
-	public class AbstractMechanism extends HierarchyObjectContainer implements IGOSystemMechanism
+	public class AbstractGOSystemMechanism extends AbstractGOSystemGearWheelContainer implements IGOSystemMechanism
 	{
 		private var constantPassedTime:Number;
 
-		public function AbstractMechanism(constantPassedTime:Number = NaN)
+		public function AbstractGOSystemMechanism(constantPassedTime:Number = NaN)
 		{
 			super();
 
@@ -95,11 +91,18 @@ package com.crazyfm.extension.goSystem.mechanisms
 		/**
 		 * @inheritDoc
 		 */
-		public function interact(passedTime:Number):void
+		override public function interact(passedTime:Number):void
 		{
+			super.interact(passedTime);
+
+			if (!isEnabled) return;
+
 			for (var i:int = 0; i < _childrenList.length; i++)
 			{
-				_childrenList[i].interact(isNaN(constantPassedTime) ? passedTime : constantPassedTime);
+				if (_childrenList[i].isEnabled)
+				{
+					_childrenList[i].interact(isNaN(constantPassedTime) ? passedTime : constantPassedTime);
+				}
 			}
 		}
 	}

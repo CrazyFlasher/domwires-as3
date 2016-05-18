@@ -3,11 +3,13 @@
  */
 package com.crazyfm.extension.goSystem.mechanisms
 {
+	import com.crazyfm.extension.goSystem.AbstractGOSystemMechanism;
+
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.getTimer;
 
-	public class EnterFrameMechanism extends AbstractMechanism
+	public class EnterFrameMechanism extends AbstractGOSystemMechanism
 	{
 		private var time:Number;
 

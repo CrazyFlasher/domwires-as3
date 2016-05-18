@@ -3,9 +3,7 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
-
-	public interface IGOSystemMechanism extends IHierarchyObjectContainer
+	public interface IGOSystemMechanism extends IGOSystemGearWheelContainer
 	{
 		function addGear(value:IGOSystemGearWheel):IGOSystemMechanism;
 		function removeGear(value:IGOSystemGearWheel, dispose:Boolean = false):IGOSystemMechanism;
@@ -13,6 +11,5 @@ package com.crazyfm.extension.goSystem
 		function get numGears():int;
 		function containsGear(value:IGOSystemGearWheel):Boolean;
 		function get gearList():Array;
-		function interact(passedTime:Number):void;
 	}
 }

@@ -12,7 +12,7 @@ package com.crazyfm.extension.goSystem.mechanisms
 		[Before]
 		public function setUp():void
 		{
-			m = new AbstractMechanism();
+			m = new GOSystemMechanism();
 		}
 
 		[After]

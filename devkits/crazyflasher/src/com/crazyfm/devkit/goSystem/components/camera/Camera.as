@@ -7,6 +7,8 @@ package com.crazyfm.devkit.goSystem.components.camera
 
 	import flash.geom.Rectangle;
 
+	import starling.animation.Tween;
+	import starling.core.Starling;
 	import starling.display.DisplayObject;
 
 	public class Camera extends GOSystemComponent implements ICamera
@@ -17,11 +19,22 @@ package com.crazyfm.devkit.goSystem.components.camera
 
 		private var viewContainer:DisplayObject;
 
-		public function Camera(viewContainer:DisplayObject)
+		private var tween:Tween;
+
+		private var transitionTime:Number;
+
+		public function Camera(viewContainer:DisplayObject, transitionTime:Number = 1.0)
 		{
 			super();
 
 			this.viewContainer = viewContainer;
+			this.transitionTime = transitionTime;
+
+			if (transitionTime > 0)
+			{
+				tween = new Tween(viewContainer, transitionTime);
+				Starling.juggler.add(tween);
+			}
 		}
 
 		public function setFocusObject(value:DisplayObject):ICamera
@@ -60,8 +73,20 @@ package com.crazyfm.devkit.goSystem.components.camera
 				x = viewPort.width - viewContainer.width;
 			}
 
-			viewContainer.x = x;
-			viewContainer.y = y;
+			moveTo(x, y);
+		}
+
+		private function moveTo(x:Number, y:Number):void
+		{
+			if (transitionTime == 0)
+			{
+				viewContainer.x = x;
+				viewContainer.y = y;
+			}else
+			{
+				tween.reset(viewContainer, transitionTime);
+				tween.moveTo(x, y);
+			}
 		}
 
 		public function setViewport(value:Rectangle):ICamera
@@ -69,6 +94,17 @@ package com.crazyfm.devkit.goSystem.components.camera
 			viewPort = value;
 
 			return this;
+		}
+
+		override public function dispose():void
+		{
+			if (tween)
+			{
+				Starling.juggler.remove(tween);
+				tween = null;
+			}
+
+			super.dispose();
 		}
 	}
 }

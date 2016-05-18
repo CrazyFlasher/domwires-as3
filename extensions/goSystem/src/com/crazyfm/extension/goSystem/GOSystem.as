@@ -3,10 +3,9 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.extension.goSystem.events.GOSystemSignalEnum;
 
-	public class GOSystem extends HierarchyObjectContainer implements IGOSystem
+	public class GOSystem extends AbstractGOSystemGearWheelContainer implements IGOSystem
 	{
 		private var _mechanism:IGOSystemMechanism;
 
@@ -76,8 +75,10 @@ package com.crazyfm.extension.goSystem
 		/**
 		 * @inheritDoc
 		 */
-		public function interact(timePassed:Number):void
+		override public function interact(timePassed:Number):void
 		{
+			super.interact(timePassed);
+
 			for (var i:int = 0; i < _childrenList.length; i++)
 			{
 				if (_childrenList[i].isEnabled)

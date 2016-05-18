@@ -3,12 +3,12 @@
  */
 package com.crazyfm.devkit.goSystem.mechanisms
 {
-	import com.crazyfm.extension.goSystem.mechanisms.AbstractMechanism;
+	import com.crazyfm.extension.goSystem.AbstractGOSystemMechanism;
 
 	import starling.animation.IAnimatable;
 	import starling.animation.Juggler;
 
-	public class StarlingJugglerMechanism extends AbstractMechanism implements IAnimatable
+	public class StarlingJugglerMechanism extends AbstractGOSystemMechanism implements IAnimatable
 	{
 		private var juggler:Juggler;
 

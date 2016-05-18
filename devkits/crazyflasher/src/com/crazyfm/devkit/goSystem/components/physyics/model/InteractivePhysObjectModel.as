@@ -3,6 +3,8 @@
  */
 package com.crazyfm.devkit.goSystem.components.physyics.model
 {
+	import com.crazyfm.devkit.goSystem.components.physyics.event.InteractivePhysObjectSignalEnum;
+
 	import nape.callbacks.InteractionCallback;
 	import nape.geom.AABB;
 	import nape.geom.Vec2;
@@ -11,6 +13,7 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 	import nape.phys.GravMassMode;
 
 	import starling.animation.DelayedCall;
+	import starling.core.Starling;
 
 	public class InteractivePhysObjectModel extends PhysBodyObjectModel implements IInteractivePhysObjectModel
 	{
@@ -105,13 +108,16 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 
 		public function setZeroGravity(value:Boolean):IInteractivePhysObjectModel
 		{
-			if (value)
+			if (isEnabledForInteraction)
 			{
-				_body.gravMass = 0;
-			}else
-			{
-				_body.gravMass = gravityMass;
-				_body.gravMassMode = GravMassMode.DEFAULT;
+				if (value)
+				{
+					_body.gravMass = 0;
+				}else
+				{
+					_body.gravMass = gravityMass;
+					_body.gravMassMode = GravMassMode.DEFAULT;
+				}
 			}
 
 			return this;
@@ -127,8 +133,11 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			return _body.bounds;
 		}
 
-		public function teleportTo(x:Number, y:Number, time:int = 0):IInteractivePhysObjectModel
+		public function teleportTo(x:Number, y:Number, time:Number = 0):IInteractivePhysObjectModel
 		{
+			velocity.setxy(0, 0);
+			setZeroGravity(true);
+
 			_isTeleporting = true;
 
 			if (time == 0)
@@ -143,6 +152,8 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 				{
 					delayedCall.reset(completeTeleport, time, [x, y]);
 				}
+
+				Starling.juggler.add(delayedCall);
 			}
 
 			return this;
@@ -153,11 +164,20 @@ package com.crazyfm.devkit.goSystem.components.physyics.model
 			position.setxy(x, y);
 
 			_isTeleporting = false;
+
+			setZeroGravity(false);
+
+			dispatchSignal(InteractivePhysObjectSignalEnum.TELEPORT_COMPLETE);
 		}
 
 		public function get isTeleporting():Boolean
 		{
 			return _isTeleporting;
+		}
+
+		public function get isEnabledForInteraction():Boolean
+		{
+			return !_isTeleporting;
 		}
 	}
 }

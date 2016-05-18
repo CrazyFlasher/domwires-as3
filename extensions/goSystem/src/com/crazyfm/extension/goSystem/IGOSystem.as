@@ -3,9 +3,7 @@
  */
 package com.crazyfm.extension.goSystem
 {
-	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
-
-	public interface IGOSystem extends IHierarchyObjectContainer, IGOSystemGearWheel
+	public interface IGOSystem extends IGOSystemGearWheelContainer
 	{
 		function addGameObject(value:IGOSystemObject):IGOSystem;
 		function removeGameObject(value:IGOSystemObject, dispose:Boolean = false):IGOSystem;
