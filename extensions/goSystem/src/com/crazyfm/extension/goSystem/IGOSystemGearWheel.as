@@ -10,6 +10,7 @@ package com.crazyfm.extension.goSystem
 		function interact(timePassed:Number):void;
 		function setEnabled(value:Boolean):IGOSystemGearWheel;
 		function get isEnabled():Boolean;
+		function waitAndCall(method:Function, ticks:Number):IGOSystemGearWheel;
 
 		//TODO
 //		function interactStarted():void;
