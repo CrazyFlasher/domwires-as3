@@ -13,6 +13,8 @@ package com.crazyfm.devkit.goSystem.components.controllable
 	{
 		protected var intPhysObject:IInteractivePhysObjectModel;
 
+		private var inputActions:Vector.<AbstractInputActionVo> = new <AbstractInputActionVo>[];
+
 		public function AbstractPhysControllable()
 		{
 			super();
@@ -26,6 +28,16 @@ package com.crazyfm.devkit.goSystem.components.controllable
 			{
 				initialize();
 			}
+
+			if (intPhysObject.isEnabledForInteraction)
+			{
+				for each (var actionVo:AbstractInputActionVo in inputActions)
+				{
+					handleInputAction(actionVo);
+				}
+			}
+
+			inputActions.length = 0;
 		}
 
 		protected function initialize():void
@@ -73,10 +85,8 @@ package com.crazyfm.devkit.goSystem.components.controllable
 
 		public function inputAction(actionVo:AbstractInputActionVo):IControllable
 		{
-			if (intPhysObject.isEnabledForInteraction)
-			{
-				handleInputAction(actionVo);
-			}
+			inputActions.push(actionVo.clone());
+
 			return this;
 		}
 
@@ -95,6 +105,7 @@ package com.crazyfm.devkit.goSystem.components.controllable
 			intPhysObject.removeSignalListener(PhysObjectSignalEnum.SENSOR_END, handleSensorEnd);
 
 			intPhysObject = null;
+			inputActions = null;
 
 			super.dispose();
 		}

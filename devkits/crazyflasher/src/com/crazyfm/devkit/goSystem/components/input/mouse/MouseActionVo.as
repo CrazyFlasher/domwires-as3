@@ -8,6 +8,8 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 
 	import flash.geom.Point;
 
+	use namespace ns_input;
+
 	public class MouseActionVo extends AbstractInputActionVo
 	{
 		private var _position:Point = new Point();
@@ -28,6 +30,12 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 			_position.y = y;
 
 			return this;
+		}
+
+		//TODO: refactor
+		override public function clone():AbstractInputActionVo
+		{
+			return new MouseActionVo().setPosition(_position.x, _position.y).setAction(action);
 		}
 	}
 }

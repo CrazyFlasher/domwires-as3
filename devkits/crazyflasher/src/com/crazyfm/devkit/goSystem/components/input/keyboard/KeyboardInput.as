@@ -11,6 +11,7 @@ package com.crazyfm.devkit.goSystem.components.input.keyboard
 	public class KeyboardInput extends AbstractInput
 	{
 		private var keyDownList:Vector.<uint> = new <uint>[];
+		private var keyUpList:Vector.<uint> = new <uint>[];
 		private var stage:Stage;
 		private var keysToActions:Vector.<KeysToActionMapping>;
 
@@ -29,13 +30,15 @@ package com.crazyfm.devkit.goSystem.components.input.keyboard
 		{
 			super.interact(timePassed);
 
-			var keyCode:uint;
 			for (var i:int = 0; i < keyDownList.length; i++)
 			{
-				keyCode = keyDownList[i];
-
-				tryToApplyAction(keyCode, true);
+				tryToApplyAction(keyDownList[i], true);
 			}
+			for (var i2:int = 0; i2 < keyUpList.length; i2++)
+			{
+				tryToApplyAction(keyUpList[i2], false);
+			}
+			keyUpList.length = 0;
 		}
 
 		override public function dispose():void
@@ -56,8 +59,7 @@ package com.crazyfm.devkit.goSystem.components.input.keyboard
 			if (keyIndex != -1)
 			{
 				keyDownList.removeAt(keyIndex);
-
-				tryToApplyAction(keyCode, false);
+				keyUpList.push(keyCode);
 			}
 		}
 

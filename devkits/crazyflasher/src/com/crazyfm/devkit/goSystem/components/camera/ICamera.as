@@ -13,5 +13,6 @@ package com.crazyfm.devkit.goSystem.components.camera
 	{
 		function setFocusObject(value:DisplayObject):ICamera;
 		function setViewport(value:Rectangle):ICamera;
+		function setAimPosition(x:Number, y:Number):ICamera;
 	}
 }

@@ -29,6 +29,7 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 		private var mouseActionVo:MouseActionVo;
 
 		private var mousePosition:Point = new Point();
+		private var sendHover:Boolean;
 
 		public function MouseInput(viewContainer:DisplayObjectContainer, mouseToActions:Vector.<MouseToActionMapping>)
 		{
@@ -65,6 +66,11 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 			super.interact(timePassed);
 
 			tryToSendAction(false, false, false, true);
+			if (sendHover)
+			{
+				tryToSendAction(false, false, true, false);
+				sendHover = false;
+			}
 		}
 
 		private function onTouch(event:TouchEvent):void
@@ -77,7 +83,7 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 				{
 					if (touch.phase == TouchPhase.HOVER)
 					{
-						tryToSendAction(false, false, true, false);
+						sendHover = true;
 					}
 				}
 			}

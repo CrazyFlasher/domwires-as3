@@ -26,5 +26,10 @@ package com.crazyfm.core.common
 		{
 			return _name;
 		}
+
+		public function toString():String
+		{
+			return _name;
+		}
 	}
 }

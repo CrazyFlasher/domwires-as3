@@ -5,6 +5,8 @@ package com.crazyfm.devkit.goSystem.components.input
 {
 	import com.crazyfm.core.common.Enum;
 
+	use namespace ns_input;
+
 	public class AbstractInputActionVo
 	{
 		private var _action:Enum;
@@ -24,6 +26,17 @@ package com.crazyfm.devkit.goSystem.components.input
 			_action = value;
 
 			return this;
+		}
+
+		public function toString():String
+		{
+			return _action.toString();
+		}
+
+		//TODO: refactor
+		public function clone():AbstractInputActionVo
+		{
+			return new AbstractInputActionVo().setAction(_action);
 		}
 	}
 }

@@ -5,6 +5,8 @@ package com.crazyfm.devkit.goSystem.components.camera
 {
 	import com.crazyfm.extension.goSystem.GOSystemComponent;
 
+	import flash.geom.Point;
+
 	import flash.geom.Rectangle;
 
 	import starling.animation.Tween;
@@ -22,6 +24,8 @@ package com.crazyfm.devkit.goSystem.components.camera
 		private var tween:Tween;
 
 		private var transitionTime:Number;
+
+		private var _aimPosition:Point = new Point();
 
 		public function Camera(viewContainer:DisplayObject, transitionTime:Number = 1.0)
 		{
@@ -44,6 +48,14 @@ package com.crazyfm.devkit.goSystem.components.camera
 			return this;
 		}
 
+		public function setAimPosition(x:Number, y:Number):ICamera
+		{
+			_aimPosition.x = x;
+			_aimPosition.y = y;
+
+			return this;
+		}
+
 		override public function interact(timePassed:Number):void
 		{
 			super.interact(timePassed);
@@ -54,15 +66,8 @@ package com.crazyfm.devkit.goSystem.components.camera
 			var x:Number = 0;
 			var y:Number = 0;
 
-			if (viewPort.width < viewContainer.width)
-			{
-				x = -focusObject.x + viewPort.width / 2;
-			}
-
-			if (viewPort.height < viewContainer.height)
-			{
-				y = -focusObject.y + viewPort.height / 2;
-			}
+			x = calculateX();
+			y = calculateY();
 
 			if (x > 0)
 			{
@@ -74,6 +79,26 @@ package com.crazyfm.devkit.goSystem.components.camera
 			}
 
 			moveTo(x, y);
+		}
+
+		protected function calculateY():Number
+		{
+			if (viewPort.height < viewContainer.height)
+			{
+				return -focusObject.y + viewPort.height / 2;
+			}
+
+			return 0;
+		}
+
+		protected function calculateX():Number
+		{
+			if (viewPort.width < viewContainer.width)
+			{
+				return -focusObject.x + viewPort.width / 2;
+			}
+
+			return 0;
 		}
 
 		private function moveTo(x:Number, y:Number):void

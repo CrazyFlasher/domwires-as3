@@ -16,7 +16,7 @@ package com.crazyfm.devkit.goSystem.components.input
 		protected var actionVo:AbstractInputActionVo;
 
 		//Need to verify, that GOSystem components are fetched
-		private var firstStepPassed:Boolean;
+//		private var firstStepPassed:Boolean;
 
 		public function AbstractInput()
 		{
@@ -51,18 +51,18 @@ package com.crazyfm.devkit.goSystem.components.input
 
 		override public function interact(timePassed:Number):void
 		{
-			if (!firstStepPassed)
+			/*if (!firstStepPassed)
 			{
 				firstStepPassed = true;
 			}else
-			{
+			{*/
 				super.interact(timePassed);
 
 				if (!controllableComponents)
 				{
 					controllableComponents = gameObject.getComponentsByType(IControllable);
 				}
-			}
+//			}
 		}
 	}
 }
