@@ -10,10 +10,14 @@ package com.crazyfm.extensions.physics.vo.units
 		private var _x:Number = 0;
 		private var _y:Number = 0;
 
-		private var _customData:Object = {};
+		private var _customData:Object;
 
-		public function PhysicsUnitDataVo()
+		public function PhysicsUnitDataVo(json:Object)
 		{
+			_x = json.x;
+			_y = json.y;
+			_id = json.id;
+			_customData = json.customData;
 		}
 
 		public function get id():String
@@ -21,19 +25,9 @@ package com.crazyfm.extensions.physics.vo.units
 			return _id;
 		}
 
-		public function set id(value:String):void
-		{
-			_id = value;
-		}
-
 		public function get x():Number
 		{
 			return _x;
-		}
-
-		public function set x(value:Number):void
-		{
-			_x = value;
 		}
 
 		public function get y():Number
@@ -41,19 +35,9 @@ package com.crazyfm.extensions.physics.vo.units
 			return _y;
 		}
 
-		public function set y(value:Number):void
-		{
-			_y = value;
-		}
-
 		public function get customData():Object
 		{
 			return _customData;
-		}
-
-		public function set customData(value:Object):void
-		{
-			_customData = value;
 		}
 	}
 }

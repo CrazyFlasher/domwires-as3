@@ -10,9 +10,28 @@ package com.crazyfm.extensions.physics.vo.units
 		private var _type:String;
 		private var _bodyToConnectIdList:Vector.<String>;
 
-		public function JointDataVo()
+		public function JointDataVo(json:Object)
 		{
-			super();
+			super(json);
+
+			if(json.minAngle != null)
+			{
+				_minAngle = json.minAngle;
+			}
+			if(json.maxAngle != null)
+			{
+				_maxAngle = json.maxAngle;
+			}
+			if(json.bodies != null && json.bodies.length > 0)
+			{
+				_bodyToConnectIdList = new <String>[];
+
+				for each (var bodyId:String in json.bodies)
+				{
+					_bodyToConnectIdList.push(bodyId);
+				}
+			}
+			_type = json.type;
 		}
 
 		public function get minAngle():Number

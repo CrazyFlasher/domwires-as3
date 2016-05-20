@@ -6,7 +6,6 @@ package com.crazyfm.devkit.physics
 	import com.crazyfm.devkit.physics.vo.units.CFShapeDataVo;
 	import com.crazyfm.extensions.physics.IShapeObject;
 	import com.crazyfm.extensions.physics.ShapeObject;
-	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
 
 	import nape.shape.Shape;
 
@@ -17,11 +16,11 @@ package com.crazyfm.devkit.physics
 		private var _relatedTeleportEntrance:IShapeObject;
 		private var _relatedTeleportExit:IShapeObject;
 
-		public function CFShapeObject(data:CFShapeDataVo, factory:IPhysicsObjectFactory = null)
+		public function CFShapeObject(data:CFShapeDataVo)
 		{
 			_cfData = data;
 
-			super(data, factory);
+			super(data);
 		}
 
 		override protected function applyCustomData(shape:Shape):void

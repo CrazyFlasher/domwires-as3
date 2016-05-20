@@ -3,6 +3,7 @@
  */
 package
 {
+	import com.crazyfm.core.common.AppFactoryTest;
 	import com.crazyfm.core.common.DisposableTest;
 	import com.crazyfm.core.common.EnumTest;
 	import com.crazyfm.core.mvc.event.BubblingEventTest;
@@ -29,7 +30,9 @@ package
 			HierarchyObjectTest,
 			SignalDispatcherTest,
 			SignalEventTest,
-			EnumTest
+			EnumTest,
+			TestLog,
+			AppFactoryTest
 		];
 
 		private var _flexunit:FlexUnitCore;

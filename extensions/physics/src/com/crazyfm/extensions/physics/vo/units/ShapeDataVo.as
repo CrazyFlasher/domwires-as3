@@ -3,7 +3,8 @@
  */
 package com.crazyfm.extensions.physics.vo.units
 {
-	import com.crazyfm.extensions.physics.vo.*;
+	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
+	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 
 	public class ShapeDataVo extends PhysicsUnitDataVo
 	{
@@ -16,10 +17,30 @@ package com.crazyfm.extensions.physics.vo.units
 		private var _radius:Number;
 		private var _vertexDataList:Vector.<VertexDataVo>;
 
-		//TODO: create factory
-		public function ShapeDataVo()
+		public function ShapeDataVo(json:Object)
 		{
-			super();
+			super(json);
+
+			var vertices:Vector.<VertexDataVo> = new <VertexDataVo>[];
+			for each (var vertexJson:Object in json.vertices)
+			{
+				var vertexData:VertexDataVo = getNewInstance(VertexDataVo, vertexJson);
+				vertices.push(vertexData);
+			}
+
+			_vertexDataList = vertices;
+
+			if(json.isSensor != null)
+			{
+				_sensor = json.isSensor;
+			}
+			if(json.radius != null)
+			{
+				_radius = json.radius;
+			}
+
+			_material = getNewInstance(ShapeMaterialVo, json.material);
+			_interactionFilter = getNewInstance(InteractionFilterVo, json.filter);
 		}
 
 		public function get vertexDataList():Vector.<VertexDataVo>
@@ -27,19 +48,9 @@ package com.crazyfm.extensions.physics.vo.units
 			return _vertexDataList;
 		}
 
-		public function set vertexDataList(value:Vector.<VertexDataVo>):void
-		{
-			_vertexDataList = value;
-		}
-
 		public function get material():ShapeMaterialVo
 		{
 			return _material;
-		}
-
-		public function set material(value:ShapeMaterialVo):void
-		{
-			_material = value;
 		}
 
 		public function get angle():Number
@@ -47,19 +58,9 @@ package com.crazyfm.extensions.physics.vo.units
 			return _angle;
 		}
 
-		public function set angle(value:Number):void
-		{
-			_angle = value;
-		}
-
 		public function get interactionFilter():InteractionFilterVo
 		{
 			return _interactionFilter;
-		}
-
-		public function set interactionFilter(value:InteractionFilterVo):void
-		{
-			_interactionFilter = value;
 		}
 
 		public function get sensor():Boolean
@@ -67,19 +68,9 @@ package com.crazyfm.extensions.physics.vo.units
 			return _sensor;
 		}
 
-		public function set sensor(value:Boolean):void
-		{
-			_sensor = value;
-		}
-
 		public function get radius():Number
 		{
 			return _radius;
-		}
-
-		public function set radius(value:Number):void
-		{
-			_radius = value;
 		}
 	}
 }

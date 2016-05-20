@@ -12,8 +12,35 @@ package com.crazyfm.extensions.physics.vo
 		private var _fluidGroup:int = 1;
 		private var _fluidMask:int = -1;
 
-		public function InteractionFilterVo()
+		public function InteractionFilterVo(json:Object)
 		{
+			if (json)
+			{
+				if(json.collisionGroup != null)
+				{
+					_collisionGroup = json.collisionGroup;
+				}
+				if(json.collisionMask != null)
+				{
+					_collisionMask = json.collisionMask;
+				}
+				if(json.sensorGroup != null)
+				{
+					_sensorGroup = json.sensorGroup;
+				}
+				if(json.sensorMask != null)
+				{
+					_sensorMask = json.sensorMask;
+				}
+				if(json.fluidGroup != null)
+				{
+					_fluidGroup = json.fluidGroup;
+				}
+				if(json.fluidMask != null)
+				{
+					_fluidMask = json.fluidMask;
+				}
+			}
 		}
 
 		public function get collisionGroup():int
@@ -44,36 +71,6 @@ package com.crazyfm.extensions.physics.vo
 		public function get fluidMask():int
 		{
 			return _fluidMask;
-		}
-
-		public function set collisionGroup(value:int):void
-		{
-			_collisionGroup = value;
-		}
-
-		public function set collisionMask(value:int):void
-		{
-			_collisionMask = value;
-		}
-
-		public function set sensorGroup(value:int):void
-		{
-			_sensorGroup = value;
-		}
-
-		public function set sensorMask(value:int):void
-		{
-			_sensorMask = value;
-		}
-
-		public function set fluidGroup(value:int):void
-		{
-			_fluidGroup = value;
-		}
-
-		public function set fluidMask(value:int):void
-		{
-			_fluidMask = value;
 		}
 	}
 }

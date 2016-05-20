@@ -3,9 +3,9 @@
  */
 package com.crazyfm.extensions.physics.vo.units
 {
-	import com.crazyfm.extensions.physics.vo.*;
+	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
+	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 
-	//TODO: create from builder. Mark setters as internal.
 	public class BodyDataVo extends PhysicsUnitDataVo
 	{
 		public static const TYPE_STATIC:String = "static";
@@ -20,14 +20,31 @@ package com.crazyfm.extensions.physics.vo.units
 
 		private var _shapeDataList:Vector.<ShapeDataVo>;
 
-		public function BodyDataVo()
+		public function BodyDataVo(json:Object)
 		{
-			super();
-		}
+			super(json);
 
-		public function set shapeDataList(value:Vector.<ShapeDataVo>):void
-		{
-			_shapeDataList = value;
+			var shapes:Vector.<ShapeDataVo> = new <ShapeDataVo>[];
+			for each (var shapeJson:Object in json.shapes)
+			{
+				var shapeData:ShapeDataVo = getNewInstance(ShapeDataVo, shapeJson);
+				shapes.push(shapeData);
+			}
+
+			_shapeDataList = shapes;
+
+			_material = getNewInstance(ShapeMaterialVo, json.material);
+			_interactionFilter = getNewInstance(InteractionFilterVo, json.filter);
+
+			if(json.angle != null)
+			{
+				_angle = json.angle;
+			}
+			if(json.allowRotation != null)
+			{
+				_allowRotation = json.allowRotation;
+			}
+			_type = json.type;
 		}
 
 		public function get shapeDataList():Vector.<ShapeDataVo>
@@ -58,31 +75,6 @@ package com.crazyfm.extensions.physics.vo.units
 		public function get interactionFilter():InteractionFilterVo
 		{
 			return _interactionFilter;
-		}
-
-		public function set type(value:String):void
-		{
-			_type = value;
-		}
-
-		public function set angle(value:Number):void
-		{
-			_angle = value;
-		}
-
-		public function set allowRotation(value:Boolean):void
-		{
-			_allowRotation = value;
-		}
-
-		public function set material(value:ShapeMaterialVo):void
-		{
-			_material = value;
-		}
-
-		public function set interactionFilter(value:InteractionFilterVo):void
-		{
-			_interactionFilter = value;
 		}
 	}
 }

@@ -11,8 +11,31 @@ package com.crazyfm.extensions.physics.vo
 		private var _density:Number = 1.0;
 		private var _rollingFriction:Number = 0.001;
 
-		public function ShapeMaterialVo()
+		public function ShapeMaterialVo(json:Object)
 		{
+			if (json)
+			{
+				if(json.elasticity != null)
+				{
+					_elasticity = getNumberValue(json.elasticity);
+				}
+				if(json.dynamicFriction != null)
+				{
+					_dynamicFriction = getNumberValue(json.dynamicFriction);
+				}
+				if(json.staticFriction != null)
+				{
+					_staticFriction = getNumberValue(json.staticFriction);
+				}
+				if(json.density != null)
+				{
+					_density = getNumberValue(json.density);
+				}
+				if(json.rollingFriction != null)
+				{
+					_rollingFriction = getNumberValue(json.rollingFriction);
+				}
+			}
 		}
 
 		public function get elasticity():Number
@@ -20,19 +43,9 @@ package com.crazyfm.extensions.physics.vo
 			return _elasticity;
 		}
 
-		public function set elasticity(value:Number):void
-		{
-			_elasticity = value;
-		}
-
 		public function get dynamicFriction():Number
 		{
 			return _dynamicFriction;
-		}
-
-		public function set dynamicFriction(value:Number):void
-		{
-			_dynamicFriction = value;
 		}
 
 		public function get staticFriction():Number
@@ -40,29 +53,14 @@ package com.crazyfm.extensions.physics.vo
 			return _staticFriction;
 		}
 
-		public function set staticFriction(value:Number):void
-		{
-			_staticFriction = value;
-		}
-
 		public function get density():Number
 		{
 			return _density;
 		}
 
-		public function set density(value:Number):void
-		{
-			_density = value;
-		}
-
 		public function get rollingFriction():Number
 		{
 			return _rollingFriction;
-		}
-
-		public function set rollingFriction(value:Number):void
-		{
-			_rollingFriction = value;
 		}
 	}
 }

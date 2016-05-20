@@ -11,9 +11,12 @@ package com.crazyfm.devkit.physics.vo.units
 
 		private var _teleportExitId:String;
 
-		public function CFShapeDataVo()
+		public function CFShapeDataVo(json:Object)
 		{
-			super();
+			super(json);
+
+			_isLadder = json.customData.isLadder;
+			_teleportExitId = json.customData.teleportExitId;
 		}
 
 		public function get isLadder():Boolean
@@ -21,19 +24,9 @@ package com.crazyfm.devkit.physics.vo.units
 			return _isLadder;
 		}
 
-		public function set isLadder(value:Boolean):void
-		{
-			_isLadder = value;
-		}
-
 		public function get teleportExitId():String
 		{
 			return _teleportExitId;
-		}
-
-		public function set teleportExitId(value:String):void
-		{
-			_teleportExitId = value;
 		}
 	}
 }

@@ -36,12 +36,5 @@ package com.crazyfm.extension.goSystem
 		{
 			return _isEnabled;
 		}
-
-		public function waitAndCall(method:Function, ticks:Number):IGOSystemGearWheel
-		{
-			//TODO
-
-			return this;
-		}
 	}
 }

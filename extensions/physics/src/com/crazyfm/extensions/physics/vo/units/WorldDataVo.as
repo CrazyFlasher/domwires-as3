@@ -3,7 +3,7 @@
  */
 package com.crazyfm.extensions.physics.vo.units
 {
-	import com.crazyfm.extensions.physics.vo.*;
+	import com.crazyfm.extensions.physics.vo.GravityVo;
 
 	public class WorldDataVo extends PhysicsUnitDataVo
 	{
@@ -12,9 +12,27 @@ package com.crazyfm.extensions.physics.vo.units
 		private var _bodyDataList:Vector.<BodyDataVo>;
 		private var _jointDataList:Vector.<JointDataVo>;
 
-		public function WorldDataVo()
+		public function WorldDataVo(json:Object)
 		{
-			super();
+			super(json);
+
+			var bodies:Vector.<BodyDataVo> = new <BodyDataVo>[];
+			for each (var bodyJson:Object in json.bodies)
+			{
+				var bodyData:BodyDataVo = getNewInstance(BodyDataVo, bodyJson);
+				bodies.push(bodyData);
+			}
+
+			var joints:Vector.<JointDataVo> = new <JointDataVo>[];
+			for each (var jointJson:Object in json.joints)
+			{
+				var jointData:JointDataVo = getNewInstance(JointDataVo, jointJson);
+				joints.push(jointData);
+			}
+
+			_bodyDataList = bodies;
+			_jointDataList = joints;
+			_gravity = getNewInstance(GravityVo, json.gravity.x, json.gravity.y);
 		}
 
 		public function get bodyDataList():Vector.<BodyDataVo>
@@ -22,29 +40,14 @@ package com.crazyfm.extensions.physics.vo.units
 			return _bodyDataList;
 		}
 
-		public function set bodyDataList(value:Vector.<BodyDataVo>):void
-		{
-			_bodyDataList = value;
-		}
-
 		public function get gravity():GravityVo
 		{
 			return _gravity;
 		}
 
-		public function set gravity(value:GravityVo):void
-		{
-			_gravity = value;
-		}
-
 		public function get jointDataList():Vector.<JointDataVo>
 		{
 			return _jointDataList;
-		}
-
-		public function set jointDataList(value:Vector.<JointDataVo>):void
-		{
-			_jointDataList = value;
 		}
 	}
 }

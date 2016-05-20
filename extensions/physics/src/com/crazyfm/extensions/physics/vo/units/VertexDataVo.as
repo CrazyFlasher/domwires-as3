@@ -5,9 +5,9 @@ package com.crazyfm.extensions.physics.vo.units
 {
 	public class VertexDataVo extends PhysicsUnitDataVo
 	{
-		public function VertexDataVo()
+		public function VertexDataVo(json:Object)
 		{
-			super();
+			super(json);
 		}
 	}
 }

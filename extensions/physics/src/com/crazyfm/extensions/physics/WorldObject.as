@@ -3,8 +3,9 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.AppFactory;
 	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
+	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
 	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
@@ -13,6 +14,8 @@ package com.crazyfm.extensions.physics
 	import nape.phys.Body;
 	import nape.phys.BodyList;
 	import nape.space.Space;
+
+	use namespace ns_app_factory;
 
 	public class WorldObject extends Disposable implements IWorldObject
 	{
@@ -23,12 +26,8 @@ package com.crazyfm.extensions.physics
 		private var _bodyObjectList:Vector.<IBodyObject>;
 		private var _jointObjectList:Vector.<IJointObject>;
 
-		private var factory:IPhysicsObjectFactory;
-
-		public function WorldObject(data:WorldDataVo, factory:IPhysicsObjectFactory = null)
+		public function WorldObject(data:WorldDataVo)
 		{
-			this.factory = factory;
-
 			_data = data;
 
 			_space = new Space(new Vec2(_data.gravity.x, _data.gravity.y));
@@ -37,7 +36,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var bodyData:BodyDataVo in _data.bodyDataList)
 			{
-				var bodyObject:IBodyObject = factory ? factory.getBody(bodyData) : new BodyObject(bodyData, factory);
+				var bodyObject:IBodyObject = AppFactory.getNewInstance(IBodyObject, bodyData);
 				_bodyObjectList.push(bodyObject);
 
 				_space.bodies.add(bodyObject.body);
@@ -47,7 +46,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var jointData:JointDataVo in _data.jointDataList)
 			{
-				var jointObject:IJointObject = factory ? factory.getJoint(jointData) : new JointObject(jointData, factory);
+				var jointObject:IJointObject = AppFactory.getNewInstance(IJointObject, jointData);
 
 				var bodiesToConnect:Vector.<Body> = getBodiesToConnect(jointObject.data);
 
@@ -171,14 +170,13 @@ package com.crazyfm.extensions.physics
 			_jointObjectList = null;
 			_space = null;
 			_data = null;
-			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IWorldObject
 		{
-			var c:IWorldObject = factory ? factory.getWorld(_data) : new WorldObject(_data, factory);
+			var c:IWorldObject = AppFactory.getNewInstance(IWorldObject, _data);
 			return c;
 		}
 	}

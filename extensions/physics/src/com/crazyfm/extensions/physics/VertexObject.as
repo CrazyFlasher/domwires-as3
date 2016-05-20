@@ -3,23 +3,23 @@
  */
 package com.crazyfm.extensions.physics
 {
+	import com.crazyfm.core.common.AppFactory;
 	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.extensions.physics.factories.IPhysicsObjectFactory;
+	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
 
 	import nape.geom.Vec2;
+
+	use namespace ns_app_factory;
 
 	public class VertexObject extends Disposable implements IVertexObject
 	{
 		private var _vertex:Vec2;
 
 		private var _data:VertexDataVo;
-		private var factory:IPhysicsObjectFactory;
 
-		public function VertexObject(data:VertexDataVo, factory:IPhysicsObjectFactory = null)
+		public function VertexObject(data:VertexDataVo)
 		{
-			this.factory = factory;
-
 			_data = data;
 
 			_vertex = new Vec2(_data.x, _data.y);
@@ -57,7 +57,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IVertexObject
 		{
-			var c:IVertexObject = factory ? factory.getVertex(_data) : new VertexObject(_data, factory);
+			var c:IVertexObject = AppFactory.getNewInstance(IVertexObject, _data);
 			return c;
 		}
 	}
