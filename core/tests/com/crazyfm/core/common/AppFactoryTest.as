@@ -3,6 +3,8 @@
  */
 package com.crazyfm.core.common
 {
+	import com.crazyfm.core.factory.AppFactory;
+
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
@@ -11,48 +13,44 @@ package com.crazyfm.core.common
 
 	public class AppFactoryTest
 	{
+		private var factory:AppFactory;
+
 		[Before]
 		public function setUp():void
 		{
-
+			factory = AppFactory.getSingletonInstance();
 		}
 
 		[After]
 		public function tearDown():void
 		{
-			AppFactory.clear();
+			factory.clear();
 		}
 
 		[Test(expects="Error")]
 		public function testUnmap():void
 		{
-			AppFactory.map(IMyType, MyType1);
-			var o:IMyType = AppFactory.getNewInstance(IMyType, 5, 7) as IMyType;
-			AppFactory.unmap(IMyType);
-			var o2:IMyType = AppFactory.getNewInstance(IMyType, 5, 7) as IMyType;
+			factory.map(IMyType, MyType1);
+			var o:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
+			factory.unmap(IMyType);
+			var o2:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
 		}
 
 		[Test]
 		public function testGetNewInstance():void
 		{
-			AppFactory.map(IMyType, MyType1);
-			var o:IMyType = AppFactory.getNewInstance(IMyType, 5, 7) as IMyType;
+			factory.map(IMyType, MyType1);
+			var o:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
 			assertEquals(o.a, 5);
 			assertEquals(o.b, 7);
-		}
-
-		[Test(expects="Error")]
-		public function testGetFromPoolNoRegister():void
-		{
-			AppFactory.getFromPool(IMyType);
 		}
 
 		[Test]
 		public function testGetFromPool():void
 		{
-			AppFactory.map(IMyType, MyType2);
-			AppFactory.registerPool(IMyType);
-			var o:IMyType = AppFactory.getFromPool(IMyType);
+			factory.map(IMyType, MyType2);
+			factory.registerPool(IMyType);
+			var o:IMyType = factory.getInstance(IMyType);
 			assertEquals(o.a, 500);
 			assertEquals(o.b, 700);
 		}
@@ -60,36 +58,36 @@ package com.crazyfm.core.common
 		[Test]
 		public function testUnregisterPool():void
 		{
-			AppFactory.registerPool(IMyType);
-			assertTrue(AppFactory.hasPoolForType(IMyType));
-			AppFactory.unregisterPool(IMyType);
-			assertFalse(AppFactory.hasPoolForType(IMyType));
+			factory.registerPool(IMyType);
+			assertTrue(factory.hasPoolForType(IMyType));
+			factory.unregisterPool(IMyType);
+			assertFalse(factory.hasPoolForType(IMyType));
 		}
 
 		[Test]
 		public function testMap():void
 		{
-			assertFalse(AppFactory.hasMappingForType(IMyType));
-			AppFactory.map(IMyType, MyType2);
-			assertTrue(AppFactory.hasMappingForType(IMyType));
+			assertFalse(factory.hasMappingForType(IMyType));
+			factory.map(IMyType, MyType2);
+			assertTrue(factory.hasMappingForType(IMyType));
 		}
 
 		[Test]
 		public function testRegisterPool():void
 		{
-			assertFalse(AppFactory.hasPoolForType(IMyType));
-			AppFactory.registerPool(IMyType);
-			assertTrue(AppFactory.hasPoolForType(IMyType));
+			assertFalse(factory.hasPoolForType(IMyType));
+			factory.registerPool(IMyType);
+			assertTrue(factory.hasPoolForType(IMyType));
 		}
 
 		[Test]
 		public function clear():void
 		{
-			AppFactory.map(IMyType, MyType2);
-			AppFactory.registerPool(IMyType);
-			AppFactory.clear();
-			assertFalse(AppFactory.hasMappingForType(IMyType));
-			assertFalse(AppFactory.hasPoolForType(IMyType));
+			factory.map(IMyType, MyType2);
+			factory.registerPool(IMyType);
+			factory.clear();
+			assertFalse(factory.hasMappingForType(IMyType));
+			assertFalse(factory.hasPoolForType(IMyType));
 		}
 	}
 }

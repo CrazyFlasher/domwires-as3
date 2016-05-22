@@ -15,8 +15,8 @@ package com.crazyfm.devkit.physics.vo.units
 		{
 			super(json);
 
-			_isLadder = json.customData.isLadder;
-			_teleportExitId = json.customData.teleportExitId;
+			_isLadder = customData.isLadder;
+			_teleportExitId = customData.teleportExitId;
 		}
 
 		public function get isLadder():Boolean

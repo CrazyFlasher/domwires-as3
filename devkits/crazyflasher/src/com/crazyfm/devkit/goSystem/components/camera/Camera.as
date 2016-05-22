@@ -63,29 +63,68 @@ package com.crazyfm.devkit.goSystem.components.camera
 			if (!viewPort) return;
 			if (!focusObject) return;
 
-			var x:Number = 0;
-			var y:Number = 0;
+			moveTo(
+					calculatePosition(viewPort.width, viewContainer.width, focusObject.x, _aimPosition.x),
+					calculatePosition(viewPort.height, viewContainer.height, focusObject.y, _aimPosition.y)
+			);
+		}
 
-			x = calculateX();
-			y = calculateY();
+		private function calculatePosition(viewPortSize:Number, viewContainerSize:Number, focusObjectPosition:Number,
+										   aimPosition:Number):Number
+		{
+			if (viewPortSize < viewContainerSize)
+			{
+				var position:Number = 0;
 
-			if (x > 0)
-			{
-				x = 0;
-			}else
-			if (x < viewPort.width - viewContainer.width)
-			{
-				x = viewPort.width - viewContainer.width;
+//				var diff:Number = _aimPosition.x - focusObject.x;
+				var diff:Number;
+				/*if (!isNaN(mousePosition))
+				 {
+				 diff = mousePosition - viewPortSize / 2;
+				 } else
+				 {*/
+				diff = aimPosition - focusObjectPosition;
+				/*}*/
+
+				if (diff > viewPortSize / 2) diff = viewPortSize / 2;
+
+				position = -(focusObjectPosition + diff) + viewPortSize / 2;
+
+				if (position > 0)
+				{
+					position = 0;
+				} else if (position < viewPortSize - viewContainerSize)
+				{
+					position = viewPortSize - viewContainerSize;
+				}
+
+				return position;
 			}
 
-			moveTo(x, y);
+			return 0;
 		}
 
 		protected function calculateY():Number
 		{
 			if (viewPort.height < viewContainer.height)
 			{
-				return -focusObject.y + viewPort.height / 2;
+				var y:Number = 0;
+
+//				var diff:Number = _aimPosition.x - focusObject.x;
+				var diff:Number = Starling.current.nativeStage.mouseY - viewPort.height / 2;
+				if (diff > viewPort.height / 2) diff = viewPort.height / 2;
+
+				y = -(focusObject.y + diff) + viewPort.height / 2;
+
+				if (y > 0)
+				{
+					y = 0;
+				} else if (y < viewPort.height - viewContainer.height)
+				{
+					y = viewPort.height - viewContainer.height;
+				}
+
+				return y;
 			}
 
 			return 0;
@@ -95,7 +134,23 @@ package com.crazyfm.devkit.goSystem.components.camera
 		{
 			if (viewPort.width < viewContainer.width)
 			{
-				return -focusObject.x + viewPort.width / 2;
+				var x:Number = 0;
+
+//				var diff:Number = _aimPosition.x - focusObject.x;
+				var diff:Number = Starling.current.nativeStage.mouseX - viewPort.width / 2;
+				if (diff > viewPort.width / 2) diff = viewPort.width / 2;
+
+				x = -(focusObject.x + diff) + viewPort.width / 2;
+
+				if (x > 0)
+				{
+					x = 0;
+				} else if (x < viewPort.width - viewContainer.width)
+				{
+					x = viewPort.width - viewContainer.width;
+				}
+
+				return x;
 			}
 
 			return 0;
@@ -107,7 +162,7 @@ package com.crazyfm.devkit.goSystem.components.camera
 			{
 				viewContainer.x = x;
 				viewContainer.y = y;
-			}else
+			} else
 			{
 				tween.reset(viewContainer, transitionTime);
 				tween.moveTo(x, y);

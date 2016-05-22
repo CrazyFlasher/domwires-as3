@@ -10,14 +10,18 @@ package com.crazyfm.extensions.physics.vo.units
 		private var _x:Number = 0;
 		private var _y:Number = 0;
 
-		private var _customData:Object;
+		private var _customData:Object = {};
 
 		public function PhysicsUnitDataVo(json:Object)
 		{
 			_x = json.x;
 			_y = json.y;
 			_id = json.id;
-			_customData = json.customData;
+
+			if (json.customData)
+			{
+				_customData = json.customData;
+			}
 		}
 
 		public function get id():String

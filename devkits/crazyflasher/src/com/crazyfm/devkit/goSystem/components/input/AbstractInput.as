@@ -11,23 +11,13 @@ package com.crazyfm.devkit.goSystem.components.input
 
 	public class AbstractInput extends GOSystemComponent implements IInput
 	{
-		protected var controllableComponents:Array/*IControllable*/
+		protected var controllableComponents:Array/*IControllable*/;
 
 		protected var actionVo:AbstractInputActionVo;
-
-		//Need to verify, that GOSystem components are fetched
-//		private var firstStepPassed:Boolean;
 
 		public function AbstractInput()
 		{
 			super();
-
-			createActionVo();
-		}
-
-		protected function createActionVo():void
-		{
-			actionVo = new AbstractInputActionVo();
 		}
 
 		public function sendActionToControllables(action:Enum):IInput
@@ -44,25 +34,20 @@ package com.crazyfm.devkit.goSystem.components.input
 
 		protected function updateActionVo(action:Enum):AbstractInputActionVo
 		{
-			actionVo.setAction(action);
+			actionVo = getInstance(AbstractInputActionVo)
+				.setAction(action);
 
 			return actionVo;
 		}
 
 		override public function interact(timePassed:Number):void
 		{
-			/*if (!firstStepPassed)
-			{
-				firstStepPassed = true;
-			}else
-			{*/
-				super.interact(timePassed);
+			super.interact(timePassed);
 
-				if (!controllableComponents)
-				{
-					controllableComponents = gameObject.getComponentsByType(IControllable);
-				}
-//			}
+			if (!controllableComponents)
+			{
+				controllableComponents = gameObject.getComponentsByType(IControllable);
+			}
 		}
 	}
 }

@@ -33,7 +33,6 @@ package com.crazyfm.devkit.goSystem.components.input
 			return _action.toString();
 		}
 
-		//TODO: refactor
 		public function clone():AbstractInputActionVo
 		{
 			return new AbstractInputActionVo().setAction(_action);

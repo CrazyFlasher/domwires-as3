@@ -3,7 +3,6 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.AppFactory;
 	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
@@ -70,7 +69,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IJointObject
 		{
-			var c:IJointObject = AppFactory.getNewInstance(IJointObject, _data);
+			var c:IJointObject = getInstance(IJointObject, _data);
 			return c;
 		}
 	}

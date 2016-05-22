@@ -3,7 +3,6 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.AppFactory;
 	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
@@ -54,7 +53,7 @@ package com.crazyfm.extensions.physics
 
 				for each (var vertexData:VertexDataVo in _data.vertexDataList)
 				{
-					var vertexObject:IVertexObject = AppFactory.getNewInstance(IVertexObject, vertexData);
+					var vertexObject:IVertexObject = getInstance(IVertexObject, vertexData);
 
 					_vertexObjectList.push(vertexObject);
 					verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
@@ -131,7 +130,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IShapeObject
 		{
-			var c:IShapeObject = AppFactory.getNewInstance(IShapeObject, _data);
+			var c:IShapeObject = getInstance(IShapeObject, _data);
 			return c;
 		}
 	}

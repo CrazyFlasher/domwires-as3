@@ -41,13 +41,6 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 			viewContainer.addEventListener(TouchEvent.TOUCH, onTouch);
 		}
 
-		override protected function createActionVo():void
-		{
-			actionVo = new MouseActionVo();
-
-			mouseActionVo = actionVo as MouseActionVo;
-		}
-
 		override public function dispose():void
 		{
 			viewContainer.removeEventListener(TouchEvent.TOUCH, onTouch);
@@ -113,9 +106,11 @@ package com.crazyfm.devkit.goSystem.components.input.mouse
 
 		override protected function updateActionVo(action:Enum):AbstractInputActionVo
 		{
-			super.updateActionVo(action);
+			mouseActionVo = getInstance(MouseActionVo)
+				.setAction(action)
+				.setPosition(mousePosition.x, mousePosition.y);
 
-			mouseActionVo.setPosition(mousePosition.x, mousePosition.y);
+			actionVo = mouseActionVo;
 
 			return actionVo;
 		}

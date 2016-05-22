@@ -3,7 +3,6 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.AppFactory;
 	import com.crazyfm.core.common.Disposable;
 	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
@@ -57,7 +56,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IVertexObject
 		{
-			var c:IVertexObject = AppFactory.getNewInstance(IVertexObject, _data);
+			var c:IVertexObject = getInstance(IVertexObject, _data);
 			return c;
 		}
 	}

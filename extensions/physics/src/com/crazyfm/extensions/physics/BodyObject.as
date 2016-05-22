@@ -3,9 +3,7 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.AppFactory;
 	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
 
@@ -14,15 +12,13 @@ package com.crazyfm.extensions.physics
 	import nape.phys.BodyType;
 	import nape.phys.Material;
 
-	use namespace ns_app_factory;
-
 	public class BodyObject extends Disposable implements IBodyObject
 	{
-		protected var _body:Body;
+		private var _body:Body;
 
-		protected var _data:BodyDataVo;
+		private var _data:BodyDataVo;
 
-		protected var _shapeObjectList:Vector.<IShapeObject>;
+		private var _shapeObjectList:Vector.<IShapeObject>;
 
 		public function BodyObject(data:BodyDataVo)
 		{
@@ -30,14 +26,15 @@ package com.crazyfm.extensions.physics
 
 			_shapeObjectList = new <IShapeObject>[];
 
+			var shapeObject:IShapeObject;
 			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
-				var shapeObject:IShapeObject = AppFactory.getNewInstance(IShapeObject, shapeData);
+				 shapeObject = getInstance(IShapeObject, shapeData);
 				_shapeObjectList.push(shapeObject);
 			}
 
 			var bodyType:BodyType;
-			switch(_data.type)
+			switch (_data.type)
 			{
 				case BodyDataVo.TYPE_STATIC:
 					bodyType = BodyType.STATIC;
@@ -129,7 +126,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IBodyObject
 		{
-			var c:IBodyObject = AppFactory.getNewInstance(IBodyObject, _data);
+			var c:IBodyObject = getInstance(IBodyObject, _data);
 			return c;
 		}
 	}

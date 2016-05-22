@@ -16,7 +16,7 @@ package com.crazyfm.devkit.physics
 
 			var teleportExitObject:CFShapeObject;
 
-			for each (var shapeObject:CFShapeObject in _shapeObjectList)
+			for each (var shapeObject:CFShapeObject in shapeObjectList)
 			{
 				if (shapeObject.cfData.teleportExitId != null)
 				{
@@ -32,7 +32,7 @@ package com.crazyfm.devkit.physics
 
 		private function getTeleportExitObject(id:String):CFShapeObject
 		{
-			for each (var shapeObject:CFShapeObject in _shapeObjectList)
+			for each (var shapeObject:CFShapeObject in shapeObjectList)
 			{
 				if (shapeObject.data.id == id)
 				{

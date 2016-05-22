@@ -85,7 +85,7 @@ package com.crazyfm.devkit.goSystem.components.controllable
 
 		public function inputAction(actionVo:AbstractInputActionVo):IControllable
 		{
-			inputActions.push(actionVo.clone());
+			inputActions.push(actionVo);
 
 			return this;
 		}
