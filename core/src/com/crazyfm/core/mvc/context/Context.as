@@ -4,6 +4,9 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.mvc.command.CommandMapper;
+	import com.crazyfm.core.mvc.command.ICommandMapper;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
@@ -26,7 +29,9 @@ package com.crazyfm.core.mvc.context
 		protected var viewContainer:IViewContainer;
 		protected var serviceContainer:IServiceContainer;
 
-		public function Context()
+		private var commandMapper:ICommandMapper;
+
+		public function Context(factory:AppFactory = null)
 		{
 			super();
 
@@ -38,6 +43,8 @@ package com.crazyfm.core.mvc.context
 
 			viewContainer = new ViewContainer();
 			add(viewContainer);
+
+			commandMapper = new CommandMapper(factory);
 		}
 
 		public function addModel(model:IModel):IModelContainer
@@ -172,11 +179,19 @@ package com.crazyfm.core.mvc.context
 			viewContainer.dispose();
 			serviceContainer.dispose();
 
+			nullifyDependencies();
+
+			super.dispose();
+		}
+
+		private function nullifyDependencies():void
+		{
 			modelContainer = null;
 			viewContainer = null;
 			serviceContainer = null;
 
-			super.dispose();
+			commandMapper.dispose();
+			commandMapper = null;
 		}
 
 		override public function disposeWithAllChildren():void
@@ -185,9 +200,7 @@ package com.crazyfm.core.mvc.context
 			viewContainer.disposeWithAllChildren();
 			serviceContainer.disposeWithAllChildren();
 
-			modelContainer = null;
-			viewContainer = null;
-			serviceContainer = null;
+			nullifyDependencies();
 
 			super.disposeWithAllChildren();
 		}
@@ -211,6 +224,8 @@ package com.crazyfm.core.mvc.context
 				dispatchSignalToServices(e.type, e.data);
 				dispatchSignalToModels(e.type, e.data);
 			}
+
+			commandMapper.handleSignal(e);
 
 			return super.onEventBubbled(event);
 		}

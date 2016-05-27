@@ -4,25 +4,68 @@
 package com.crazyfm.core.mvc.command
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
+	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.model.Model;
 
-	public class CommandMapper extends HierarchyObjectContainer implements ICommandMapper
+	import flash.utils.Dictionary;
+
+	public class CommandMapper extends Model implements ICommandMapper
 	{
-		public function CommandMapper()
+		private var commandMap:Dictionary/*Enum, CommandMappingVo*/ = new Dictionary();
+		private var factory:AppFactory;
+
+		public function CommandMapper(factory:AppFactory)
 		{
 			super();
+
+			this.factory = factory;
 		}
 
 		public function map(signalType:Enum, commandClass:Class):ICommandMapper
 		{
-			add(new CommandMappingVo(signalType, commandClass));
+			if (!commandMap[signalType])
+			{
+				commandMap[signalType] = new CommandMappingVo(signalType, commandClass);
+			}
 
 			return this;
 		}
 
 		public function unmap(signalType:Enum, commandClass:Class):ICommandMapper
 		{
+			if (commandMap[signalType])
+			{
+				delete commandMap[signalType];
+			}
+
 			return this;
+		}
+
+		public function clear():ICommandMapper
+		{
+			commandMap = new Dictionary();
+
+			return this;
+		}
+
+		public function handleSignal(event:ISignalEvent):ICommandMapper
+		{
+			if (commandMap[event.type])
+			{
+				var command:ICommand = factory.getInstance(commandMap[event.type]);
+				command.execute();
+			}
+
+			return this;
+		}
+
+
+		override public function dispose():void
+		{
+			clear();
+
+			super.dispose();
 		}
 	}
 }
