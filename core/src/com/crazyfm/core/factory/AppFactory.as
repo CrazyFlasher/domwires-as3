@@ -64,19 +64,8 @@ package com.crazyfm.core.factory
 
 				return getFromPool(type);
 			}
-
-			switch (constructorArgs.length)
-			{
-				case 0: return getNewInstance(type);
-				case 1: return getNewInstance(type, constructorArgs[0]);
-				case 2: return getNewInstance(type, constructorArgs[0], constructorArgs[1]);
-				case 3: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2]);
-				case 4: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]);
-				case 5: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]);
-				case 6: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]);
-				case 7: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]);
-				default: throw new Error("getNewInstance supports maximum 7 constructor arguments.");
-			}
+			
+			getNewInstance.apply(null, constructorArgs);
 		}
 
 		internal function getNewInstance(type:Class, ...constructorArgs):*
