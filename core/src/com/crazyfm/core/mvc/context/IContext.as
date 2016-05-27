@@ -3,11 +3,12 @@
  */
 package com.crazyfm.core.mvc.context
 {
+	import com.crazyfm.core.mvc.command.ICommandMapper;
 	import com.crazyfm.core.mvc.model.IModelContainer;
 	import com.crazyfm.core.mvc.service.IServiceContainer;
 	import com.crazyfm.core.mvc.view.IViewContainer;
 
-	public interface IContext extends IModelContainer, IViewContainer, IServiceContainer
+	public interface IContext extends IModelContainer, IViewContainer, IServiceContainer, ICommandMapper
 	{
 
 	}

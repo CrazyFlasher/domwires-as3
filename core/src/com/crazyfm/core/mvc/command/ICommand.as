@@ -6,5 +6,6 @@ package com.crazyfm.core.mvc.command
 	public interface ICommand
 	{
 		function execute():void;
+		function retain():void;
 	}
 }

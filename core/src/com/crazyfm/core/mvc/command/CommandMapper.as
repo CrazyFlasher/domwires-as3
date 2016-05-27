@@ -4,11 +4,14 @@
 package com.crazyfm.core.mvc.command
 {
 	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.core.factory.AppFactory;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.model.Model;
 
 	import flash.utils.Dictionary;
+
+	use namespace ns_app_factory;
 
 	public class CommandMapper extends Model implements ICommandMapper
 	{
@@ -32,6 +35,7 @@ package com.crazyfm.core.mvc.command
 			return this;
 		}
 
+		//TODO
 		public function unmap(signalType:Enum, commandClass:Class):ICommandMapper
 		{
 			if (commandMap[signalType])
@@ -49,17 +53,25 @@ package com.crazyfm.core.mvc.command
 			return this;
 		}
 
-		public function handleSignal(event:ISignalEvent):ICommandMapper
+		public function tryToExecuteCommand(event:ISignalEvent):ICommandMapper
 		{
-			if (commandMap[event.type])
+			var commandClass:Class = commandMap[event.type];
+
+			if (commandClass)
 			{
-				var command:ICommand = factory.getInstance(commandMap[event.type]);
+				if (!factory.hasPoolForType(commandClass))
+				{
+					factory.registerPool(commandClass, 1);
+				}
+
+				var command:ICommand = factory.getInstance(commandClass);
+
 				command.execute();
+				command.retain();
 			}
 
 			return this;
 		}
-
 
 		override public function dispose():void
 		{

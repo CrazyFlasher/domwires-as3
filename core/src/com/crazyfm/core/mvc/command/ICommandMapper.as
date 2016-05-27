@@ -12,6 +12,6 @@ package com.crazyfm.core.mvc.command
 		function map(signalType:Enum, commandClass:Class):ICommandMapper;
 		function unmap(signalType:Enum, commandClass:Class):ICommandMapper;
 		function clear():ICommandMapper;
-		function handleSignal(event:ISignalEvent):ICommandMapper;
+		function tryToExecuteCommand(event:ISignalEvent):ICommandMapper;
 	}
 }

@@ -14,5 +14,9 @@ package com.crazyfm.core.mvc.command
 		{
 
 		}
+
+		public function retain():void
+		{
+		}
 	}
 }

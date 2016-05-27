@@ -35,16 +35,20 @@ package com.crazyfm.core.mvc.context
 		{
 			super();
 
-			modelContainer = new ModelContainer();
+//			modelContainer = new ModelContainer();
+			modelContainer = factory.getInstance(ModelContainer);
 			add(modelContainer);
 
-			serviceContainer = new ServiceContainer();
+//			serviceContainer = new ServiceContainer();
+			serviceContainer = factory.getInstance(ServiceContainer);
 			add(serviceContainer);
 
-			viewContainer = new ViewContainer();
+//			viewContainer = new ViewContainer();
+			viewContainer = factory.getInstance(ViewContainer);
 			add(viewContainer);
 
-			commandMapper = new CommandMapper(factory);
+//			commandMapper = new CommandMapper(factory);
+			commandMapper = factory.getInstance(CommandMapper, factory);
 		}
 
 		public function addModel(model:IModel):IModelContainer
@@ -225,10 +229,29 @@ package com.crazyfm.core.mvc.context
 				dispatchSignalToModels(e.type, e.data);
 			}
 
-			commandMapper.handleSignal(e);
+			tryToExecuteCommand(e);
 
 			return super.onEventBubbled(event);
 		}
 
+		public function map(signalType:Enum, commandClass:Class):ICommandMapper
+		{
+			return commandMapper.map(signalType, commandClass);
+		}
+
+		public function unmap(signalType:Enum, commandClass:Class):ICommandMapper
+		{
+			return commandMapper.unmap(signalType, commandClass);
+		}
+
+		public function clear():ICommandMapper
+		{
+			return commandMapper.clear();
+		}
+
+		public function tryToExecuteCommand(event:ISignalEvent):ICommandMapper
+		{
+			return commandMapper.tryToExecuteCommand(event);
+		}
 	}
 }
