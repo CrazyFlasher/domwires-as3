@@ -1,15 +1,10 @@
 /**
- * Created by Anton Nefjodov on 27.05.2016.
+ * Created by Anton Nefjodov on 30.05.2016.
  */
 package com.crazyfm.core.mvc.command
 {
-	public class Command implements ICommand
+	public class AbstractCommand implements ICommand
 	{
-		public function Command()
-		{
-
-		}
-
 		public function execute():void
 		{
 
@@ -17,6 +12,7 @@ package com.crazyfm.core.mvc.command
 
 		public function retain():void
 		{
+
 		}
 	}
 }

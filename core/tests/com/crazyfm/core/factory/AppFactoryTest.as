@@ -1,12 +1,14 @@
 /**
  * Created by Anton Nefjodov on 20.05.2016.
  */
-package com.crazyfm.core.common
+package com.crazyfm.core.factory
 {
-	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.common.*;
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertNotNull;
+	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
 	use namespace ns_app_factory;
@@ -89,6 +91,75 @@ package com.crazyfm.core.common
 			assertFalse(factory.hasMappingForType(IMyType));
 			assertFalse(factory.hasPoolForType(IMyType));
 		}
+
+		[Test]
+		public function testDI():void
+		{
+			var obj:DIObject = factory.getInstance(DIObject);
+			assertNull(obj.c);
+			factory.injectDependencies(obj);
+			assertNotNull(obj.c);
+		}
+
+		[Test]
+		public function testHasMappingForType():void
+		{
+			assertFalse(factory.hasMappingForType(IMyType));
+			factory.map(IMyType, MyType1);
+			assertTrue(factory.hasMappingForType(IMyType));
+		}
+
+		[Test]
+		public function testGetInstance():void
+		{
+
+		}
+
+		[Test]
+		public function testHasPoolForType():void
+		{
+			assertFalse(factory.hasPoolForType(IMyType));
+			factory.registerPool(IMyType);
+			assertTrue(factory.hasPoolForType(IMyType));
+		}
+
+		[Test]
+		public function testGetSingleton():void
+		{
+			var obj:MyType2 = factory.getSingleton(MyType2) as MyType2;
+			var obj2:MyType2 = factory.getSingleton(MyType2) as MyType2;
+			var obj3:MyType2 = factory.getSingleton(MyType2) as MyType2;
+
+			assertEquals(obj, obj2, obj3);
+		}
+
+		[Test]
+		public function testRemoveSingleton():void
+		{
+			var obj:MyType2 = factory.getSingleton(MyType2) as MyType2;
+			var obj2:MyType2 = factory.getInstance(MyType2) as MyType2;
+
+			assertTrue(obj == obj2);
+
+			factory.removeSingleton(MyType2);
+
+			obj2 = factory.getInstance(MyType2) as MyType2;
+
+			assertFalse(obj == obj2);
+		}
+	}
+}
+
+import flash.media.Camera;
+
+internal class DIObject
+{
+	[Autowired]
+	public var c:Camera;
+
+	public function DIObject()
+	{
+
 	}
 }
 

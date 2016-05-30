@@ -5,8 +5,8 @@ package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.AppFactory;
-	import com.crazyfm.core.mvc.command.CommandMapper;
-	import com.crazyfm.core.mvc.command.ICommandMapper;
+	import com.crazyfm.core.mvc.context.CommandMapper;
+	import com.crazyfm.core.mvc.context.ICommandMapper;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
@@ -34,6 +34,11 @@ package com.crazyfm.core.mvc.context
 		public function Context(factory:AppFactory = null)
 		{
 			super();
+
+			if (factory == null)
+			{
+				factory = AppFactory.getSingletonInstance();
+			}
 
 //			modelContainer = new ModelContainer();
 			modelContainer = factory.getInstance(ModelContainer);
@@ -229,7 +234,7 @@ package com.crazyfm.core.mvc.context
 				dispatchSignalToModels(e.type, e.data);
 			}
 
-			tryToExecuteCommand(e);
+			tryToExecuteCommand(e.type);
 
 			return super.onEventBubbled(event);
 		}
@@ -249,9 +254,19 @@ package com.crazyfm.core.mvc.context
 			return commandMapper.clear();
 		}
 
-		public function tryToExecuteCommand(event:ISignalEvent):ICommandMapper
+		public function tryToExecuteCommand(signalType:Enum):ICommandMapper
 		{
-			return commandMapper.tryToExecuteCommand(event);
+			return commandMapper.tryToExecuteCommand(signalType);
+		}
+
+		public function unmapAll(signalType:Enum):ICommandMapper
+		{
+			return commandMapper.unmapAll(signalType);
+		}
+
+		public function hasMapping(signalType:Enum):Boolean
+		{
+			return commandMapper.hasMapping(signalType);
 		}
 	}
 }

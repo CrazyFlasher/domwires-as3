@@ -6,6 +6,10 @@ package com.crazyfm.core.factory
 	import com.crazyfm.core.common.*;
 
 	import flash.utils.Dictionary;
+	import flash.utils.describeType;
+	import flash.utils.getDefinitionByName;
+
+	use namespace ns_app_factory;
 
 	public class AppFactory
 	{
@@ -64,8 +68,19 @@ package com.crazyfm.core.factory
 
 				return getFromPool(type);
 			}
-			
-			getNewInstance.apply(null, constructorArgs);
+
+			switch (constructorArgs.length)
+			{
+				case 0: return getNewInstance(type);
+				case 1: return getNewInstance(type, constructorArgs[0]);
+				case 2: return getNewInstance(type, constructorArgs[0], constructorArgs[1]);
+				case 3: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2]);
+				case 4: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]);
+				case 5: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]);
+				case 6: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]);
+				case 7: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]);
+				default: throw new Error("getNewInstance supports maximum 7 constructor arguments.");
+			}
 		}
 
 		internal function getNewInstance(type:Class, ...constructorArgs):*
@@ -141,16 +156,83 @@ package com.crazyfm.core.factory
 			return pool[type] != null;
 		}
 
-		ns_app_factory function clear():AppFactory
+		public function getSingleton(type:Class):*
+		{
+			if (!hasPoolForType(type))
+			{
+				registerPool(type, 1);
+			}
+
+			return getInstance(type);
+		}
+
+		ns_app_factory function removeSingleton(type:Class):AppFactory
+		{
+			if (hasPoolForType(type))
+			{
+				unregisterPool(type);
+			}else
+			{
+				log(type + " is not registered as singleton!");
+			}
+
+			return this;
+		}
+
+		ns_app_factory function clearPools():AppFactory
 		{
 			for each (var poolModel:PoolModel in pool)
 			{
 				poolModel.dispose();
 			}
 			pool = new Dictionary();
+
+			return this;
+		}
+
+		ns_app_factory function clearMappings():AppFactory
+		{
 			typeMapping = new Dictionary();
 
 			return this;
+		}
+
+		ns_app_factory function clear():AppFactory
+		{
+			clearPools();
+			clearMappings();
+
+			return this;
+		}
+
+		ns_app_factory function injectDependencies(object:*):*
+		{
+			var variables:XMLList = describeType(object)..variable;
+			var metadata:XMLList;
+			var needToInject:Boolean;
+
+			for each(var variable:XML in variables) {
+				metadata = variable.metadata;
+
+				for each(var meta:XML in metadata) {
+					if (meta.@name == "Autowired")
+					{
+						needToInject = true;
+					}
+				}
+
+//				trace("Variable: " + variable.@name);
+//				trace("Type: " + String(variable.@type).replace(/::/g, "."));
+
+				if (needToInject)
+				{
+					object[variable.@name] = getInstance(getDefinitionByName(String(variable.@type).replace(/::/g, ".")) as Class);
+				}
+
+				needToInject = false;
+			}
+
+			return object;
 		}
 	}
 }

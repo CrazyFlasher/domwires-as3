@@ -3,7 +3,7 @@
  */
 package
 {
-	import com.crazyfm.core.common.AppFactoryTest;
+	import com.crazyfm.core.factory.AppFactoryTest;
 	import com.crazyfm.core.common.DisposableTest;
 	import com.crazyfm.core.common.EnumTest;
 	import com.crazyfm.core.mvc.event.BubblingEventTest;

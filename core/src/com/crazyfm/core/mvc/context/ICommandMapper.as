@@ -1,17 +1,19 @@
 /**
  * Created by Anton Nefjodov on 26.05.2016.
  */
-package com.crazyfm.core.mvc.command
+package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.model.IModel;
 
-	public interface ICommandMapper extends IModel
+	internal interface ICommandMapper extends IModel
 	{
 		function map(signalType:Enum, commandClass:Class):ICommandMapper;
 		function unmap(signalType:Enum, commandClass:Class):ICommandMapper;
 		function clear():ICommandMapper;
-		function tryToExecuteCommand(event:ISignalEvent):ICommandMapper;
+		function tryToExecuteCommand(signalType:Enum):ICommandMapper;
+		function unmapAll(signalType:Enum):ICommandMapper;
+		function hasMapping(signalType:Enum):Boolean;
 	}
 }
