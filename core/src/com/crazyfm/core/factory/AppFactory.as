@@ -210,14 +210,22 @@ package com.crazyfm.core.factory
 			var variables:XMLList = describeType(object)..variable;
 			var metadata:XMLList;
 			var needToInject:Boolean;
+			var metaTag:XML;
 
 			for each(var variable:XML in variables) {
+				needToInject = false;
+
 				metadata = variable.metadata;
 
-				for each(var meta:XML in metadata) {
-					if (meta.@name == "Autowired")
+				if (metadata.length() > 1)
+				{
+					for each (metaTag in metadata)
 					{
-						needToInject = true;
+						if(metaTag.@name == "Autowired")
+						{
+							needToInject = true;
+							break;
+						}
 					}
 				}
 
@@ -228,8 +236,6 @@ package com.crazyfm.core.factory
 				{
 					object[variable.@name] = getInstance(getDefinitionByName(String(variable.@type).replace(/::/g, ".")) as Class);
 				}
-
-				needToInject = false;
 			}
 
 			return object;

@@ -29,6 +29,7 @@ package com.crazyfm.core.mvc.context
 		[After]
 		public function tearDown():void
 		{
+			AppFactory.getSingletonInstance().clear();
 			commandMapper.dispose();
 		}
 
@@ -100,8 +101,26 @@ package com.crazyfm.core.mvc.context
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 
 			assertEquals(m.d, 0);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
+			commandMapper.dispatchSignal(MyCoolEnum.PREVED);
 			assertEquals(m.d, 7);
+		}
+
+		[Test]
+		public function testManyEvents1Command():void
+		{
+			var m:TestObj1 = AppFactory.getSingletonInstance().getSingleton(TestObj1) as TestObj1;
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
+			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
+			commandMapper.map(MyCoolEnum.SHALOM, TestCommand);
+			commandMapper.dispatchSignal(MyCoolEnum.BOGA);
+			commandMapper.dispatchSignal(MyCoolEnum.PREVED);
+			commandMapper.dispatchSignal(MyCoolEnum.SHALOM);
+			assertEquals(m.d, 21);
+			commandMapper.unmap(MyCoolEnum.SHALOM, TestCommand);
+			commandMapper.dispatchSignal(MyCoolEnum.BOGA);
+			commandMapper.dispatchSignal(MyCoolEnum.PREVED);
+			commandMapper.dispatchSignal(MyCoolEnum.SHALOM);
+			assertEquals(m.d, 35);
 		}
 	}
 }
@@ -117,6 +136,6 @@ internal class TestCommand extends AbstractCommand
 
 	override public function execute():void
 	{
-		obj.d = 7;
+		obj.d += 7;
 	}
 }

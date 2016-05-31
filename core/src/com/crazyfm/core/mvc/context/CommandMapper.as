@@ -66,7 +66,15 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
-		public function tryToExecuteCommand(signalType:Enum):ICommandMapper
+
+		override public function dispatchSignal(type:Enum, data:Object = null, bubbles:Boolean = true):void
+		{
+			super.dispatchSignal(type, data, bubbles);
+
+			tryToExecuteCommand(type);
+		}
+
+		private function tryToExecuteCommand(signalType:Enum):void
 		{
 			var mappedToSignalCommands:Vector.<Class> = commandMap[signalType];
 			var command:ICommand;
@@ -89,8 +97,6 @@ package com.crazyfm.core.mvc.context
 					command.retain();
 				}
 			}
-
-			return this;
 		}
 
 		override public function dispose():void

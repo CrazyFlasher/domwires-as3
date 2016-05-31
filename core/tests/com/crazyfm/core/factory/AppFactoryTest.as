@@ -99,6 +99,8 @@ package com.crazyfm.core.factory
 			assertNull(obj.c);
 			factory.injectDependencies(obj);
 			assertNotNull(obj.c);
+			assertNotNull(obj.arr);
+			assertNotNull(obj.obj);
 		}
 
 		[Test]
@@ -156,6 +158,12 @@ internal class DIObject
 {
 	[Autowired]
 	public var c:Camera;
+
+	[Autowired]
+	public var arr:Array;
+
+	[Autowired]
+	public var obj:Object;
 
 	public function DIObject()
 	{

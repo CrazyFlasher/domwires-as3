@@ -5,8 +5,6 @@ package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.AppFactory;
-	import com.crazyfm.core.mvc.context.CommandMapper;
-	import com.crazyfm.core.mvc.context.ICommandMapper;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
@@ -37,22 +35,19 @@ package com.crazyfm.core.mvc.context
 
 			if (factory == null)
 			{
+				log("Warning: factory is not specified. Using singleton...");
 				factory = AppFactory.getSingletonInstance();
 			}
 
-//			modelContainer = new ModelContainer();
 			modelContainer = factory.getInstance(ModelContainer);
 			add(modelContainer);
 
-//			serviceContainer = new ServiceContainer();
 			serviceContainer = factory.getInstance(ServiceContainer);
 			add(serviceContainer);
 
-//			viewContainer = new ViewContainer();
 			viewContainer = factory.getInstance(ViewContainer);
 			add(viewContainer);
 
-//			commandMapper = new CommandMapper(factory);
 			commandMapper = factory.getInstance(CommandMapper, factory);
 		}
 
@@ -234,7 +229,7 @@ package com.crazyfm.core.mvc.context
 				dispatchSignalToModels(e.type, e.data);
 			}
 
-			tryToExecuteCommand(e.type);
+			commandMapper.dispatchSignal(e.type, e.data, e.bubbles);
 
 			return super.onEventBubbled(event);
 		}
@@ -252,11 +247,6 @@ package com.crazyfm.core.mvc.context
 		public function clear():ICommandMapper
 		{
 			return commandMapper.clear();
-		}
-
-		public function tryToExecuteCommand(signalType:Enum):ICommandMapper
-		{
-			return commandMapper.tryToExecuteCommand(signalType);
 		}
 
 		public function unmapAll(signalType:Enum):ICommandMapper

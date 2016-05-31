@@ -12,7 +12,6 @@ package com.crazyfm.core.mvc.context
 		function map(signalType:Enum, commandClass:Class):ICommandMapper;
 		function unmap(signalType:Enum, commandClass:Class):ICommandMapper;
 		function clear():ICommandMapper;
-		function tryToExecuteCommand(signalType:Enum):ICommandMapper;
 		function unmapAll(signalType:Enum):ICommandMapper;
 		function hasMapping(signalType:Enum):Boolean;
 	}
