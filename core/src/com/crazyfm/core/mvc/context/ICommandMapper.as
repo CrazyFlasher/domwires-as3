@@ -4,7 +4,6 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.model.IModel;
 
 	internal interface ICommandMapper extends IModel

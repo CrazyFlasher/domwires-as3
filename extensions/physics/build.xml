@@ -20,7 +20,8 @@
 
 	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
-    <target name="package" depends="clean,swc,copy_swc"/>
+    <target name="build" depends="swc,copy_swc"/>
+    <target name="package" depends="clean,swc,asdoc,copy_swc"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating physics extension ASDOC documentation...</echo>
@@ -32,6 +33,14 @@
             <!--external-library-path dir="${as3-signals}" includes="*"/-->
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller" /-->
         </asdoc>
+        <zip destfile="${swc}/${swc_name}" update="true">
+            <zipfileset dir="${doc}" prefix="docs">
+                <include name="*.*"/>
+                <exclude name="ASDoc_Config.xml"/>
+                <exclude name="overviews.xml"/>
+            </zipfileset>
+        </zip>
+        <delete dir="${doc}"/>
     </target>
     <target name="swc">
         <echo>-----------------------------------</echo>
@@ -62,6 +71,7 @@
             <arg value="-library-path+=${libs_path}/crazyfm"/>
             <!--<arg value="-library-path+=${as3-signals}"/>-->
             <arg value="-output=${out}/tests/TestRunner.swf"/>
+            <arg value="-debug"/>
         </java>
         <flexunit
                 command="${flashplayer}"
