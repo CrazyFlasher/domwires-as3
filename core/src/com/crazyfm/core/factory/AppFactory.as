@@ -15,11 +15,11 @@ package com.crazyfm.core.factory
 	{
 		private static var instance:AppFactory;
 
-		public static function getSingletonInstance():AppFactory
+		public static function getSingletonInstance(autoInjectDependencies:Boolean = true):AppFactory
 		{
 			if (!instance)
 			{
-				instance = new AppFactory();
+				instance = new AppFactory(autoInjectDependencies);
 			}
 
 			return instance;
@@ -27,10 +27,11 @@ package com.crazyfm.core.factory
 
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
 		private var pool:Dictionary = new Dictionary()/*Class, PoolModel*/;
+		private var autoInjectDependencies:Boolean;
 
-		public function AppFactory()
+		public function AppFactory(autoInjectDependencies:Boolean = true)
 		{
-
+			this.autoInjectDependencies = autoInjectDependencies;
 		}
 
 		ns_app_factory function map(type:Class, toType:Class):AppFactory
@@ -59,6 +60,8 @@ package com.crazyfm.core.factory
 
 		public function getInstance(type:Class, ...constructorArgs):*
 		{
+			var obj:*;
+
 			if (hasPoolForType(type))
 			{
 				if (constructorArgs.length > 0)
@@ -66,21 +69,31 @@ package com.crazyfm.core.factory
 					log("Warning: type " + type + " has registered pool. Ignoring constructorArgs.");
 				}
 
-				return getFromPool(type);
+				//Do not inject dependencies automatically to object taken from pool.
+				//Call injectDependencies to inject manually.
+				obj = getFromPool(type);
+			}else
+			{
+				switch (constructorArgs.length)
+				{
+					case 0: obj = getNewInstance(type); break;
+					case 1: obj = getNewInstance(type, constructorArgs[0]); break;
+					case 2: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1]); break;
+					case 3: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2]); break;
+					case 4: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]); break;
+					case 5: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]); break;
+					case 6: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]); break;
+					case 7: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]); break;
+					default: throw new Error("getNewInstance supports maximum 7 constructor arguments.");
+				}
+
+				if (autoInjectDependencies)
+				{
+					obj = injectDependencies(obj);
+				}
 			}
 
-			switch (constructorArgs.length)
-			{
-				case 0: return getNewInstance(type);
-				case 1: return getNewInstance(type, constructorArgs[0]);
-				case 2: return getNewInstance(type, constructorArgs[0], constructorArgs[1]);
-				case 3: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2]);
-				case 4: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]);
-				case 5: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]);
-				case 6: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]);
-				case 7: return getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]);
-				default: throw new Error("getNewInstance supports maximum 7 constructor arguments.");
-			}
+			return obj;
 		}
 
 		internal function getNewInstance(type:Class, ...constructorArgs):*
@@ -205,23 +218,22 @@ package com.crazyfm.core.factory
 			return this;
 		}
 
-		ns_app_factory function injectDependencies(object:*):*
+		public function injectDependencies(object:*):*
 		{
-			var variables:XMLList = describeType(object)..variable;
-			var metadata:XMLList;
-			var needToInject:Boolean;
-			var metaTag:XML;
+			const describeT:XML = describeType(object);
 
-			for each(var variable:XML in variables) {
+			var needToInject:Boolean;
+			var injectionOccurred:Boolean;
+			var postConstructMethodName:String;
+
+			for each(var variable:XML in describeT..variable) {
 				needToInject = false;
 
-				metadata = variable.metadata;
-
-				if (metadata.length() > 1)
+				if (variable.metadata.length() > 1)
 				{
-					for each (metaTag in metadata)
+					for each (var variableMetaTag:XML in variable.metadata)
 					{
-						if(metaTag.@name == "Autowired")
+						if(variableMetaTag.@name == "Autowired")
 						{
 							needToInject = true;
 							break;
@@ -229,12 +241,43 @@ package com.crazyfm.core.factory
 					}
 				}
 
-//				trace("Variable: " + variable.@name);
-//				trace("Type: " + String(variable.@type).replace(/::/g, "."));
-
 				if (needToInject)
 				{
+					if (!injectionOccurred)
+					{
+						injectionOccurred = true;
+					}
+
 					object[variable.@name] = getInstance(getDefinitionByName(String(variable.@type).replace(/::/g, ".")) as Class);
+				}
+			}
+
+			if (injectionOccurred)
+			{
+				for each(var method:XML in describeT..method) {
+					if (postConstructMethodName != null)
+					{
+						break;
+					}else
+					{
+						if (method.metadata.length() > 1)
+						{
+							for each (var methodMetaTag:XML in method.metadata)
+							{
+								if(methodMetaTag.@name == "PostConstruct")
+								{
+									//TODO: PreDestroy
+									postConstructMethodName = method.@name;
+									break;
+								}
+							}
+						}
+					}
+				}
+
+				if (postConstructMethodName != null)
+				{
+					object[postConstructMethodName]();
 				}
 			}
 

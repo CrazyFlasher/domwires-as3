@@ -93,14 +93,36 @@ package com.crazyfm.core.factory
 		}
 
 		[Test]
-		public function testDI():void
+		public function testAutowiredAutoInject():void
 		{
+			var factory:AppFactory = new AppFactory();
+			var obj:DIObject = factory.getInstance(DIObject);
+			assertNotNull(obj.c);
+			assertNotNull(obj.arr);
+			assertNotNull(obj.obj);
+		}
+
+		[Test]
+		public function testAutowiredManualInject():void
+		{
+			var factory:AppFactory = new AppFactory(false);
 			var obj:DIObject = factory.getInstance(DIObject);
 			assertNull(obj.c);
 			factory.injectDependencies(obj);
 			assertNotNull(obj.c);
 			assertNotNull(obj.arr);
 			assertNotNull(obj.obj);
+		}
+
+		[Test]
+		public function testAutowiredAutoInjectPostConstruct():void
+		{
+			var factory:AppFactory = new AppFactory();
+			var obj:DIObject = factory.getInstance(DIObject);
+			assertNotNull(obj.c);
+			assertNotNull(obj.arr);
+			assertNotNull(obj.obj);
+			assertEquals(obj.message, "OK!");
 		}
 
 		[Test]
@@ -165,9 +187,22 @@ internal class DIObject
 	[Autowired]
 	public var obj:Object;
 
+	private var _message:String;
+
 	public function DIObject()
 	{
 
+	}
+
+	[PostConstruct]
+	public function init():void
+	{
+		_message = "OK!";
+	}
+
+	public function get message():String
+	{
+		return _message;
 	}
 }
 
