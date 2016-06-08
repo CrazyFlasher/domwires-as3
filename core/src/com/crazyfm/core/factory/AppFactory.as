@@ -3,10 +3,11 @@
  */
 package com.crazyfm.core.factory
 {
+	import avmplus.DescribeTypeJSON;
+
 	import com.crazyfm.core.common.*;
 
 	import flash.utils.Dictionary;
-	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 
 	use namespace ns_app_factory;
@@ -15,11 +16,11 @@ package com.crazyfm.core.factory
 	{
 		private static var instance:AppFactory;
 
-		public static function getSingletonInstance(autoInjectDependencies:Boolean = true):AppFactory
+		public static function getSingletonInstance():AppFactory
 		{
 			if (!instance)
 			{
-				instance = new AppFactory(autoInjectDependencies);
+				instance = new AppFactory();
 			}
 
 			return instance;
@@ -27,16 +28,21 @@ package com.crazyfm.core.factory
 
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
 		private var pool:Dictionary = new Dictionary()/*Class, PoolModel*/;
-		private var autoInjectDependencies:Boolean;
+		private var injectionMap:Dictionary = new Dictionary()/*Class, InjectionDataVo*/;
 
-		public function AppFactory(autoInjectDependencies:Boolean = true)
+		private var describeTypeJSON:DescribeTypeJSON = new DescribeTypeJSON();
+
+		public var autoInjectDependencies:Boolean = true;
+		public var verbose:Boolean = false;
+
+		public function AppFactory()
 		{
-			this.autoInjectDependencies = autoInjectDependencies;
+
 		}
 
 		ns_app_factory function map(type:Class, toType:Class):AppFactory
 		{
-			if (typeMapping[type])
+			if (verbose && typeMapping[type])
 			{
 				log("Warning: type " + type + "is mapped to " + typeMapping[type] + ". Remapping to " + toType);
 			}
@@ -64,12 +70,12 @@ package com.crazyfm.core.factory
 
 			if (hasPoolForType(type))
 			{
-				if (constructorArgs.length > 0)
+				if (verbose && constructorArgs.length > 0)
 				{
 					log("Warning: type " + type + " has registered pool. Ignoring constructorArgs.");
 				}
 
-				//Do not inject dependencies automatically to object taken from pool.
+				//Do not inject dependencies automatically to object, that is taken from pool.
 				//Call injectDependencies to inject manually.
 				obj = getFromPool(type);
 			}else
@@ -89,7 +95,7 @@ package com.crazyfm.core.factory
 
 				if (autoInjectDependencies)
 				{
-					obj = injectDependencies(obj);
+					obj = injectDependencies(type, obj);
 				}
 			}
 
@@ -102,7 +108,10 @@ package com.crazyfm.core.factory
 
 			if (!typeMapping[type])
 			{
-				log("Warning: type " + type + " is not mapped to any other type. Creating new instance of " + type);
+				if (verbose)
+				{
+					log("Warning: type " + type + " is not mapped to any other type. Creating new instance of " + type);
+				}
 
 				t = type;
 			}else
@@ -131,9 +140,9 @@ package com.crazyfm.core.factory
 				throw new Error("Capacity should be > 0!")
 			}
 
-			if (pool[type])
+			if (verbose && pool[type])
 			{
-				log("Pool " + type + "already registered! Call unregisterPool before.");
+				log("Pool " + type + " already registered! Call unregisterPool before.");
 			}else
 			{
 				pool[type] = new PoolModel(this, capacity);
@@ -185,7 +194,7 @@ package com.crazyfm.core.factory
 			{
 				unregisterPool(type);
 			}else
-			{
+			if (verbose){
 				log(type + " is not registered as singleton!");
 			}
 
@@ -218,70 +227,90 @@ package com.crazyfm.core.factory
 			return this;
 		}
 
-		public function injectDependencies(object:*):*
+		public function injectDependencies(type:Class, object:*):*
 		{
-			const describeT:XML = describeType(object);
+			var injectionData:InjectionDataVo = getInjectionData(type);
 
-			var needToInject:Boolean;
-			var injectionOccurred:Boolean;
-			var postConstructMethodName:String;
-
-			for each(var variable:XML in describeT..variable) {
-				needToInject = false;
-
-				if (variable.metadata.length() > 1)
-				{
-					for each (var variableMetaTag:XML in variable.metadata)
-					{
-						if(variableMetaTag.@name == "Autowired")
-						{
-							needToInject = true;
-							break;
-						}
-					}
-				}
-
-				if (needToInject)
-				{
-					if (!injectionOccurred)
-					{
-						injectionOccurred = true;
-					}
-
-					object[variable.@name] = getInstance(getDefinitionByName(String(variable.@type).replace(/::/g, ".")) as Class);
-				}
+			var objVar:String;
+			for (objVar in injectionData.variables)
+			{
+				object[objVar] = getInstance(getDefinitionByName(injectionData.variables[objVar]) as Class);
 			}
 
-			if (injectionOccurred)
+			if (injectionData.postConstructName != null)
 			{
-				for each(var method:XML in describeT..method) {
-					if (postConstructMethodName != null)
-					{
-						break;
-					}else
-					{
-						if (method.metadata.length() > 1)
-						{
-							for each (var methodMetaTag:XML in method.metadata)
-							{
-								if(methodMetaTag.@name == "PostConstruct")
-								{
-									//TODO: PreDestroy
-									postConstructMethodName = method.@name;
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				if (postConstructMethodName != null)
-				{
-					object[postConstructMethodName]();
-				}
+				object[injectionData.postConstructName]();
 			}
 
 			return object;
 		}
+
+		private function getInjectionData(type:Class):InjectionDataVo
+		{
+			var injectionData:InjectionDataVo = injectionMap[type];
+
+			if (!injectionData)
+			{
+				injectionData = new InjectionDataVo();
+
+				var dtJson:Object = describeTypeJSON.getInstanceDescription(type);
+
+				var metadata:Object;
+				var method:Object;
+				var variable:Object;
+
+				for each (method in dtJson.traits.methods)
+				{
+					for each (metadata in method.metadata)
+					{
+						if (injectionData.postConstructName && injectionData.preDestroyName)
+						{
+							break;
+						}else
+						if (metadata.name == "PostConstruct")
+						{
+							injectionData.postConstructName = method.name;
+						}else
+						if (metadata.name == "PreDestroy")
+						{
+							injectionData.preDestroyName = method.name;
+						}
+					}
+				}
+				for each (variable in dtJson.traits.variables)
+				{
+					for each (metadata in variable.metadata)
+					{
+						if (metadata.name == "Autowired")
+						{
+							injectionData.variables[variable.name] = variable.type.replace(/::/g, ".");
+						}
+					}
+				}
+
+				injectionMap[type] = injectionData;
+			}
+
+			return injectionData;
+		}
+
+		/*public function disposeInstance(object:*):AppFactory
+		{
+			return this;
+		}*/
+	}
+}
+
+import flash.utils.Dictionary;
+
+internal class InjectionDataVo
+{
+	internal var variables:Dictionary/*String, String*/ = new Dictionary();
+	internal var postConstructName:String;
+	internal var preDestroyName:String;
+
+	public function InjectionDataVo()
+	{
+
 	}
 }

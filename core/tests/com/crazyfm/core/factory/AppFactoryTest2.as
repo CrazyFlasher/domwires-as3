@@ -3,15 +3,8 @@
  */
 package com.crazyfm.core.factory
 {
-	import org.flexunit.asserts.assertEquals;
-	import org.flexunit.asserts.assertNotNull;
-
 	public class AppFactoryTest2
 	{
-		public function AppFactoryTest2()
-		{
-		}
-
 		[Before]
 		public function setUp():void
 		{
@@ -24,18 +17,15 @@ package com.crazyfm.core.factory
 
 		}
 
+		[Ignore]
 		[Test]
 		public function testPerformance():void
 		{
 			var factory:AppFactory = new AppFactory(true);
 
-			for (var i:int = 0; i < 1000; i++)
+			for (var i:int = 0; i < 10000; i++)
 			{
-				var obj:DIObject = factory.getInstance(DIObject);
-				/*assertNotNull(obj.c);
-				assertNotNull(obj.arr);
-				assertNotNull(obj.obj);
-				assertEquals(obj.message, "OK!");*/
+				factory.getInstance(DIObject);
 			}
 		}
 	}
@@ -70,5 +60,13 @@ internal class DIObject
 	public function get message():String
 	{
 		return _message;
+	}
+}
+
+internal class DIObject2
+{
+	public function DIObject2()
+	{
+
 	}
 }

@@ -105,10 +105,12 @@ package com.crazyfm.core.factory
 		[Test]
 		public function testAutowiredManualInject():void
 		{
-			var factory:AppFactory = new AppFactory(false);
+			var factory:AppFactory = new AppFactory();
+			factory.autoInjectDependencies = false;
+
 			var obj:DIObject = factory.getInstance(DIObject);
 			assertNull(obj.c);
-			factory.injectDependencies(obj);
+			factory.injectDependencies(DIObject, obj);
 			assertNotNull(obj.c);
 			assertNotNull(obj.arr);
 			assertNotNull(obj.obj);
