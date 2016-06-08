@@ -12,6 +12,7 @@ package com.crazyfm.core.factory
 
 	use namespace ns_app_factory;
 
+	//TODO: profiler test
 	public class AppFactory
 	{
 		private static var instance:AppFactory;
@@ -293,11 +294,6 @@ package com.crazyfm.core.factory
 
 			return injectionData;
 		}
-
-		/*public function disposeInstance(object:*):AppFactory
-		{
-			return this;
-		}*/
 	}
 }
 
