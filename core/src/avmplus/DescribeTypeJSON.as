@@ -32,7 +32,9 @@ package avmplus
 		//----------------------               Public Methods               ----------------------//
 		public function DescribeTypeJSON()
 		{
+
 		}
+
 		public function describeType(target : Object, flags : uint) : Object
 		{
 			return describeTypeJSON(target, flags);

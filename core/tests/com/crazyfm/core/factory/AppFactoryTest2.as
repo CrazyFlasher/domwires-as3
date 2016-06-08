@@ -21,7 +21,7 @@ package com.crazyfm.core.factory
 		[Test]
 		public function testPerformance():void
 		{
-			var factory:AppFactory = new AppFactory(true);
+			var factory:AppFactory = new AppFactory();
 
 			for (var i:int = 0; i < 10000; i++)
 			{
