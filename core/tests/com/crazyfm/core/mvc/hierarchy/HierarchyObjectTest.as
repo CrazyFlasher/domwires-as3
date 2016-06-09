@@ -14,7 +14,7 @@ package com.crazyfm.core.mvc.hierarchy
 		[Before]
 		public function setUp():void
 		{
-			ho = new HierarchyObject();
+			ho = new AbstractHierarchyObject();
 		}
 
 		[After]

@@ -5,10 +5,10 @@ package com.crazyfm.core.mvc.event
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.AppFactory;
-	import com.crazyfm.core.mvc.context.Context;
-	import com.crazyfm.core.mvc.model.Model;
+	import com.crazyfm.core.mvc.context.AbstractContext;
+	import com.crazyfm.core.mvc.model.AbstractModel;
 	import com.crazyfm.core.mvc.model.ModelContainer;
-	import com.crazyfm.core.mvc.view.View;
+	import com.crazyfm.core.mvc.view.AbstractView;
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertTrue;
@@ -17,16 +17,16 @@ package com.crazyfm.core.mvc.event
 
 	public class BubblingEventTest
 	{
-		private var m1:Model;
-		private var c1:Context;
-		private var c2:Context;
-		private var c3:Context;
-		private var c4:Context;
+		private var m1:AbstractModel;
+		private var c1:AbstractContext;
+		private var c2:AbstractContext;
+		private var c3:AbstractContext;
+		private var c4:AbstractContext;
 		private var mc1:ModelContainer;
 		private var mc2:ModelContainer;
 		private var mc3:ModelContainer;
 		private var mc4:ModelContainer;
-		private var v1:View;
+		private var v1:AbstractView;
 
 		/**
 		 * 			c1
@@ -43,16 +43,16 @@ package com.crazyfm.core.mvc.event
 		[Before]
 		public function setUp():void
 		{
-			c1 = new Context();
-			c2 = new Context();
-			c3 = new Context();
-			c4 = new Context();
+			c1 = new AbstractContext(AppFactory.getSingletonInstance());
+			c2 = new AbstractContext(AppFactory.getSingletonInstance());
+			c3 = new AbstractContext(AppFactory.getSingletonInstance());
+			c4 = new AbstractContext(AppFactory.getSingletonInstance());
 			mc1 = new ModelContainer();
 			mc2 = new ModelContainer();
 			mc3 = new ModelContainer();
 			mc4 = new ModelContainer();
-			m1 = new Model();
-			v1 = new View(null);
+			m1 = new AbstractModel();
+			v1 = new AbstractView(null);
 
 			mc2.addModel(m1);
 			mc1.addModel(mc2);

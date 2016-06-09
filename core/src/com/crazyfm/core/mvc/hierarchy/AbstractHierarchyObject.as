@@ -10,11 +10,11 @@ package com.crazyfm.core.mvc.hierarchy
 	/**
 	 * Object, that part of hierarchy. Can dispatch and receive signals from hierarchy branch.
 	 */
-	public class HierarchyObject extends SignalDispatcher implements IHierarchyObject
+	public class AbstractHierarchyObject extends SignalDispatcher implements IHierarchyObject
 	{
 		private var _parent:IHierarchyObjectContainer;
 
-		public function HierarchyObject()
+		public function AbstractHierarchyObject()
 		{
 			super();
 		}

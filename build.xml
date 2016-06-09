@@ -34,6 +34,7 @@
         <ant antfile="build.xml" target="build" dir="${basedir}/extensions/physics" inheritall="false"/>
         <ant antfile="build.xml" target="build" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
         <ant antfile="build.xml" target="build" dir="${basedir}/devkits/crazyflasher" inheritall="false"/>
+    </target>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating framework ASDOC documentation...</echo>

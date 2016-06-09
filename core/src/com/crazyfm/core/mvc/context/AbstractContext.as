@@ -6,7 +6,7 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.AppFactory;
 	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.AbstractHierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 	import com.crazyfm.core.mvc.model.*;
@@ -21,23 +21,25 @@ package com.crazyfm.core.mvc.context
 
 	use namespace ns_hierarchy;
 
-	public class Context extends HierarchyObjectContainer implements IContext
+	/**
+	 * Context contains models, views and services. Also implements <code>ICommandMapper</code>. You can map specific signals, that came out
+	 * from hierarchy, to <code>ICommand</code>s.
+	 */
+	public class AbstractContext extends HierarchyObjectContainer implements IContext
 	{
-		protected var modelContainer:IModelContainer;
-		protected var viewContainer:IViewContainer;
-		protected var serviceContainer:IServiceContainer;
+		protected var factory:AppFactory;
+
+		private var modelContainer:IModelContainer;
+		private var viewContainer:IViewContainer;
+		private var serviceContainer:IServiceContainer;
 
 		private var commandMapper:ICommandMapper;
 
-		public function Context(factory:AppFactory = null)
+		public function AbstractContext(factory:AppFactory)
 		{
 			super();
 
-			if (factory == null)
-			{
-				log("Warning: factory is not specified. Using singleton...");
-				factory = AppFactory.getSingletonInstance();
-			}
+			this.factory = factory;
 
 			modelContainer = factory.getInstance(ModelContainer);
 			add(modelContainer);
@@ -51,14 +53,20 @@ package com.crazyfm.core.mvc.context
 			commandMapper = factory.getInstance(CommandMapper, factory);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addModel(model:IModel):IModelContainer
 		{
 			modelContainer.addModel(model);
-			(model as HierarchyObject).setParent(this);
+			(model as AbstractHierarchyObject).setParent(this);
 
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeModel(model:IModel, dispose:Boolean = false):IModelContainer
 		{
 			modelContainer.removeModel(model, dispose);
@@ -66,6 +74,9 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllModels(dispose:Boolean = false):IModelContainer
 		{
 			modelContainer.removeAllModels(dispose);
@@ -73,34 +84,52 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get numModels():int
 		{
 			return modelContainer.numModels;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function containsModel(model:IModel):Boolean
 		{
 			return modelContainer.containsModel(model);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get modelList():Array
 		{
 			return modelContainer.modelList;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function dispatchSignalToModels(type:Enum, data:Object = null):void
 		{
 			modelContainer.dispatchSignalToModels(type, data);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addView(view:IView):IViewContainer
 		{
 			viewContainer.addView(view);
-			(view as HierarchyObject).setParent(this);
+			(view as AbstractHierarchyObject).setParent(this);
 
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeView(view:IView, dispose:Boolean = false):IViewContainer
 		{
 			viewContainer.removeView(view, dispose);
@@ -108,6 +137,9 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllViews(dispose:Boolean = false):IViewContainer
 		{
 			viewContainer.removeAllViews(dispose);
@@ -115,34 +147,52 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get numViews():int
 		{
 			return viewContainer.numViews;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function containsView(view:IView):Boolean
 		{
 			return viewContainer.containsView(view);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get viewList():Array
 		{
 			return viewContainer.viewList;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function dispatchSignalToViews(type:Enum, data:Object = null):void
 		{
 			viewContainer.dispatchSignalToViews(type, data);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addService(service:IService):IServiceContainer
 		{
 			serviceContainer.addService(service);
-			(service as HierarchyObject).setParent(this);
+			(service as AbstractHierarchyObject).setParent(this);
 
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeService(service:IService, dispose:Boolean = false):IServiceContainer
 		{
 			serviceContainer.removeService(service, dispose);
@@ -150,6 +200,9 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllServices(dispose:Boolean = false):IServiceContainer
 		{
 			serviceContainer.removeAllServices(dispose);
@@ -157,26 +210,41 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get numServices():int
 		{
 			return serviceContainer.numServices;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function containsService(service:IService):Boolean
 		{
 			return serviceContainer.containsService(service);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get serviceList():Array
 		{
 			return serviceContainer.serviceList;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function dispatchSignalToServices(type:Enum, data:Object = null):void
 		{
 			serviceContainer.dispatchSignalToServices(type, data);
 		}
 
+		/**
+		 * Clears all children, unmaps all commands and nullifies dependencies.
+		 */
 		override public function dispose():void
 		{
 			modelContainer.dispose();
@@ -198,6 +266,9 @@ package com.crazyfm.core.mvc.context
 			commandMapper = null;
 		}
 
+		/**
+		 * Disposes all children, unmaps all commands and nullifies dependencies.
+		 */
 		override public function disposeWithAllChildren():void
 		{
 			modelContainer.disposeWithAllChildren();
@@ -209,6 +280,9 @@ package com.crazyfm.core.mvc.context
 			super.disposeWithAllChildren();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		override public function onEventBubbled(event:IEvent):Boolean
 		{
 			var e:ISignalEvent = event as ISignalEvent;
@@ -234,26 +308,41 @@ package com.crazyfm.core.mvc.context
 			return super.onEventBubbled(event);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function map(signalType:Enum, commandClass:Class):ICommandMapper
 		{
 			return commandMapper.map(signalType, commandClass);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function unmap(signalType:Enum, commandClass:Class):ICommandMapper
 		{
 			return commandMapper.unmap(signalType, commandClass);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function clear():ICommandMapper
 		{
 			return commandMapper.clear();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function unmapAll(signalType:Enum):ICommandMapper
 		{
 			return commandMapper.unmapAll(signalType);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function hasMapping(signalType:Enum):Boolean
 		{
 			return commandMapper.hasMapping(signalType);

@@ -6,11 +6,11 @@ package com.crazyfm.core.common
 	/**
 	 * Any object that need to be disposed to free memory can extends this class.
 	 */
-	public class Disposable implements IDisposable
+	public class AbstractDisposable implements IDisposable
 	{
 		private var _isDisposed:Boolean;
 
-		public function Disposable()
+		public function AbstractDisposable()
 		{
 		}
 

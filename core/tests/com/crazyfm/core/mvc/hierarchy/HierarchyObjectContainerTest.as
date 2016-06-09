@@ -46,7 +46,7 @@ package com.crazyfm.core.mvc.hierarchy
 		{
 			assertEquals(hoc.children.length, 0);
 
-			hoc.add(new HierarchyObject()).add(new HierarchyObject());
+			hoc.add(new AbstractHierarchyObject()).add(new AbstractHierarchyObject());
 
 			assertEquals(hoc.children.length, 2);
 		}
@@ -54,8 +54,8 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testDisposeWithAllChildren():void
 		{
-			var ho_1:IHierarchyObject = new HierarchyObject();
-			var ho_2:IHierarchyObject = new HierarchyObject();
+			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
+			var ho_2:IHierarchyObject = new AbstractHierarchyObject();
 			hoc.add(ho_1).add(ho_2);
 			hoc.disposeWithAllChildren();
 
@@ -66,8 +66,8 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testDispose():void
 		{
-			var ho_1:IHierarchyObject = new HierarchyObject();
-			var ho_2:IHierarchyObject = new HierarchyObject();
+			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
+			var ho_2:IHierarchyObject = new AbstractHierarchyObject();
 			hoc.add(ho_1).add(ho_2);
 			hoc.dispose();
 
@@ -79,8 +79,8 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testDispatchSignalToChildren():void
 		{
-			var ho_1:IHierarchyObject = new HierarchyObject();
-			var ho_2:IHierarchyObject = new HierarchyObject();
+			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
+			var ho_2:IHierarchyObject = new AbstractHierarchyObject();
 			hoc.add(ho_1).add(ho_2);
 
 			var count:int;
@@ -99,8 +99,8 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testRemove():void
 		{
-			var ho_1:IHierarchyObject = new HierarchyObject();
-			var ho_2:IHierarchyObject = new HierarchyObject();
+			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
+			var ho_2:IHierarchyObject = new AbstractHierarchyObject();
 			hoc.add(ho_1).add(ho_2);
 
 			assertEquals(ho_1.parent, hoc);
@@ -123,7 +123,7 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testRemoveAll():void
 		{
-			hoc.add(new HierarchyObject()).add(new HierarchyObject());
+			hoc.add(new AbstractHierarchyObject()).add(new AbstractHierarchyObject());
 			hoc.removeAll();
 			assertEquals(hoc.children.length, 0);
 		}
@@ -155,7 +155,7 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testChangeParent():void
 		{
-			var ho_1:IHierarchyObject = new HierarchyObject();
+			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
 			hoc.add(ho_1);
 
 			assertEquals(ho_1.parent, hoc);
@@ -171,9 +171,9 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testAddAt():void
 		{
-			var ho_1:IHierarchyObject = new HierarchyObject();
-			var ho_2:IHierarchyObject = new HierarchyObject();
-			var ho_3:IHierarchyObject = new HierarchyObject();
+			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
+			var ho_2:IHierarchyObject = new AbstractHierarchyObject();
+			var ho_3:IHierarchyObject = new AbstractHierarchyObject();
 
 			hoc.add(ho_1);
 			hoc.add(ho_2);
@@ -198,7 +198,7 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test]
 		public function testAddAtParent():void
 		{
-			var ho_1:IHierarchyObject = new HierarchyObject();
+			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
 			hoc.add(ho_1, 0);
 			assertTrue(ho_1.parent, hoc);
 		}
@@ -206,7 +206,7 @@ package com.crazyfm.core.mvc.hierarchy
 		[Test(expects="Error")]
 		public function testAddAtError():void
 		{
-			hoc.add(new HierarchyObject(), 5);
+			hoc.add(new AbstractHierarchyObject(), 5);
 		}
 	}
 }

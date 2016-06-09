@@ -6,6 +6,9 @@ package com.crazyfm.core.mvc.service
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
+	/**
+	 * Container for services.
+	 */
 	public class ServiceContainer extends HierarchyObjectContainer implements IServiceContainer
 	{
 		public function ServiceContainer()
@@ -44,21 +47,21 @@ package com.crazyfm.core.mvc.service
 		 */
 		public function get numServices():int
 		{
-			return _childrenList ? _childrenList.length : 0;
+			return children ? children.length : 0;
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function containsService(service:IService):Boolean
 		{
-			return _childrenList && _childrenList.indexOf(service) != -1;
+			return children && children.indexOf(service) != -1;
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function get serviceList():Array
 		{
-			return _childrenList;
+			return children;
 		}
 		/**
 		 * @inheritDoc

@@ -4,16 +4,19 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.factory.ns_app_factory;
 	import com.crazyfm.core.mvc.command.*;
-	import com.crazyfm.core.mvc.model.Model;
+	import com.crazyfm.core.mvc.model.AbstractModel;
 
 	import flash.utils.Dictionary;
 
 	use namespace ns_app_factory;
 
-	internal class CommandMapper extends Model implements ICommandMapper
+	/**
+	 * Maps specific signals to <code>ICommand</code>.
+	 */
+	public class CommandMapper extends AbstractModel implements ICommandMapper
 	{
 		private var commandMap:Dictionary/*Enum, Vector.<Class>*/ = new Dictionary();
 		private var factory:AppFactory;

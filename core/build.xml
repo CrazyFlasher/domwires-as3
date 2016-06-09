@@ -33,14 +33,14 @@
             <!--external-library-path dir="${as3-signals}" includes="*"/-->
             <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller" /-->
         </asdoc>
-        <zip destfile="${swc}/${swc_name}" update="true">
+        <!--zip destfile="${swc}/${swc_name}" update="true">
             <zipfileset dir="${doc}" prefix="docs">
                 <include name="*.*"/>
                 <exclude name="ASDoc_Config.xml"/>
                 <exclude name="overviews.xml"/>
             </zipfileset>
         </zip>
-        <delete dir="${doc}"/>
+        <delete dir="${doc}"/-->
     </target>
     <target name="swc">
         <echo>-----------------------------------</echo>

@@ -5,6 +5,10 @@ package
 {
 	import flash.system.Capabilities;
 
+	/**
+	 * Show detailed logs.
+	 * @param args Arguments to print out
+	 */
 	public function log(...args):void
 	{
 		if (Capabilities.isDebugger)

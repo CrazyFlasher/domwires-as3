@@ -3,7 +3,7 @@
  */
 package com.crazyfm.core.mvc.event
 {
-	import com.crazyfm.core.common.Disposable;
+	import com.crazyfm.core.common.AbstractDisposable;
 	import com.crazyfm.core.common.Enum;
 
 	import flash.utils.Dictionary;
@@ -15,7 +15,7 @@ package com.crazyfm.core.mvc.event
 	/**
 	 * Common signal dispatcher. Can be used for listening and dispatching signals for views and models.
 	 */
-	public class SignalDispatcher extends Disposable implements ISignalDispatcher
+	public class SignalDispatcher extends AbstractDisposable implements ISignalDispatcher
 	{
 		private var _signals:Dictionary;/*Enum, ISignal*/
 		private var _genericEvent:ISignalEvent;

@@ -14,7 +14,7 @@ package com.crazyfm.core.common
 		[Before]
 		public function setUp():void
 		{
-			d = new Disposable();
+			d = new AbstractDisposable();
 		}
 
 		[After]

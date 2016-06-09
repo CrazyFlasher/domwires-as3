@@ -5,7 +5,7 @@ package
 {
 	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.model.IModel;
-	import com.crazyfm.core.mvc.model.Model;
+	import com.crazyfm.core.mvc.model.AbstractModel;
 
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
@@ -26,7 +26,7 @@ package
 			d = new Dictionary();
 			for (var i:int = 0; i < 1000; i++)
 			{
-				var m:IModel = new Model();
+				var m:IModel = new AbstractModel();
 
 				v.push(m);
 				a.push(m);
@@ -94,7 +94,7 @@ package
 		{
 			trace("testVectorGetElementForEach");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			v.push(model);
 
 			var startTime:Number = getTimer();
@@ -115,7 +115,7 @@ package
 		{
 			trace("testVectorGetElementFor");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			v.push(model);
 
 			var startTime:Number = getTimer();
@@ -158,7 +158,7 @@ package
 		{
 			trace("testDictGetElementFor");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			d[model] = model;
 
 			var startTime:Number = getTimer();
@@ -173,7 +173,7 @@ package
 		{
 			trace("removeFromVectorRemoveAt");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			v.push(model);
 
 			var startTime:Number = getTimer();
@@ -187,7 +187,7 @@ package
 		{
 			trace("removeFromVectorSplice");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			v.push(model);
 
 			var startTime:Number = getTimer();
@@ -201,7 +201,7 @@ package
 		{
 			trace("removeFromArraySplice");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			a.push(model);
 
 			var startTime:Number = getTimer();
@@ -215,7 +215,7 @@ package
 		{
 			trace("removeFromArrayRemoveAt");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			a.push(model);
 
 			var startTime:Number = getTimer();
@@ -229,7 +229,7 @@ package
 		{
 			trace("removeFromDict");
 
-			var model:IModel = new Model();
+			var model:IModel = new AbstractModel();
 			d[model] = model;
 
 			var startTime:Number = getTimer();

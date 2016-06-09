@@ -51,7 +51,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function get numModels():int
 		{
-			return _childrenList != null ? _childrenList.length : 0;
+			return children != null ? children.length : 0;
 		}
 
 		/**
@@ -59,7 +59,7 @@ package com.crazyfm.core.mvc.model
 		 */
 		public function containsModel(model:IModel):Boolean
 		{
-			return _childrenList.indexOf(model) != -1;
+			return children.indexOf(model) != -1;
 		}
 
 		/**
@@ -68,7 +68,7 @@ package com.crazyfm.core.mvc.model
 		public function get modelList():Array
 		{
 			//better to return copy, but in sake of performance, we do that way.
-			return _childrenList;
+			return children;
 		}
 
 		/**

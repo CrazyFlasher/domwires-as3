@@ -3,15 +3,15 @@
  */
 package com.crazyfm.core.mvc.view
 {
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObject;
+	import com.crazyfm.core.mvc.hierarchy.AbstractHierarchyObject;
 
 	import flash.display.DisplayObjectContainer;
 
-	public class View extends HierarchyObject implements IView
+	public class AbstractView extends AbstractHierarchyObject implements IView
 	{
 		protected var container:DisplayObjectContainer;
 
-		public function View(container:DisplayObjectContainer)
+		public function AbstractView(container:DisplayObjectContainer)
 		{
 			super();
 

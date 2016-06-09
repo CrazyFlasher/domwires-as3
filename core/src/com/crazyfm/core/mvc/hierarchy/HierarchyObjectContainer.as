@@ -12,14 +12,17 @@ package com.crazyfm.core.mvc.hierarchy
 
 	use namespace ns_hierarchy;
 
-	public class HierarchyObjectContainer extends HierarchyObject implements IHierarchyObjectContainer
+	/**
+	 * Container of <code>IHierarchyObject</code>'s
+	 */
+	public class HierarchyObjectContainer extends AbstractHierarchyObject implements IHierarchyObjectContainer
 	{
 		/*
 		* Have to use Array instead of Vector, because of Vector casing issues and
 		* "abc bytecode decoding failed" compile error.
 		*/
-		protected var _childrenList:Array = [];
-		protected var _bubbledSignalListeners:Dictionary;
+		private var _childrenList:Array = [];
+		private var _bubbledSignalListeners:Dictionary;
 
 		public function HierarchyObjectContainer()
 		{
@@ -58,7 +61,7 @@ package com.crazyfm.core.mvc.hierarchy
 				{
 					child.parent.remove(child);
 				}
-				(child as HierarchyObject).setParent(this);
+				(child as AbstractHierarchyObject).setParent(this);
 			}
 
 			return this;
@@ -80,7 +83,7 @@ package com.crazyfm.core.mvc.hierarchy
 					child.dispose();
 				} else
 				{
-					(child as HierarchyObject).setParent(null);
+					(child as AbstractHierarchyObject).setParent(null);
 				}
 			}
 
@@ -106,7 +109,7 @@ package com.crazyfm.core.mvc.hierarchy
 
 				} else
 				{
-					(child as HierarchyObject).setParent(null);
+					(child as AbstractHierarchyObject).setParent(null);
 				}
 			}
 
@@ -175,10 +178,11 @@ package com.crazyfm.core.mvc.hierarchy
 
 			if (_bubbledSignalListeners)
 			{
-				for (var type:* in _bubbledSignalListeners)
+				//I think, no need
+				/*for (var type:* in _bubbledSignalListeners)
 				{
 					delete _bubbledSignalListeners[type];
-				}
+				}*/
 
 				_bubbledSignalListeners = null
 			}
@@ -224,7 +228,9 @@ package com.crazyfm.core.mvc.hierarchy
 			}
 		}
 
-
+		/**
+		 * @inheritDoc
+		 */
 		public function get children():Array
 		{
 			return _childrenList;

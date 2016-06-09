@@ -9,18 +9,49 @@ package com.crazyfm.core.mvc.hierarchy
 
 	use namespace ns_hierarchy;
 
+	/**
+	 * Container of <code>IHierarchyObject</code>'s
+	 */
 	public interface IHierarchyObjectContainer extends IHierarchyObject, IBubbleEventHandler
 	{
+		/**
+		 * Adds object to hierarchy. Object becomes a part of hierarchy branch.
+		 * @param child
+		 * @param index
+		 * @return
+		 */
 		function add(child:IHierarchyObject, index:int = -1):IHierarchyObjectContainer;
 
+		/**
+		 * Removes object from hierarchy.
+		 * @param child
+		 * @param dispose
+		 * @return
+		 */
 		function remove(child:IHierarchyObject, dispose:Boolean = false):IHierarchyObjectContainer;
 
+		/**
+		 * Removes all objects from hierarchy.
+		 * @param dispose
+		 * @return
+		 */
 		function removeAll(dispose:Boolean = false):IHierarchyObjectContainer;
 
+		/**
+		 * Disposes current container and its children.
+		 */
 		function disposeWithAllChildren():void;
 
+		/**
+		 * Send signal to children.
+		 * @param type
+		 * @param data
+		 */
 		function dispatchSignalToChildren(type:Enum, data:Object = null):void;
 
+		/**
+		 * Returns all children of current container.
+		 */
 		function get children():Array;
 	}
 }

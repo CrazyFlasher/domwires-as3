@@ -6,6 +6,9 @@ package com.crazyfm.core.mvc.view
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
+	/**
+	 * Container for views.
+	 */
 	public class ViewContainer extends HierarchyObjectContainer implements IViewContainer
 	{
 		public function ViewContainer()
@@ -44,21 +47,21 @@ package com.crazyfm.core.mvc.view
 		 */
 		public function get numViews():int
 		{
-			return _childrenList ? _childrenList.length : 0;
+			return children ? children.length : 0;
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function containsView(view:IView):Boolean
 		{
-			return _childrenList && _childrenList.indexOf(view) != -1;
+			return children && children.indexOf(view) != -1;
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function get viewList():Array
 		{
-			return _childrenList;
+			return children;
 		}
 		/**
 		 * @inheritDoc
