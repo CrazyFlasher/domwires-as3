@@ -3,7 +3,7 @@
  */
 package com.crazyfm.core.mvc.hierarchy
 {
-	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.message.IMessage;
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
@@ -30,15 +30,15 @@ package com.crazyfm.core.mvc.hierarchy
 		}
 
 		[Test]
-		public function testAddSignalListener():void
+		public function testAddMessageListener():void
 		{
-			assertFalse(hoc.hasSignalListener(MyCoolEnum.PREVED));
+			assertFalse(hoc.hasMessageListener(MyCoolEnum.PREVED));
 
-			var eventHandler:Function = function(e:ISignalEvent):void {};
+			var eventHandler:Function = function(e:IMessage):void {};
 
-			hoc.addSignalListener(MyCoolEnum.PREVED, eventHandler);
+			hoc.addMessageListener(MyCoolEnum.PREVED, eventHandler);
 
-			assertTrue(hoc.hasSignalListener(MyCoolEnum.PREVED));
+			assertTrue(hoc.hasMessageListener(MyCoolEnum.PREVED));
 		}
 
 		[Test]
@@ -77,21 +77,21 @@ package com.crazyfm.core.mvc.hierarchy
 		}
 
 		/*[Test]
-		public function testDispatchSignalToChildren():void
+		public function testDispatchMessageToChildren():void
 		{
 			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
 			var ho_2:IHierarchyObject = new AbstractHierarchyObject();
 			hoc.add(ho_1).add(ho_2);
 
 			var count:int;
-			var eventHandler:Function = function(e:ISignalEvent):void {
+			var eventHandler:Function = function(e:IMessageEvent):void {
 				count++;
 			};
 
-			ho_1.addSignalListener(MyCoolEnum.PREVED, eventHandler);
-			ho_2.addSignalListener(MyCoolEnum.PREVED, eventHandler);
+			ho_1.addMessageListener(MyCoolEnum.PREVED, eventHandler);
+			ho_2.addMessageListener(MyCoolEnum.PREVED, eventHandler);
 
-			hoc.dispatchSignalToChildren(MyCoolEnum.PREVED);
+			hoc.dispatchMessageToChildren(MyCoolEnum.PREVED);
 
 			assertEquals(count, 2);
 		}*/
@@ -110,14 +110,14 @@ package com.crazyfm.core.mvc.hierarchy
 		}
 
 		[Test]
-		public function testRemoveSignalListener():void
+		public function testRemoveMessageListener():void
 		{
-			var eventHandler:Function = function(e:ISignalEvent):void {};
+			var eventHandler:Function = function(e:IMessage):void {};
 
-			hoc.addSignalListener(MyCoolEnum.PREVED, eventHandler);
-			hoc.removeSignalListener(MyCoolEnum.PREVED, eventHandler);
+			hoc.addMessageListener(MyCoolEnum.PREVED, eventHandler);
+			hoc.removeMessageListener(MyCoolEnum.PREVED, eventHandler);
 
-			assertFalse(hoc.hasSignalListener(MyCoolEnum.PREVED));
+			assertFalse(hoc.hasMessageListener(MyCoolEnum.PREVED));
 		}
 
 		[Test]
@@ -129,26 +129,26 @@ package com.crazyfm.core.mvc.hierarchy
 		}
 
 		[Test]
-		public function testRemoveAllSignalListeners():void
+		public function testRemoveAllMessageListeners():void
 		{
-			var eventHandler:Function = function(e:ISignalEvent):void {};
+			var eventHandler:Function = function(e:IMessage):void {};
 
-			hoc.addSignalListener(MyCoolEnum.PREVED, eventHandler);
-			hoc.addSignalListener(MyCoolEnum.BOGA, eventHandler);
-			hoc.addSignalListener(MyCoolEnum.SHALOM, eventHandler);
+			hoc.addMessageListener(MyCoolEnum.PREVED, eventHandler);
+			hoc.addMessageListener(MyCoolEnum.BOGA, eventHandler);
+			hoc.addMessageListener(MyCoolEnum.SHALOM, eventHandler);
 
 			assertTrue(
-					hoc.hasSignalListener(MyCoolEnum.PREVED),
-					hoc.hasSignalListener(MyCoolEnum.BOGA),
-					hoc.hasSignalListener(MyCoolEnum.SHALOM)
+					hoc.hasMessageListener(MyCoolEnum.PREVED),
+					hoc.hasMessageListener(MyCoolEnum.BOGA),
+					hoc.hasMessageListener(MyCoolEnum.SHALOM)
 			);
 
-			hoc.removeAllSignalListeners();
+			hoc.removeAllMessageListeners();
 
 			assertFalse(
-					hoc.hasSignalListener(MyCoolEnum.PREVED),
-					hoc.hasSignalListener(MyCoolEnum.BOGA),
-					hoc.hasSignalListener(MyCoolEnum.SHALOM)
+					hoc.hasMessageListener(MyCoolEnum.PREVED),
+					hoc.hasMessageListener(MyCoolEnum.BOGA),
+					hoc.hasMessageListener(MyCoolEnum.SHALOM)
 			);
 		}
 
@@ -189,7 +189,6 @@ package com.crazyfm.core.mvc.hierarchy
 
 			hoc.add(ho_3, 0);
 
-			trace("hoc.children.indexOf(ho_3) ", hoc.children.indexOf(ho_3))
 			assertEquals(hoc.children.indexOf(ho_3), 0);
 
 			assertEquals(ho_3.parent, hoc);

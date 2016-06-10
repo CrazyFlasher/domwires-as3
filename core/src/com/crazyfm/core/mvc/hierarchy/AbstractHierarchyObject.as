@@ -3,15 +3,15 @@
  */
 package com.crazyfm.core.mvc.hierarchy
 {
-	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.event.SignalDispatcher;
+	import com.crazyfm.core.mvc.message.IMessage;
+	import com.crazyfm.core.mvc.message.MessageDispatcher;
 
 	use namespace ns_hierarchy;
 
 	/**
-	 * Object, that part of hierarchy. Can dispatch and receive signals from hierarchy branch.
+	 * Object, that part of hierarchy. Can dispatch and receive messages from hierarchy branch.
 	 */
-	public class AbstractHierarchyObject extends SignalDispatcher implements IHierarchyObject
+	public class AbstractHierarchyObject extends MessageDispatcher implements IHierarchyObject
 	{
 		private var _parent:IHierarchyObjectContainer;
 
@@ -41,14 +41,6 @@ package com.crazyfm.core.mvc.hierarchy
 			_parent = null;
 
 			super.dispose();
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function handleSignal(signal:ISignalEvent):void
-		{
-
 		}
 	}
 }

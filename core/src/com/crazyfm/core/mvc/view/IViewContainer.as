@@ -49,5 +49,13 @@ package com.crazyfm.core.mvc.view
 		 * Returns list of views in current container.
 		 */
 		function get viewList():Array;
+
+		/**
+		 * Sends message to children.
+		 * @param type
+		 * @param data
+		 * @return
+		 */
+		function dispatchMessageToViews(type:Enum, data:Object = null):void;
 	}
 }

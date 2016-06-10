@@ -3,9 +3,9 @@
  */
 package
 {
-	import com.crazyfm.core.mvc.event.ISignalEvent;
-	import com.crazyfm.core.mvc.model.IModel;
+	import com.crazyfm.core.mvc.message.IMessage;
 	import com.crazyfm.core.mvc.model.AbstractModel;
+	import com.crazyfm.core.mvc.model.IModel;
 
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
@@ -51,18 +51,18 @@ package
 		{
 			trace("testVectorFor");
 
-			var l:Function = function(event:ISignalEvent):void{};
+			var l:Function = function(event:IMessage):void{};
 
 			var startTime:Number = getTimer();
 
 			for (var i2:int = 0; i2 < v.length; i2++)
 			{
-				v[i2].addSignalListener(MyCoolEnum.PREVED, l);
+				v[i2].addMessageListener(MyCoolEnum.PREVED, l);
 			}
 
 			for (var i3:int = 0; i3 < v.length; i3++)
 			{
-				v[i3].removeAllSignalListeners();
+				v[i3].removeAllMessageListeners();
 			}
 
 			trace("time passed: ", (getTimer() - startTime));
@@ -73,17 +73,17 @@ package
 		{
 			trace("testVectorForEach");
 
-			var l:Function = function(event:ISignalEvent):void{};
+			var l:Function = function(event:IMessage):void{};
 
 			var startTime:Number = getTimer();
 
 			for each (var m2:IModel in v)
 			{
-				m2.addSignalListener(MyCoolEnum.PREVED, l);
+				m2.addMessageListener(MyCoolEnum.PREVED, l);
 			}
 			for each (var m3:IModel in v)
 			{
-				m3.removeAllSignalListeners();
+				m3.removeAllMessageListeners();
 			}
 
 			trace("time passed: ", (getTimer() - startTime));
@@ -136,18 +136,18 @@ package
 		{
 			trace("testDictFor");
 
-			var l:Function = function(event:ISignalEvent):void{};
+			var l:Function = function(event:IMessage):void{};
 
 			var startTime:Number = getTimer();
 
 			for (var m:* in d)
 			{
-				d[m].addSignalListener(MyCoolEnum.PREVED, l);
+				d[m].addMessageListener(MyCoolEnum.PREVED, l);
 			}
 
 			for (var m2:* in d)
 			{
-				d[m2].removeAllSignalListeners();
+				d[m2].removeAllMessageListeners();
 			}
 
 			trace("time passed: ", (getTimer() - startTime));

@@ -3,16 +3,16 @@
  */
 package com.crazyfm.core.mvc.hierarchy
 {
-	import com.crazyfm.core.mvc.event.ISignalEvent;
-
-	import org.osflash.signals.events.IBubbleEventHandler;
+	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.mvc.message.IBubbleMessageHandler;
+	import com.crazyfm.core.mvc.message.IMessage;
 
 	use namespace ns_hierarchy;
 
 	/**
 	 * Container of <code>IHierarchyObject</code>'s
 	 */
-	public interface IHierarchyObjectContainer extends IHierarchyObject, IBubbleEventHandler
+	public interface IHierarchyObjectContainer extends IHierarchyObject, IBubbleMessageHandler
 	{
 		/**
 		 * Adds object to hierarchy. Object becomes a part of hierarchy branch.
@@ -48,10 +48,11 @@ package com.crazyfm.core.mvc.hierarchy
 		function get children():Array;
 
 		/**
-		 * Sends signal to children.
-		 * @param signal
+		 * Sends message to children.
+		 * @param type
+		 * @param data
 		 * @return
 		 */
-		function sendSignalToChildren(signal:ISignalEvent):void;
+		function dispatchMessageToChildren(type:Enum, data:Object = null):void;
 	}
 }

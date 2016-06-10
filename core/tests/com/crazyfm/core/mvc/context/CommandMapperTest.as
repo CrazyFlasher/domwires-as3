@@ -30,7 +30,7 @@ package com.crazyfm.core.mvc.context
 		public function tearDown():void
 		{
 			AppFactory.getSingletonInstance().clear();
-			commandMapper.dispose();
+			commandMapper.clear();
 		}
 
 		[Test]
@@ -62,13 +62,11 @@ package com.crazyfm.core.mvc.context
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 			commandMapper.map(MyCoolEnum.SHALOM, TestCommand);
 
-			commandMapper.dispose();
+			commandMapper.clear();
 
 			assertFalse(commandMapper.hasMapping(MyCoolEnum.BOGA));
 			assertFalse(commandMapper.hasMapping(MyCoolEnum.PREVED));
 			assertFalse(commandMapper.hasMapping(MyCoolEnum.SHALOM));
-
-			assertTrue(commandMapper.isDisposed);
 		}
 
 		[Test]
@@ -101,7 +99,7 @@ package com.crazyfm.core.mvc.context
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 
 			assertEquals(m.d, 0);
-			commandMapper.dispatchSignal(MyCoolEnum.PREVED);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
 			assertEquals(m.d, 7);
 		}
 
@@ -112,14 +110,14 @@ package com.crazyfm.core.mvc.context
 			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 			commandMapper.map(MyCoolEnum.SHALOM, TestCommand);
-			commandMapper.dispatchSignal(MyCoolEnum.BOGA);
-			commandMapper.dispatchSignal(MyCoolEnum.PREVED);
-			commandMapper.dispatchSignal(MyCoolEnum.SHALOM);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.SHALOM);
 			assertEquals(m.d, 21);
 			commandMapper.unmap(MyCoolEnum.SHALOM, TestCommand);
-			commandMapper.dispatchSignal(MyCoolEnum.BOGA);
-			commandMapper.dispatchSignal(MyCoolEnum.PREVED);
-			commandMapper.dispatchSignal(MyCoolEnum.SHALOM);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.SHALOM);
 			assertEquals(m.d, 35);
 		}
 	}

@@ -1,7 +1,7 @@
 /**
  * Created by Anton Nefjodov on 26.01.2016.
  */
-package com.crazyfm.core.mvc.event
+package com.crazyfm.core.mvc.message
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.AppFactory;
@@ -15,7 +15,7 @@ package com.crazyfm.core.mvc.event
 
 	import testObject.MyCoolEnum;
 
-	public class BubblingEventTest
+	public class BubblingMessageTest
 	{
 		private var m1:AbstractModel;
 		private var c1:AbstractContext;
@@ -70,33 +70,33 @@ package com.crazyfm.core.mvc.event
 		{
 			var bubbledEventType:Enum;
 
-			var successFunc:Function = function (event:ISignalEvent):Boolean
+			var successFunc:Function = function (event:IMessage):Boolean
 			{
-				//event came from bottom to top
+				//message came from bottom to top
 				bubbledEventType = event.type;
 				return true;
 			};
 
 			//top element
-			c1.addSignalListener(MyCoolEnum.PREVED, successFunc);
+			c1.addMessageListener(MyCoolEnum.PREVED, successFunc);
 
 			//bottom element
-			m1.dispatchSignal(MyCoolEnum.PREVED, {name: "Anton"});
+			m1.dispatchMessage(MyCoolEnum.PREVED, {name: "Anton"});
+
+			assertEquals(bubbledEventType, MyCoolEnum.PREVED);
+
+			/*bubbledEventType = null;
+
+			//bottom element
+			m1.dispatchMessage(MyCoolEnum.PREVED, {name: "Anton"});
 
 			assertEquals(bubbledEventType, MyCoolEnum.PREVED);
 
 			bubbledEventType = null;
 
-			//bottom element
-			m1.dispatchSignal(MyCoolEnum.PREVED, {name: "Anton"});
+			v1.dispatchMessage(MyCoolEnum.PREVED, {name: "Anton"});
 
-			assertEquals(bubbledEventType, MyCoolEnum.PREVED);
-
-			bubbledEventType = null;
-
-			v1.dispatchSignal(MyCoolEnum.PREVED, {name: "Anton"});
-
-			assertEquals(bubbledEventType, MyCoolEnum.PREVED);
+			assertEquals(bubbledEventType, MyCoolEnum.PREVED);*/
 		}
 
 		[Test]

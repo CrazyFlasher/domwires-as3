@@ -13,7 +13,7 @@ package com.crazyfm.core.mvc.context
 	use namespace ns_app_factory;
 
 	/**
-	 * Maps specific signals to <code>ICommand</code>.
+	 * Maps specific messages to <code>ICommand</code>.
 	 */
 	public class CommandMapper implements ICommandMapper
 	{
@@ -27,33 +27,33 @@ package com.crazyfm.core.mvc.context
 			this.factory = factory;
 		}
 
-		public function map(signalType:Enum, commandClass:Class):ICommandMapper
+		public function map(messageType:Enum, commandClass:Class):ICommandMapper
 		{
-			if (!commandMap[signalType])
+			if (!commandMap[messageType])
 			{
-				commandMap[signalType] = new <Class>[commandClass];
+				commandMap[messageType] = new <Class>[commandClass];
 			}else
-			if (commandMap[signalType].indexOf(commandClass) == -1){
-				commandMap[signalType].push(commandClass);
+			if (commandMap[messageType].indexOf(commandClass) == -1){
+				commandMap[messageType].push(commandClass);
 			}
 
 			return this;
 		}
 
-		public function unmap(signalType:Enum, commandClass:Class):ICommandMapper
+		public function unmap(messageType:Enum, commandClass:Class):ICommandMapper
 		{
-			if (commandMap[signalType])
+			if (commandMap[messageType])
 			{
-				var index:int = commandMap[signalType].indexOf(commandClass);
+				var index:int = commandMap[messageType].indexOf(commandClass);
 				if (index != -1)
 				{
-					commandMap[signalType].removeAt(index);
+					commandMap[messageType].removeAt(index);
 
-					if (commandMap[signalType].length == 0)
+					if (commandMap[messageType].length == 0)
 					{
-						commandMap[signalType] = null;
+						commandMap[messageType] = null;
 
-						delete commandMap[signalType];
+						delete commandMap[messageType];
 					}
 				}
 			}
@@ -68,14 +68,14 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
-		public function tryToExecuteCommand(signalType:Enum):void
+		public function tryToExecuteCommand(messageType:Enum):void
 		{
-			var mappedToSignalCommands:Vector.<Class> = commandMap[signalType];
+			var mappedToMessageCommands:Vector.<Class> = commandMap[messageType];
 			var command:ICommand;
 
-			if (mappedToSignalCommands != null)
+			if (mappedToMessageCommands != null)
 			{
-				for each (var commandClass:Class in mappedToSignalCommands)
+				for each (var commandClass:Class in mappedToMessageCommands)
 				{
 					if (!factory.hasPoolForType(commandClass))
 					{
@@ -93,21 +93,21 @@ package com.crazyfm.core.mvc.context
 			}
 		}
 
-		public function unmapAll(signalType:Enum):ICommandMapper
+		public function unmapAll(messageType:Enum):ICommandMapper
 		{
-			if (commandMap[signalType])
+			if (commandMap[messageType])
 			{
-				commandMap[signalType] = null;
+				commandMap[messageType] = null;
 
-				delete commandMap[signalType];
+				delete commandMap[messageType];
 			}
 
 			return this;
 		}
 
-		public function hasMapping(signalType:Enum):Boolean
+		public function hasMapping(messageType:Enum):Boolean
 		{
-			return commandMap[signalType] != null;
+			return commandMap[messageType] != null;
 		}
 	}
 }

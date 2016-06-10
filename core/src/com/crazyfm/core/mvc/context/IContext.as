@@ -7,7 +7,8 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.mvc.view.IViewContainer;
 
 	/**
-	 * Context contains models, views and services. Also implements <code>ICommandMapper</code>. You can map specific signals, that came out
+	 * Context contains models, views and services. Also implements <code>ICommandMapper</code>. You can map specific messages, that
+	 * came out
 	 * from hierarchy, to <code>ICommand</code>s.
 	 */
 	public interface IContext extends IModelContainer, IViewContainer, ICommandMapper

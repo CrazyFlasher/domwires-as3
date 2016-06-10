@@ -5,7 +5,7 @@ package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.AppFactory;
-	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.message.IMessage;
 	import com.crazyfm.core.mvc.hierarchy.AbstractHierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
@@ -14,12 +14,10 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.mvc.view.IViewContainer;
 	import com.crazyfm.core.mvc.view.ViewContainer;
 
-	import org.osflash.signals.events.IEvent;
-
 	use namespace ns_hierarchy;
 
 	/**
-	 * Context contains models, views and services. Also implements <code>ICommandMapper</code>. You can map specific signals, that came out
+	 * Context contains models, views and services. Also implements <code>ICommandMapper</code>. You can map specific messages, that came out
 	 * from hierarchy, to <code>ICommand</code>s.
 	 */
 	public class AbstractContext extends HierarchyObjectContainer implements IContext
@@ -194,27 +192,38 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		override public function onEventBubbled(event:IEvent):Boolean
+		override public function onMessageBubbled(message:IMessage):Boolean
 		{
-			tryToExecuteCommand((event as ISignalEvent).type);
+			super.onMessageBubbled(message);
 
-			return super.onEventBubbled(event);
+			tryToExecuteCommand(message.type);
+
+			if (message.currentTarget is IModel)
+			{
+				dispatchMessageToViews(message.type, message.data);
+			}else
+			if (message.currentTarget is IView)
+			{
+				dispatchMessageToModels(message.type, message.data);
+			}
+
+			return true;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function map(signalType:Enum, commandClass:Class):ICommandMapper
+		public function map(messageType:Enum, commandClass:Class):ICommandMapper
 		{
-			return commandMapper.map(signalType, commandClass);
+			return commandMapper.map(messageType, commandClass);
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function unmap(signalType:Enum, commandClass:Class):ICommandMapper
+		public function unmap(messageType:Enum, commandClass:Class):ICommandMapper
 		{
-			return commandMapper.unmap(signalType, commandClass);
+			return commandMapper.unmap(messageType, commandClass);
 		}
 
 		/**
@@ -228,25 +237,41 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function unmapAll(signalType:Enum):ICommandMapper
+		public function unmapAll(messageType:Enum):ICommandMapper
 		{
-			return commandMapper.unmapAll(signalType);
+			return commandMapper.unmapAll(messageType);
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function hasMapping(signalType:Enum):Boolean
+		public function hasMapping(messageType:Enum):Boolean
 		{
-			return commandMapper.hasMapping(signalType);
+			return commandMapper.hasMapping(messageType);
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function tryToExecuteCommand(signalType:Enum):void
+		public function tryToExecuteCommand(messageType:Enum):void
 		{
-			commandMapper.tryToExecuteCommand(signalType);
+			commandMapper.tryToExecuteCommand(messageType);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispatchMessageToViews(type:Enum, data:Object = null):void
+		{
+			viewContainer.dispatchMessageToViews(type, data);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispatchMessageToModels(type:Enum, data:Object = null):void
+		{
+			modelContainer.dispatchMessageToModels(type, data);
 		}
 	}
 }

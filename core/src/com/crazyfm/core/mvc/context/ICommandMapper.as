@@ -6,25 +6,25 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.common.Enum;
 
 	/**
-	 * Maps specific signals to <code>ICommand</code>.
+	 * Maps specific messages to <code>ICommand</code>.
 	 */
 	public interface ICommandMapper
 	{
 		/**
-		 * Maps signal to command. When signal occurred, specified command will be implemented.
-		 * @param signalType
+		 * Maps message to command. When message occurred, specified command will be implemented.
+		 * @param messageType
 		 * @param commandClass
 		 * @return
 		 */
-		function map(signalType:Enum, commandClass:Class):ICommandMapper;
+		function map(messageType:Enum, commandClass:Class):ICommandMapper;
 
 		/**
-		 * Unmaps signal from command.
-		 * @param signalType
+		 * Unmaps message from command.
+		 * @param messageType
 		 * @param commandClass
 		 * @return
 		 */
-		function unmap(signalType:Enum, commandClass:Class):ICommandMapper;
+		function unmap(messageType:Enum, commandClass:Class):ICommandMapper;
 
 		/**
 		 * Clears all mappings.
@@ -33,23 +33,23 @@ package com.crazyfm.core.mvc.context
 		function clear():ICommandMapper;
 
 		/**
-		 * Unmaps all commands from specified signal.
-		 * @param signalType
+		 * Unmaps all commands from specified message.
+		 * @param messageType
 		 * @return
 		 */
-		function unmapAll(signalType:Enum):ICommandMapper;
+		function unmapAll(messageType:Enum):ICommandMapper;
 
 		/**
-		 * Returns true, if there are mapping of command to current signal.
-		 * @param signalType
+		 * Returns true, if there are mapping of command to current message.
+		 * @param messageType
 		 * @return
 		 */
-		function hasMapping(signalType:Enum):Boolean;
+		function hasMapping(messageType:Enum):Boolean;
 
 		/**
-		 * Trying to find and execute commands, mapped to current signal.
-		 * @param signalType
+		 * Trying to find and execute commands, mapped to current message.
+		 * @param messageType
 		 */
-		function tryToExecuteCommand(signalType:Enum):void;
+		function tryToExecuteCommand(messageType:Enum):void;
 	}
 }

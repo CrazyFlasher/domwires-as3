@@ -3,14 +3,14 @@
  */
 package
 {
-	import com.crazyfm.core.factory.AppFactoryTest;
 	import com.crazyfm.core.common.DisposableTest;
 	import com.crazyfm.core.common.EnumTest;
-	import com.crazyfm.core.mvc.event.BubblingEventTest;
-	import com.crazyfm.core.mvc.event.SignalDispatcherTest;
-	import com.crazyfm.core.mvc.event.SignalEventTest;
+	import com.crazyfm.core.factory.AppFactoryTest;
+	import com.crazyfm.core.mvc.context.CommandMapperTest;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainerTest;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectTest;
+	import com.crazyfm.core.mvc.message.BubblingMessageTest;
+	import com.crazyfm.core.mvc.message.MessageDispatcherTest;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -24,15 +24,15 @@ package
 	public class TestSuite extends Sprite
 	{
 		public static const ALL_TESTS:Array = [
-			BubblingEventTest,
+			BubblingMessageTest,
 			DisposableTest,
 			HierarchyObjectContainerTest,
 			HierarchyObjectTest,
-			SignalDispatcherTest,
-			SignalEventTest,
+			MessageDispatcherTest,
 			EnumTest,
 			TestLog,
-			AppFactoryTest
+			AppFactoryTest,
+			CommandMapperTest
 		];
 
 		private var _flexunit:FlexUnitCore;

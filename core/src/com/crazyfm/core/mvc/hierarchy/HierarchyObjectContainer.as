@@ -4,11 +4,9 @@
 package com.crazyfm.core.mvc.hierarchy
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.mvc.event.ISignalEvent;
+	import com.crazyfm.core.mvc.message.IMessage;
 
 	import flash.utils.Dictionary;
-
-	import org.osflash.signals.events.IEvent;
 
 	use namespace ns_hierarchy;
 
@@ -22,7 +20,7 @@ package com.crazyfm.core.mvc.hierarchy
 		* "abc bytecode decoding failed" compile error.
 		*/
 		private var _childrenList:Array = [];
-		private var _bubbledSignalListeners:Dictionary;
+		private var _bubbledMessageListeners:Dictionary;
 
 		public function HierarchyObjectContainer()
 		{
@@ -136,13 +134,13 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function onEventBubbled(event:IEvent):Boolean
+		public function onMessageBubbled(message:IMessage):Boolean
 		{
-			var type:Enum = (event as ISignalEvent).type;
+			var type:Enum = message.type;
 
-			if (getBubbledSignalListeners()[type] != null)
+			if (getBubbledMessageListeners()[type] != null)
 			{
-				return getBubbledSignalListeners()[type](event);
+				return getBubbledMessageListeners()[type](message);
 			}
 
 			return true;
@@ -151,51 +149,51 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		override public function addSignalListener(type:Enum, listener:Function):void
+		override public function addMessageListener(type:Enum, listener:Function):void
 		{
-			super.addSignalListener(type, listener);
+			super.addMessageListener(type, listener);
 
-			getBubbledSignalListeners()[type] = listener;
+			getBubbledMessageListeners()[type] = listener;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		override public function removeSignalListener(type:Enum, listener:Function):void
+		override public function removeMessageListener(type:Enum, listener:Function):void
 		{
-			super.removeSignalListener(type, listener);
+			super.removeMessageListener(type, listener);
 
 			//TODO: additional tests!
-			delete getBubbledSignalListeners()[type];
+			delete getBubbledMessageListeners()[type];
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		override public function removeAllSignalListeners():void
+		override public function removeAllMessageListeners():void
 		{
-			super.removeAllSignalListeners();
+			super.removeAllMessageListeners();
 
-			if (_bubbledSignalListeners)
+			if (_bubbledMessageListeners)
 			{
 				//I think, no need
-				/*for (var type:* in _bubbledSignalListeners)
+				/*for (var type:* in _bubbledMessageListeners)
 				{
-					delete _bubbledSignalListeners[type];
+					delete _bubbledMessageListeners[type];
 				}*/
 
-				_bubbledSignalListeners = null
+				_bubbledMessageListeners = null
 			}
 		}
 
-		private function getBubbledSignalListeners():Dictionary
+		private function getBubbledMessageListeners():Dictionary
 		{
-			if (!_bubbledSignalListeners)
+			if (!_bubbledMessageListeners)
 			{
-				_bubbledSignalListeners = new Dictionary();
+				_bubbledMessageListeners = new Dictionary();
 			}
 
-			return _bubbledSignalListeners;
+			return _bubbledMessageListeners;
 		}
 
 		/**
@@ -218,17 +216,20 @@ package com.crazyfm.core.mvc.hierarchy
 			return _childrenList;
 		}
 
-		public function sendSignalToChildren(signal:ISignalEvent):void
+		/**
+		 * @inheritDoc
+		 */
+		public function dispatchMessageToChildren(type:Enum, data:Object = null):void
 		{
 			for each (var child:IHierarchyObject in _childrenList)
 			{
-				if (child is IHierarchyObject)
+				if(child is IHierarchyObject)
 				{
-					child.handleSignal(signal);
+					child.dispatchMessage(type, data, false);
 				}else
-				if (child is IHierarchyObjectContainer)
+				if(child is IHierarchyObjectContainer)
 				{
-					(child as IHierarchyObjectContainer).sendSignalToChildren(signal);
+					(child as IHierarchyObjectContainer).dispatchMessageToChildren(type, data);
 				}
 			}
 		}

@@ -3,6 +3,7 @@
  */
 package com.crazyfm.core.mvc.view
 {
+	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
 	/**
@@ -67,6 +68,14 @@ package com.crazyfm.core.mvc.view
 		public function get viewList():Array
 		{
 			return children;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispatchMessageToViews(type:Enum, data:Object = null):void
+		{
+			dispatchMessageToChildren(type, data);
 		}
 	}
 }
