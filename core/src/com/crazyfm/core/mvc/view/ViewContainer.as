@@ -3,7 +3,6 @@
  */
 package com.crazyfm.core.mvc.view
 {
-	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
 	/**
@@ -15,6 +14,7 @@ package com.crazyfm.core.mvc.view
 		{
 			super();
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -24,6 +24,7 @@ package com.crazyfm.core.mvc.view
 
 			return this;
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -33,6 +34,7 @@ package com.crazyfm.core.mvc.view
 
 			return this;
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -42,6 +44,7 @@ package com.crazyfm.core.mvc.view
 
 			return this;
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -49,6 +52,7 @@ package com.crazyfm.core.mvc.view
 		{
 			return children ? children.length : 0;
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -56,19 +60,13 @@ package com.crazyfm.core.mvc.view
 		{
 			return children && children.indexOf(view) != -1;
 		}
+
 		/**
 		 * @inheritDoc
 		 */
 		public function get viewList():Array
 		{
 			return children;
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function dispatchSignalToViews(type:Enum, data:Object = null):void
-		{
-			dispatchSignalToChildren(type, data);
 		}
 	}
 }

@@ -5,24 +5,11 @@ package com.crazyfm.core.mvc.view
 {
 	import com.crazyfm.core.mvc.hierarchy.AbstractHierarchyObject;
 
-	import flash.display.DisplayObjectContainer;
-
 	public class AbstractView extends AbstractHierarchyObject implements IView
 	{
-		protected var container:DisplayObjectContainer;
-
-		public function AbstractView(container:DisplayObjectContainer)
+		public function AbstractView()
 		{
 			super();
-
-			this.container = container;
-		}
-
-		override public function dispose():void
-		{
-			container = null;
-
-			super.dispose();
 		}
 	}
 }

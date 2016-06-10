@@ -76,7 +76,7 @@ package com.crazyfm.core.mvc.hierarchy
 			assertFalse(ho_1.isDisposed, ho_2.isDisposed);
 		}
 
-		[Test]
+		/*[Test]
 		public function testDispatchSignalToChildren():void
 		{
 			var ho_1:IHierarchyObject = new AbstractHierarchyObject();
@@ -94,7 +94,7 @@ package com.crazyfm.core.mvc.hierarchy
 			hoc.dispatchSignalToChildren(MyCoolEnum.PREVED);
 
 			assertEquals(count, 2);
-		}
+		}*/
 
 		[Test]
 		public function testRemove():void

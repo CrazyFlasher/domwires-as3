@@ -49,12 +49,5 @@ package com.crazyfm.core.mvc.view
 		 * Returns list of views in current container.
 		 */
 		function get viewList():Array;
-
-		/**
-		 * Sends signal to children views.
-		 * @param type
-		 * @param data
-		 */
-		function dispatchSignalToViews(type:Enum, data:Object = null):void;
 	}
 }

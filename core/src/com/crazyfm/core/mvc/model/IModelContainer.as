@@ -3,7 +3,6 @@
  */
 package com.crazyfm.core.mvc.model
 {
-	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
 
 	/**
@@ -49,12 +48,5 @@ package com.crazyfm.core.mvc.model
 		 * Returns list of models in current container.
 		 */
 		function get modelList():Array;
-
-		/**
-		 * Sends signal to children models.
-		 * @param type
-		 * @param data
-		 */
-		function dispatchSignalToModels(type:Enum, data:Object = null):void;
 	}
 }

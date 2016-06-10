@@ -3,6 +3,7 @@
  */
 package com.crazyfm.core.mvc.hierarchy
 {
+	import com.crazyfm.core.mvc.event.ISignalEvent;
 	import com.crazyfm.core.mvc.event.SignalDispatcher;
 
 	use namespace ns_hierarchy;
@@ -40,6 +41,14 @@ package com.crazyfm.core.mvc.hierarchy
 			_parent = null;
 
 			super.dispose();
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function handleSignal(signal:ISignalEvent):void
+		{
+
 		}
 	}
 }

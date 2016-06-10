@@ -7,7 +7,6 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.factory.AppFactory;
 	import com.crazyfm.core.factory.ns_app_factory;
 	import com.crazyfm.core.mvc.command.*;
-	import com.crazyfm.core.mvc.model.AbstractModel;
 
 	import flash.utils.Dictionary;
 
@@ -16,7 +15,7 @@ package com.crazyfm.core.mvc.context
 	/**
 	 * Maps specific signals to <code>ICommand</code>.
 	 */
-	public class CommandMapper extends AbstractModel implements ICommandMapper
+	public class CommandMapper implements ICommandMapper
 	{
 		private var commandMap:Dictionary/*Enum, Vector.<Class>*/ = new Dictionary();
 		private var factory:AppFactory;
@@ -69,15 +68,7 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
-
-		override public function dispatchSignal(type:Enum, data:Object = null, bubbles:Boolean = true):void
-		{
-			super.dispatchSignal(type, data, bubbles);
-
-			tryToExecuteCommand(type);
-		}
-
-		private function tryToExecuteCommand(signalType:Enum):void
+		public function tryToExecuteCommand(signalType:Enum):void
 		{
 			var mappedToSignalCommands:Vector.<Class> = commandMap[signalType];
 			var command:ICommand;
@@ -100,13 +91,6 @@ package com.crazyfm.core.mvc.context
 					command.retain();
 				}
 			}
-		}
-
-		override public function dispose():void
-		{
-			clear();
-
-			super.dispose();
 		}
 
 		public function unmapAll(signalType:Enum):ICommandMapper

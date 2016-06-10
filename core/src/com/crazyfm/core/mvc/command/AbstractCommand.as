@@ -3,10 +3,12 @@
  */
 package com.crazyfm.core.mvc.command
 {
+	import com.crazyfm.core.mvc.hierarchy.AbstractHierarchyObject;
+
 	/**
 	 * Command (or service) that operates on provided (injected) models.
 	 */
-	public class AbstractCommand implements ICommand
+	public class AbstractCommand extends AbstractHierarchyObject implements ICommand
 	{
 		/**
 		 * @inheritDoc

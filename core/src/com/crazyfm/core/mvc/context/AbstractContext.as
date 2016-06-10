@@ -10,9 +10,6 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
 	import com.crazyfm.core.mvc.model.*;
-	import com.crazyfm.core.mvc.service.IService;
-	import com.crazyfm.core.mvc.service.IServiceContainer;
-	import com.crazyfm.core.mvc.service.ServiceContainer;
 	import com.crazyfm.core.mvc.view.IView;
 	import com.crazyfm.core.mvc.view.IViewContainer;
 	import com.crazyfm.core.mvc.view.ViewContainer;
@@ -31,7 +28,6 @@ package com.crazyfm.core.mvc.context
 
 		private var modelContainer:IModelContainer;
 		private var viewContainer:IViewContainer;
-		private var serviceContainer:IServiceContainer;
 
 		private var commandMapper:ICommandMapper;
 
@@ -43,9 +39,6 @@ package com.crazyfm.core.mvc.context
 
 			modelContainer = factory.getInstance(ModelContainer);
 			add(modelContainer);
-
-			serviceContainer = factory.getInstance(ServiceContainer);
-			add(serviceContainer);
 
 			viewContainer = factory.getInstance(ViewContainer);
 			add(viewContainer);
@@ -111,14 +104,6 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchSignalToModels(type:Enum, data:Object = null):void
-		{
-			modelContainer.dispatchSignalToModels(type, data);
-		}
-
-		/**
-		 * @inheritDoc
-		 */
 		public function addView(view:IView):IViewContainer
 		{
 			viewContainer.addView(view);
@@ -172,84 +157,12 @@ package com.crazyfm.core.mvc.context
 		}
 
 		/**
-		 * @inheritDoc
-		 */
-		public function dispatchSignalToViews(type:Enum, data:Object = null):void
-		{
-			viewContainer.dispatchSignalToViews(type, data);
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function addService(service:IService):IServiceContainer
-		{
-			serviceContainer.addService(service);
-			(service as AbstractHierarchyObject).setParent(this);
-
-			return this;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function removeService(service:IService, dispose:Boolean = false):IServiceContainer
-		{
-			serviceContainer.removeService(service, dispose);
-
-			return this;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function removeAllServices(dispose:Boolean = false):IServiceContainer
-		{
-			serviceContainer.removeAllServices(dispose);
-
-			return this;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get numServices():int
-		{
-			return serviceContainer.numServices;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function containsService(service:IService):Boolean
-		{
-			return serviceContainer.containsService(service);
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get serviceList():Array
-		{
-			return serviceContainer.serviceList;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function dispatchSignalToServices(type:Enum, data:Object = null):void
-		{
-			serviceContainer.dispatchSignalToServices(type, data);
-		}
-
-		/**
 		 * Clears all children, unmaps all commands and nullifies dependencies.
 		 */
 		override public function dispose():void
 		{
 			modelContainer.dispose();
 			viewContainer.dispose();
-			serviceContainer.dispose();
 
 			nullifyDependencies();
 
@@ -260,9 +173,8 @@ package com.crazyfm.core.mvc.context
 		{
 			modelContainer = null;
 			viewContainer = null;
-			serviceContainer = null;
 
-			commandMapper.dispose();
+			commandMapper.clear();
 			commandMapper = null;
 		}
 
@@ -273,7 +185,6 @@ package com.crazyfm.core.mvc.context
 		{
 			modelContainer.disposeWithAllChildren();
 			viewContainer.disposeWithAllChildren();
-			serviceContainer.disposeWithAllChildren();
 
 			nullifyDependencies();
 
@@ -285,25 +196,7 @@ package com.crazyfm.core.mvc.context
 		 */
 		override public function onEventBubbled(event:IEvent):Boolean
 		{
-			var e:ISignalEvent = event as ISignalEvent;
-
-			if (event.target is IModel)
-			{
-				dispatchSignalToViews(e.type, e.data);
-				dispatchSignalToServices(e.type, e.data);
-			}else
-			if (event.target is IService)
-			{
-				dispatchSignalToViews(e.type, e.data);
-				dispatchSignalToModels(e.type, e.data);
-			}else
-			if (event.target is IView)
-			{
-				dispatchSignalToServices(e.type, e.data);
-				dispatchSignalToModels(e.type, e.data);
-			}
-
-			commandMapper.dispatchSignal(e.type, e.data, e.bubbles);
+			tryToExecuteCommand((event as ISignalEvent).type);
 
 			return super.onEventBubbled(event);
 		}
@@ -346,6 +239,14 @@ package com.crazyfm.core.mvc.context
 		public function hasMapping(signalType:Enum):Boolean
 		{
 			return commandMapper.hasMapping(signalType);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function tryToExecuteCommand(signalType:Enum):void
+		{
+			commandMapper.tryToExecuteCommand(signalType);
 		}
 	}
 }

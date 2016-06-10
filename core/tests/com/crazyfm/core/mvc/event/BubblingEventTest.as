@@ -52,7 +52,7 @@ package com.crazyfm.core.mvc.event
 			mc3 = new ModelContainer();
 			mc4 = new ModelContainer();
 			m1 = new AbstractModel();
-			v1 = new AbstractView(null);
+			v1 = new AbstractView();
 
 			mc2.addModel(m1);
 			mc1.addModel(mc2);

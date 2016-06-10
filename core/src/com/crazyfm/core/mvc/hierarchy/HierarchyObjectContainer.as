@@ -13,7 +13,7 @@ package com.crazyfm.core.mvc.hierarchy
 	use namespace ns_hierarchy;
 
 	/**
-	 * Container of <code>IHierarchyObject</code>'s
+	 * Container of <code>IHierarchyObject</code>s
 	 */
 	public class HierarchyObjectContainer extends AbstractHierarchyObject implements IHierarchyObjectContainer
 	{
@@ -213,27 +213,24 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchSignalToChildren(type:Enum, data:Object = null):void
-		{
-			for each (var child:IHierarchyObject in _childrenList)
-			{
-				if(child is IHierarchyObject)
-				{
-					child.dispatchSignal(type, data, false);
-				}else
-				if(child is IHierarchyObjectContainer)
-				{
-					(child as IHierarchyObjectContainer).dispatchSignalToChildren(type, data);
-				}
-			}
-		}
-
-		/**
-		 * @inheritDoc
-		 */
 		public function get children():Array
 		{
 			return _childrenList;
+		}
+
+		public function sendSignalToChildren(signal:ISignalEvent):void
+		{
+			for each (var child:IHierarchyObject in _childrenList)
+			{
+				if (child is IHierarchyObject)
+				{
+					child.handleSignal(signal);
+				}else
+				if (child is IHierarchyObjectContainer)
+				{
+					(child as IHierarchyObjectContainer).sendSignalToChildren(signal);
+				}
+			}
 		}
 	}
 }

@@ -3,7 +3,7 @@
  */
 package com.crazyfm.core.mvc.hierarchy
 {
-	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.mvc.event.ISignalEvent;
 
 	import org.osflash.signals.events.IBubbleEventHandler;
 
@@ -43,15 +43,15 @@ package com.crazyfm.core.mvc.hierarchy
 		function disposeWithAllChildren():void;
 
 		/**
-		 * Send signal to children.
-		 * @param type
-		 * @param data
-		 */
-		function dispatchSignalToChildren(type:Enum, data:Object = null):void;
-
-		/**
 		 * Returns all children of current container.
 		 */
 		function get children():Array;
+
+		/**
+		 * Sends signal to children.
+		 * @param signal
+		 * @return
+		 */
+		function sendSignalToChildren(signal:ISignalEvent):void;
 	}
 }

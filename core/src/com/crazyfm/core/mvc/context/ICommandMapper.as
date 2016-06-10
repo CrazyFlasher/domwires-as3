@@ -4,12 +4,11 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.mvc.model.IModel;
 
 	/**
 	 * Maps specific signals to <code>ICommand</code>.
 	 */
-	public interface ICommandMapper extends IModel
+	public interface ICommandMapper
 	{
 		/**
 		 * Maps signal to command. When signal occurred, specified command will be implemented.
@@ -46,5 +45,11 @@ package com.crazyfm.core.mvc.context
 		 * @return
 		 */
 		function hasMapping(signalType:Enum):Boolean;
+
+		/**
+		 * Trying to find and execute commands, mapped to current signal.
+		 * @param signalType
+		 */
+		function tryToExecuteCommand(signalType:Enum):void;
 	}
 }

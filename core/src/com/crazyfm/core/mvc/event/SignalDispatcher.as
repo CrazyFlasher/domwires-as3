@@ -22,6 +22,7 @@ package com.crazyfm.core.mvc.event
 
 		public function SignalDispatcher()
 		{
+			super();
 		}
 
 		/**
@@ -69,9 +70,9 @@ package com.crazyfm.core.mvc.event
 		{
 			if (_signals)
 			{
-				for (var type:* in _signals)
+				for each(var signal:ISignal in _signals)
 				{
-					_signals[type].removeAll();
+					signal.removeAll();
 				}
 
 				_signals = null;
