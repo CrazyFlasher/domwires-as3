@@ -43,5 +43,11 @@ package com.crazyfm.core.mvc.message
 		 * @return
 		 */
 		function hasMessageListener(type:Enum):Boolean;
+
+		/**
+		 * Handle specified message without dispatching it.
+		 * @param message
+		 */
+		function handleMessage(message:IMessage):void;
 	}
 }

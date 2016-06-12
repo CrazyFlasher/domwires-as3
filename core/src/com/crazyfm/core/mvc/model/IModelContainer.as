@@ -49,13 +49,5 @@ package com.crazyfm.core.mvc.model
 		 * Returns list of models in current container.
 		 */
 		function get modelList():Array;
-
-		/**
-		 * Sends message to children.
-		 * @param type
-		 * @param data
-		 * @return
-		 */
-		function dispatchMessageToModels(type:Enum, data:Object = null):void
 	}
 }

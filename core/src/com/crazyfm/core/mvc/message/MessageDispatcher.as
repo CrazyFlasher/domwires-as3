@@ -8,6 +8,9 @@ package com.crazyfm.core.mvc.message
 
 	import flash.utils.Dictionary;
 
+	/**
+	 * Common message dispatcher. Can be used for listening and dispatching messages for views and models.
+	 */
 	public class MessageDispatcher extends AbstractDisposable implements IMessageDispatcher
 	{
 		private var _messageMap:Dictionary/*Enum, Vector.<Function>*/;
@@ -18,6 +21,9 @@ package com.crazyfm.core.mvc.message
 			super();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addMessageListener(type:Enum, listener:Function):void
 		{
 			if (!_messageMap)
@@ -32,6 +38,9 @@ package com.crazyfm.core.mvc.message
 			_messageMap[type].push(listener);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeMessageListener(type:Enum, listener:Function):void
 		{
 			if (_messageMap)
@@ -47,6 +56,9 @@ package com.crazyfm.core.mvc.message
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllMessageListeners():void
 		{
 			if (_messageMap)
@@ -60,26 +72,25 @@ package com.crazyfm.core.mvc.message
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = true):void
 		{
 			_message = getMessage(type, data, bubbles);
 			_message._target = this;
 			_message._currentTarget = this;
+			_message._bubbles = bubbles;
 
-			if (_messageMap)
-			{
-				if (_messageMap[type])
-				{
-					for each (var listener:Function in _messageMap[type])
-					{
-						listener(_message);
-					}
-				}
-			}
+			handleMessage(_message);
+			bubbleUpMessage(_message);
+		}
 
-			if (_message.bubbles)
+		private function bubbleUpMessage(message:Message):void
+		{
+			if (message.bubbles)
 			{
-				var currentTarget:Object = _message._target;
+				var currentTarget:Object = message._target;
 
 				while (currentTarget && currentTarget.hasOwnProperty("parent"))
 				{
@@ -89,13 +100,30 @@ package com.crazyfm.core.mvc.message
 					if (currentTarget is IBubbleMessageHandler)
 					{
 						// onMessageBubbled() can stop the bubbling by returning false.
-						if (!IBubbleMessageHandler(_message._currentTarget = currentTarget).onMessageBubbled(_message))
+						if (!IBubbleMessageHandler(message._currentTarget = currentTarget).onMessageBubbled(message))
 							break;
 					}
 				}
 			}
 		}
 
+		public function handleMessage(message:IMessage):void
+		{
+			if (_messageMap)
+			{
+				if (_messageMap[message.type])
+				{
+					for each (var listener:Function in _messageMap[message.type])
+					{
+						listener(message);
+					}
+				}
+			}
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function hasMessageListener(type:Enum):Boolean
 		{
 			if (_messageMap)
@@ -115,15 +143,14 @@ package com.crazyfm.core.mvc.message
 			{
 				(_message as Message)._type = type;
 				(_message as Message)._data = data;
-				(_message as Message)._bubbles = bubbles;
 			}
-
-			(_message as Message)._target = this;
-			(_message as Message)._currentTarget = this;
 
 			return _message;
 		}
 
+		/**
+		 * Disposes and removes all message listeners.
+		 */
 		override public function dispose():void
 		{
 			removeAllMessageListeners();

@@ -21,7 +21,7 @@
 	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
     <target name="build" depends="swc,copy_swc"/>
-    <target name="package" depends="clean,swc,asdoc,copy_swc,test"/>
+    <target name="package" depends="clean,build,asdoc,test"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
         <echo>[asdoc] Generating core ASDOC documentation...</echo>

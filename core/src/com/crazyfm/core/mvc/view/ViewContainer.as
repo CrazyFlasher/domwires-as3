@@ -69,13 +69,5 @@ package com.crazyfm.core.mvc.view
 		{
 			return children;
 		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function dispatchMessageToViews(type:Enum, data:Object = null):void
-		{
-			dispatchMessageToChildren(type, data);
-		}
 	}
 }

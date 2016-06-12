@@ -20,7 +20,6 @@ package com.crazyfm.core.mvc.hierarchy
 		* "abc bytecode decoding failed" compile error.
 		*/
 		private var _childrenList:Array = [];
-		private var _bubbledMessageListeners:Dictionary;
 
 		public function HierarchyObjectContainer()
 		{
@@ -136,64 +135,9 @@ package com.crazyfm.core.mvc.hierarchy
 		 */
 		public function onMessageBubbled(message:IMessage):Boolean
 		{
-			var type:Enum = message.type;
-
-			if (getBubbledMessageListeners()[type] != null)
-			{
-				return getBubbledMessageListeners()[type](message);
-			}
+			handleMessage(message);
 
 			return true;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function addMessageListener(type:Enum, listener:Function):void
-		{
-			super.addMessageListener(type, listener);
-
-			getBubbledMessageListeners()[type] = listener;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function removeMessageListener(type:Enum, listener:Function):void
-		{
-			super.removeMessageListener(type, listener);
-
-			//TODO: additional tests!
-			delete getBubbledMessageListeners()[type];
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function removeAllMessageListeners():void
-		{
-			super.removeAllMessageListeners();
-
-			if (_bubbledMessageListeners)
-			{
-				//I think, no need
-				/*for (var type:* in _bubbledMessageListeners)
-				{
-					delete _bubbledMessageListeners[type];
-				}*/
-
-				_bubbledMessageListeners = null
-			}
-		}
-
-		private function getBubbledMessageListeners():Dictionary
-		{
-			if (!_bubbledMessageListeners)
-			{
-				_bubbledMessageListeners = new Dictionary();
-			}
-
-			return _bubbledMessageListeners;
 		}
 
 		/**
@@ -219,17 +163,17 @@ package com.crazyfm.core.mvc.hierarchy
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchMessageToChildren(type:Enum, data:Object = null):void
+		public function dispatchMessageToChildren(message:IMessage):void
 		{
 			for each (var child:IHierarchyObject in _childrenList)
 			{
-				if(child is IHierarchyObject)
-				{
-					child.dispatchMessage(type, data, false);
-				}else
 				if(child is IHierarchyObjectContainer)
 				{
-					(child as IHierarchyObjectContainer).dispatchMessageToChildren(type, data);
+					(child as IHierarchyObjectContainer).dispatchMessageToChildren(message);
+				}else
+				if(child is IHierarchyObject)
+				{
+					child.handleMessage(message);
 				}
 			}
 		}

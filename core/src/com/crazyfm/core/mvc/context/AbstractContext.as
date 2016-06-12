@@ -198,13 +198,13 @@ package com.crazyfm.core.mvc.context
 
 			tryToExecuteCommand(message.type);
 
-			if (message.currentTarget is IModel)
+			if (message.target is IModel)
 			{
-				dispatchMessageToViews(message.type, message.data);
+				dispatchMessageToViews(message);
 			}else
-			if (message.currentTarget is IView)
+			if (message.target is IView)
 			{
-				dispatchMessageToModels(message.type, message.data);
+				dispatchMessageToModels(message);
 			}
 
 			return true;
@@ -261,17 +261,17 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchMessageToViews(type:Enum, data:Object = null):void
+		private function dispatchMessageToViews(message:IMessage):void
 		{
-			viewContainer.dispatchMessageToViews(type, data);
+			viewContainer.dispatchMessageToChildren(message);
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchMessageToModels(type:Enum, data:Object = null):void
+		public function dispatchMessageToModels(message:IMessage):void
 		{
-			modelContainer.dispatchMessageToModels(type, data);
+			modelContainer.dispatchMessageToChildren(message);
 		}
 	}
 }

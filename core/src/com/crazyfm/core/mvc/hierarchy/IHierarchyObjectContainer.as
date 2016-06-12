@@ -53,6 +53,6 @@ package com.crazyfm.core.mvc.hierarchy
 		 * @param data
 		 * @return
 		 */
-		function dispatchMessageToChildren(type:Enum, data:Object = null):void;
+		function dispatchMessageToChildren(message:IMessage):void;
 	}
 }

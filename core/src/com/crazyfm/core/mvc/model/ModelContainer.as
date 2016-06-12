@@ -70,13 +70,5 @@ package com.crazyfm.core.mvc.model
 			//better to return copy, but in sake of performance, we do that way.
 			return children;
 		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function dispatchMessageToModels(type:Enum, data:Object = null):void
-		{
-			dispatchMessageToChildren(type, data);
-		}
 	}
 }
