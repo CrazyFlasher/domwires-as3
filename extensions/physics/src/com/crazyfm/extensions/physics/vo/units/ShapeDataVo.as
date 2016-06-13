@@ -31,6 +31,10 @@ package com.crazyfm.extensions.physics.vo.units
 
 			_vertexDataList = vertices;
 
+			if(json.angle != null)
+			{
+				_angle = json.angle;
+			}
 			if(json.isSensor != null)
 			{
 				_sensor = json.isSensor;

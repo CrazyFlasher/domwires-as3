@@ -3,12 +3,19 @@
  */
 package com.crazyfm.extensions.flashPhysicsEditor
 {
+	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.extensions.physics.BodyObject;
 	import com.crazyfm.extensions.physics.IBodyObject;
 	import com.crazyfm.extensions.physics.IJointObject;
 	import com.crazyfm.extensions.physics.IShapeObject;
+	import com.crazyfm.extensions.physics.IVertexObject;
 	import com.crazyfm.extensions.physics.IWorldObject;
+	import com.crazyfm.extensions.physics.JointObject;
+	import com.crazyfm.extensions.physics.ShapeObject;
+	import com.crazyfm.extensions.physics.VertexObject;
 	import com.crazyfm.extensions.physics.WorldObject;
-	import com.crazyfm.extensions.physics.utils.PhysicsParser;
+	import com.crazyfm.extensions.physics.factory.PhysFactory;
+	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
 
 	import flash.utils.ByteArray;
 
@@ -25,7 +32,7 @@ package com.crazyfm.extensions.flashPhysicsEditor
 		[Before]
 		public function setUp():void
 		{
-			world = new WorldObject(PhysicsParser.parseWorld(JSON.parse((new WorldClass() as ByteArray).toString())));
+			world = new WorldObject(new WorldDataVo(JSON.parse((new WorldClass() as ByteArray).toString())));
 		}
 
 		[Test]

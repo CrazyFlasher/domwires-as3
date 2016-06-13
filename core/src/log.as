@@ -11,12 +11,15 @@ package
 	 */
 	public function log(...args):void
 	{
-		if (Capabilities.isDebugger)
+		if (GlobalSettings.logEnabled)
 		{
-			trace("[" + new Error().getStackTrace().split("\n")[2].split("at ")[1].split("/")[0] + "]: " + args);
-		}else
-		{
-			trace(args);
+			if (Capabilities.isDebugger)
+			{
+				trace("[" + new Error().getStackTrace().split("\n")[2].split("at ")[1].split("/")[0] + "]: " + args);
+			}else
+			{
+				trace(args);
+			}
 		}
 	}
 }
