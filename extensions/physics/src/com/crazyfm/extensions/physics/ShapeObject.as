@@ -3,8 +3,8 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.core.common.ns_app_factory;
+	import com.crazyfm.core.common.AbstractDisposable;
+	import com.crazyfm.extensions.physics.factory.PhysFactory;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
@@ -20,9 +20,7 @@ package com.crazyfm.extensions.physics
 	import nape.shape.Polygon;
 	import nape.shape.Shape;
 
-	use namespace ns_app_factory;
-
-	public class ShapeObject extends Disposable implements IShapeObject
+	public class ShapeObject extends AbstractDisposable implements IShapeObject
 	{
 		private var _shapes:Vector.<Shape>;
 
@@ -53,7 +51,7 @@ package com.crazyfm.extensions.physics
 
 				for each (var vertexData:VertexDataVo in _data.vertexDataList)
 				{
-					var vertexObject:IVertexObject = getInstance(IVertexObject, vertexData);
+					var vertexObject:IVertexObject = PhysFactory.instance.getInstance(IVertexObject, vertexData);
 
 					_vertexObjectList.push(vertexObject);
 					verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
@@ -130,7 +128,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IShapeObject
 		{
-			var c:IShapeObject = getInstance(IShapeObject, _data);
+			var c:IShapeObject = PhysFactory.instance.getInstance(IShapeObject, _data);
 			return c;
 		}
 	}

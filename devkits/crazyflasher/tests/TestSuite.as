@@ -3,7 +3,7 @@
  */
 package
 {
-	import com.crazyfm.devkit.goSystem.mechanisms.StarlingJugglerMechanismTest;
+	import com.crazyfm.devkit.gearSys.mechanisms.StarlingJugglerMechanismTest;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

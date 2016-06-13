@@ -3,8 +3,8 @@
  */
 package
 {
-	import com.crazyfm.extension.goSystem.GameComponentTest;
-	import com.crazyfm.extension.goSystem.GameObjectTest;
+	import com.crazyfm.extension.gearSys.GameComponentTest;
+	import com.crazyfm.extension.gearSys.GameObjectTest;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

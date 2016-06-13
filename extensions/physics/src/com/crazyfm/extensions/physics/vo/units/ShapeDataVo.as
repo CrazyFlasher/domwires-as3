@@ -3,6 +3,7 @@
  */
 package com.crazyfm.extensions.physics.vo.units
 {
+	import com.crazyfm.extensions.physics.factory.PhysFactory;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 
@@ -24,7 +25,7 @@ package com.crazyfm.extensions.physics.vo.units
 			var vertices:Vector.<VertexDataVo> = new <VertexDataVo>[];
 			for each (var vertexJson:Object in json.vertices)
 			{
-				var vertexData:VertexDataVo = getInstance(VertexDataVo, vertexJson);
+				var vertexData:VertexDataVo = PhysFactory.instance.getInstance(VertexDataVo, vertexJson);
 				vertices.push(vertexData);
 			}
 
@@ -39,8 +40,8 @@ package com.crazyfm.extensions.physics.vo.units
 				_radius = json.radius;
 			}
 
-			_material = getInstance(ShapeMaterialVo, json.material);
-			_interactionFilter = getInstance(InteractionFilterVo, json.filter);
+			_material = PhysFactory.instance.getInstance(ShapeMaterialVo, json.material);
+			_interactionFilter = PhysFactory.instance.getInstance(InteractionFilterVo, json.filter);
 		}
 
 		public function get vertexDataList():Vector.<VertexDataVo>

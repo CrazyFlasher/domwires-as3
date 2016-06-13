@@ -3,7 +3,8 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.Disposable;
+	import com.crazyfm.core.common.AbstractDisposable;
+	import com.crazyfm.extensions.physics.factory.PhysFactory;
 	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
 
@@ -12,7 +13,7 @@ package com.crazyfm.extensions.physics
 	import nape.phys.BodyType;
 	import nape.phys.Material;
 
-	public class BodyObject extends Disposable implements IBodyObject
+	public class BodyObject extends AbstractDisposable implements IBodyObject
 	{
 		private var _body:Body;
 
@@ -29,7 +30,7 @@ package com.crazyfm.extensions.physics
 			var shapeObject:IShapeObject;
 			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
-				 shapeObject = getInstance(IShapeObject, shapeData);
+				 shapeObject = PhysFactory.instance.getInstance(IShapeObject, shapeData);
 				_shapeObjectList.push(shapeObject);
 			}
 
@@ -126,7 +127,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IBodyObject
 		{
-			var c:IBodyObject = getInstance(IBodyObject, _data);
+			var c:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, _data);
 			return c;
 		}
 	}

@@ -3,8 +3,8 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.core.common.ns_app_factory;
+	import com.crazyfm.core.common.AbstractDisposable;
+	import com.crazyfm.extensions.physics.factory.PhysFactory;
 	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
 
 	import nape.constraint.AngleJoint;
@@ -12,9 +12,7 @@ package com.crazyfm.extensions.physics
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 
-	use namespace ns_app_factory;
-
-	public class JointObject extends Disposable implements IJointObject
+	public class JointObject extends AbstractDisposable implements IJointObject
 	{
 		private var _data:JointDataVo;
 
@@ -69,7 +67,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IJointObject
 		{
-			var c:IJointObject = getInstance(IJointObject, _data);
+			var c:IJointObject = PhysFactory.instance.getInstance(IJointObject, _data);
 			return c;
 		}
 	}

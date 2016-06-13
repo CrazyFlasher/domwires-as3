@@ -3,8 +3,8 @@
  */
 package com.crazyfm.extensions.physics
 {
-	import com.crazyfm.core.common.Disposable;
-	import com.crazyfm.core.common.ns_app_factory;
+	import com.crazyfm.core.common.AbstractDisposable;
+	import com.crazyfm.extensions.physics.factory.PhysFactory;
 	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
 	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
@@ -14,9 +14,7 @@ package com.crazyfm.extensions.physics
 	import nape.phys.BodyList;
 	import nape.space.Space;
 
-	use namespace ns_app_factory;
-
-	public class WorldObject extends Disposable implements IWorldObject
+	public class WorldObject extends AbstractDisposable implements IWorldObject
 	{
 		private var _space:Space;
 
@@ -35,7 +33,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var bodyData:BodyDataVo in _data.bodyDataList)
 			{
-				var bodyObject:IBodyObject = getInstance(IBodyObject, bodyData);
+				var bodyObject:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, bodyData);
 				_bodyObjectList.push(bodyObject);
 
 				_space.bodies.add(bodyObject.body);
@@ -45,7 +43,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var jointData:JointDataVo in _data.jointDataList)
 			{
-				var jointObject:IJointObject = getInstance(IJointObject, jointData);
+				var jointObject:IJointObject = PhysFactory.instance.getInstance(IJointObject, jointData);
 
 				var bodiesToConnect:Vector.<Body> = getBodiesToConnect(jointObject.data);
 
@@ -175,7 +173,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IWorldObject
 		{
-			var c:IWorldObject = getInstance(IWorldObject, _data);
+			var c:IWorldObject = PhysFactory.instance.getInstance(IWorldObject, _data);
 			return c;
 		}
 	}
