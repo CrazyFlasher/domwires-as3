@@ -4,6 +4,7 @@
 package
 {
 	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 
 	/**
 	 * Returns instance of specified type.
@@ -14,7 +15,7 @@ package
 	 */
 	public function getInstance(type:Class, ...constructorArgs):*
 	{
-		var factory:AppFactory = AppFactory.getSingletonInstance();
+		var factory:IAppFactory = AppFactory.getSingletonInstance();
 
 		//TODO: find better solution
 		switch (constructorArgs.length)

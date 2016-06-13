@@ -4,11 +4,11 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
-	import com.crazyfm.core.factory.AppFactory;
-	import com.crazyfm.core.mvc.message.IMessage;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.core.mvc.hierarchy.AbstractHierarchyObject;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.crazyfm.core.mvc.hierarchy.ns_hierarchy;
+	import com.crazyfm.core.mvc.message.IMessage;
 	import com.crazyfm.core.mvc.model.*;
 	import com.crazyfm.core.mvc.view.IView;
 	import com.crazyfm.core.mvc.view.IViewContainer;
@@ -22,14 +22,14 @@ package com.crazyfm.core.mvc.context
 	 */
 	public class AbstractContext extends HierarchyObjectContainer implements IContext
 	{
-		protected var factory:AppFactory;
+		protected var factory:IAppFactory;
 
 		private var modelContainer:IModelContainer;
 		private var viewContainer:IViewContainer;
 
 		private var commandMapper:ICommandMapper;
 
-		public function AbstractContext(factory:AppFactory)
+		public function AbstractContext(factory:IAppFactory)
 		{
 			super();
 

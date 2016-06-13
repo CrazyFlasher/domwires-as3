@@ -3,19 +3,15 @@
  */
 package com.crazyfm.core.factory
 {
-	import com.crazyfm.core.common.*;
-
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
-	use namespace ns_app_factory;
-
 	public class AppFactoryTest
 	{
-		private var factory:AppFactory;
+		private var factory:IAppFactory;
 
 		[Before]
 		public function setUp():void
@@ -30,12 +26,25 @@ package com.crazyfm.core.factory
 		}
 
 		[Test(expects="Error")]
-		public function testUnmap():void
+		public function testUnmapClass():void
 		{
 			factory.map(IMyType, MyType1);
 			var o:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
 			factory.unmap(IMyType);
 			var o2:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
+		}
+
+		[Test(expects="Error")]
+		public function testUnmapInstance():void
+		{
+			var instance:IMyType = new MyType1(5, 7);
+			factory.map(IMyType, o);
+
+			var o:IMyType = factory.getInstance(IMyType) as IMyType;
+			assertEquals(o, instance);
+
+			factory.unmap(IMyType);
+			var o2:IMyType = factory.getInstance(IMyType) as IMyType;
 		}
 
 		[Test]
@@ -67,11 +76,21 @@ package com.crazyfm.core.factory
 		}
 
 		[Test]
-		public function testMap():void
+		public function testMapClass():void
 		{
 			assertFalse(factory.hasMappingForType(IMyType));
 			factory.map(IMyType, MyType2);
 			assertTrue(factory.hasMappingForType(IMyType));
+		}
+
+		[Test]
+		public function testMapInstance():void
+		{
+			var o:IMyType = new MyType2();
+			assertFalse(factory.hasMappingForType(IMyType));
+			factory.map(IMyType, o);
+			assertTrue(factory.hasMappingForType(IMyType));
+			assertEquals(o, factory.getInstance(IMyType));
 		}
 
 		[Test]

@@ -5,131 +5,21 @@ package com.crazyfm.core.factory
 {
 	import avmplus.DescribeTypeJSON;
 
+	import com.crazyfm.core.common.AbstractDisposable;
+
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 
-	use namespace ns_app_factory;
-
-	/**
-	 * <p>Universal object factory.</p>
-	 * <p>Features:</p>
-	 * <ul>
-	 * <li>New instances creation</li>
-	 * <li>Pools creation</li>
-	 * <li>Map interface (or any other class type) to class</li>
-	 * <li>Inject dependencies to created objects</li>
-	 * <li>Manage singletons</li>
-	 * </ul>
-	 * <p>Namespace <code>ns_app_factory</code> is used to avoid calls of dangerous methods, that can affect stability of application.</p>
-	 * @example
-	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
-	 *
-	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
-	 *
-	 *     //returns new instance of MyObject
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
-	 * </listing>
-	 * @example
-	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
-	 *
-	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
-	 *
-	 *     //returns singleton instance of MyObject. Creates if needed
-	 *     var obj:IMyObject = factory.getSingleton(IMyObject) as IMyObject;
-	 * </listing>
-	 * @example
-	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
-	 *
-	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
-	 *
-	 *     //returns new instance of MyObject and passes new Camera() as constructor argument
-	 *     var obj:IMyObject = factory.getInstance(IMyObject, new Camera()) as IMyObject;
-	 *     ...
-	 *     public class MyObject implements IMyObject
-	 *     {
-	 *     		public function MyObject(camera:Camera)
-	 *     		{
-	 *   		}
-	 *     }
-	 * </listing>
-	 * @example
-	 * <listing version="3.0">
-	 *     use namespace ns_app_factory;
-	 *
-	 *     var factory:AppFactory = new AppFactory();
-	 *
-	 * 	   //registers pool with maximum 2 elements
-	 *     factory.registerPool(IMyObject, 2);
-	 *
-	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
-	 *
-	 *     //Creates (if still not created) and returns instance of MyObject from pool
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
-	 * </listing>
-	 * @example
-	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
-	 *
-	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
-	 *
-	 *     //maps ICamera interface to Camera class
-	 *     factory.map(ICamera, Camera);
-	 *
-	 *     //returns new instance of MyObject and passes new Camera() as constructor argument
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
-	 *     ...
-	 *     public class MyObject implements IMyObject
-	 *     {
-	 *     		[Autowired]
-	 *     		public var camera:ICamera; //object will be automatically injected
-	 *
-	 *     		public function MyObject()
-	 *     		{
-	 *   		}
-	 *
-	 *			[PostConstruct]
-	 *			public function init():void
-	 *			{
-	 *				//will be called automatically after dependencies are injected (e.q. camera in this case)
-	 *			}
-	 *     }
-	 * </listing>
-	 * @example
-	 * <listing version="3.0">
-	 *     use namespace ns_app_factory;
-	 *
-	 *     var factory:AppFactory = new AppFactory();
-	 *
-	 * 	   //registers pool with maximum 2 elements
-	 *     factory.registerPool(IMyObject, 2);
-	 *
-	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
-	 *
-	 *     //Creates (if still not created) and returns instance of MyObject from pool
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
-	 *     //Injects dependencies to object and calls method (if any), that is marked with [PostConstruct] metatag
-	 *     factory.injectDependencies(IMyObject, obj);
-	 * </listing>
-	 */
-	public class AppFactory
+	public class AppFactory extends AbstractDisposable implements IAppFactory
 	{
 		//TODO: profiler test
-		private static var instance:AppFactory;
+		private static var instance:IAppFactory;
 
 		/**
-		 * Returns <code>AppFactory</code> singleton instance.
+		 * Returns <code>IAppFactory</code> singleton instance.
 		 * @return
 		 */
-		public static function getSingletonInstance():AppFactory
+		public static function getSingletonInstance():IAppFactory
 		{
 			if (!instance)
 			{
@@ -140,6 +30,7 @@ package com.crazyfm.core.factory
 		}
 
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
+		private var instanceMapping:Dictionary = new Dictionary()/*Object, Class*/;
 		private var pool:Dictionary = new Dictionary()/*Class, PoolModel*/;
 		private var injectionMap:Dictionary = new Dictionary()/*Class, InjectionDataVo*/;
 
@@ -148,81 +39,85 @@ package com.crazyfm.core.factory
 		/**
 		 * Automatically injects dependencies to newly created objects, using <code>getInstance</code> method.
 		 */
-		public var autoInjectDependencies:Boolean = true;
+		private var _autoInjectDependencies:Boolean = true;
 
 		/**
 		 * Prints out extra information to logs.
 		 * Useful for debugging, but leaks performance.
 		 */
-		public var verbose:Boolean = false;
+		private var _verbose:Boolean = false;
 
-		/**
-		 * Creates new instance.
-		 */
 		public function AppFactory()
 		{
-
+			super();
 		}
 
 		/**
-		 * Maps one class (or interface) type to another.
-		 * @param type Type, that has to be mapped to another type
-		 * @param toType Type, that source type should be mapped to
-		 * @return
+		 * @inheritDoc
 		 */
-		ns_app_factory function map(type:Class, toType:Class):AppFactory
+		public function map(type:Class, to:*):IAppFactory
 		{
-			if (verbose && typeMapping[type])
+			if (to is Class)
 			{
-				log("Warning: type " + type + " is mapped to " + typeMapping[type] + ". Remapping to " + toType);
+				if (_verbose && typeMapping[type])
+				{
+					log("Warning: type " + type + " is mapped to type " + typeMapping[type] + ". Remapping to " + to);
+				}
+				typeMapping[type] = to;
+			}else
+			if (to is Object)
+			{
+				if (_verbose && instanceMapping[type])
+				{
+					log("Warning: type " + type + " is mapped to instance " + typeMapping[type] + ". Remapping to " + to);
+				}
+				instanceMapping[type] = to;
 			}
-			typeMapping[type] = toType;
 
 			return this;
 		}
 
 		/**
-		 * Returns true, if <code>AppFactory</code> has mapping for current type.
-		 * @param type Class or interface type
-		 * @return
+		 * @inheritDoc
 		 */
 		public function hasMappingForType(type:Class):Boolean
 		{
-			return typeMapping[type] != null;
+			return typeMapping[type] != null || instanceMapping[type] != null;
 		}
 
 		/**
-		 * Unmap current type.
-		 * @param type
-		 * @see #map()
+		 * @inheritDoc
 		 */
-		ns_app_factory function unmap(type:Class):void
+		public function unmap(type:Class):IAppFactory
 		{
 			if(typeMapping[type])
 			{
 				delete typeMapping[type];
 			}
+
+			if(instanceMapping[type])
+			{
+				delete instanceMapping[type];
+			}
+
+			return this;
 		}
 
 		/**
-		 * Returns either new instance of class or instance from pool.
-		 * In case of new instance, constructorArgs can be passed and dependencies will be automatically injected (if
-		 * <code>autoInjectDependencies</code> is set to true). if object is taken from pool or <code>autoInjectDependencies</code> is
-		 * false, then dependencies can be injected using
-		 * <code>injectDependencies</code>
-		 * @param type Type of instance to return
-		 * @param constructorArgs constructor arguments
-		 * @return
-		 * @see #injectDependencies()
-		 * @see #getFromPool()
+		 * @inheritDoc
 		 */
 		public function getInstance(type:Class, ...constructorArgs):*
 		{
+			if (instanceMapping[type])
+			{
+				return instanceMapping[type];
+			}
+
 			var obj:*;
 
 			if (hasPoolForType(type))
 			{
-				if (verbose && constructorArgs.length > 0)
+				if (_verbose && constructorArgs.length > 0)
 				{
 					log("Warning: type " + type + " has registered pool. Ignoring constructorArgs.");
 				}
@@ -249,7 +144,7 @@ package com.crazyfm.core.factory
 					default: throw new Error("getNewInstance supports maximum 10 constructor arguments.");
 				}
 
-				if (autoInjectDependencies)
+				if (_autoInjectDependencies)
 				{
 					obj = injectDependencies(type, obj);
 				}
@@ -264,7 +159,7 @@ package com.crazyfm.core.factory
 
 			if (!typeMapping[type])
 			{
-				if (verbose)
+				if (_verbose)
 				{
 					log("Warning: type " + type + " is not mapped to any other type. Creating new instance of " + type);
 				}
@@ -294,19 +189,16 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Registers pool for instances of provided type.
-		 * @param type Type of object to register pool for
-		 * @param capacity Maximum objects of current type in pool
-		 * @return
+		 * @inheritDoc
 		 */
-		ns_app_factory function registerPool(type:Class, capacity:uint = 5):AppFactory
+		public function registerPool(type:Class, capacity:uint = 5):IAppFactory
 		{
 			if (capacity == 0)
 			{
 				throw new Error("Capacity should be > 0!")
 			}
 
-			if (verbose && pool[type])
+			if (_verbose && pool[type])
 			{
 				log("Pool " + type + " already registered! Call unregisterPool before.");
 			}else
@@ -328,11 +220,9 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Unregisters and disposes pool for provided type.
-		 * @param type Type of object to register pool for
-		 * @return
+		 * @inheritDoc
 		 */
-		ns_app_factory function unregisterPool(type:Class):AppFactory
+		public function unregisterPool(type:Class):IAppFactory
 		{
 			if(pool[type])
 			{
@@ -345,9 +235,7 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Returns true, if <code>AppFactory</code> has registered pool for provided type.
-		 * @param type
-		 * @return
+		 * @inheritDoc
 		 */
 		public function hasPoolForType(type:Class):Boolean
 		{
@@ -355,9 +243,7 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Returns (creates in needed) singleton of provided type.
-		 * @param type
-		 * @return
+		 * @inheritDoc
 		 */
 		public function getSingleton(type:Class):*
 		{
@@ -370,17 +256,15 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Removes singleton of provided type.
-		 * @param type
-		 * @return
+		 * @inheritDoc
 		 */
-		ns_app_factory function removeSingleton(type:Class):AppFactory
+		public function removeSingleton(type:Class):IAppFactory
 		{
 			if (hasPoolForType(type))
 			{
 				unregisterPool(type);
 			}else
-			if (verbose){
+			if (_verbose){
 				log(type + " is not registered as singleton!");
 			}
 
@@ -388,10 +272,9 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Clears all pools of current <code>AppFactory</code>.
-		 * @return
+		 * @inheritDoc
 		 */
-		ns_app_factory function clearPools():AppFactory
+		public function clearPools():IAppFactory
 		{
 			for each (var poolModel:PoolModel in pool)
 			{
@@ -403,21 +286,20 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Clears of mappings of current <code>AppFactory</code>.
-		 * @return
+		 * @inheritDoc
 		 */
-		ns_app_factory function clearMappings():AppFactory
+		public function clearMappings():IAppFactory
 		{
 			typeMapping = new Dictionary();
+			instanceMapping = new Dictionary();
 
 			return this;
 		}
 
 		/**
-		 * Clears of pools and mappings of current <code>AppFactory</code>.
-		 * @return
+		 * @inheritDoc
 		 */
-		ns_app_factory function clear():AppFactory
+		public function clear():IAppFactory
 		{
 			clearPools();
 			clearMappings();
@@ -426,10 +308,7 @@ package com.crazyfm.core.factory
 		}
 
 		/**
-		 * Inject dependencies to properties marked with [Autowired] to provided object and calls [PostConstruct] method if has any.
-		 * @param type Type of provided object
-		 * @param object Object to inject dependencies to
-		 * @return
+		 * @inheritDoc
 		 */
 		public function injectDependencies(type:Class, object:*):*
 		{
@@ -503,9 +382,12 @@ package com.crazyfm.core.factory
 		/**
 		 * Clears all pools, mappings and injection data of current <code>AppFactory</code>.
 		 */
-		ns_app_factory function dispose():void
+		override public function dispose():void
 		{
+			super.dispose();
+
 			typeMapping = null;
+			instanceMapping = null;
 
 			for each (var poolModel:PoolModel in pool)
 			{
@@ -520,6 +402,22 @@ package com.crazyfm.core.factory
 			}
 
 			injectionMap = null;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function set autoInjectDependencies(value:Boolean):void
+		{
+			_autoInjectDependencies = value;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function set verbose(value:Boolean):void
+		{
+			_verbose = value;
 		}
 	}
 }

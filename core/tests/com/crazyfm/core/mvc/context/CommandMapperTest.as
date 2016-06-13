@@ -3,18 +3,14 @@
  */
 package com.crazyfm.core.mvc.context
 {
-	import com.crazyfm.core.factory.ns_app_factory;
 	import com.crazyfm.core.factory.AppFactory;
 
 	import org.flexunit.asserts.assertEquals;
-
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
 
 	import testObject.MyCoolEnum;
 	import testObject.TestObj1;
-
-	use namespace com.crazyfm.core.factory.ns_app_factory;
 
 	public class CommandMapperTest
 	{
