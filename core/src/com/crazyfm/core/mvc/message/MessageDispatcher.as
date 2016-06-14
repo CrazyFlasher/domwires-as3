@@ -34,8 +34,13 @@ package com.crazyfm.core.mvc.message
 			if (!_messageMap[type])
 			{
 				_messageMap[type] = new <Function>[];
+				//To avoid check in this case, if vector contains element
+				_messageMap[type].push(listener);
+			}else
+			if (_messageMap[type].indexOf(listener) == -1)
+			{
+				_messageMap[type].push(listener);
 			}
-			_messageMap[type].push(listener);
 		}
 
 		/**
@@ -75,7 +80,7 @@ package com.crazyfm.core.mvc.message
 		/**
 		 * @inheritDoc
 		 */
-		public function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = true):void
+		public function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = false):void
 		{
 			_message = getMessage(type, data, bubbles);
 			_message._target = this;

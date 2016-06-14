@@ -4,6 +4,7 @@
 package com.crazyfm.devkit.gearSys.components.input
 {
 	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.devkit.gearSys.components.controllable.IControllable;
 	import com.crazyfm.extension.gearSys.GearSysComponent;
 
@@ -11,6 +12,9 @@ package com.crazyfm.devkit.gearSys.components.input
 
 	public class AbstractInput extends GearSysComponent implements IInput
 	{
+		[Autowired]
+		public var factory:IAppFactory;
+
 		protected var controllableComponents:Array/*IControllable*/;
 
 		protected var actionVo:AbstractInputActionVo;
@@ -34,7 +38,7 @@ package com.crazyfm.devkit.gearSys.components.input
 
 		protected function updateActionVo(action:Enum):AbstractInputActionVo
 		{
-			actionVo = getInstance(AbstractInputActionVo)
+			actionVo = factory.getInstance(AbstractInputActionVo)
 				.setAction(action);
 
 			return actionVo;

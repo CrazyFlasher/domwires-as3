@@ -196,6 +196,13 @@ package com.crazyfm.core.mvc.context
 		{
 			super.onMessageBubbled(message);
 
+			handleBubbledMessage(message);
+
+			return false;
+		}
+
+		private function handleBubbledMessage(message:IMessage):void
+		{
 			tryToExecuteCommand(message.type);
 
 			if (message.target is IModel)
@@ -206,8 +213,6 @@ package com.crazyfm.core.mvc.context
 			{
 				dispatchMessageToModels(message);
 			}
-
-			return true;
 		}
 
 		/**

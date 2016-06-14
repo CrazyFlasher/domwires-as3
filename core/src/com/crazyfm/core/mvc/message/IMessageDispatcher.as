@@ -35,7 +35,7 @@ package com.crazyfm.core.mvc.message
 		 * @param data Optional data that will sent with message
 		 * @param bubbles If true, then message will bubble up to hierarchy
 		 */
-		function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = true):void;
+		function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = false):void;
 
 		/**
 		 * Returns true if object listens for specific message. Otherwise returns false.

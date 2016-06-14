@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="crazyfm-ext-goSystem" basedir="." default="package">
+<project name="crazyfm-ext-gearSys" basedir="." default="package">
 	
 	<property environment="env."/>
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
@@ -16,7 +16,7 @@
 
     <property name="ver.num" value="${build.release.number}.${build.major.number}.${build.minor.number}"/>
 	
-	<property name="swc_name" value="cfm-ext-goSystem-${ver.num}.swc"/>
+	<property name="swc_name" value="cfm-ext-gearSys-${ver.num}.swc"/>
 
 	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
@@ -24,7 +24,7 @@
     <target name="package" depends="clean,swc,copy_swc,test"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
-        <echo>[asdoc] Generating goSystem extension ASDOC documentation...</echo>
+        <echo>[asdoc] Generating gearSys extension ASDOC documentation...</echo>
         <echo>-----------------------------------</echo>
         <delete dir="${doc}"/>
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
@@ -43,7 +43,7 @@
     </target>
     <target name="swc">
         <echo>-----------------------------------</echo>
-        <echo>[swc] Building goSystem extension SWC...</echo>
+        <echo>[swc] Building gearSys extension SWC...</echo>
         <echo>-----------------------------------</echo>
 		<delete file="${libs_path}/crazyfm/${swc_name}"/>
         <compc output="${swc}/${swc_name}">
@@ -97,7 +97,7 @@
         <echo>[clean] Cleaning build directory...</echo>
         <echo>-----------------------------------</echo>
         <delete failonerror="false">
-            <fileset dir="${libs_path}/crazyfm"  includes="cfm-ext-goSystem**"/>
+            <fileset dir="${libs_path}/crazyfm"  includes="cfm-ext-gearSys**"/>
         </delete>
         <delete dir="${out}"/>
     </target>

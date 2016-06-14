@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<testsuite name="com.crazyfm.extension.gearSys.GameObjectTest" tests="14" failures="0" errors="0" skipped="0" time="0,042" hostname="playtech-a1531" timestamp="2016-06-14T12:47:59">
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testSetEnabled" time="0,001"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testAddComponent" time="0,001"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testComponentList" time="0,001"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testRemoveComponent" time="0,000"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testGetComponentByType" time="0,000"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testIsEnabled" time="0,001"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testGetGoSystem" time="0,018"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testRemoveAllComponents" time="0,000"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testGetComponentsByType" time="0,000"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testDispose" time="0,001"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testAdvanceTime" time="0,000"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testDisposeWithAllChildren" time="0,000"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testContainsComponent" time="0,000"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameObjectTest" name="testNumComponents" time="0,019"/>
+</testsuite>

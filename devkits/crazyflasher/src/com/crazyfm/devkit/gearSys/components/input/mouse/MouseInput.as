@@ -111,7 +111,7 @@ package com.crazyfm.devkit.gearSys.components.input.mouse
 
 		override protected function updateActionVo(action:Enum):AbstractInputActionVo
 		{
-			mouseActionVo = getInstance(MouseActionVo)
+			mouseActionVo = factory.getInstance(MouseActionVo)
 				.setAction(action)
 				.setPosition(mousePosition.x, mousePosition.y);
 
