@@ -147,7 +147,7 @@ package com.crazyfm.extension.gearSys
 		/**
 		 * @inheritDoc
 		 */
-		public function get goSystem():IGearSys
+		public function get gearSys():IGearSys
 		{
 			return parent as IGearSys;
 		}

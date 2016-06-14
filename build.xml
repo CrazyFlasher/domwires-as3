@@ -12,7 +12,7 @@
     <target name="increase_minor_versions">
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/core" inheritall="false"/>
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/goSystem" inheritall="false"/>
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/gearSys" inheritall="false"/>
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/physics" inheritall="false"/>
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
         <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/devkits/crazyflasher" inheritall="false"/>
@@ -21,7 +21,7 @@
         <echo>[package_all_modules] Packaging core, all extensions and devkits...</echo>
         <ant antfile="build.xml" target="package" dir="${basedir}/core" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/goSystem" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/extensions/gearSys" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/physics" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
         <ant antfile="build.xml" target="package" dir="${basedir}/devkits/crazyflasher" inheritall="false"/>
@@ -30,7 +30,7 @@
         <echo>[build_all_modules] Building core, all extensions and devkits...</echo>
         <ant antfile="build.xml" target="build" dir="${basedir}/core" inheritall="false"/>
         <ant antfile="build.xml" target="build" dir="${basedir}/extensions/starlingApp" inheritall="false"/>
-        <ant antfile="build.xml" target="build" dir="${basedir}/extensions/goSystem" inheritall="false"/>
+        <ant antfile="build.xml" target="build" dir="${basedir}/extensions/gearSys" inheritall="false"/>
         <ant antfile="build.xml" target="build" dir="${basedir}/extensions/physics" inheritall="false"/>
         <ant antfile="build.xml" target="build" dir="${basedir}/extensions/flashPhysicsEditor" inheritall="false"/>
         <ant antfile="build.xml" target="build" dir="${basedir}/devkits/crazyflasher" inheritall="false"/>
@@ -46,7 +46,7 @@
             <!--exclude-sources path-element="core/src/com/crazyfm/mvc/controller" /-->
             <!-- extensions -->
             <doc-sources path-element="extensions/starlingApp/src"/>
-            <doc-sources path-element="extensions/goSystem/src"/>
+            <doc-sources path-element="extensions/gearSys/src"/>
             <doc-sources path-element="extensions/physics/src"/>
             <doc-sources path-element="extensions/flashPhysicsEditor/src"/>
             <!-- devkits -->

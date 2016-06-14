@@ -73,7 +73,9 @@
             <arg value="-library-path+=${libs_path}"/>
             <!--<arg value="-library-path+=${as3-signals}"/>-->
             <arg value="-output=${out}/tests/TestRunner.swf"/>
-            <arg value="-debug=true"/>
+            <arg value="-keep-as3-metadata+=Autowired"/>
+            <arg value="-keep-as3-metadata+=PostConstruct"/>
+            <arg value="-debug=false"/>
         </java>
         <flexunit
                 command="${flashplayer}"

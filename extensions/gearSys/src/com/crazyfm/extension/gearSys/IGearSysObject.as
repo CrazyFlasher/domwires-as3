@@ -15,6 +15,6 @@ package com.crazyfm.extension.gearSys
 		function get componentList():Array;
 		function getComponentByType(clazz:Class):IGearSysComponent;
 		function getComponentsByType(clazz:Class):Array;
-		function get goSystem():IGearSys;
+		function get gearSys():IGearSys;
 	}
 }

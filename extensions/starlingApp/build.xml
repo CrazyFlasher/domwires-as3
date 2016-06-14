@@ -68,7 +68,9 @@
             <arg value="-library-path+=${libs_path}"/>
             <arg value="-library-path+=${libs_path}/crazyfm"/>
             <arg value="-output=${out}/tests/TestRunner.swf"/>
-            <arg value="-debug"/>
+            <arg value="-keep-as3-metadata+=Autowired"/>
+            <arg value="-keep-as3-metadata+=PostConstruct"/>
+            <arg value="-debug=false"/>
         </java>
         <flexunit
                 command="${flashplayer}"
