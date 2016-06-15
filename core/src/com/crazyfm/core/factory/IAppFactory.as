@@ -149,9 +149,8 @@ package com.crazyfm.core.factory
 		 * @param constructorArgs constructor arguments
 		 * @return
 		 * @see #injectDependencies()
-		 * @see #getFromPool()
 		 */
-		function getInstance(type:Class, ...constructorArgs):*;
+		function getInstance(type:Class, constructorArgs:Array = null):*;
 
 		/**
 		 * Registers pool for instances of provided type.

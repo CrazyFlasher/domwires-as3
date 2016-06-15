@@ -10,15 +10,18 @@ package com.crazyfm.devkit.gearSys.mechanisms
 
 	public class StarlingJugglerMechanism extends AbstractGearSysMechanism implements IAnimatable
 	{
-		private var juggler:Juggler;
+		[Autowired]
+		public var juggler:Juggler;
 
-		public function StarlingJugglerMechanism(juggler:Juggler, constantPassedTime:Number = NaN)
+		public function StarlingJugglerMechanism(constantPassedTime:Number = NaN)
 		{
 			super(constantPassedTime);
+		}
 
-			this.juggler = juggler;
-
-			this.juggler.add(this);
+		[PostConstruct]
+		public function init():void
+		{
+			juggler.add(this);
 		}
 
 		override public function dispose():void

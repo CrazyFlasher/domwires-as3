@@ -67,7 +67,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IJointObject
 		{
-			var c:IJointObject = PhysFactory.instance.getInstance(IJointObject, _data);
+			var c:IJointObject = PhysFactory.instance.getInstance(IJointObject, [_data]);
 			return c;
 		}
 	}

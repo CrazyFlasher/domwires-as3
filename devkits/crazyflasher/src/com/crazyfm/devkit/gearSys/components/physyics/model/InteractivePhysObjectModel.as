@@ -97,7 +97,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 			for (var i:int = 0; i < collision.arbiters.length; i++)
 			{
-				if (_body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal).y < IS_ON_LEGS_COLLISION_Y)
+				if (_body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal, true).y < IS_ON_LEGS_COLLISION_Y)
 				{
 					return false;
 				}

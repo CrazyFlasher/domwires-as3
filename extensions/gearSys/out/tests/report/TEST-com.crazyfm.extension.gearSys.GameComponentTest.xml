@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<testsuite name="com.crazyfm.extension.gearSys.GameComponentTest" tests="2" failures="0" errors="0" skipped="0" time="0,054" hostname="CF-HOME-PC" timestamp="2016-06-14T21:16:46">
-  <testcase classname="com.crazyfm.extension.gearSys::GameComponentTest" name="testGetGameObject" time="0,037"/>
-  <testcase classname="com.crazyfm.extension.gearSys::GameComponentTest" name="testAdvanceTime" time="0,017"/>
+<testsuite name="com.crazyfm.extension.gearSys.GameComponentTest" tests="2" failures="0" errors="0" skipped="0" time="0,020" hostname="playtech-a1531" timestamp="2016-06-15T10:50:52">
+  <testcase classname="com.crazyfm.extension.gearSys::GameComponentTest" name="testGetGameObject" time="0,019"/>
+  <testcase classname="com.crazyfm.extension.gearSys::GameComponentTest" name="testAdvanceTime" time="0,001"/>
 </testsuite>

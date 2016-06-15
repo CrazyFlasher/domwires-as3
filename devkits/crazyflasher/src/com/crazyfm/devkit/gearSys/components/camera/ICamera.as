@@ -14,5 +14,6 @@ package com.crazyfm.devkit.gearSys.components.camera
 		function setFocusObject(value:DisplayObject):ICamera;
 		function setViewport(value:Rectangle):ICamera;
 		function setAimPosition(x:Number, y:Number):ICamera;
+		function updateViewContainerBounds():ICamera;
 	}
 }

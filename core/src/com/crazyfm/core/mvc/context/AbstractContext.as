@@ -41,7 +41,7 @@ package com.crazyfm.core.mvc.context
 			viewContainer = factory.getInstance(ViewContainer);
 			add(viewContainer);
 
-			commandMapper = factory.getInstance(CommandMapper, factory);
+			commandMapper = factory.getInstance(CommandMapper, [factory]);
 		}
 
 		/**

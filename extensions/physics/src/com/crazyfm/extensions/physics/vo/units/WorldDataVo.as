@@ -20,20 +20,20 @@ package com.crazyfm.extensions.physics.vo.units
 			var bodies:Vector.<BodyDataVo> = new <BodyDataVo>[];
 			for each (var bodyJson:Object in json.bodies)
 			{
-				var bodyData:BodyDataVo = PhysFactory.instance.getInstance(BodyDataVo, bodyJson);
+				var bodyData:BodyDataVo = PhysFactory.instance.getInstance(BodyDataVo, [bodyJson]);
 				bodies.push(bodyData);
 			}
 
 			var joints:Vector.<JointDataVo> = new <JointDataVo>[];
 			for each (var jointJson:Object in json.joints)
 			{
-				var jointData:JointDataVo = PhysFactory.instance.getInstance(JointDataVo, jointJson);
+				var jointData:JointDataVo = PhysFactory.instance.getInstance(JointDataVo, [jointJson]);
 				joints.push(jointData);
 			}
 
 			_bodyDataList = bodies;
 			_jointDataList = joints;
-			_gravity = PhysFactory.instance.getInstance(GravityVo, json.gravity.x, json.gravity.y);
+			_gravity = PhysFactory.instance.getInstance(GravityVo, [json.gravity.x, json.gravity.y]);
 		}
 
 		public function get bodyDataList():Vector.<BodyDataVo>

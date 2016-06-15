@@ -29,9 +29,9 @@ package com.crazyfm.core.factory
 		public function testUnmapClass():void
 		{
 			factory.map(IMyType, MyType1);
-			var o:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
+			var o:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
 			factory.unmap(IMyType);
-			var o2:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
+			var o2:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
 		}
 
 		[Test(expects="Error")]
@@ -51,7 +51,7 @@ package com.crazyfm.core.factory
 		public function testGetNewInstance():void
 		{
 			factory.map(IMyType, MyType1);
-			var o:IMyType = factory.getInstance(IMyType, 5, 7) as IMyType;
+			var o:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
 			assertEquals(o.a, 5);
 			assertEquals(o.b, 7);
 		}

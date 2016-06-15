@@ -54,7 +54,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IVertexObject
 		{
-			var c:IVertexObject = PhysFactory.instance.getInstance(IVertexObject, _data);
+			var c:IVertexObject = PhysFactory.instance.getInstance(IVertexObject, [_data]);
 			return c;
 		}
 	}

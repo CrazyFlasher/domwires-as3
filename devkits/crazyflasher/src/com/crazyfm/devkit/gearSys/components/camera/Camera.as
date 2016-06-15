@@ -24,17 +24,20 @@ package com.crazyfm.devkit.gearSys.components.camera
 		private var transitionTime:Number;
 		private var _aimPosition:Point = new Point();
 
+		private var viewContainerBounds:Rectangle = new Rectangle();
+
 		public function Camera(transitionTime:Number = 1.0)
 		{
 			super();
 
-			this.viewContainer = viewContainer;
 			this.transitionTime = transitionTime;
 		}
 
 		[PostConstruct]
 		public function init():void
 		{
+			viewContainer.getBounds(viewContainer.parent, viewContainerBounds);
+
 			if (transitionTime > 0)
 			{
 				tween = new Tween(viewContainer, transitionTime);
@@ -65,10 +68,10 @@ package com.crazyfm.devkit.gearSys.components.camera
 			if (!focusObject) return;
 
 			moveTo(
-//					calculatePosition(viewPort.width, viewContainer.width, focusObject.x, _aimPosition.x),
-//					calculatePosition(viewPort.height, viewContainer.height, focusObject.y, _aimPosition.y)
-					calculatePosition(viewPort.width, viewContainer.width, focusObject.x, focusObject.x),
-					calculatePosition(viewPort.height, viewContainer.height, focusObject.y, focusObject.y)
+//					calculatePosition(viewPort.width, viewContainerBounds.width, focusObject.x, _aimPosition.x),
+//					calculatePosition(viewPort.height, viewContainerBounds.height, focusObject.y, _aimPosition.y)
+					calculatePosition(viewPort.width, viewContainerBounds.width, focusObject.x, focusObject.x),
+					calculatePosition(viewPort.height, viewContainerBounds.height, focusObject.y, focusObject.y)
 			);
 		}
 
@@ -77,8 +80,6 @@ package com.crazyfm.devkit.gearSys.components.camera
 		{
 			if (viewPortSize < viewContainerSize)
 			{
-				var position:Number = 0;
-
 //				var diff:Number = _aimPosition.x - focusObject.x;
 				var diff:Number;
 				/*if (!isNaN(mousePosition))
@@ -91,15 +92,15 @@ package com.crazyfm.devkit.gearSys.components.camera
 
 				if (diff > viewPortSize / 2) diff = viewPortSize / 2;
 
-				position = -(focusObjectPosition + diff) + viewPortSize / 2;
+				var position:Number = -(focusObjectPosition + diff) + viewPortSize / 2;
 
 				if (position > 0)
 				{
 					position = 0;
-				} else if (position < viewPortSize - viewContainerSize)
+				} /*else if (position < viewPortSize - viewContainerSize)
 				{
 					position = viewPortSize - viewContainerSize;
-				}
+				}*/
 
 				return position;
 			}
@@ -136,6 +137,13 @@ package com.crazyfm.devkit.gearSys.components.camera
 			}
 
 			super.dispose();
+		}
+
+		public function updateViewContainerBounds():ICamera
+		{
+			viewContainer.getBounds(viewContainer.parent, viewContainerBounds);
+
+			return this;
 		}
 	}
 }

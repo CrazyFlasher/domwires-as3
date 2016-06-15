@@ -28,14 +28,14 @@ package com.crazyfm.extensions.physics.vo.units
 			var shapes:Vector.<ShapeDataVo> = new <ShapeDataVo>[];
 			for each (var shapeJson:Object in json.shapes)
 			{
-				var shapeData:ShapeDataVo = PhysFactory.instance.getInstance(ShapeDataVo, shapeJson);
+				var shapeData:ShapeDataVo = PhysFactory.instance.getInstance(ShapeDataVo, [shapeJson]);
 				shapes.push(shapeData);
 			}
 
 			_shapeDataList = shapes;
 
-			_material = PhysFactory.instance.getInstance(ShapeMaterialVo, json.material);
-			_interactionFilter = PhysFactory.instance.getInstance(InteractionFilterVo, json.filter);
+			_material = PhysFactory.instance.getInstance(ShapeMaterialVo, [json.material]);
+			_interactionFilter = PhysFactory.instance.getInstance(InteractionFilterVo, [json.filter]);
 
 			if(json.angle != null)
 			{

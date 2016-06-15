@@ -33,7 +33,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var bodyData:BodyDataVo in _data.bodyDataList)
 			{
-				var bodyObject:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, bodyData);
+				var bodyObject:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, [bodyData]);
 				_bodyObjectList.push(bodyObject);
 
 				_space.bodies.add(bodyObject.body);
@@ -43,7 +43,7 @@ package com.crazyfm.extensions.physics
 
 			for each (var jointData:JointDataVo in _data.jointDataList)
 			{
-				var jointObject:IJointObject = PhysFactory.instance.getInstance(IJointObject, jointData);
+				var jointObject:IJointObject = PhysFactory.instance.getInstance(IJointObject, [jointData]);
 
 				var bodiesToConnect:Vector.<Body> = getBodiesToConnect(jointObject.data);
 
@@ -173,7 +173,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IWorldObject
 		{
-			var c:IWorldObject = PhysFactory.instance.getInstance(IWorldObject, _data);
+			var c:IWorldObject = PhysFactory.instance.getInstance(IWorldObject, [_data]);
 			return c;
 		}
 	}

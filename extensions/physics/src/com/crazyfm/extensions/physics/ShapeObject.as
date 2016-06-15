@@ -51,7 +51,7 @@ package com.crazyfm.extensions.physics
 
 				for each (var vertexData:VertexDataVo in _data.vertexDataList)
 				{
-					var vertexObject:IVertexObject = PhysFactory.instance.getInstance(IVertexObject, vertexData);
+					var vertexObject:IVertexObject = PhysFactory.instance.getInstance(IVertexObject, [vertexData]);
 
 					_vertexObjectList.push(vertexObject);
 					verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
@@ -128,7 +128,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IShapeObject
 		{
-			var c:IShapeObject = PhysFactory.instance.getInstance(IShapeObject, _data);
+			var c:IShapeObject = PhysFactory.instance.getInstance(IShapeObject, [_data]);
 			return c;
 		}
 	}

@@ -30,7 +30,7 @@ package com.crazyfm.extensions.physics
 			var shapeObject:IShapeObject;
 			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
-				 shapeObject = PhysFactory.instance.getInstance(IShapeObject, shapeData);
+				 shapeObject = PhysFactory.instance.getInstance(IShapeObject, [shapeData]);
 				_shapeObjectList.push(shapeObject);
 			}
 
@@ -127,7 +127,7 @@ package com.crazyfm.extensions.physics
 
 		public function clone():IBodyObject
 		{
-			var c:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, _data);
+			var c:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, [_data]);
 			return c;
 		}
 	}

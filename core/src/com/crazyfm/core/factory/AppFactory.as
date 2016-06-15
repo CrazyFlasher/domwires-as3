@@ -106,7 +106,7 @@ package com.crazyfm.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function getInstance(type:Class, ...constructorArgs):*
+		public function getInstance(type:Class, constructorArgs:Array = null):*
 		{
 			if (instanceMapping[type])
 			{
@@ -117,7 +117,7 @@ package com.crazyfm.core.factory
 
 			if (hasPoolForType(type))
 			{
-				if (_verbose && constructorArgs.length > 0)
+				if (_verbose && constructorArgs && constructorArgs.length > 0)
 				{
 					log("Warning: type " + type + " has registered pool. Ignoring constructorArgs.");
 				}
@@ -127,22 +127,7 @@ package com.crazyfm.core.factory
 				obj = getFromPool(type);
 			}else
 			{
-				//TODO: find better solution
-				switch (constructorArgs.length)
-				{
-					case 0: obj = getNewInstance(type); break;
-					case 1: obj = getNewInstance(type, constructorArgs[0]); break;
-					case 2: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1]); break;
-					case 3: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2]); break;
-					case 4: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]); break;
-					case 5: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]); break;
-					case 6: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]); break;
-					case 7: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]); break;
-					case 8: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7]); break;
-					case 9: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8]); break;
-					case 10: obj = getNewInstance(type, constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8], constructorArgs[9]); break;
-					default: throw new Error("getNewInstance supports maximum 10 constructor arguments.");
-				}
+				obj = getNewInstance(type, constructorArgs);
 
 				if (_autoInjectDependencies)
 				{
@@ -153,7 +138,7 @@ package com.crazyfm.core.factory
 			return obj;
 		}
 
-		internal function getNewInstance(type:Class, ...constructorArgs):*
+		internal function getNewInstance(type:Class, constructorArgs:Array = null):*
 		{
 			var t:Class;
 
@@ -171,20 +156,26 @@ package com.crazyfm.core.factory
 			}
 
 			//TODO: find better solution
-			switch (constructorArgs.length)
+			if (constructorArgs)
 			{
-				case 0: return new t();
-				case 1: return new t(constructorArgs[0]);
-				case 2: return new t(constructorArgs[0], constructorArgs[1]);
-				case 3: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2]);
-				case 4: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]);
-				case 5: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]);
-				case 6: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]);
-				case 7: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]);
-				case 8: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7]);
-				case 9: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8]);
-				case 10: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8], constructorArgs[9]);
-				default: throw new Error("getNewInstance supports maximum 10 constructor arguments.");
+				switch (constructorArgs.length)
+				{
+					case 0: return new t();
+					case 1: return new t(constructorArgs[0]);
+					case 2: return new t(constructorArgs[0], constructorArgs[1]);
+					case 3: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2]);
+					case 4: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]);
+					case 5: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]);
+					case 6: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]);
+					case 7: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]);
+					case 8: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7]);
+					case 9: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8]);
+					case 10: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8], constructorArgs[9]);
+					default: throw new Error("getNewInstance supports maximum 10 constructor arguments.");
+				}
+			}else
+			{
+				return new t();
 			}
 		}
 

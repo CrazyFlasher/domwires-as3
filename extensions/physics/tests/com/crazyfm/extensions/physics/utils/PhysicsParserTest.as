@@ -3,8 +3,6 @@
  */
 package com.crazyfm.extensions.physics.utils
 {
-	import com.crazyfm.core.common.AppFactory;
-	import com.crazyfm.core.common.ns_app_factory;
 	import com.crazyfm.extensions.physics.IBodyObject;
 	import com.crazyfm.extensions.physics.IJointObject;
 	import com.crazyfm.extensions.physics.IShapeObject;
@@ -16,8 +14,6 @@ package com.crazyfm.extensions.physics.utils
 	import com.crazyfm.extensions.physics.WorldObject;
 	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
 	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
-
-	use namespace ns_app_factory;
 
 	public class PhysicsParserTest
 	{
