@@ -5,6 +5,7 @@ package com.crazyfm.core.mvc.message
 {
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.core.mvc.context.AbstractContext;
 	import com.crazyfm.core.mvc.context.IContext;
 	import com.crazyfm.core.mvc.model.AbstractModel;
@@ -31,6 +32,8 @@ package com.crazyfm.core.mvc.message
 		private var mc4:ModelContainer;
 		private var v1:AbstractView;
 
+		private var factory:IAppFactory;
+
 		/**
 		 * 			c1
 		 * 		 /	|  \
@@ -46,10 +49,13 @@ package com.crazyfm.core.mvc.message
 		[Before]
 		public function setUp():void
 		{
-			c1 = new MyContext("c1", AppFactory.getSingletonInstance());
-			c2 = new MyContext("c2",AppFactory.getSingletonInstance());
-			c3 = new MyContext("c3",AppFactory.getSingletonInstance());
-			c4 = new MyContext("c4",AppFactory.getSingletonInstance());
+			factory = new AppFactory();
+			factory.map(IAppFactory, factory);
+
+			c1 = factory.getInstance(MyContext, ["c1"]);
+			c2 = factory.getInstance(MyContext, ["c2"]);
+			c3 = factory.getInstance(MyContext, ["c3"]);
+			c4 = factory.getInstance(MyContext, ["c4"]);
 			mc1 = new ModelContainer();
 			mc2 = new ModelContainer();
 			mc3 = new ModelContainer();
@@ -111,16 +117,16 @@ package com.crazyfm.core.mvc.message
 			};
 
 
-			var c1:IContext = new MyContext("c1", AppFactory.getSingletonInstance());
-			var c2:IContext = new MyContext("c2", AppFactory.getSingletonInstance());
-			var c3:IContext = new MyContext("c3", AppFactory.getSingletonInstance());
-			var c4:IContext = new MyContext("c4", AppFactory.getSingletonInstance());
-			var c5:IContext = new MyContext("c5", AppFactory.getSingletonInstance());
-			var c6:IContext = new MyContext("c6", AppFactory.getSingletonInstance());
-			var c7:IContext = new MyContext("c7", AppFactory.getSingletonInstance());
-			var c8:IContext = new MyContext("c8", AppFactory.getSingletonInstance());
-			var c9:IContext = new MyContext("c9", AppFactory.getSingletonInstance());
-			var c10:IContext = new MyContext("c10", AppFactory.getSingletonInstance());
+			var c1:IContext = factory.getInstance(MyContext, ["c1"]);
+			var c2:IContext = factory.getInstance(MyContext, ["c2"]);
+			var c3:IContext = factory.getInstance(MyContext, ["c3"]);
+			var c4:IContext = factory.getInstance(MyContext, ["c4"]);
+			var c5:IContext = factory.getInstance(MyContext, ["c5"]);
+			var c6:IContext = factory.getInstance(MyContext, ["c6"]);
+			var c7:IContext = factory.getInstance(MyContext, ["c7"]);
+			var c8:IContext = factory.getInstance(MyContext, ["c8"]);
+			var c9:IContext = factory.getInstance(MyContext, ["c9"]);
+			var c10:IContext = factory.getInstance(MyContext, ["c10"]);
 
 			c1.addModel(
 					c2.addModel(
@@ -239,11 +245,11 @@ package com.crazyfm.core.mvc.message
 		public function tearDown():void
 		{
 			c1.dispose();
+			factory.dispose();
 		}
 	}
 }
 
-import com.crazyfm.core.factory.IAppFactory;
 import com.crazyfm.core.mvc.context.AbstractContext;
 import com.crazyfm.core.mvc.message.IMessage;
 
@@ -253,11 +259,11 @@ internal class MyContext extends AbstractContext
 {
 	private var _name:String;
 
-	public function MyContext(name:String, f:IAppFactory)
+	public function MyContext(name:String)
 	{
 		_name = name;
 
-		super(f);
+		super();
 	}
 
 	override public function onMessageBubbled(message:IMessage):Boolean

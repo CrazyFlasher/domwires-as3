@@ -3,7 +3,6 @@
  */
 package com.crazyfm.extensions.physics.vo.units
 {
-	import com.crazyfm.extensions.physics.factory.PhysFactory;
 	import com.crazyfm.extensions.physics.vo.GravityVo;
 
 	public class WorldDataVo extends PhysicsUnitDataVo
@@ -16,24 +15,28 @@ package com.crazyfm.extensions.physics.vo.units
 		public function WorldDataVo(json:Object)
 		{
 			super(json);
+		}
 
+		[PostConstruct]
+		public function init():void
+		{
 			var bodies:Vector.<BodyDataVo> = new <BodyDataVo>[];
 			for each (var bodyJson:Object in json.bodies)
 			{
-				var bodyData:BodyDataVo = PhysFactory.instance.getInstance(BodyDataVo, [bodyJson]);
+				var bodyData:BodyDataVo = factory.getInstance(BodyDataVo, [bodyJson]);
 				bodies.push(bodyData);
 			}
 
 			var joints:Vector.<JointDataVo> = new <JointDataVo>[];
 			for each (var jointJson:Object in json.joints)
 			{
-				var jointData:JointDataVo = PhysFactory.instance.getInstance(JointDataVo, [jointJson]);
+				var jointData:JointDataVo = factory.getInstance(JointDataVo, [jointJson]);
 				joints.push(jointData);
 			}
 
 			_bodyDataList = bodies;
 			_jointDataList = joints;
-			_gravity = PhysFactory.instance.getInstance(GravityVo, [json.gravity.x, json.gravity.y]);
+			_gravity = factory.getInstance(GravityVo, [json.gravity.x, json.gravity.y]);
 		}
 
 		public function get bodyDataList():Vector.<BodyDataVo>

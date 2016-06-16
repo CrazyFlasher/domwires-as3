@@ -9,6 +9,7 @@ package com.crazyfm.devkit.gearSys.components.camera
 
 	import starling.display.DisplayObject;
 
+	Camera;
 	public interface ICamera extends IGearSysComponent
 	{
 		function setFocusObject(value:DisplayObject):ICamera;

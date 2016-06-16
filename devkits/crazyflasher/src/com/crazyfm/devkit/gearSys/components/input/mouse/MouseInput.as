@@ -24,7 +24,8 @@ package com.crazyfm.devkit.gearSys.components.input.mouse
 		[Autowired]
 		public var viewContainer:DisplayObjectContainer;
 
-		private var mouseToActions:Vector.<MouseToActionMapping>;
+		[Autowired]
+		public var mouseToActions:Vector.<MouseToActionMapping>;
 
 		private var touch:Touch;
 
@@ -33,11 +34,9 @@ package com.crazyfm.devkit.gearSys.components.input.mouse
 		private var mousePosition:Point = new Point();
 		private var sendHover:Boolean;
 
-		public function MouseInput(mouseToActions:Vector.<MouseToActionMapping>)
+		public function MouseInput()
 		{
 			super();
-
-			this.mouseToActions = mouseToActions;
 		}
 
 		[PostConstruct]

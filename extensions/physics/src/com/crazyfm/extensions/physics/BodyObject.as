@@ -4,7 +4,7 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.AbstractDisposable;
-	import com.crazyfm.extensions.physics.factory.PhysFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
 
@@ -15,6 +15,9 @@ package com.crazyfm.extensions.physics
 
 	public class BodyObject extends AbstractDisposable implements IBodyObject
 	{
+		[Autowired]
+		public var factory:IAppFactory;
+
 		private var _body:Body;
 
 		private var _data:BodyDataVo;
@@ -23,14 +26,20 @@ package com.crazyfm.extensions.physics
 
 		public function BodyObject(data:BodyDataVo)
 		{
-			_data = data;
+			super();
 
+			_data = data;
+		}
+
+		[PostConstruct]
+		public function init():void
+		{
 			_shapeObjectList = new <IShapeObject>[];
 
 			var shapeObject:IShapeObject;
 			for each (var shapeData:ShapeDataVo in _data.shapeDataList)
 			{
-				 shapeObject = PhysFactory.instance.getInstance(IShapeObject, [shapeData]);
+				shapeObject = factory.getInstance(IShapeObject, [shapeData]);
 				_shapeObjectList.push(shapeObject);
 			}
 
@@ -121,13 +130,14 @@ package com.crazyfm.extensions.physics
 			_shapeObjectList = null;
 			_body = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IBodyObject
 		{
-			var c:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, [_data]);
+			var c:IBodyObject = factory.getInstance(IBodyObject, [_data]);
 			return c;
 		}
 	}

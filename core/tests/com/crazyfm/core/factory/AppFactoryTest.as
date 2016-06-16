@@ -3,6 +3,8 @@
  */
 package com.crazyfm.core.factory
 {
+	import flash.media.Camera;
+
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
@@ -16,7 +18,9 @@ package com.crazyfm.core.factory
 		[Before]
 		public function setUp():void
 		{
-			factory = AppFactory.getSingletonInstance();
+			GlobalSettings.logEnabled = true;
+
+			factory = new AppFactory();
 		}
 
 		[After]
@@ -115,6 +119,10 @@ package com.crazyfm.core.factory
 		public function testAutowiredAutoInject():void
 		{
 			var factory:AppFactory = new AppFactory();
+			factory.map(Camera, new Camera());
+			factory.map(Array, []);
+			factory.map(Object, {});
+
 			var obj:DIObject = factory.getInstance(DIObject);
 			assertNotNull(obj.c);
 			assertNotNull(obj.arr);
@@ -125,6 +133,10 @@ package com.crazyfm.core.factory
 		public function testAutowiredManualInject():void
 		{
 			var factory:AppFactory = new AppFactory();
+			factory.map(Camera, new Camera());
+			factory.map(Array, []);
+			factory.map(Object, {});
+
 			factory.autoInjectDependencies = false;
 
 			var obj:DIObject = factory.getInstance(DIObject);
@@ -139,7 +151,12 @@ package com.crazyfm.core.factory
 		public function testAutowiredAutoInjectPostConstruct():void
 		{
 			var factory:AppFactory = new AppFactory();
+			factory.map(Camera, new Camera());
+			factory.map(Array, []);
+			factory.map(Object, {});
+
 			var obj:DIObject = factory.getInstance(DIObject);
+
 			assertNotNull(obj.c);
 			assertNotNull(obj.arr);
 			assertNotNull(obj.obj);
@@ -191,6 +208,22 @@ package com.crazyfm.core.factory
 			obj2 = factory.getInstance(MyType2) as MyType2;
 
 			assertFalse(obj == obj2);
+		}
+
+		[Test]
+		public function testMapDefaultImplementation_yes():void
+		{
+			var factory:IAppFactory = new AppFactory();
+			var d:IDefault = factory.getInstance(IDefault);
+			assertEquals(d.result, 123);
+		}
+
+		[Test(expects="Error")]
+		public function testMapDefaultImplementation_no():void
+		{
+			var factory:IAppFactory = new AppFactory();
+			var d:IDefault2 = factory.getInstance(IDefault2);
+			assertEquals(d.result, 123);
 		}
 	}
 }

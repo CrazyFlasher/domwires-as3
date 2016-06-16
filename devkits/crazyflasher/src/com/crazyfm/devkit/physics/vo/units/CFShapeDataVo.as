@@ -14,6 +14,12 @@ package com.crazyfm.devkit.physics.vo.units
 		public function CFShapeDataVo(json:Object)
 		{
 			super(json);
+		}
+
+		[PostConstruct]
+		override public function init():void
+		{
+			super.init();
 
 			_isLadder = customData.isLadder;
 			_teleportExitId = customData.teleportExitId;

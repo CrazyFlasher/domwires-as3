@@ -17,52 +17,50 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 	public class PhysBodyObjectModel extends GearSysComponent implements IPhysBodyObjectModel
 	{
-		protected var _body:Body;
+		[Autowired]
+		public var body:Body;
 
 		protected var latestCollisionData:LatestCollisionDataVo;
 
-		public function PhysBodyObjectModel(body:Body)
+		public function PhysBodyObjectModel()
 		{
 			super();
+		}
 
-			_body = body;
-
+		[PostConstruct]
+		public function init():void
+		{
 			latestCollisionData = new LatestCollisionDataVo();
 
-			if (_body.isDynamic())
+			if (body.isDynamic())
 			{
 				removeInteractionCallbacksFromShapes();
 			}
 
-			_body.userData.clazz = this;
+			body.userData.clazz = this;
 		}
 
 		private function removeInteractionCallbacksFromShapes():void
 		{
 			var shape:Shape;
-			for (var i:int = 0; i < _body.shapes.length; i++)
+			for (var i:int = 0; i < body.shapes.length; i++)
 			{
-				shape = _body.shapes.at(i);
+				shape = body.shapes.at(i);
 				shape.cbTypes.clear();
 			}
 		}
 
 		override public function dispose():void
 		{
-			_body = null;
+			body = null;
 			latestCollisionData = null;
 
 			super.dispose();
 		}
 
-		ns_inter_physobject function get body():Body
-		{
-			return _body;
-		}
-
 		public function onBodyBeginCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
-			if (!_body.isStatic())
+			if (!body.isStatic())
 			{
 				updateLatestCollisionData(collision, otherBody, otherShape);
 
@@ -77,7 +75,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		public function onBodyEndCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
-			if (!_body.isStatic())
+			if (!body.isStatic())
 			{
 				updateLatestCollisionData(collision, otherBody, otherShape);
 
@@ -92,7 +90,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		public function onBodyOnGoingCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
-			if (!_body.isStatic())
+			if (!body.isStatic())
 			{
 				updateLatestCollisionData(collision, otherBody, otherShape);
 
@@ -107,7 +105,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		public function onBodyBeginSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
-			if (!_body.isStatic())
+			if (!body.isStatic())
 			{
 				updateLatestCollisionData(collision, otherBody, otherShape);
 
@@ -122,7 +120,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		public function onBodyEndSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
-			if (!_body.isStatic())
+			if (!body.isStatic())
 			{
 				updateLatestCollisionData(collision, otherBody, otherShape);
 
@@ -137,7 +135,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		public function onBodyOnGoingSensor(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void
 		{
-			if (!_body.isStatic())
+			if (!body.isStatic())
 			{
 				updateLatestCollisionData(collision, otherBody, otherShape);
 
@@ -161,32 +159,32 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		public function get position():Vec2
 		{
-			return _body.position;
+			return body.position;
 		}
 
 		public function get velocity():Vec2
 		{
-			return _body.velocity;
+			return body.velocity;
 		}
 
 		public function get rotation():Number
 		{
-			return _body.rotation;
+			return body.rotation;
 		}
 
 		public function set rotation(value:Number):void
 		{
-			_body.rotation = value;
+			body.rotation = value;
 		}
 
 		public function get localCenterOfMass():Vec2
 		{
-			return _body.localCOM;
+			return body.localCOM;
 		}
 
 		public function get worldCenterOfMass():Vec2
 		{
-			return _body.worldCOM;
+			return body.worldCOM;
 		}
 	}
 }

@@ -13,9 +13,9 @@ package com.crazyfm.devkit.gearSys.mechanisms
 		[Autowired]
 		public var juggler:Juggler;
 
-		public function StarlingJugglerMechanism(constantPassedTime:Number = NaN)
+		public function StarlingJugglerMechanism()
 		{
-			super(constantPassedTime);
+			super();
 		}
 
 		[PostConstruct]

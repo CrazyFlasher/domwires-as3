@@ -13,7 +13,11 @@ package com.crazyfm.extensions.physics.vo.units
 		public function JointDataVo(json:Object)
 		{
 			super(json);
+		}
 
+		[PostConstruct]
+		public function init():void
+		{
 			if(json.minAngle != null)
 			{
 				_minAngle = json.minAngle;

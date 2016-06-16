@@ -177,7 +177,7 @@ package com.crazyfm.extension.gearSys
 		public function testGetGoSystem():void
 		{
 			assertNull(go.parent);
-			var sys:IGearSys = new GearSys(new EnterFrameMechanism());
+			var sys:IGearSys = new GearSys();
 			sys.addGameObject(go);
 			assertEquals(go.parent, sys);
 			sys.removeGameObject(go);

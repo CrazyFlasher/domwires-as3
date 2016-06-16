@@ -30,18 +30,24 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 		private var delayedCall:DelayedCall;
 		private var _isTeleporting:Boolean;
 
-		public function InteractivePhysObjectModel(body:Body)
+		public function InteractivePhysObjectModel()
 		{
-			super(body);
+			super();
+		}
 
-			gravityMass = _body.gravMass;
+		[PostConstruct]
+		override public function init():void
+		{
+			super.init();
+
+			gravityMass = body.gravMass;
 		}
 
 		override public function interact(timePassed:Number):void
 		{
 			super.interact(timePassed);
 
-			if (_isOnLegs && _body.velocity.length < SLEEP_VELOCITY.length && !collisionJustEnded)
+			if (_isOnLegs && body.velocity.length < SLEEP_VELOCITY.length && !collisionJustEnded)
 			{
 				tryToSleep();
 			}
@@ -78,11 +84,11 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		protected function tryToSleep():void
 		{
-			if (!_body.isSleeping)
+			if (!body.isSleeping)
 			{
-				_body.velocity.setxy(0, 0);
+				body.velocity.setxy(0, 0);
 
-				ForcedSleep.sleepBody(_body);
+				ForcedSleep.sleepBody(body);
 			}
 		}
 
@@ -97,7 +103,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 			for (var i:int = 0; i < collision.arbiters.length; i++)
 			{
-				if (_body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal, true).y < IS_ON_LEGS_COLLISION_Y)
+				if (body.worldVectorToLocal(collision.arbiters.at(i).collisionArbiter.normal, true).y < IS_ON_LEGS_COLLISION_Y)
 				{
 					return false;
 				}
@@ -112,11 +118,11 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 			{
 				if (value)
 				{
-					_body.gravMass = 0;
+					body.gravMass = 0;
 				}else
 				{
-					_body.gravMass = gravityMass;
-					_body.gravMassMode = GravMassMode.DEFAULT;
+					body.gravMass = gravityMass;
+					body.gravMassMode = GravMassMode.DEFAULT;
 				}
 			}
 
@@ -125,12 +131,12 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 		public function get zeroGravity():Boolean
 		{
-			return _body.gravMass == 0;
+			return body.gravMass == 0;
 		}
 
 		public function get bounds():AABB
 		{
-			return _body.bounds;
+			return body.bounds;
 		}
 
 		public function teleportTo(x:Number, y:Number, time:Number = 0):IInteractivePhysObjectModel

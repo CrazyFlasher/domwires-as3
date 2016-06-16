@@ -14,14 +14,14 @@ package com.crazyfm.core.mvc.context
 	 */
 	public class CommandMapper implements ICommandMapper
 	{
-		private var commandMap:Dictionary/*Enum, Vector.<Class>*/ = new Dictionary();
-		private var factory:IAppFactory;
+		[Autowired]
+		public var factory:IAppFactory;
 
-		public function CommandMapper(factory:IAppFactory)
+		private var commandMap:Dictionary/*Enum, Vector.<Class>*/ = new Dictionary();
+
+		public function CommandMapper()
 		{
 			super();
-
-			this.factory = factory;
 		}
 
 		public function map(messageType:Enum, commandClass:Class):ICommandMapper

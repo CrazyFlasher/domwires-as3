@@ -17,18 +17,22 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 
 	public class PhysWorldModel extends GearSysComponent implements IPhysWorldModel
 	{
-		private var space:Space;
+		[Autowired]
+		public var space:Space;
 
 		private var interactors:CollisionInteractors;
 
 		protected var velocityIterations:int = 10;
 		protected var positionIterations:int = 10;
 
-		public function PhysWorldModel(space:Space)
+		public function PhysWorldModel()
 		{
 			super();
+		}
 
-			this.space = space;
+		[PostConstruct]
+		public function init():void
+		{
 			interactors = new CollisionInteractors();
 
 			createPhysicsListeners();

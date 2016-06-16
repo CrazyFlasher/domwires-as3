@@ -8,6 +8,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.shape.Shape;
 
+	ShapeObject;
 	public interface IShapeObject extends IDisposable
 	{
 		function get vertexObjectList():Vector.<IVertexObject>;

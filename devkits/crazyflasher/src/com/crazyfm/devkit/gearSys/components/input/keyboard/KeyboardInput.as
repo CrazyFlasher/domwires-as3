@@ -13,15 +13,15 @@ package com.crazyfm.devkit.gearSys.components.input.keyboard
 		[Autowired]
 		public var stage:Stage;
 
+		[Autowired]
+		public var keysToActions:Vector.<KeysToActionMapping>;
+
 		private var keyDownList:Vector.<uint> = new <uint>[];
 		private var keyUpList:Vector.<uint> = new <uint>[];
-		private var keysToActions:Vector.<KeysToActionMapping>;
 
-		public function KeyboardInput(keysToActions:Vector.<KeysToActionMapping>)
+		public function KeyboardInput()
 		{
 			super();
-
-			this.keysToActions = keysToActions;
 		}
 
 		[PostConstruct]

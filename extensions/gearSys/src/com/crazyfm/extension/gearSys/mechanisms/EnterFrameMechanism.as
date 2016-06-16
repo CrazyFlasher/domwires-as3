@@ -15,14 +15,13 @@ package com.crazyfm.extension.gearSys.mechanisms
 
 		private var sprite:Sprite;
 
-		public function EnterFrameMechanism(constantPassedTime:Number = NaN)
+		public function EnterFrameMechanism()
 		{
-			super(constantPassedTime);
-
-			init();
+			super();
 		}
 
-		private function init():void
+		[PostConstruct]
+		public function init():void
 		{
 			sprite = new Sprite();
 			sprite.addEventListener(Event.ENTER_FRAME, enterFrame);

@@ -13,6 +13,12 @@ package com.crazyfm.devkit.physics
 		public function CFBodyObject(data:BodyDataVo)
 		{
 			super(data);
+		}
+
+		[PostConstruct]
+		override public function init():void
+		{
+			super.init();
 
 			var teleportExitObject:CFShapeObject;
 

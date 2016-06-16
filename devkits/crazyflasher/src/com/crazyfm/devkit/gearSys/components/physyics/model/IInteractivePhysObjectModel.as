@@ -5,6 +5,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 {
 	import nape.geom.AABB;
 
+	InteractivePhysObjectModel;
 	public interface IInteractivePhysObjectModel extends IPhysBodyObjectModel
 	{
 		function get isOnLegs():Boolean;

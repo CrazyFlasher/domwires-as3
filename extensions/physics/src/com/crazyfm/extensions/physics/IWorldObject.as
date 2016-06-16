@@ -8,6 +8,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.space.Space;
 
+	WorldObject;
 	public interface IWorldObject extends IDisposable
 	{
 		function get data():WorldDataVo;

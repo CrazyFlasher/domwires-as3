@@ -8,6 +8,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.geom.Vec2;
 
+	VertexObject;
 	public interface IVertexObject extends IDisposable
 	{
 		function get x():Number;

@@ -3,7 +3,6 @@
  */
 package com.crazyfm.extensions.physics.vo.units
 {
-	import com.crazyfm.extensions.physics.factory.PhysFactory;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 
@@ -24,18 +23,22 @@ package com.crazyfm.extensions.physics.vo.units
 		public function BodyDataVo(json:Object)
 		{
 			super(json);
+		}
 
+		[PostConstruct]
+		public function init():void
+		{
 			var shapes:Vector.<ShapeDataVo> = new <ShapeDataVo>[];
 			for each (var shapeJson:Object in json.shapes)
 			{
-				var shapeData:ShapeDataVo = PhysFactory.instance.getInstance(ShapeDataVo, [shapeJson]);
+				var shapeData:ShapeDataVo = factory.getInstance(ShapeDataVo, [shapeJson]);
 				shapes.push(shapeData);
 			}
 
 			_shapeDataList = shapes;
 
-			_material = PhysFactory.instance.getInstance(ShapeMaterialVo, [json.material]);
-			_interactionFilter = PhysFactory.instance.getInstance(InteractionFilterVo, [json.filter]);
+			_material = factory.getInstance(ShapeMaterialVo, [json.material]);
+			_interactionFilter = factory.getInstance(InteractionFilterVo, [json.filter]);
 
 			if(json.angle != null)
 			{

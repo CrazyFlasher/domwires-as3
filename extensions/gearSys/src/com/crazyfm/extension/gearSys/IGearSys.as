@@ -3,6 +3,7 @@
  */
 package com.crazyfm.extension.gearSys
 {
+	GearSys;
 	public interface IGearSys extends IGearSysGearWheelContainer
 	{
 		function addGameObject(value:IGearSysObject):IGearSys;

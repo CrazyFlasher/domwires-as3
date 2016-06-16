@@ -3,6 +3,8 @@
  */
 package com.crazyfm.core.factory
 {
+	import flash.utils.Dictionary;
+
 	public class AppFactoryTest2
 	{
 		[Before]
@@ -17,11 +19,14 @@ package com.crazyfm.core.factory
 
 		}
 
-		[Ignore]
+//		[Ignore]
 		[Test]
 		public function testPerformance():void
 		{
 			var factory:AppFactory = new AppFactory();
+			factory.map(Array, []);
+			factory.map(Dictionary, new Dictionary());
+			factory.map(Object, {});
 
 			for (var i:int = 0; i < 10000; i++)
 			{

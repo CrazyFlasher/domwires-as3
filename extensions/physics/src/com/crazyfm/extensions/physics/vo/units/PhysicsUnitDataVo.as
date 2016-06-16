@@ -3,8 +3,15 @@
  */
 package com.crazyfm.extensions.physics.vo.units
 {
+	import com.crazyfm.core.factory.IAppFactory;
+
 	public class PhysicsUnitDataVo
 	{
+		[Autowired]
+		public var factory:IAppFactory;
+
+		protected var json:Object;
+
 		private var _id:String;
 
 		private var _x:Number = 0;
@@ -14,6 +21,8 @@ package com.crazyfm.extensions.physics.vo.units
 
 		public function PhysicsUnitDataVo(json:Object)
 		{
+			this.json = json;
+
 			_x = json.x;
 			_y = json.y;
 			_id = json.id;

@@ -4,7 +4,7 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.AbstractDisposable;
-	import com.crazyfm.extensions.physics.factory.PhysFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.extensions.physics.vo.units.BodyDataVo;
 	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
 	import com.crazyfm.extensions.physics.vo.units.WorldDataVo;
@@ -16,6 +16,9 @@ package com.crazyfm.extensions.physics
 
 	public class WorldObject extends AbstractDisposable implements IWorldObject
 	{
+		[Autowired]
+		public var factory:IAppFactory;
+
 		private var _space:Space;
 
 		private var _data:WorldDataVo;
@@ -25,15 +28,22 @@ package com.crazyfm.extensions.physics
 
 		public function WorldObject(data:WorldDataVo)
 		{
-			_data = data;
+			super();
 
+			_data = data;
+		}
+
+		[PostConstruct]
+		public function init():void
+		{
 			_space = new Space(new Vec2(_data.gravity.x, _data.gravity.y));
 
 			_bodyObjectList = new <IBodyObject>[];
 
+			var bodyObject:IBodyObject;
 			for each (var bodyData:BodyDataVo in _data.bodyDataList)
 			{
-				var bodyObject:IBodyObject = PhysFactory.instance.getInstance(IBodyObject, [bodyData]);
+				bodyObject = factory.getInstance(IBodyObject, [bodyData]);
 				_bodyObjectList.push(bodyObject);
 
 				_space.bodies.add(bodyObject.body);
@@ -41,11 +51,13 @@ package com.crazyfm.extensions.physics
 
 			_jointObjectList = new <IJointObject>[];
 
+			var jointObject:IJointObject;
+			var bodiesToConnect:Vector.<Body>;
 			for each (var jointData:JointDataVo in _data.jointDataList)
 			{
-				var jointObject:IJointObject = PhysFactory.instance.getInstance(IJointObject, [jointData]);
+				jointObject = factory.getInstance(IJointObject, [jointData]);
 
-				var bodiesToConnect:Vector.<Body> = getBodiesToConnect(jointObject.data);
+				bodiesToConnect = getBodiesToConnect(jointObject.data);
 
 				if(bodiesToConnect.length > 1)
 				{
@@ -167,13 +179,14 @@ package com.crazyfm.extensions.physics
 			_jointObjectList = null;
 			_space = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IWorldObject
 		{
-			var c:IWorldObject = PhysFactory.instance.getInstance(IWorldObject, [_data]);
+			var c:IWorldObject = factory.getInstance(IWorldObject, [_data]);
 			return c;
 		}
 	}

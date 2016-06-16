@@ -10,6 +10,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 	import nape.phys.Body;
 	import nape.shape.Shape;
 
+	PhysBodyObjectModel;
 	public interface IPhysBodyObjectModel extends IGearSysComponent
 	{
 		function onBodyBeginCollision(collision:InteractionCallback, otherBody:Body, otherShape:Shape):void;

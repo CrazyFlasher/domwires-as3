@@ -5,13 +5,12 @@ package com.crazyfm.extension.gearSys
 {
 	public class AbstractGearSysMechanism extends AbstractGearSysGearWheelContainer implements IGearSysMechanism
 	{
-		private var constantPassedTime:Number;
+		[Autowired]
+		public var constantPassedTime:Number;
 
-		public function AbstractGearSysMechanism(constantPassedTime:Number = NaN)
+		public function AbstractGearSysMechanism()
 		{
 			super();
-
-			this.constantPassedTime = constantPassedTime;
 		}
 
 		/**

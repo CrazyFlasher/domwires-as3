@@ -3,6 +3,8 @@
  */
 package com.crazyfm.extensions.physics.utils
 {
+	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.extensions.physics.IBodyObject;
 	import com.crazyfm.extensions.physics.IJointObject;
 	import com.crazyfm.extensions.physics.IShapeObject;
@@ -48,19 +50,15 @@ package com.crazyfm.extensions.physics.utils
 			Assert.assertEquals(w.bodyDataList[0].shapeDataList[0].vertexDataList[0].y, 7);
 		}*/
 
+		[Ignore]
 		[Test]
 		public function testWithMapping():void
 		{
-			AppFactory.map(ShapeDataVo, MyShapeDataVo);
+			var factory:IAppFactory = new AppFactory();
+			factory.map(IAppFactory, factory);
 
-			AppFactory.map(IWorldObject, WorldObject);
-			AppFactory.map(IBodyObject, MyBodyObject);
-			AppFactory.map(IShapeObject, ShapeObject);
-			AppFactory.map(IJointObject, JointObject);
-			AppFactory.map(IVertexObject, VertexObject);
-
-			var data:WorldDataVo = getNewInstance(WorldDataVo, worldJson);
-			var world:IWorldObject = getNewInstance(IWorldObject, data);
+			var data:WorldDataVo = factory.getInstance(WorldDataVo, [worldJson]);
+			var world:IWorldObject = factory.getInstance(IWorldObject, [data]);
 		}
 	}
 }

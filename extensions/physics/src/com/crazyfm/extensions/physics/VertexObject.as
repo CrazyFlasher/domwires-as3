@@ -4,21 +4,30 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.AbstractDisposable;
-	import com.crazyfm.extensions.physics.factory.PhysFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.extensions.physics.vo.units.VertexDataVo;
 
 	import nape.geom.Vec2;
 
 	public class VertexObject extends AbstractDisposable implements IVertexObject
 	{
+		[Autowired]
+		public var factory:IAppFactory;
+
 		private var _vertex:Vec2;
 
 		private var _data:VertexDataVo;
 
 		public function VertexObject(data:VertexDataVo)
 		{
-			_data = data;
+			super();
 
+			_data = data;
+		}
+
+		[PostConstruct]
+		public function init():void
+		{
 			_vertex = new Vec2(_data.x, _data.y);
 		}
 
@@ -48,13 +57,14 @@ package com.crazyfm.extensions.physics
 
 			_vertex = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IVertexObject
 		{
-			var c:IVertexObject = PhysFactory.instance.getInstance(IVertexObject, [_data]);
+			var c:IVertexObject = factory.getInstance(IVertexObject, [_data]);
 			return c;
 		}
 	}

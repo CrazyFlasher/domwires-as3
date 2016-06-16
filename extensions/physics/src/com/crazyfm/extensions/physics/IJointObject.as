@@ -10,6 +10,7 @@ package com.crazyfm.extensions.physics
 	import nape.constraint.PivotJoint;
 	import nape.phys.Body;
 
+	JointObject;
 	public interface IJointObject extends IDisposable
 	{
 		function get data():JointDataVo;

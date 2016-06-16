@@ -9,15 +9,19 @@ package com.crazyfm.devkit.gearSys.mechanisms
 
 	public class StarlingTimerMechanism extends AbstractGearSysMechanism
 	{
+		[Autowired]
+		public var delay:Number;
+
 		private var timer:Timer;
-		private var delay:Number;
-		
-		public function StarlingTimerMechanism(delay:Number)
+
+		public function StarlingTimerMechanism()
 		{
 			super();
+		}
 
-			this.delay = delay;
-
+		[PostConstruct]
+		public function init():void
+		{
 			timer = new Timer(delay);
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();

@@ -4,6 +4,7 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
@@ -16,16 +17,21 @@ package com.crazyfm.core.mvc.context
 	{
 		private var commandMapper:ICommandMapper;
 
+		private var factory:IAppFactory;
+
 		[Before]
 		public function setUp():void
 		{
-			commandMapper = new CommandMapper(AppFactory.getSingletonInstance());
+			factory = new AppFactory();
+			factory.map(IAppFactory, factory);
+
+			commandMapper = factory.getInstance(CommandMapper);
 		}
 
 		[After]
 		public function tearDown():void
 		{
-			AppFactory.getSingletonInstance().clear();
+			factory.dispose();
 			commandMapper.clear();
 		}
 
@@ -91,7 +97,9 @@ package com.crazyfm.core.mvc.context
 		[Test]
 		public function testTryToExecuteCommand():void
 		{
-			var m:TestObj1 = AppFactory.getSingletonInstance().getSingleton(TestObj1) as TestObj1;
+			var m:TestObj1 = factory.getSingleton(TestObj1) as TestObj1;
+			factory.map(TestObj1, m);
+
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 
 			assertEquals(m.d, 0);
@@ -102,7 +110,9 @@ package com.crazyfm.core.mvc.context
 		[Test]
 		public function testManyEvents1Command():void
 		{
-			var m:TestObj1 = AppFactory.getSingletonInstance().getSingleton(TestObj1) as TestObj1;
+			var m:TestObj1 = factory.getSingleton(TestObj1) as TestObj1;
+			factory.map(TestObj1, m);
+
 			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 			commandMapper.map(MyCoolEnum.SHALOM, TestCommand);
@@ -110,6 +120,7 @@ package com.crazyfm.core.mvc.context
 			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
 			commandMapper.tryToExecuteCommand(MyCoolEnum.SHALOM);
 			assertEquals(m.d, 21);
+
 			commandMapper.unmap(MyCoolEnum.SHALOM, TestCommand);
 			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
 			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);

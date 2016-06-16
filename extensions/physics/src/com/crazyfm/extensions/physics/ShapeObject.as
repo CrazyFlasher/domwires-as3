@@ -4,7 +4,7 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.AbstractDisposable;
-	import com.crazyfm.extensions.physics.factory.PhysFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.extensions.physics.vo.InteractionFilterVo;
 	import com.crazyfm.extensions.physics.vo.ShapeMaterialVo;
 	import com.crazyfm.extensions.physics.vo.units.ShapeDataVo;
@@ -22,6 +22,9 @@ package com.crazyfm.extensions.physics
 
 	public class ShapeObject extends AbstractDisposable implements IShapeObject
 	{
+		[Autowired]
+		public var factory:IAppFactory;
+
 		private var _shapes:Vector.<Shape>;
 
 		private var _data:ShapeDataVo;
@@ -31,9 +34,14 @@ package com.crazyfm.extensions.physics
 		public function ShapeObject(data:ShapeDataVo)
 		{
 			//TODO: a lot of tests
+			super();
 
 			_data = data;
+		}
 
+		[PostConstruct]
+		public function init():void
+		{
 			var materialData:ShapeMaterialVo = _data.material;
 			var material:Material = new Material(materialData.elasticity, materialData.dynamicFriction,
 					materialData.staticFriction, materialData.density, materialData.rollingFriction);
@@ -51,7 +59,7 @@ package com.crazyfm.extensions.physics
 
 				for each (var vertexData:VertexDataVo in _data.vertexDataList)
 				{
-					var vertexObject:IVertexObject = PhysFactory.instance.getInstance(IVertexObject, [vertexData]);
+					var vertexObject:IVertexObject = factory.getInstance(IVertexObject, [vertexData]);
 
 					_vertexObjectList.push(vertexObject);
 					verticesVec2.push(new Vec2(vertexObject.vertex.x, vertexObject.vertex.y));
@@ -122,13 +130,14 @@ package com.crazyfm.extensions.physics
 			_vertexObjectList = null;
 			_shapes = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IShapeObject
 		{
-			var c:IShapeObject = PhysFactory.instance.getInstance(IShapeObject, [_data]);
+			var c:IShapeObject = factory.getInstance(IShapeObject, [_data]);
 			return c;
 		}
 	}

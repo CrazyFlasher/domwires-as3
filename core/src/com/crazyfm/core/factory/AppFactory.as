@@ -4,6 +4,7 @@
 package com.crazyfm.core.factory
 {
 	import avmplus.DescribeTypeJSON;
+	import avmplus.getQualifiedClassName;
 
 	import com.crazyfm.core.common.AbstractDisposable;
 
@@ -12,23 +13,6 @@ package com.crazyfm.core.factory
 
 	public class AppFactory extends AbstractDisposable implements IAppFactory
 	{
-		//TODO: profiler test
-		private static var instance:IAppFactory;
-
-		/**
-		 * Returns <code>IAppFactory</code> singleton instance.
-		 * @return
-		 */
-		public static function getSingletonInstance():IAppFactory
-		{
-			if (!instance)
-			{
-				instance = new AppFactory();
-			}
-
-			return instance;
-		}
-
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
 		private var instanceMapping:Dictionary = new Dictionary()/*Object, Class*/;
 		private var pool:Dictionary = new Dictionary()/*Class, PoolModel*/;
@@ -108,12 +92,9 @@ package com.crazyfm.core.factory
 		 */
 		public function getInstance(type:Class, constructorArgs:Array = null):*
 		{
-			if (instanceMapping[type])
-			{
-				return instanceMapping[type];
-			}
+			var obj:* = getInstanceFromInstanceMap(type);
 
-			var obj:*;
+			if (obj) return obj;
 
 			if (hasPoolForType(type))
 			{
@@ -138,6 +119,21 @@ package com.crazyfm.core.factory
 			return obj;
 		}
 
+		private function getInstanceFromInstanceMap(type:Class, require:Boolean = false):*
+		{
+			if (instanceMapping[type])
+			{
+				return instanceMapping[type];
+			}
+
+			if (require)
+			{
+				throw new Error("Instance mapping for " + type + " not found!");
+			}
+
+			return null;
+		}
+
 		internal function getNewInstance(type:Class, constructorArgs:Array = null):*
 		{
 			var t:Class;
@@ -155,27 +151,41 @@ package com.crazyfm.core.factory
 				t = typeMapping[type];
 			}
 
+			try
+			{
+				return returnNewInstance(t, constructorArgs);
+			}catch (e:VerifyError)
+			{
+				var defImplClassName:String = getQualifiedClassName(type).replace(/::I/g, ".");
+
+				log("Warning: interface " + type + " is not mapped to any class. Trying to find default implementation " + defImplClassName);
+				map(type, getDefinitionByName(defImplClassName) as Class);
+
+				return getInstance(type, constructorArgs);
+			}
+		}
+
+		private function returnNewInstance(type:Class, constructorArgs:Array = null):*
+		{
+			if (!constructorArgs || (constructorArgs && constructorArgs.length == 0))
+			{
+				return new type();
+			}
+
 			//TODO: find better solution
-			if (constructorArgs)
+			switch (constructorArgs.length)
 			{
-				switch (constructorArgs.length)
-				{
-					case 0: return new t();
-					case 1: return new t(constructorArgs[0]);
-					case 2: return new t(constructorArgs[0], constructorArgs[1]);
-					case 3: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2]);
-					case 4: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]);
-					case 5: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]);
-					case 6: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]);
-					case 7: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]);
-					case 8: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7]);
-					case 9: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8]);
-					case 10: return new t(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8], constructorArgs[9]);
-					default: throw new Error("getNewInstance supports maximum 10 constructor arguments.");
-				}
-			}else
-			{
-				return new t();
+				case 1: return new type(constructorArgs[0]);
+				case 2: return new type(constructorArgs[0], constructorArgs[1]);
+				case 3: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2]);
+				case 4: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3]);
+				case 5: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4]);
+				case 6: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5]);
+				case 7: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6]);
+				case 8: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7]);
+				case 9: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8]);
+				case 10: return new type(constructorArgs[0], constructorArgs[1], constructorArgs[2], constructorArgs[3], constructorArgs[4], constructorArgs[5], constructorArgs[6], constructorArgs[7], constructorArgs[8], constructorArgs[9]);
+				default: throw new Error("getNewInstance supports maximum 10 constructor arguments.");
 			}
 		}
 
@@ -271,6 +281,7 @@ package com.crazyfm.core.factory
 			{
 				poolModel.dispose();
 			}
+
 			pool = new Dictionary();
 
 			return this;
@@ -308,7 +319,7 @@ package com.crazyfm.core.factory
 			var objVar:String;
 			for (objVar in injectionData.variables)
 			{
-				object[objVar] = getInstance(getDefinitionByName(injectionData.variables[objVar]) as Class);
+				object[objVar] = getInstanceFromInstanceMap(getDefinitionByName(injectionData.variables[objVar]) as Class, true);
 			}
 
 			if (injectionData.postConstructName != null)
@@ -375,8 +386,6 @@ package com.crazyfm.core.factory
 		 */
 		override public function dispose():void
 		{
-			super.dispose();
-
 			typeMapping = null;
 			instanceMapping = null;
 
@@ -393,6 +402,8 @@ package com.crazyfm.core.factory
 			}
 
 			injectionMap = null;
+
+			super.dispose();
 		}
 
 		/**

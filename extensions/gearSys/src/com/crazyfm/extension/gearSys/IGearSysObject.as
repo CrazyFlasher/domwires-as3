@@ -5,6 +5,7 @@ package com.crazyfm.extension.gearSys
 {
 	import com.crazyfm.core.mvc.hierarchy.IHierarchyObjectContainer;
 
+	GearSysObject;
 	public interface IGearSysObject extends IHierarchyObjectContainer, IGearSysGearWheel
 	{
 		function addComponent(component:IGearSysComponent, priority:int = -1):IGearSysObject;

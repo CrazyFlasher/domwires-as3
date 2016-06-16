@@ -7,14 +7,19 @@ package com.crazyfm.extension.gearSys
 
 	public class GearSys extends AbstractGearSysGearWheelContainer implements IGearSys
 	{
-		private var _mechanism:IGearSysMechanism;
+		[Autowired]
+		public var _mechanism:IGearSysMechanism;
 
 		private var initialized:Boolean;
 
-		public function GearSys(mechanism:IGearSysMechanism)
+		public function GearSys()
 		{
 			super();
+		}
 
+		[PostConstruct]
+		public function init():void
+		{
 			_mechanism = mechanism.addGear(this);
 		}
 

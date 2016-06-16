@@ -8,6 +8,7 @@ package com.crazyfm.extensions.physics
 
 	import nape.phys.Body;
 
+	BodyObject;
 	public interface IBodyObject extends IDisposable
 	{
 		function get shapeObjectList():Vector.<IShapeObject>;

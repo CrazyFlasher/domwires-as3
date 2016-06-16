@@ -22,18 +22,23 @@ package com.crazyfm.core.mvc.context
 	 */
 	public class AbstractContext extends HierarchyObjectContainer implements IContext
 	{
-		protected var factory:IAppFactory;
+		[Autowired]
+		public var factory:IAppFactory;
 
 		private var modelContainer:IModelContainer;
 		private var viewContainer:IViewContainer;
 
 		private var commandMapper:ICommandMapper;
 
-		public function AbstractContext(factory:IAppFactory)
+		public function AbstractContext()
 		{
 			super();
+		}
 
-			this.factory = factory;
+		[PostConstruct]
+		public function init():void
+		{
+			factory.map(IAppFactory, factory);
 
 			modelContainer = factory.getInstance(ModelContainer);
 			add(modelContainer);
@@ -41,7 +46,7 @@ package com.crazyfm.core.mvc.context
 			viewContainer = factory.getInstance(ViewContainer);
 			add(viewContainer);
 
-			commandMapper = factory.getInstance(CommandMapper, [factory]);
+			commandMapper = factory.getInstance(CommandMapper);
 		}
 
 		/**

@@ -18,19 +18,19 @@ package com.crazyfm.devkit.gearSys.components.camera
 		[Autowired]
 		public var viewContainer:DisplayObjectContainer;
 
+		[Autowired]
+		public var transitionTime:Number;
+
 		private var focusObject:DisplayObject;
 		private var viewPort:Rectangle;
 		private var tween:Tween;
-		private var transitionTime:Number;
 		private var _aimPosition:Point = new Point();
 
 		private var viewContainerBounds:Rectangle = new Rectangle();
 
-		public function Camera(transitionTime:Number = 1.0)
+		public function Camera()
 		{
 			super();
-
-			this.transitionTime = transitionTime;
 		}
 
 		[PostConstruct]
@@ -124,6 +124,8 @@ package com.crazyfm.devkit.gearSys.components.camera
 		public function setViewport(value:Rectangle):ICamera
 		{
 			viewPort = value;
+
+			updateViewContainerBounds();
 
 			return this;
 		}

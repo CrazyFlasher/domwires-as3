@@ -17,14 +17,15 @@ package com.crazyfm.devkit.gearSys.mechanisms
 
 		private var sprite:Sprite;
 
-		public function StarlingEnterFrameMechanism(constantPassedTime:Number = NaN)
+		public function StarlingEnterFrameMechanism()
 		{
-			super(constantPassedTime);
+			super();
 
 			init();
 		}
 
-		private function init():void
+		[Autowired]
+		public function init():void
 		{
 			sprite = new Sprite();
 			sprite.addEventListener(Event.ENTER_FRAME, enterFrame);

@@ -4,7 +4,7 @@
 package com.crazyfm.extensions.physics
 {
 	import com.crazyfm.core.common.AbstractDisposable;
-	import com.crazyfm.extensions.physics.factory.PhysFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.extensions.physics.vo.units.JointDataVo;
 
 	import nape.constraint.AngleJoint;
@@ -14,6 +14,9 @@ package com.crazyfm.extensions.physics
 
 	public class JointObject extends AbstractDisposable implements IJointObject
 	{
+		[Autowired]
+		public var factory:IAppFactory;
+
 		private var _data:JointDataVo;
 
 		private var _angleJoint:AngleJoint;
@@ -21,6 +24,8 @@ package com.crazyfm.extensions.physics
 
 		public function JointObject(data:JointDataVo)
 		{
+			super();
+
 			_data = data;
 		}
 
@@ -61,13 +66,14 @@ package com.crazyfm.extensions.physics
 			_angleJoint = null;
 			_pivotJoint = null;
 			_data = null;
+			factory = null;
 
 			super.dispose();
 		}
 
 		public function clone():IJointObject
 		{
-			var c:IJointObject = PhysFactory.instance.getInstance(IJointObject, [_data]);
+			var c:IJointObject = factory.getInstance(IJointObject, [_data]);
 			return c;
 		}
 	}
