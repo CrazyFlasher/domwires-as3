@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<testsuite name="com.crazyfm.extension.gearSys.GameComponentTest" tests="2" failures="0" errors="0" skipped="0" time="0,015" hostname="playtech-a1531" timestamp="2016-06-17T08:48:23">
-  <testcase classname="com.crazyfm.extension.gearSys::GameComponentTest" name="testGetGameObject" time="0,015"/>
-  <testcase classname="com.crazyfm.extension.gearSys::GameComponentTest" name="testAdvanceTime" time="0,000"/>
-</testsuite>

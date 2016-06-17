@@ -30,6 +30,7 @@
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
             <external-library-path dir="${libs_path}" includes="*"/>
+            <external-library-path dir="${internal_libs_path}" includes="*"/>
         </asdoc>
         <zip destfile="${swc}/${swc_name}" update="true">
             <zipfileset dir="${doc}" prefix="docs">
@@ -49,6 +50,7 @@
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
             <external-library-path dir="${libs_path}" includes="**/*"/>
+            <external-library-path dir="${internal_libs_path}" includes="**/*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </compc>
     </target>
@@ -65,6 +67,7 @@
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
             <arg value="-library-path+=${flexunit}"/>
+            <arg value="-library-path+=${internal_libs_path}"/>
             <arg value="-library-path+=${libs_path}"/>
             <arg value="-library-path+=${libs_path}/crazyfm"/>
             <arg value="-output=${out}/tests/TestRunner.swf"/>

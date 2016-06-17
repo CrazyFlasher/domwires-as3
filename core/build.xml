@@ -55,11 +55,7 @@
         <compc output="${swc}/${swc_name}">
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
-            <external-library-path dir="${libs_path}" includes="**/*"/>
-            <!--<external-library-path dir="${as3-signals}" includes="*"/>-->
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
-            <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller"/-->
-            <!--compiler.advanced-telemetry>true</compiler.advanced-telemetry-->
         </compc>
     </target>
 	<target name="copy_swc">
@@ -73,14 +69,10 @@
         <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
             <arg value="${basedir}/tests/TestSuite.as"/>
             <arg value="-source-path+=${src}"/>
-            <!--arg value="-swf-version=${swf-version}"/-->
             <arg value="-library-path+=${flexunit}"/>
-            <arg value="-library-path+=${libs_path}"/>
-            <!--<arg value="-library-path+=${as3-signals}"/>-->
             <arg value="-output=${out}/tests/TestRunner.swf"/>
             <arg value="-keep-as3-metadata+=Autowired"/>
             <arg value="-keep-as3-metadata+=PostConstruct"/>
-            <arg value="-debug=false"/>
         </java>
         <flexunit
                 command="${flashplayer}"
