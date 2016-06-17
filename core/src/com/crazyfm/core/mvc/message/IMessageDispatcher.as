@@ -8,6 +8,7 @@ package com.crazyfm.core.mvc.message
 
 	/**
 	 * Common message dispatcher. Can be used for listening and dispatching messages for views and models.
+	 * Bubbling feature in any objects (Not only DisplayObjects, like in EventDispatcher).
 	 */
 	public interface IMessageDispatcher extends IDisposable
 	{
