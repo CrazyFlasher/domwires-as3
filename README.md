@@ -5,7 +5,7 @@
 * Splitting logic from visual part
 * Possibility to use many implementations easily
 * Fast communication among components using [IMessageDispatcher](http://188.166.108.195/projects/crazyfm/core/doc/com/crazyfm/core/mvc/message/IMessageDispatcher.html)
-* Object instantiation with dependencies injections using cool [IAppFactory](http://188.166.108.195/projects/crazyfm/core/doc/com/crazyfm/core/factory/IAppFactory.html)
+* Object instantiation with dependencies injections using cool [IAppFactory](http://188.166.108.195/projects/crazyfm/core/doc/com/crazyfm/core/factory/IAppFactory.html#includeExamplesSummary)
 * Easy object pooling management
 
 ***
