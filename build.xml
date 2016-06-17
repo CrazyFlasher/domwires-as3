@@ -52,9 +52,25 @@
             <!-- devkits -->
             <doc-sources path-element="devkits/crazyflasher/src"/>
             <!-- external libs -->
-            <external-library-path dir="${libs_path}" includes="*"/>
+            <external-library-path dir="extensions/starlingApp/dependencies" includes="*"/>
+            <external-library-path dir="extensions/gearSys/dependencies" includes="*"/>
+            <external-library-path dir="extensions/physics/dependencies" includes="*"/>
+            <external-library-path dir="extensions/flashPhysicsEditor/dependencies" includes="*"/>
+            <external-library-path dir="devkits/crazyflasher/dependencies" includes="*"/>
+
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </asdoc>
+    </target>
+    <target name="upload_docs">
+        <sshexec host="${sftp-host}"
+                 username="${sftp-login}"
+                 password="${sftp-password}"
+                 command="${sftp-script-path} ${sftp-path}"
+                 trust="true"
+        />
+        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true">
+            <fileset dir="${libs_path}/crazyfm/doc"/>
+        </scp>
     </target>
     <target name="clean">
         <echo>-----------------------------------</echo>

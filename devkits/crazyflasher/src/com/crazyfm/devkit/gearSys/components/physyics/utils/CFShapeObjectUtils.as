@@ -4,7 +4,6 @@
 package com.crazyfm.devkit.gearSys.components.physyics.utils
 {
 	import com.crazyfm.devkit.physics.ICFShapeObject;
-	import com.crazyfm.extensions.physics.IShapeObject;
 
 	import nape.shape.Shape;
 

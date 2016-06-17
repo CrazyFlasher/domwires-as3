@@ -24,14 +24,13 @@
     <target name="package" depends="clean,swc,copy_swc"/>
     <target name="asdoc">
         <echo>-----------------------------------</echo>
-        <echo>[asdoc] Generating goSystem extension ASDOC documentation...</echo>
+        <echo>[asdoc] Generating crazyflasher devkit extension ASDOC documentation...</echo>
         <echo>-----------------------------------</echo>
         <delete dir="${doc}"/>
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
             <external-library-path dir="${libs_path}" includes="*"/>
-            <!--external-library-path dir="${as3-signals}" includes="*"/-->
-            <!--exclude-sources path-element="${src}/com/crazyfm/mvc/controller" /-->
+            <external-library-path dir="${internal_libs_path}" includes="*"/>
         </asdoc>
         <zip destfile="${swc}/${swc_name}" update="true">
             <zipfileset dir="${doc}" prefix="docs">
@@ -44,13 +43,14 @@
     </target>
     <target name="swc">
         <echo>-----------------------------------</echo>
-        <echo>[swc] Building goSystem extension SWC...</echo>
+        <echo>[swc] Building crazyflasher devkit  extension SWC...</echo>
         <echo>-----------------------------------</echo>
 		<delete file="${libs_path}/crazyfm/${swc_name}"/>
         <compc output="${swc}/${swc_name}">
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
             <external-library-path dir="${libs_path}" includes="**/*"/>
+            <external-library-path dir="${internal_libs_path}" includes="**/*"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </compc>
     </target>
@@ -67,6 +67,7 @@
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
             <arg value="-library-path+=${flexunit}"/>
+            <arg value="-library-path+=${internal_libs_path}"/>
             <arg value="-library-path+=${libs_path}"/>
             <arg value="-library-path+=${libs_path}/crazyfm"/>
             <!--<arg value="-library-path+=${as3-signals}"/>-->
