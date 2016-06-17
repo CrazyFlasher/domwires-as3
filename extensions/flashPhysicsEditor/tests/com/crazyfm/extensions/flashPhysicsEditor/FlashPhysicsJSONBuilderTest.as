@@ -28,7 +28,7 @@ package com.crazyfm.extensions.flashPhysicsEditor
 		public function setUp():void
 		{
 			var factory:IAppFactory = new AppFactory();
-			factory.map(IAppFactory, factory);
+			factory.mapToValue(IAppFactory, factory);
 
 			var worldData:WorldDataVo = factory.getInstance(WorldDataVo, [JSON.parse((new WorldClass() as ByteArray).toString())]);
 

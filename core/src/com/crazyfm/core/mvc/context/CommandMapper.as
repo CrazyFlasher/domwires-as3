@@ -14,6 +14,9 @@ package com.crazyfm.core.mvc.context
 	 */
 	public class CommandMapper implements ICommandMapper
 	{
+		/**
+		 * @private
+		 */
 		[Autowired]
 		public var factory:IAppFactory;
 

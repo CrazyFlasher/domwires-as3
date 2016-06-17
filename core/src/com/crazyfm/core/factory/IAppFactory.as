@@ -13,38 +13,49 @@ package com.crazyfm.core.factory
 	 * <li>Pools creation</li>
 	 * <li>Map interface (or any other class type) to class</li>
 	 * <li>Map interface (or any other class type) to instance</li>
-	 * <li>Inject dependencies to created objects</li>
+	 * <li>Automatically create default interface implementation (without mapping)</li>
+	 * <li>Inject dependencies to objects</li>
 	 * <li>Manage singletons</li>
 	 * </ul>
 	 * @example
 	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
+	 *     var factory:IAppFactory = new AppFactory();
 	 *
 	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
+	 *     factory.mapToType(IMyObject, MyObject);
 	 *
 	 *     //returns new instance of MyObject
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
+	 *     var obj:IMyObject = factory.getInstance(IMyObject);
 	 * </listing>
 	 * @example
 	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
+	 *     var factory:IAppFactory = new AppFactory();
 	 *
-	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
+	 *	   //Factory will search for default implementation of IMyObject (because mapToType is missing)
+	 *	   //and if found, will return new instance.
+	 *	   //Rules to use default implementation:
+	 *	   //1. Interface should start from "I" character;
+	 *	   //2. Default implementation should be in the same package as interface;
+	 *	   //3. Default implementation class should have the same name as it's interface,
+	 *	   //but without the first "I" character (in this case IMyObject and MyObject);
 	 *
-	 *     //returns singleton instance of MyObject. Creates if needed
-	 *     var obj:IMyObject = factory.getSingleton(IMyObject) as IMyObject;
+	 *     var obj:IMyObject = factory.getInstance(IMyObject);
+	 *     ...
+	 *     public interface IMyObject
+	 *     {
+	 *     		MyObject; //default implementation class
+	 *     		...
+	 *     }
 	 * </listing>
 	 * @example
 	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
+	 *     var factory:IAppFactory = new AppFactory();
 	 *
 	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
+	 *     factory.mapToType(IMyObject, MyObject);
 	 *
 	 *     //returns new instance of MyObject and passes new Camera() as constructor argument
-	 *     var obj:IMyObject = factory.getInstance(IMyObject, new Camera()) as IMyObject;
+	 *     var obj:IMyObject = factory.getInstance(IMyObject, [new Camera()]);
 	 *     ...
 	 *     public class MyObject implements IMyObject
 	 *     {
@@ -55,31 +66,30 @@ package com.crazyfm.core.factory
 	 * </listing>
 	 * @example
 	 * <listing version="3.0">
-	 *     use namespace ns_app_factory;
-	 *
-	 *     var factory:AppFactory = new AppFactory();
+	 *     var factory:IAppFactory = new AppFactory();
 	 *
 	 * 	   //registers pool with maximum 2 elements
 	 *     factory.registerPool(IMyObject, 2);
 	 *
 	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
+	 *     factory.mapToType(IMyObject, MyObject);
 	 *
-	 *     //Creates (if still not created) and returns instance of MyObject from pool
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
+	 *     //Creates (if still not created) and returns instance of MyObject from pool.
+	 *     //If any constructor arguments will be passed, they will be ignored.
+	 *     var obj:IMyObject = factory.getInstance(IMyObject);
 	 * </listing>
 	 * @example
 	 * <listing version="3.0">
-	 *     var factory:AppFactory = new AppFactory();
+	 *     var factory:IAppFactory = new AppFactory();
 	 *
 	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
+	 *     factory.mapToType(IMyObject, MyObject);
 	 *
-	 *     //maps ICamera interface to Camera class
-	 *     factory.map(ICamera, Camera);
+	 *     //maps ICamera interface to Camera instance
+	 *     factory.mapToValue(ICamera, new Camera());
 	 *
-	 *     //returns new instance of MyObject and passes new Camera() as constructor argument
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
+	 *     //returns new instance of MyObject
+	 *     var obj:IMyObject = factory.getInstance(IMyObject);
 	 *     ...
 	 *     public class MyObject implements IMyObject
 	 *     {
@@ -99,18 +109,16 @@ package com.crazyfm.core.factory
 	 * </listing>
 	 * @example
 	 * <listing version="3.0">
-	 *     use namespace ns_app_factory;
-	 *
-	 *     var factory:AppFactory = new AppFactory();
+	 *     var factory:IAppFactory = new AppFactory();
 	 *
 	 * 	   //registers pool with maximum 2 elements
 	 *     factory.registerPool(IMyObject, 2);
 	 *
 	 *     //maps IMyObject interface to MyObject class
-	 *     factory.map(IMyObject, MyObject);
+	 *     factory.mapToType(IMyObject, MyObject);
 	 *
 	 *     //Creates (if still not created) and returns instance of MyObject from pool
-	 *     var obj:IMyObject = factory.getInstance(IMyObject) as IMyObject;
+	 *     var obj:IMyObject = factory.getInstance(IMyObject);
 	 *     //Injects dependencies to object and calls method (if any), that is marked with [PostConstruct] metatag
 	 *     factory.injectDependencies(IMyObject, obj);
 	 * </listing>
@@ -121,9 +129,19 @@ package com.crazyfm.core.factory
 		 * Maps one class (or interface) type to another.
 		 * @param type Type, that has to be mapped to another type
 		 * @param to Type or instance, that type type should be mapped to
+		 * @see #mapToValue()
 		 * @return
 		 */
-		function map(type:Class, to:*):IAppFactory;
+		function mapToType(type:Class, to:Class):IAppFactory;
+
+		/**
+		 * Maps one class (or interface) type to instance.
+		 * @param type Type, that has to be mapped to another type
+		 * @param to Instance, that type type should be mapped to
+		 * @see #mapToType()
+		 * @return
+		 */
+		function mapToValue(type:Class, to:Object):IAppFactory;
 
 		/**
 		 * Returns true, if <code>IAppFactory</code> has mapping for current type.
@@ -135,7 +153,9 @@ package com.crazyfm.core.factory
 		/**
 		 * Unmaps current type.
 		 * @param type
-		 * @see #map()
+		 * @see #mapToType()
+		 * @see #mapToValue()
+		 * @return
 		 */
 		function unmap(type:Class):IAppFactory;
 

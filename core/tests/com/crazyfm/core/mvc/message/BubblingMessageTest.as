@@ -50,7 +50,7 @@ package com.crazyfm.core.mvc.message
 		public function setUp():void
 		{
 			factory = new AppFactory();
-			factory.map(IAppFactory, factory);
+			factory.mapToValue(IAppFactory, factory);
 
 			c1 = factory.getInstance(MyContext, ["c1"]);
 			c2 = factory.getInstance(MyContext, ["c2"]);

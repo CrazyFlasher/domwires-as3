@@ -9,16 +9,18 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 	import nape.geom.AABB;
 	import nape.geom.Vec2;
 	import nape.hacks.ForcedSleep;
-	import nape.phys.Body;
 	import nape.phys.GravMassMode;
 
 	import starling.animation.DelayedCall;
-	import starling.core.Starling;
+	import starling.animation.Juggler;
 
 	public class InteractivePhysObjectModel extends PhysBodyObjectModel implements IInteractivePhysObjectModel
 	{
 		private const SLEEP_VELOCITY:Vec2 = new Vec2(10, 10);
 		private const IS_ON_LEGS_COLLISION_Y:Number = 0.65;
+
+		[Autowired]
+		public var juggler:Juggler;
 
 		private var _isOnLegs:Boolean;
 		private var gravityMass:Number;
@@ -159,7 +161,7 @@ package com.crazyfm.devkit.gearSys.components.physyics.model
 					delayedCall.reset(completeTeleport, time, [x, y]);
 				}
 
-				Starling.juggler.add(delayedCall);
+				juggler.add(delayedCall);
 			}
 
 			return this;

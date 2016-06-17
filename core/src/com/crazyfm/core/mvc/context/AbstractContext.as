@@ -22,6 +22,9 @@ package com.crazyfm.core.mvc.context
 	 */
 	public class AbstractContext extends HierarchyObjectContainer implements IContext
 	{
+		/**
+		 * @private
+		 */
 		[Autowired]
 		public var factory:IAppFactory;
 
@@ -38,7 +41,7 @@ package com.crazyfm.core.mvc.context
 		[PostConstruct]
 		public function init():void
 		{
-			factory.map(IAppFactory, factory);
+			factory.mapToValue(IAppFactory, factory);
 
 			modelContainer = factory.getInstance(ModelContainer);
 			add(modelContainer);

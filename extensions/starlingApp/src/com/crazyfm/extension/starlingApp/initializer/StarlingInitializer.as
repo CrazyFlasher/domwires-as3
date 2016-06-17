@@ -32,17 +32,16 @@ package com.crazyfm.extension.starlingApp.initializer
 		[Autowired]
 		public var config:StarlingConfig;
 
-		private var rootClass:Class;
+		[Autowired]
+		public var rootClass:Class;
 
 		private var _starling:Starling;
 
 		private var _iOS:Boolean;
 
-		public function StarlingInitializer(rootClass:Class)
+		public function StarlingInitializer()
 		{
 			super();
-
-			this.rootClass = rootClass;
 		}
 
 		[PostConstruct]

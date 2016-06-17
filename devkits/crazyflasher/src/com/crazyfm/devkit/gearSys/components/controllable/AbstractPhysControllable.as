@@ -55,17 +55,17 @@ package com.crazyfm.devkit.gearSys.components.controllable
 
 		protected function handleCollisionOngoing(e:IMessage):void
 		{
-			trace("handleCollisionOngoing")
+//			trace("handleCollisionOngoing")
 		}
 
 		protected function handleCollisionBegin(e:IMessage):void
 		{
-			trace("handleCollisionBegin")
+//			trace("handleCollisionBegin")
 		}
 
 		protected function handleCollisionEnd(e:IMessage):void
 		{
-			trace("handleCollisionEnd")
+//			trace("handleCollisionEnd")
 		}
 
 		protected function handleSensorBegin(e:IMessage):void

@@ -5,32 +5,28 @@ package com.crazyfm.devkit.timer
 {
 	import starling.animation.DelayedCall;
 	import starling.animation.Juggler;
-	import starling.core.Starling;
 	import starling.events.EventDispatcher;
 
 	public class Timer extends EventDispatcher
 	{
+		[Autowired]
+		public var juggler:Juggler;
+
 		private var _currentCount:int;
 		private var _delay:Number;
 		private var _repeatCount:int;
-		private var _juggler:Juggler;
 		private var delayedCall:DelayedCall;
 		private var _running:Boolean;
 
-		public function Timer(delay:Number, repeatCount:int = 0, juggler:Juggler = null)
+		public function Timer(delay:Number, repeatCount:int = 0)
 		{
 			super();
-
-			if (juggler == null) {
-				juggler = Starling.juggler;
-			}
 
 			if (isNaN(delay) || delay < 0) {
 				throw new Error("StarlingTimer invalid delay value:", delay);
 			}
 			_delay = delay;
 			_repeatCount = repeatCount;
-			_juggler = juggler;
 			_running = false;
 		}
 
@@ -71,7 +67,7 @@ package com.crazyfm.devkit.timer
 		{
 			if (_running) {
 				stop();
-				_juggler.remove(delayedCall);
+				juggler.remove(delayedCall);
 				_currentCount = 0;
 			}
 		}
@@ -84,14 +80,14 @@ package com.crazyfm.devkit.timer
 			{
 				delayedCall.reset(onTimerTick, _delay / 1000);
 			}
-			_juggler.add(delayedCall);
+			juggler.add(delayedCall);
 			_running = true;
 		}
 
 		public function stop():void
 		{
 			_running = false;
-			_juggler.remove(delayedCall);
+			juggler.remove(delayedCall);
 		}
 
 		private function onTimerTick():void
@@ -107,7 +103,7 @@ package com.crazyfm.devkit.timer
 				{
 					delayedCall.reset(onTimerTick, _delay / 1000);
 				}
-				_juggler.add(delayedCall);
+				juggler.add(delayedCall);
 			} else {
 				dispatchTimerEvent = false;
 				onTimerComplete();

@@ -11,6 +11,9 @@ package com.crazyfm.core.factory
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 
+	/**
+	 * @see IAppFactory
+	 */
 	public class AppFactory extends AbstractDisposable implements IAppFactory
 	{
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
@@ -39,24 +42,27 @@ package com.crazyfm.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function map(type:Class, to:*):IAppFactory
+		public function mapToType(type:Class, to:Class):IAppFactory
 		{
-			if (to is Class)
+			if (_verbose && typeMapping[type])
 			{
-				if (_verbose && typeMapping[type])
-				{
-					log("Warning: type " + type + " is mapped to type " + typeMapping[type] + ". Remapping to " + to);
-				}
-				typeMapping[type] = to;
-			}else
-			if (to is Object)
-			{
-				if (_verbose && instanceMapping[type])
-				{
-					log("Warning: type " + type + " is mapped to instance " + typeMapping[type] + ". Remapping to " + to);
-				}
-				instanceMapping[type] = to;
+				log("Warning: type " + type + " is mapped to type " + typeMapping[type] + ". Remapping to " + to);
 			}
+			typeMapping[type] = to;
+
+			return this;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function mapToValue(type:Class, to:Object):IAppFactory
+		{
+			if (_verbose && instanceMapping[type])
+			{
+				log("Warning: type " + type + " is mapped to instance " + instanceMapping[type] + ". Remapping to " + to);
+			}
+			instanceMapping[type] = to;
 
 			return this;
 		}
@@ -110,9 +116,16 @@ package com.crazyfm.core.factory
 			{
 				obj = getNewInstance(type, constructorArgs);
 
-				if (_autoInjectDependencies)
+				if (obj)
 				{
-					obj = injectDependencies(type, obj);
+					if (_autoInjectDependencies)
+					{
+						obj = injectDependencies(type, obj);
+					}
+				}else
+				{
+					//in case of getNewInstance returned null, try again using default implementation.
+					obj = getInstance(type, constructorArgs);
 				}
 			}
 
@@ -159,9 +172,9 @@ package com.crazyfm.core.factory
 				var defImplClassName:String = getQualifiedClassName(type).replace(/::I/g, ".");
 
 				log("Warning: interface " + type + " is not mapped to any class. Trying to find default implementation " + defImplClassName);
-				map(type, getDefinitionByName(defImplClassName) as Class);
+				mapToType(type, getDefinitionByName(defImplClassName) as Class);
 
-				return getInstance(type, constructorArgs);
+				return null;
 			}
 		}
 
@@ -345,6 +358,7 @@ package com.crazyfm.core.factory
 				var metadata:Object;
 				var method:Object;
 				var variable:Object;
+				var isOptional:Boolean;
 
 				for each (method in dtJson.traits.methods)
 				{
@@ -370,6 +384,7 @@ package com.crazyfm.core.factory
 					{
 						if (metadata.name == "Autowired")
 						{
+							//TODO: optional injection
 							injectionData.variables[variable.name] = variable.type.replace(/::/g, ".");
 						}
 					}

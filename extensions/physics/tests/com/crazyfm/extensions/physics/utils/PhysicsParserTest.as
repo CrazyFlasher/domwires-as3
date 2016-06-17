@@ -55,7 +55,7 @@ package com.crazyfm.extensions.physics.utils
 		public function testWithMapping():void
 		{
 			var factory:IAppFactory = new AppFactory();
-			factory.map(IAppFactory, factory);
+			factory.mapToValue(IAppFactory, factory);
 
 			var data:WorldDataVo = factory.getInstance(WorldDataVo, [worldJson]);
 			var world:IWorldObject = factory.getInstance(IWorldObject, [data]);

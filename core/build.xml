@@ -40,7 +40,12 @@
                 <exclude name="overviews.xml"/>
             </zipfileset>
         </zip>
-        <delete dir="${doc}"/>
+        <!--delete dir="${doc}"/-->
+    </target>
+    <target name="upload_docs">
+        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true">
+            <fileset dir="${doc}"/>
+        </scp>
     </target>
     <target name="swc">
         <echo>-----------------------------------</echo>

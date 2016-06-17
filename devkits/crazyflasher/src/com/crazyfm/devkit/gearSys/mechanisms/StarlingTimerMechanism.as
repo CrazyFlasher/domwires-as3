@@ -3,6 +3,7 @@
  */
 package com.crazyfm.devkit.gearSys.mechanisms
 {
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.devkit.timer.Timer;
 	import com.crazyfm.devkit.timer.TimerEvent;
 	import com.crazyfm.extension.gearSys.AbstractGearSysMechanism;
@@ -10,26 +11,30 @@ package com.crazyfm.devkit.gearSys.mechanisms
 	public class StarlingTimerMechanism extends AbstractGearSysMechanism
 	{
 		[Autowired]
-		public var delay:Number;
+		public var factory:IAppFactory;
+
+		private var delay:Number;
 
 		private var timer:Timer;
 
-		public function StarlingTimerMechanism()
+		public function StarlingTimerMechanism(delay:Number)
 		{
 			super();
+
+			this.delay = delay;
 		}
 
 		[PostConstruct]
 		public function init():void
 		{
-			timer = new Timer(delay);
+			timer = factory.getInstance(Timer, [delay * 1000]);
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}
 
 		private function onTimer():void
 		{
-			interact(delay / 1000);
+			interact(delay);
 		}
 
 		override public function dispose():void

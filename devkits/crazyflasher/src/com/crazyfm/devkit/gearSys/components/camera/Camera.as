@@ -8,8 +8,8 @@ package com.crazyfm.devkit.gearSys.components.camera
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
+	import starling.animation.Juggler;
 	import starling.animation.Tween;
-	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
 
@@ -19,7 +19,9 @@ package com.crazyfm.devkit.gearSys.components.camera
 		public var viewContainer:DisplayObjectContainer;
 
 		[Autowired]
-		public var transitionTime:Number;
+		public var juggler:Juggler;
+
+		private var transitionTime:Number;
 
 		private var focusObject:DisplayObject;
 		private var viewPort:Rectangle;
@@ -28,9 +30,11 @@ package com.crazyfm.devkit.gearSys.components.camera
 
 		private var viewContainerBounds:Rectangle = new Rectangle();
 
-		public function Camera()
+		public function Camera(transitionTime:Number = 0.5)
 		{
 			super();
+
+			this.transitionTime = transitionTime;
 		}
 
 		[PostConstruct]
@@ -41,7 +45,6 @@ package com.crazyfm.devkit.gearSys.components.camera
 			if (transitionTime > 0)
 			{
 				tween = new Tween(viewContainer, transitionTime);
-				Starling.juggler.add(tween);
 			}
 		}
 
@@ -118,6 +121,11 @@ package com.crazyfm.devkit.gearSys.components.camera
 			{
 				tween.reset(viewContainer, transitionTime);
 				tween.moveTo(x, y);
+
+				if (!juggler.contains(tween))
+				{
+					juggler.add(tween);
+				}
 			}
 		}
 
@@ -134,7 +142,7 @@ package com.crazyfm.devkit.gearSys.components.camera
 		{
 			if (tween)
 			{
-				Starling.juggler.remove(tween);
+				juggler.remove(tween);
 				tween = null;
 			}
 

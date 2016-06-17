@@ -23,7 +23,7 @@ package com.crazyfm.core.mvc.context
 		public function setUp():void
 		{
 			factory = new AppFactory();
-			factory.map(IAppFactory, factory);
+			factory.mapToValue(IAppFactory, factory);
 
 			commandMapper = factory.getInstance(CommandMapper);
 		}
@@ -98,7 +98,7 @@ package com.crazyfm.core.mvc.context
 		public function testTryToExecuteCommand():void
 		{
 			var m:TestObj1 = factory.getSingleton(TestObj1) as TestObj1;
-			factory.map(TestObj1, m);
+			factory.mapToValue(TestObj1, m);
 
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 
@@ -111,7 +111,7 @@ package com.crazyfm.core.mvc.context
 		public function testManyEvents1Command():void
 		{
 			var m:TestObj1 = factory.getSingleton(TestObj1) as TestObj1;
-			factory.map(TestObj1, m);
+			factory.mapToValue(TestObj1, m);
 
 			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);

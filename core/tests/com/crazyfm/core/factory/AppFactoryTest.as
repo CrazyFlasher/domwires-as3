@@ -32,7 +32,7 @@ package com.crazyfm.core.factory
 		[Test(expects="Error")]
 		public function testUnmapClass():void
 		{
-			factory.map(IMyType, MyType1);
+			factory.mapToType(IMyType, MyType1);
 			var o:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
 			factory.unmap(IMyType);
 			var o2:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
@@ -42,7 +42,7 @@ package com.crazyfm.core.factory
 		public function testUnmapInstance():void
 		{
 			var instance:IMyType = new MyType1(5, 7);
-			factory.map(IMyType, o);
+			factory.mapToValue(IMyType, o);
 
 			var o:IMyType = factory.getInstance(IMyType) as IMyType;
 			assertEquals(o, instance);
@@ -54,7 +54,8 @@ package com.crazyfm.core.factory
 		[Test]
 		public function testGetNewInstance():void
 		{
-			factory.map(IMyType, MyType1);
+			factory.mapToType(IMyType, MyType1);
+			factory.mapToValue(Class, MyType1);
 			var o:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
 			assertEquals(o.a, 5);
 			assertEquals(o.b, 7);
@@ -63,7 +64,7 @@ package com.crazyfm.core.factory
 		[Test]
 		public function testGetFromPool():void
 		{
-			factory.map(IMyType, MyType2);
+			factory.mapToType(IMyType, MyType2);
 			factory.registerPool(IMyType);
 			var o:IMyType = factory.getInstance(IMyType);
 			assertEquals(o.a, 500);
@@ -83,7 +84,7 @@ package com.crazyfm.core.factory
 		public function testMapClass():void
 		{
 			assertFalse(factory.hasMappingForType(IMyType));
-			factory.map(IMyType, MyType2);
+			factory.mapToType(IMyType, MyType2);
 			assertTrue(factory.hasMappingForType(IMyType));
 		}
 
@@ -92,7 +93,7 @@ package com.crazyfm.core.factory
 		{
 			var o:IMyType = new MyType2();
 			assertFalse(factory.hasMappingForType(IMyType));
-			factory.map(IMyType, o);
+			factory.mapToValue(IMyType, o);
 			assertTrue(factory.hasMappingForType(IMyType));
 			assertEquals(o, factory.getInstance(IMyType));
 		}
@@ -108,7 +109,7 @@ package com.crazyfm.core.factory
 		[Test]
 		public function clear():void
 		{
-			factory.map(IMyType, MyType2);
+			factory.mapToType(IMyType, MyType2);
 			factory.registerPool(IMyType);
 			factory.clear();
 			assertFalse(factory.hasMappingForType(IMyType));
@@ -119,9 +120,9 @@ package com.crazyfm.core.factory
 		public function testAutowiredAutoInject():void
 		{
 			var factory:AppFactory = new AppFactory();
-			factory.map(Camera, new Camera());
-			factory.map(Array, []);
-			factory.map(Object, {});
+			factory.mapToValue(Camera, new Camera());
+			factory.mapToValue(Array, []);
+			factory.mapToValue(Object, {});
 
 			var obj:DIObject = factory.getInstance(DIObject);
 			assertNotNull(obj.c);
@@ -133,9 +134,9 @@ package com.crazyfm.core.factory
 		public function testAutowiredManualInject():void
 		{
 			var factory:AppFactory = new AppFactory();
-			factory.map(Camera, new Camera());
-			factory.map(Array, []);
-			factory.map(Object, {});
+			factory.mapToValue(Camera, new Camera());
+			factory.mapToValue(Array, []);
+			factory.mapToValue(Object, {});
 
 			factory.autoInjectDependencies = false;
 
@@ -151,9 +152,9 @@ package com.crazyfm.core.factory
 		public function testAutowiredAutoInjectPostConstruct():void
 		{
 			var factory:AppFactory = new AppFactory();
-			factory.map(Camera, new Camera());
-			factory.map(Array, []);
-			factory.map(Object, {});
+			factory.mapToValue(Camera, new Camera());
+			factory.mapToValue(Array, []);
+			factory.mapToValue(Object, {});
 
 			var obj:DIObject = factory.getInstance(DIObject);
 
@@ -167,7 +168,7 @@ package com.crazyfm.core.factory
 		public function testHasMappingForType():void
 		{
 			assertFalse(factory.hasMappingForType(IMyType));
-			factory.map(IMyType, MyType1);
+			factory.mapToType(IMyType, MyType1);
 			assertTrue(factory.hasMappingForType(IMyType));
 		}
 
@@ -225,6 +226,18 @@ package com.crazyfm.core.factory
 			var d:IDefault2 = factory.getInstance(IDefault2);
 			assertEquals(d.result, 123);
 		}
+
+		[Test]
+		public function testClassToClassValue():void
+		{
+			factory.mapToType(IMyType, MyType1);
+			factory.mapToValue(Class, MyType1);
+			var o:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
+			assertEquals(o.a, 5);
+			assertEquals(o.b, 7);
+			assertFalse(o.clazz is MyType1);
+		}
+
 	}
 }
 
@@ -265,6 +278,9 @@ internal class MyType1 implements IMyType
 	private var _a:int;
 	private var _b:int;
 
+	[Autowired]
+	public var _clazz:Class;
+
 	public function MyType1(a:int, b:int)
 	{
 		_a = a;
@@ -279,6 +295,11 @@ internal class MyType1 implements IMyType
 	public function get b():int
 	{
 		return _b;
+	}
+
+	public function get clazz():Class
+	{
+		return _clazz;
 	}
 }
 
@@ -297,10 +318,16 @@ internal class MyType2 implements IMyType
 	{
 		return 700;
 	}
+
+	public function get clazz():Class
+	{
+		return null;
+	}
 }
 
 internal interface IMyType
 {
 	function get a():int;
 	function get b():int;
+	function get clazz():Class;
 }
