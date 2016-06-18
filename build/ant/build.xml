@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project name="crazyfm" basedir="." default="package">
+
+    <property environment="env."/>
+    <property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
+
+    <property name="path" value="../"/>
+    <property file="common.properties"/>
+
+    <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+    <target name="package" depends="clean,package_all_modules,asdoc"/>
+    <target name="increase_minor_versions">
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/../../core" inheritall="false"/>
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/../../extensions/starlingApp" inheritall="false"/>
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/../../extensions/gearSys" inheritall="false"/>
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/../../extensions/physics" inheritall="false"/>
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/../../extensions/flashPhysicsEditor" inheritall="false"/>
+        <ant antfile="build.xml" target="increase_minor_version" dir="${basedir}/../../devkits/crazyflasher" inheritall="false"/>
+    </target>
+    <target name="package_all_modules">
+        <echo>[package_all_modules] Packaging core, all extensions and devkits...</echo>
+        <ant antfile="build.xml" target="package" dir="${basedir}/../../core" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/starlingApp" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/gearSys" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/physics" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/flashPhysicsEditor" inheritall="false"/>
+        <ant antfile="build.xml" target="package" dir="${basedir}/../../devkits/crazyflasher" inheritall="false"/>
+    </target>
+    <target name="build_all_modules">
+        <echo>[build_all_modules] Building core, all extensions and devkits...</echo>
+        <ant antfile="build.xml" target="build" dir="${basedir}/../../core" inheritall="false"/>
+        <ant antfile="build.xml" target="build" dir="${basedir}/../../extensions/starlingApp" inheritall="false"/>
+        <ant antfile="build.xml" target="build" dir="${basedir}/../../extensions/gearSys" inheritall="false"/>
+        <ant antfile="build.xml" target="build" dir="${basedir}/../../extensions/physics" inheritall="false"/>
+        <ant antfile="build.xml" target="build" dir="${basedir}/../../extensions/flashPhysicsEditor" inheritall="false"/>
+        <ant antfile="build.xml" target="build" dir="${basedir}/../../devkits/crazyflasher" inheritall="false"/>
+    </target>
+    <target name="asdoc">
+        <echo>-----------------------------------</echo>
+        <echo>[asdoc] Generating framework ASDOC documentation...</echo>
+        <echo>-----------------------------------</echo>
+        <delete dir="${libs_path}/crazyfm/doc"/>
+        <asdoc output="${libs_path}/crazyfm/doc" dir="${FLEX_HOME}" lenient="true" failonerror="true">
+            <!-- core -->
+            <doc-sources path-element="${basedir}/../../core/src"/>
+            <!--exclude-sources path-element="core/src/com/crazyfm/mvc/controller" /-->
+            <!-- extensions -->
+            <doc-sources path-element="${basedir}/../../extensions/starlingApp/src"/>
+            <doc-sources path-element="${basedir}/../../extensions/gearSys/src"/>
+            <doc-sources path-element="${basedir}/../../extensions/physics/src"/>
+            <doc-sources path-element="${basedir}/../../extensions/flashPhysicsEditor/src"/>
+            <!-- devkits -->
+            <doc-sources path-element="${basedir}/../../devkits/crazyflasher/src"/>
+            <!-- external libs -->
+            <external-library-path dir="${basedir}/../../extensions/starlingApp/dependencies" includes="*"/>
+            <external-library-path dir="${basedir}/../../extensions/gearSys/dependencies" includes="*"/>
+            <external-library-path dir="${basedir}/../../extensions/physics/dependencies" includes="*"/>
+            <external-library-path dir="${basedir}/../../extensions/flashPhysicsEditor/dependencies" includes="*"/>
+            <external-library-path dir="${basedir}/../../devkits/crazyflasher/dependencies" includes="*"/>
+
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
+        </asdoc>
+    </target>
+    <target name="upload_docs">
+        <sshexec host="${sftp-host}"
+                 username="${sftp-login}"
+                 password="${sftp-password}"
+                 command="${sftp-script-path} ${sftp-path}"
+                 trust="true"
+        />
+        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true">
+            <fileset dir="${libs_path}/crazyfm/doc"/>
+        </scp>
+    </target>
+    <target name="clean">
+        <echo>-----------------------------------</echo>
+        <echo>[clean] Cleaning build directory...</echo>
+        <echo>-----------------------------------</echo>
+        <delete dir="${libs_path}/crazyfm"/>
+    </target>
+</project>

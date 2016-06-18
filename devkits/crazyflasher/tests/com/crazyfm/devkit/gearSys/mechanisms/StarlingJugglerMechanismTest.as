@@ -3,6 +3,9 @@
  */
 package com.crazyfm.devkit.gearSys.mechanisms
 {
+	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.factory.IAppFactory;
+
 	import org.flexunit.asserts.assertTrue;
 
 	import starling.animation.Juggler;
@@ -14,8 +17,10 @@ package com.crazyfm.devkit.gearSys.mechanisms
 		[Before]
 		public function setUp():void
 		{
+			var factory:IAppFactory = new AppFactory();
 			juggler = new Juggler();
-			m = new StarlingJugglerMechanism(juggler);
+			factory.mapToValue(Juggler, juggler);
+			m = factory.getInstance(StarlingJugglerMechanism);
 		}
 
 		[After]
