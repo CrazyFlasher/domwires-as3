@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <project name="commons" basedir="." default="package">
-	
+
 	<property environment="env."/>
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
+	<property name="FLEX_UNIT" location="${env.FLEX_UNIT}"/>
+	<property name="FLASH_PLAYER_EXE" location="${env.FLASH_PLAYER_EXE}"/>
+	<property name="FLASH_IDE_EXE" location="${env.FLASH_IDE_EXE}"/>
 
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
@@ -20,7 +23,7 @@
 	
 	<!--property name="swc_name" value="cfm-devkit-crazyflasher-${ver.num}.swc"/-->
 
-	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
+	<taskdef resource="flexUnitTasks.tasks" classpath="${FLEX_UNIT}/flexUnitTasks-4.2.0-20140410.jar"/>
 
     <target name="build" depends="swc,copy_swc"/>
     <target name="package" depends="clean,build,asdoc,test"/>
@@ -59,7 +62,7 @@
             <arg value="${basedir}/tests/TestSuite.as"/>
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
-            <arg value="-library-path+=${flexunit}"/>
+            <arg value="-library-path+=${FLEX_UNIT}"/>
             <arg value="-library-path+=${internal_libs_path}"/>
             <arg value="-library-path+=${libs_path}"/>
             <arg value="-library-path+=${libs_path}/crazyfm"/>
@@ -70,7 +73,7 @@
             <arg value="-debug=false"/>
         </java>
         <flexunit
-                command="${flashplayer}"
+                command="${FLASH_PLAYER_EXE}"
                 player="flash"
                 swf="${out}/tests/TestRunner.swf"
                 toDir="${out}/tests/report"

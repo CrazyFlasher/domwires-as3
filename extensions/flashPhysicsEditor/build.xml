@@ -14,7 +14,7 @@
         <copy file="${jslf}" tofile="${jslf_copy}"/>
         <replace file="${jslf_copy}" token="@@@" value="${basedir}/tests/"/>
         <replace file="${jslf_copy}" token="\" value="/"/>
-        <exec executable="${flash_ide}">
+        <exec executable="${FLASH_IDE_EXE}">
             <arg line="${jslf_copy}"/>
         </exec>
     </target>
