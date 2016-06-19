@@ -80,11 +80,12 @@ package com.crazyfm.core.mvc.context
 					if (!factory.hasPoolForType(commandClass))
 					{
 						command = factory.getSingleton(commandClass) as ICommand;
-						factory.injectDependencies(commandClass, command);
 					}else
 					{
 						command = factory.getSingleton(commandClass) as ICommand;
 					}
+
+					factory.injectDependencies(commandClass, command);
 
 					command.execute();
 					//TODO: async command

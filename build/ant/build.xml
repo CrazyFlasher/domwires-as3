@@ -66,12 +66,19 @@
         <sshexec host="${sftp-host}"
                  username="${sftp-login}"
                  password="${sftp-password}"
-                 command="${sftp-script-path} ${sftp-path}"
+                 command="${sftp-script-path} ${sftp-path}/doc"
                  trust="true"
         />
-        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true">
+        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}/doc" trust="true">
             <fileset dir="${libs_path}/crazyfm/doc"/>
         </scp>
+    </target>
+    <target name="upload_swcs_zip">
+        <zip destfile="${libs_path}/crazyfm/crazyfm_latest.zip"
+             basedir="${libs_path}/crazyfm"
+        />
+        <scp file="${libs_path}/crazyfm/crazyfm_latest.zip" todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true"/>
+        <delete file="${libs_path}/crazyfm/crazyfm_latest.zip"/>
     </target>
     <target name="clean">
         <echo>-----------------------------------</echo>

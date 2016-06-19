@@ -97,7 +97,7 @@ package com.crazyfm.core.mvc.context
 		[Test]
 		public function testTryToExecuteCommand():void
 		{
-			var m:TestObj1 = factory.getSingleton(TestObj1) as TestObj1;
+			var m:TestObj1 = factory.getSingleton(TestObj1);
 			factory.mapToValue(TestObj1, m);
 
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
@@ -110,7 +110,7 @@ package com.crazyfm.core.mvc.context
 		[Test]
 		public function testManyEvents1Command():void
 		{
-			var m:TestObj1 = factory.getSingleton(TestObj1) as TestObj1;
+			var m:TestObj1 = factory.getSingleton(TestObj1);
 			factory.mapToValue(TestObj1, m);
 
 			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
@@ -126,6 +126,27 @@ package com.crazyfm.core.mvc.context
 			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
 			commandMapper.tryToExecuteCommand(MyCoolEnum.SHALOM);
 			assertEquals(m.d, 35);
+		}
+
+		[Test]
+		public function testRemapModel():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
+			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
+
+			assertEquals(m.d, 7);
+
+			factory.unmap(TestObj1);
+
+			var m2:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m2);
+
+			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
+
+			assertEquals(m2.d, 7);
 		}
 	}
 }

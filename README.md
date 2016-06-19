@@ -10,6 +10,7 @@
 
 ***
 
+- [Download SWC's](http://188.166.108.195/projects/crazyfm/crazyfm_latest.zip)
 - [Read more about core](core)
 - [Read more about extensions](extensions)
 - [View examples](https://github.com/CrazyFlasher/crazyfm-examples)
