@@ -12,7 +12,7 @@
 To build entire frameworks with all extensions and modules you need to:
 
 1. Install ANT
-2. Download [http://flex.apache.org/](Apache Flex SDK)
+2. Install [http://flex.apache.org/](Apache Flex SDK)
 3. Specify environment variables:
   - **ANT_HOME** - path to ant.bat
   - **FLASH_PLAYER_EXE** - path to flash standalone exe
