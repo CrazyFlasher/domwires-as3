@@ -10,6 +10,7 @@
 
 ###Quick build from source (Windows)
 To build entire frameworks with all extensions and modules you need to:
+
 1. Install ANT
 2. Download [http://flex.apache.org/](Apache Flex SDK)
 3. Specify environment variables:
