@@ -8,7 +8,7 @@
 * Object instantiation with dependencies injections using cool [IAppFactory](http://188.166.108.195/projects/crazyfm/core/doc/com/crazyfm/core/factory/IAppFactory.html#includeExamplesSummary)
 * Easy object pooling management
 
-###Quick build from source (Windows)
+###Build from source (Windows)
 To build entire frameworks with all extensions and modules you need to:
 
 1. Install ANT
