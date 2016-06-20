@@ -1,5 +1,5 @@
 ##CrazyFM
-**_NB! This project is in early alpha development version, and I don't recommend to use it for your third party projects development now._**
+**_NB! This project is in early development version!_**
 
 ###Features
 * Splitting logic from visual part
@@ -12,7 +12,7 @@
 To build entire framework with all extensions and modules you need to:
 
 1. Install *ANT*
-2. Install *[Apache Flex SDK]*(http://flex.apache.org/)
+2. Install [Apache Flex SDK](http://flex.apache.org/)
 3. Specify environment variables:
   - **ANT_HOME** - path to ant.bat
   - **FLASH_PLAYER_EXE** - path to flash standalone exe
