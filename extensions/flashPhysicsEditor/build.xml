@@ -9,7 +9,8 @@
     <property name="jslf" value="${basedir}/tests/compile_fla.jsfl"/>
     <property name="jslf_copy" value="${basedir}/tests/compile_fla_copy.jsfl"/>
 
-    <target name="test" depends="compile-fla,commons.test"></target>
+    <!--<target name="test" depends="compile-fla,commons.test"></target>-->
+    <target name="test" depends="commons.test"></target>
     <target name="compile-fla">
         <copy file="${jslf}" tofile="${jslf_copy}"/>
         <replace file="${jslf_copy}" token="@@@" value="${basedir}/tests/"/>

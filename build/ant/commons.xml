@@ -3,7 +3,6 @@
 
 	<property environment="env."/>
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
-	<property name="FLEX_UNIT" location="${env.FLEX_UNIT}"/>
 	<property name="FLASH_PLAYER_EXE" location="${env.FLASH_PLAYER_EXE}"/>
 	<property name="FLASH_IDE_EXE" location="${env.FLASH_IDE_EXE}"/>
 
@@ -13,17 +12,20 @@
     <property name="out" value="${basedir}/out"/>
     <property name="doc" value="${out}/doc"/>
     <property name="swc" value="${out}/swc"/>
+    <property name="path" value="."/>
+    <property name="flexunit" location="${basedir}/${path}/../flexunit"/>
 
-    <!--<property file="${basedir}/../build/ant/common.properties"/>-->
+    <!--Dependencies-->
+    <property name="libs_path" value="${basedir}/${path}/../dependencies"/>
+    <property name="internal_libs_path" value="${basedir}/dependencies"/>
+
     <dirname property="imported.basedir" file="${ant.file.commons}"/>
     <property file="${imported.basedir}/common.properties"/>
     <property file="${basedir}/version.properties"/>
 
     <property name="ver.num" value="${build.release.number}.${build.major.number}.${build.minor.number}"/>
 	
-	<!--property name="swc_name" value="cfm-devkit-crazyflasher-${ver.num}.swc"/-->
-
-	<taskdef resource="flexUnitTasks.tasks" classpath="${FLEX_UNIT}/flexUnitTasks-4.2.0-20140410.jar"/>
+	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
     <target name="build" depends="swc,copy_swc"/>
     <target name="package" depends="clean,build,asdoc,test"/>
@@ -31,8 +33,8 @@
         <delete dir="${doc}"/>
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
             <doc-sources path-element="${src}"/>
-            <external-library-path dir="${libs_path}" includes="*"/>
-            <external-library-path dir="${internal_libs_path}" includes="*"/>
+            <external-library-path dir="${libs_path}" includes="**/*.swc"/>
+            <external-library-path dir="${internal_libs_path}" includes="*.swc"/>
         </asdoc>
         <zip destfile="${swc}/${swc_name}" update="true">
             <zipfileset dir="${doc}" prefix="docs">
@@ -62,7 +64,7 @@
             <arg value="${basedir}/tests/TestSuite.as"/>
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
-            <arg value="-library-path+=${FLEX_UNIT}"/>
+            <arg value="-library-path+=${flexunit}"/>
             <arg value="-library-path+=${internal_libs_path}"/>
             <arg value="-library-path+=${libs_path}"/>
             <arg value="-library-path+=${libs_path}/crazyfm"/>

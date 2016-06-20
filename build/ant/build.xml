@@ -6,6 +6,7 @@
 
     <property name="path" value="../"/>
     <property file="common.properties"/>
+    <property name="libs_path" value="${basedir}/${path}/../dependencies"/>
 
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
@@ -53,11 +54,11 @@
             <!-- devkits -->
             <doc-sources path-element="${basedir}/../../devkits/crazyflasher/src"/>
             <!-- external libs -->
-            <external-library-path dir="${basedir}/../../extensions/starlingApp/dependencies" includes="*"/>
-            <external-library-path dir="${basedir}/../../extensions/gearSys/dependencies" includes="*"/>
-            <external-library-path dir="${basedir}/../../extensions/physics/dependencies" includes="*"/>
-            <external-library-path dir="${basedir}/../../extensions/flashPhysicsEditor/dependencies" includes="*"/>
-            <external-library-path dir="${basedir}/../../devkits/crazyflasher/dependencies" includes="*"/>
+            <external-library-path dir="${basedir}/../../extensions/starlingApp/dependencies" includes="*.swc"/>
+            <external-library-path dir="${basedir}/../../extensions/gearSys/dependencies" includes="*.swc"/>
+            <external-library-path dir="${basedir}/../../extensions/physics/dependencies" includes="*.swc"/>
+            <external-library-path dir="${basedir}/../../extensions/flashPhysicsEditor/dependencies" includes="*.swc"/>
+            <external-library-path dir="${basedir}/../../devkits/crazyflasher/dependencies" includes="*.swc"/>
 
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </asdoc>
