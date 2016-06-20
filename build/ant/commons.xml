@@ -12,11 +12,12 @@
     <property name="out" value="${basedir}/out"/>
     <property name="doc" value="${out}/doc"/>
     <property name="swc" value="${out}/swc"/>
+    <property name="swf" value="${out}/swf"/>
     <property name="path" value="."/>
-    <property name="flexunit" location="${basedir}/${path}/../flexunit"/>
+    <property name="flexunit" location="${basedir}/${path}/flexunit"/>
 
     <!--Dependencies-->
-    <property name="libs_path" value="${basedir}/${path}/../dependencies"/>
+    <property name="libs_path" value="${basedir}/${path}/dependencies"/>
     <property name="internal_libs_path" value="${basedir}/dependencies"/>
 
     <dirname property="imported.basedir" file="${ant.file.commons}"/>
@@ -51,13 +52,33 @@
             <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
             <include-sources dir="${src}" includes="*"/>
             <external-library-path dir="${libs_path}" includes="**/*"/>
-            <external-library-path dir="${internal_libs_path}" includes="**/*"/>
+            <external-library-path dir="${internal_libs_path}" includes="*.swc"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
         </compc>
     </target>
 	<target name="copy_swc">
 		<copy file="${swc}/${swc_name}" todir="${libs_path}/crazyfm"/>
 	</target>
+    <target name="swf">
+        <mkdir dir="${swf}"/>
+        <echo>-----------------------------------</echo>
+        <echo>[swf] Building example...</echo>
+        <echo>-----------------------------------</echo>
+        <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+            <arg value="${src}/StartUp.as"/>
+            <arg value="-source-path+=${src}"/>
+            <arg value="-swf-version=${swf-version}"/>
+            <arg value="-library-path+=${internal_libs_path}"/>
+            <arg value="-library-path+=${libs_path}"/>
+            <arg value="-library-path+=${libs_path}/crazyfm"/>
+            <arg value="-output=${swf}/${swf_name}.swf"/>
+            <arg value="-frame=two,${main_class}"/>
+            <arg value="-keep-as3-metadata+=Autowired"/>
+            <arg value="-keep-as3-metadata+=PostConstruct"/>
+            <arg value="-compiler.advanced-telemetry=${debug}"/>
+            <arg value="-debug=${debug}"/>
+        </java>
+    </target>
     <target name="test">
         <mkdir dir="${out}/tests/report/html"/>
         <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">

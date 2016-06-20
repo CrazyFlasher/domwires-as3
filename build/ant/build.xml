@@ -4,9 +4,10 @@
     <property environment="env."/>
     <property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
 
-    <property name="path" value="../"/>
+    <property name="path" value="."/>
     <property file="common.properties"/>
-    <property name="libs_path" value="${basedir}/${path}/../dependencies"/>
+    <property name="libs_path" value="${basedir}/../../dependencies"/>
+    <property name="flexunit" value="${basedir}/../../flexunit"/>
 
     <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 

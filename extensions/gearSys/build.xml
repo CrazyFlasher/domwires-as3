@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="crazyfm-ext-gearSys" basedir="." default="commons.package">
-    <property name="path" value="../"/>
+    <property name="path" value="../../"/>
 
     <import file="${basedir}/../../build/ant/commons.xml" />
 
