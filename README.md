@@ -15,11 +15,11 @@ To build entire frameworks with all extensions and modules you need to:
 2. Download [http://flex.apache.org/](Apache Flex SDK)
 3. Specify environment variables:
 
-  * **ANT_HOME**: path to ant.bat
-  * **FLASH_PLAYER_EXE**: path to flash standalone exe
-  * **FLASH_IDE_EXE** (optional): path to Flash.exe (Animate.exe)
-  * **FLEX_HOME**: path to Flex SDK
-  * **_JAVA_OPTIONS**: -Xmx512M -XX:MaxPermSize=512m
+  -**ANT_HOME**: path to ant.bat
+  -**FLASH_PLAYER_EXE**: path to flash standalone exe
+  -**FLASH_IDE_EXE** (optional): path to Flash.exe (Animate.exe)
+  -**FLEX_HOME**: path to Flex SDK
+  -**_JAVA_OPTIONS**: -Xmx512M -XX:MaxPermSize=512m
 
 4. Open CMD and target to **crazyfm/build/ant/** folder
 5. Type **ant** and build process will start
