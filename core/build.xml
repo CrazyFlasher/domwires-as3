@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="crazyfm-core" basedir="." default="commons.package">
+<project name="crazyfm-core" basedir="." default="commons.package_swc">
     <property name="path" value="../"/>
 
     <import file="${basedir}/../build/ant/commons.xml"/>

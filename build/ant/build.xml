@@ -22,12 +22,12 @@
     </target>
     <target name="package_all_modules">
         <echo>[package_all_modules] Packaging core, all extensions and devkits...</echo>
-        <ant antfile="build.xml" target="package" dir="${basedir}/../../core" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/starlingApp" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/gearSys" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/physics" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/../../extensions/flashPhysicsEditor" inheritall="false"/>
-        <ant antfile="build.xml" target="package" dir="${basedir}/../../devkits/crazyflasher" inheritall="false"/>
+        <ant antfile="build.xml" target="package_swc" dir="${basedir}/../../core" inheritall="false"/>
+        <ant antfile="build.xml" target="package_swc" dir="${basedir}/../../extensions/starlingApp" inheritall="false"/>
+        <ant antfile="build.xml" target="package_swc" dir="${basedir}/../../extensions/gearSys" inheritall="false"/>
+        <ant antfile="build.xml" target="package_swc" dir="${basedir}/../../extensions/physics" inheritall="false"/>
+        <ant antfile="build.xml" target="package_swc" dir="${basedir}/../../extensions/flashPhysicsEditor" inheritall="false"/>
+        <ant antfile="build.xml" target="package_swc" dir="${basedir}/../../devkits/crazyflasher" inheritall="false"/>
     </target>
     <target name="build_all_modules">
         <echo>[build_all_modules] Building core, all extensions and devkits...</echo>

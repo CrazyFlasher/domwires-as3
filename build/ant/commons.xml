@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="commons" basedir="." default="package">
+<project name="commons" basedir="." default="package_swc">
 
 	<property environment="env."/>
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
@@ -29,7 +29,7 @@
 	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
     <target name="build" depends="swc,copy_swc"/>
-    <target name="package" depends="clean,build,asdoc,test"/>
+    <target name="package_swc" depends="clean,build,asdoc,test"/>
     <target name="asdoc">
         <delete dir="${doc}"/>
         <asdoc output="${doc}" dir="${FLEX_HOME}" lenient="true" failonerror="true">
