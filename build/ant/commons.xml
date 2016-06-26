@@ -141,10 +141,10 @@
         <sshexec host="${sftp-host}"
                  username="${sftp-login}"
                  password="${sftp-password}"
-                 command="${sftp-script-path} ${sftp-path}"
+                 command="${sftp-script-path} ${sftp-path}/doc"
                  trust="true"
         />
-        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true">
+        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}/doc" trust="true">
             <fileset dir="${doc}"/>
         </scp>
     </target>
