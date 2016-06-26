@@ -3,6 +3,8 @@
  */
 package com.crazyfm.extension.gearSys
 {
+	import com.crazyfm.core.factory.AppFactory;
+	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.extension.gearSys.mechanisms.EnterFrameMechanism;
 
 	import org.flexunit.asserts.assertEquals;
@@ -10,14 +12,16 @@ package com.crazyfm.extension.gearSys
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
-	public class GOSystemTest
+	public class GearSysTest
 	{
 		private var s:IGearSys;
 
 		[Before]
 		public function setUp():void
 		{
-			s = new GearSys(new EnterFrameMechanism())
+			var factory:IAppFactory = new AppFactory();
+			factory.mapToValue(IGearSysMechanism, new EnterFrameMechanism());
+			s = factory.getInstance(IGearSys);
 		}
 
 		[After]
@@ -71,7 +75,7 @@ package com.crazyfm.extension.gearSys
 
 			assertEquals(s.numGameObjects, 0);
 			assertNull(go_1.parent, go_2.parent, go_3.parent);
-			assertNull(go_1.goSystem, go_2.goSystem, go_3.goSystem);
+			assertNull(go_1.gearSys, go_2.gearSys, go_3.gearSys);
 		}
 
 		[Test]
@@ -88,7 +92,7 @@ package com.crazyfm.extension.gearSys
 			assertTrue(s.isDisposed);
 			assertEquals(s.numGameObjects, 0);
 			assertNull(go_1.parent, go_2.parent, go_3.parent);
-			assertNull(go_1.goSystem, go_2.goSystem, go_3.goSystem);
+			assertNull(go_1.gearSys, go_2.gearSys, go_3.gearSys);
 		}
 
 		[Test]
@@ -108,7 +112,7 @@ package com.crazyfm.extension.gearSys
 			s.removeGameObject(go_2);
 
 			assertEquals(s.numGameObjects, 2);
-			assertNull(go_2.goSystem, go_2.parent);
+			assertNull(go_2.gearSys, go_2.parent);
 		}
 
 		[Test]

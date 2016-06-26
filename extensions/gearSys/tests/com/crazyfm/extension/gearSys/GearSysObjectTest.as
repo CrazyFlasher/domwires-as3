@@ -3,15 +3,13 @@
  */
 package com.crazyfm.extension.gearSys
 {
-	import com.crazyfm.extension.gearSys.mechanisms.EnterFrameMechanism;
-
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
-	public class GameObjectTest
+	public class GearSysObjectTest
 	{
 
 		private var go:IGearSysObject;

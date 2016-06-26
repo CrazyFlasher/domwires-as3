@@ -5,7 +5,7 @@ package com.crazyfm.extension.gearSys
 {
 	import flexunit.framework.Assert;
 
-	public class GameComponentTest
+	public class GearSysComponentTest
 	{
 		private var c:IGearSysComponent;
 

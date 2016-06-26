@@ -5,7 +5,7 @@ package com.crazyfm.extension.gearSys
 {
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainer;
 
-	public class AbstractGearSysGearWheelContainer extends HierarchyObjectContainer implements IGearSysGearWheelContainer
+	internal class AbstractGearSysGearWheelContainer extends HierarchyObjectContainer implements IGearSysGearWheelContainer
 	{
 		private var _isEnabled:Boolean = true;
 
@@ -14,10 +14,16 @@ package com.crazyfm.extension.gearSys
 			super();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function interact(timePassed:Number):void
 		{
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function setEnabled(value:Boolean):IGearSysGearWheel
 		{
 			if (isDisposed)
@@ -32,6 +38,9 @@ package com.crazyfm.extension.gearSys
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get isEnabled():Boolean
 		{
 			return _isEnabled;

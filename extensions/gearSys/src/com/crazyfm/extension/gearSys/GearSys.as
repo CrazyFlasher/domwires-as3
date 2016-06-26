@@ -134,6 +134,9 @@ package com.crazyfm.extension.gearSys
 			return _mechanism;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		private function removeMechanism():void
 		{
 			if (_mechanism)
@@ -143,6 +146,9 @@ package com.crazyfm.extension.gearSys
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function updateNow():IGearSys
 		{
 			interact(1);

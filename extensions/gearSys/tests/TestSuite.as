@@ -3,8 +3,9 @@
  */
 package
 {
-	import com.crazyfm.extension.gearSys.GameComponentTest;
-	import com.crazyfm.extension.gearSys.GameObjectTest;
+	import com.crazyfm.extension.gearSys.GearSysComponentTest;
+	import com.crazyfm.extension.gearSys.GearSysObjectTest;
+	import com.crazyfm.extension.gearSys.GearSysTest;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -18,8 +19,9 @@ package
 	public class TestSuite extends Sprite
 	{
 		public static const ALL_TESTS:Array = [
-				GameComponentTest,
-				GameObjectTest
+			GearSysComponentTest,
+			GearSysObjectTest,
+			GearSysTest
 		];
 
 		private var _flexunit:FlexUnitCore;
