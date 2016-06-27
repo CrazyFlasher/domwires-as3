@@ -10,7 +10,7 @@ Each **IGearSysObject** can have several (unlimited) **IGearSysComponents**, whi
 **Soon I'll add an example and update AsDoc to see how to use it and how it works.**
 
 ##Dependencies:
-[CrazyFM-Core][https://github.com/CrazyFlasher/crazyfm/tree/master/core]
+[CrazyFM-Core](https://github.com/CrazyFlasher/crazyfm/tree/master/core)
 
 ***
 
