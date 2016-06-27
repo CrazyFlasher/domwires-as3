@@ -2,10 +2,9 @@
 Extension is useful to render view stuff using [Starling 1.x](https://github.com/Gamua/Starling-Framework)
 
 ##Dependencies:
-[CrazyFM-Core](https://github.com/CrazyFlasher/crazyfm/tree/master/core)
-[Starling 1.x](https://github.com/Gamua/Starling-Framework)
-
-Starling SWC included to repository in [./dependencies](./dependencies) folder
+- [CrazyFM-Core](https://github.com/CrazyFlasher/crazyfm/tree/master/core)
+- [Starling 1.x](https://github.com/Gamua/Starling-Framework)
+(Starling SWC included to repository in [./dependencies](./dependencies) folder)
 
 ***
 
