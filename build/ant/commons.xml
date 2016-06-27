@@ -148,4 +148,12 @@
             <fileset dir="${doc}"/>
         </scp>
     </target>
+    <target name="upload_swc">
+        <zip destfile="${swc}/${ant.project.name}_latest.zip"
+             basedir="${swc}"
+             includes="*.swc"
+        />
+        <scp file="${swc}/${ant.project.name}_latest.zip" todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true"/>
+        <delete file="${swc}/${ant.project.name}_latest.zip"/>
+    </target>
 </project>

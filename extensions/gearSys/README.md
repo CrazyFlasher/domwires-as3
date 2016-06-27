@@ -9,8 +9,14 @@ Each **IGearSysObject** can have several (unlimited) **IGearSysComponents**, whi
 
 **Soon I'll add an example and update AsDoc to see how to use it and how it works.**
 
-- **Example** (soon!)
+##Dependencies:
+[CrazyFM-Core][https://github.com/CrazyFlasher/crazyfm/tree/master/core]
+
+***
+
+- [SWC](http://188.166.108.195/projects/crazyfm/extensions/gearSys/crazyfm-ext-gearSys_latest.zip)
 - [ASDoc](http://188.166.108.195/projects/crazyfm/extensions/gearSys/doc)
+- **Example** (soon!)
 
 ***
 

@@ -20,7 +20,7 @@ package com.crazyfm.extension.starlingApp.initializer
 	import starling.utils.SystemUtil;
 
 	/**
-	 * Context that configures and launches new Starling instance.
+	 * Object that configures and launches new Starling instance.
 	 * Dispatches signals:
 	 * StarlingInitializerMessage.STARLING_INITIALIZED
 	 */

@@ -7,6 +7,11 @@ package com.crazyfm.extension.starlingApp.initializer
 
 	import starling.core.Starling;
 
+	/**
+	 * Default implementation.
+	 */
+	StarlingInitializer;
+
 	public interface IStarlingInitializer extends IMessageDispatcher
 	{
 		/**

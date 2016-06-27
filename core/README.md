@@ -3,8 +3,11 @@ Core is the main framework module. It is responsible to organize communication a
 
 ![](https://github.com/CrazyFlasher/crazyfm/blob/gh-pages/assets/core2.jpg?raw=true)
 
-- [Example](https://github.com/CrazyFlasher/crazyfm-examples/tree/master/bubbleCommandPattern)
+***
+
+- [SWC](http://188.166.108.195/projects/crazyfm/core/crazyfm-core_latest.zip)
 - [ASDoc](http://188.166.108.195/projects/crazyfm/core/doc)
+- [Example](https://github.com/CrazyFlasher/crazyfm-examples/tree/master/bubbleCommandPattern)
 
 ***
 
