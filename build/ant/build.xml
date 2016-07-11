@@ -61,7 +61,7 @@
             <external-library-path dir="${basedir}/../../extensions/flashPhysicsEditor/dependencies" includes="*.swc"/>
             <external-library-path dir="${basedir}/../../devkits/crazyflasher/dependencies" includes="*.swc"/>
 
-            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/21.0" includes="*"/>
         </asdoc>
     </target>
     <target name="upload_docs">

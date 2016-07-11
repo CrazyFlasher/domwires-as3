@@ -53,7 +53,7 @@
             <include-sources dir="${src}" includes="*"/>
             <external-library-path dir="${libs_path}" includes="**/*"/>
             <external-library-path dir="${internal_libs_path}" includes="*.swc"/>
-            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/20.0" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/21.0" includes="*"/>
         </compc>
     </target>
 	<target name="copy_swc">
