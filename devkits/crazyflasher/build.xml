@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<project name="crazyfm-devkit-crazyflasher" basedir="." default="commons.package_swc">
-    <property name="path" value="../../"/>
-
-    <import file="${basedir}/../../build/ant/commons.xml" />
-
-    <property name="swc_name" value="cfm-devkit-crazyflasher-${ver.num}.swc"/>
-</project>
