@@ -53,7 +53,7 @@
             <include-sources dir="${src}" includes="*"/>
             <external-library-path dir="${libs_path}" includes="**/*"/>
             <external-library-path dir="${internal_libs_path}" includes="*.swc"/>
-            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/21.0" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/${target-player}" includes="*"/>
         </compc>
     </target>
 	<target name="copy_swc">
@@ -68,6 +68,7 @@
             <arg value="${src}/StartUp.as"/>
             <arg value="-source-path+=${src}"/>
             <arg value="-swf-version=${swf-version}"/>
+            <arg value="-target-player=${target-player}"/>
             <arg value="-library-path+=${internal_libs_path}"/>
             <arg value="-library-path+=${libs_path}"/>
             <arg value="-library-path+=${libs_path}/crazyfm"/>
