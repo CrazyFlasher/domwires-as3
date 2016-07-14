@@ -100,7 +100,7 @@ package com.crazyfm.extension.starlingApp.initializer
 
 			var stageSize:Rectangle  = new Rectangle(0, 0, config.stageWidth, config.stageHeight);
 			var screenSize:Rectangle = new Rectangle(0, 0, fullScreenWidth, fullScreenHeight);
-			var viewPort:Rectangle = RectangleUtil.fit(stageSize, screenSize, config.scaleMode, _iOS);
+			var viewPort:Rectangle = RectangleUtil.fit(stageSize, screenSize, config.scaleMode, _iOS && config.pixelPerfectOnIOS);
 
 			_starling.viewPort = viewPort;
 		}

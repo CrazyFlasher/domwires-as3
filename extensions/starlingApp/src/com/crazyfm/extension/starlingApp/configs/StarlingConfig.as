@@ -43,8 +43,14 @@ package com.crazyfm.extension.starlingApp.configs
 		public var context3DProfile:String = Context3DProfile.BASELINE_CONSTRAINED;
 
 		/**
+		 * Use pixel perfect on iOS when scaling.
+		 */
+		public var pixelPerfectOnIOS:Boolean = true;
+
+		/**
 		 * Creates new StarlingProperties object with default values.
 		 */
+
 		public function StarlingConfig()
 		{
 		}
