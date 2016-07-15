@@ -108,7 +108,7 @@ package com.crazyfm.extension.starlingApp.initializer
 			_stageSize.width = config.stageWidth;
 			_stageSize.height = config.stageHeight;
 
-			RectangleUtil.fit(_stageSize, _screenSize, config.scaleMode, _iOS, _viewPort);
+			RectangleUtil.fit(_stageSize, _screenSize, config.scaleMode, _iOS && config.pixelPerfectOnIOS, _viewPort);
 
 			if (config.resizeRoot)
 			{
