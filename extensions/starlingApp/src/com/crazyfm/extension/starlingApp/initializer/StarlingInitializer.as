@@ -72,7 +72,6 @@ package com.crazyfm.extension.starlingApp.initializer
 
 			_starling.start();
 
-
 			if (config.scaleMode != ScaleMode.NONE)
 			{
 				_starling.stage.addEventListener(ResizeEvent.RESIZE, onStageResize);
@@ -115,8 +114,7 @@ package com.crazyfm.extension.starlingApp.initializer
 				_starling.root.width = config.stageWidth;  // <- same size on all devices!
 				_starling.root.height = config.stageHeight; // <- same size on all devices!
 
-				_starling.root.width = _viewPort.width;
-				_starling.root.height = _viewPort.height;
+				_starling.root.scale = _viewPort.width / config.stageWidth;
 				_starling.root.x = _viewPort.x;
 				_starling.root.y = _viewPort.y;
 				
@@ -134,6 +132,17 @@ package com.crazyfm.extension.starlingApp.initializer
 				_starling.stage.stageHeight = config.stageHeight; // <- same size on all devices!
 
 				_starling.viewPort = _viewPort;
+			}
+
+			if (_starling.root.hasOwnProperty("onStageResize"))
+			{
+				if (e)
+				{
+					_starling.root["onStageResize"](e);
+				}else
+				{
+					_starling.root["onStageResize"](null, w, h);
+				}
 			}
 		}
 
