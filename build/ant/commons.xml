@@ -8,6 +8,7 @@
 
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
+    <property name="sftp-path-suffix" value=""/>
     <property name="src" value="${basedir}/src"/>
     <property name="out" value="${basedir}/out"/>
     <property name="doc" value="${out}/doc"/>
@@ -22,6 +23,7 @@
 
     <dirname property="imported.basedir" file="${ant.file.commons}"/>
     <property file="${imported.basedir}/common.properties"/>
+    <property file="${imported.basedir}/server.properties"/>
     <property file="${basedir}/version.properties"/>
 
     <property name="ver.num" value="${build.release.number}.${build.major.number}.${build.minor.number}"/>
@@ -142,10 +144,10 @@
         <sshexec host="${sftp-host}"
                  username="${sftp-login}"
                  password="${sftp-password}"
-                 command="${sftp-script-path} ${sftp-path}/doc"
+                 command="${sftp-script-path} ${sftp-path}/${sftp-path-suffix}/doc"
                  trust="true"
         />
-        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}/doc" trust="true">
+        <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}/${sftp-path-suffix}/doc" trust="true">
             <fileset dir="${doc}"/>
         </scp>
     </target>
@@ -154,7 +156,8 @@
              basedir="${swc}"
              includes="*.swc"
         />
-        <scp file="${swc}/${ant.project.name}_latest.zip" todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}" trust="true"/>
+        <scp file="${swc}/${ant.project.name}_latest.zip" todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}/${sftp-path-suffix}"
+             trust="true"/>
         <delete file="${swc}/${ant.project.name}_latest.zip"/>
     </target>
 </project>

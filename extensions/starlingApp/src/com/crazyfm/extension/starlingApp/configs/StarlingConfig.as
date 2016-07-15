@@ -48,6 +48,12 @@ package com.crazyfm.extension.starlingApp.configs
 		public var pixelPerfectOnIOS:Boolean = true;
 
 		/**
+		 * If true, then <code>ResizeEvent.RESIZE</code> affects scale of <code>Starling</code> stage,
+		 * else scale of root <code>DisplayObjectContainer</code>
+		 */
+		public var resizeRoot:Boolean = false;
+
+		/**
 		 * Creates new StarlingProperties object with default values.
 		 */
 

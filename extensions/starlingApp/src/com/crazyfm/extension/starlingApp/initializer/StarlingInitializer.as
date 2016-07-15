@@ -12,6 +12,7 @@ package com.crazyfm.extension.starlingApp.initializer
 	import flash.system.Capabilities;
 
 	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.events.Event;
 	import starling.events.ResizeEvent;
 	import starling.textures.RenderTexture;
@@ -38,6 +39,10 @@ package com.crazyfm.extension.starlingApp.initializer
 		private var _starling:Starling;
 
 		private var _iOS:Boolean;
+
+		private var _viewPort:Rectangle = new Rectangle();
+		private var _stageSize:Rectangle = new Rectangle();
+		private var _screenSize:Rectangle = new Rectangle();
 
 		public function StarlingInitializer()
 		{
@@ -92,17 +97,44 @@ package com.crazyfm.extension.starlingApp.initializer
 			var width:int = e == null ? w : e.width;
 			var height:int = e == null ? h : e.height;
 
-			_starling.stage.stageWidth = config.stageWidth;  // <- same size on all devices!
-			_starling.stage.stageHeight = config.stageHeight; // <- same size on all devices!
-
 			var fullScreenWidth:int = width;
 			var fullScreenHeight:int = height;
 
-			var stageSize:Rectangle  = new Rectangle(0, 0, config.stageWidth, config.stageHeight);
-			var screenSize:Rectangle = new Rectangle(0, 0, fullScreenWidth, fullScreenHeight);
-			var viewPort:Rectangle = RectangleUtil.fit(stageSize, screenSize, config.scaleMode, _iOS && config.pixelPerfectOnIOS);
+			_stageSize.x = _stageSize.x = _screenSize.x = _screenSize.y = 0;
 
-			_starling.viewPort = viewPort;
+			_screenSize.width = fullScreenWidth;
+			_screenSize.height = fullScreenHeight;
+
+			_stageSize.width = config.stageWidth;
+			_stageSize.height = config.stageHeight;
+
+			RectangleUtil.fit(_stageSize, _screenSize, config.scaleMode, _iOS, _viewPort);
+
+			if (config.resizeRoot)
+			{
+				_starling.root.width = config.stageWidth;  // <- same size on all devices!
+				_starling.root.height = config.stageHeight; // <- same size on all devices!
+
+				_starling.root.width = _viewPort.width;
+				_starling.root.height = _viewPort.height;
+				_starling.root.x = _viewPort.x;
+				_starling.root.y = _viewPort.y;
+				
+				_starling.stage.stageWidth = width;
+				_starling.stage.stageHeight = height;
+
+				_viewPort.x = _viewPort.y = 0;
+				_viewPort.width = width;
+				_viewPort.height = height;
+
+				_starling.viewPort = _viewPort;
+			}else
+			{
+				_starling.stage.stageWidth = config.stageWidth;  // <- same size on all devices!
+				_starling.stage.stageHeight = config.stageHeight; // <- same size on all devices!
+
+				_starling.viewPort = _viewPort;
+			}
 		}
 
 		/**

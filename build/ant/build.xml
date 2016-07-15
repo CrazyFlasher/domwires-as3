@@ -68,6 +68,7 @@
         <scp todir="${sftp-login}:${sftp-password}@${sftp-host}:${sftp-path}/doc" trust="true">
             <fileset dir="${libs_path}/crazyfm/doc"/>
         </scp>
+        <echo>${sftp-host} ${sftp-login} ${sftp-password} ${sftp-script-path} ${sftp-path}</echo>
     </target>
     <target name="upload_swcs_zip">
         <zip destfile="${libs_path}/crazyfm/crazyfm_latest.zip"
