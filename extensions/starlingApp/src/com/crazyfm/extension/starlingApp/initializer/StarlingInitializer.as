@@ -121,9 +121,10 @@ package com.crazyfm.extension.starlingApp.initializer
 				_starling.stage.stageWidth = width;
 				_starling.stage.stageHeight = height;
 
-				_viewPort.x = _viewPort.y = 0;
-				_viewPort.width = width;
-				_viewPort.height = height;
+				_viewPort.x = toDPI(config.leftOffset);
+				_viewPort.y = toDPI(config.topOffset);
+				_viewPort.width = width - toDPI(config.leftOffset) - toDPI(config.rightOffset);
+				_viewPort.height = height - toDPI(config.topOffset) - toDPI(config.bottomOffset);
 
 				_starling.viewPort = _viewPort;
 			}else
@@ -144,6 +145,16 @@ package com.crazyfm.extension.starlingApp.initializer
 					_starling.root["onStageResize"](null, w, h);
 				}
 			}
+		}
+
+		private function toDPI(offset:Number):Number
+		{
+			if (!config.dpiOffset)
+			{
+				return offset;
+			}
+
+			return offset * (config.resizeRoot ? _starling.root.scale : _starling.stage.scale)
 		}
 
 		/**

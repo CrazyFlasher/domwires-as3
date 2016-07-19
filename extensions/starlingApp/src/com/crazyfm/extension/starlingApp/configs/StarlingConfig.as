@@ -22,6 +22,12 @@ package com.crazyfm.extension.starlingApp.configs
 		 */
 		public var stageHeight:int = 600;
 
+		public var topOffset:Number = 0;
+		public var bottomOffset:Number = 0;
+		public var leftOffset:Number = 0;
+		public var rightOffset:Number = 0;
+		public var dpiOffset:Boolean = false;
+
 		/**
 		 * Provides constant values for the 'RectangleUtil.fit' method.
 		 */
