@@ -14,6 +14,7 @@ package com.crazyfm.extension.starlingApp.initializer
 	import starling.core.Starling;
 	import starling.events.Event;
 	import starling.events.ResizeEvent;
+	import starling.textures.RenderTexture;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
 	import starling.utils.SystemUtil;
@@ -50,6 +51,9 @@ package com.crazyfm.extension.starlingApp.initializer
 			_iOS = SystemUtil.platform == "IOS";
 
 			Starling.multitouchEnabled = true; // useful on mobile devices
+			Starling.handleLostContext = true; // recommended everywhere when using AssetManager
+
+			RenderTexture.optimizePersistentBuffers = _iOS; // safe on iOS, dangerous on Android
 
 			_starling = new Starling(rootClass, stage, null, null, config.renderMode, config.context3DProfile);
 			_starling.addEventListener(Event.ROOT_CREATED, rootClassInitialized);
@@ -61,8 +65,6 @@ package com.crazyfm.extension.starlingApp.initializer
 
 		private function rootClassInitialized():void {
 			_starling.removeEventListener(Event.ROOT_CREATED, rootClassInitialized);
-
-			_starling.skipUnchangedFrames = config.skipUnchangedFrames;
 
 			_starling.start();
 
@@ -112,7 +114,7 @@ package com.crazyfm.extension.starlingApp.initializer
 				_starling.root.scaleY = _viewPort.height / config.stageHeight;
 				_starling.root.x = _viewPort.x;
 				_starling.root.y = _viewPort.y;
-
+				
 				_starling.stage.stageWidth = width;
 				_starling.stage.stageHeight = height;
 
