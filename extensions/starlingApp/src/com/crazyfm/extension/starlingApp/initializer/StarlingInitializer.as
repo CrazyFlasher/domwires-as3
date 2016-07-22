@@ -12,19 +12,12 @@ package com.crazyfm.extension.starlingApp.initializer
 	import flash.system.Capabilities;
 
 	import starling.core.Starling;
-	import starling.display.DisplayObject;
 	import starling.events.Event;
 	import starling.events.ResizeEvent;
-	import starling.textures.RenderTexture;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
 	import starling.utils.SystemUtil;
 
-	/**
-	 * Object that configures and launches new Starling instance.
-	 * Dispatches signals:
-	 * StarlingInitializerMessage.STARLING_INITIALIZED
-	 */
 	public class StarlingInitializer extends MessageDispatcher implements IStarlingInitializer
 	{
 		[Autowired]
@@ -44,6 +37,8 @@ package com.crazyfm.extension.starlingApp.initializer
 		private var _stageSize:Rectangle = new Rectangle();
 		private var _screenSize:Rectangle = new Rectangle();
 
+		private var _starlingStageResizeVo:StarlingStageResizeVo = new StarlingStageResizeVo();
+
 		public function StarlingInitializer()
 		{
 			super();
@@ -55,9 +50,6 @@ package com.crazyfm.extension.starlingApp.initializer
 			_iOS = SystemUtil.platform == "IOS";
 
 			Starling.multitouchEnabled = true; // useful on mobile devices
-			Starling.handleLostContext = true; // recommended everywhere when using AssetManager
-
-			RenderTexture.optimizePersistentBuffers = _iOS; // safe on iOS, dangerous on Android
 
 			_starling = new Starling(rootClass, stage, null, null, config.renderMode, config.context3DProfile);
 			_starling.addEventListener(Event.ROOT_CREATED, rootClassInitialized);
@@ -69,6 +61,8 @@ package com.crazyfm.extension.starlingApp.initializer
 
 		private function rootClassInitialized():void {
 			_starling.removeEventListener(Event.ROOT_CREATED, rootClassInitialized);
+
+			_starling.skipUnchangedFrames = config.skipUnchangedFrames;
 
 			_starling.start();
 
@@ -92,9 +86,9 @@ package com.crazyfm.extension.starlingApp.initializer
 			dispatchMessage(StarlingInitializerMessage.STARLING_INITIALIZED);
 		}
 
-		private function onStageResize(e:ResizeEvent = null, w:int = 0, h:int = 0):void {
-			var width:int = e == null ? w : e.width;
-			var height:int = e == null ? h : e.height;
+		private function onStageResize(e:ResizeEvent = null, w:Number = 0, h:Number = 0):void {
+			var width:Number = e == null ? w : e.width;
+			var height:Number = e == null ? h : e.height;
 
 			var fullScreenWidth:int = width;
 			var fullScreenHeight:int = height;
@@ -118,7 +112,7 @@ package com.crazyfm.extension.starlingApp.initializer
 				_starling.root.scaleY = _viewPort.height / config.stageHeight;
 				_starling.root.x = _viewPort.x;
 				_starling.root.y = _viewPort.y;
-				
+
 				_starling.stage.stageWidth = width;
 				_starling.stage.stageHeight = height;
 
@@ -136,16 +130,10 @@ package com.crazyfm.extension.starlingApp.initializer
 				_starling.viewPort = _viewPort;
 			}
 
-			if (_starling.root.hasOwnProperty("onStageResize"))
-			{
-				if (e)
-				{
-					_starling.root["onStageResize"](e);
-				}else
-				{
-					_starling.root["onStageResize"](null, w, h);
-				}
-			}
+			_starlingStageResizeVo._width = e ? e.width : w;
+			_starlingStageResizeVo._height = e ? e.height : h;
+
+			dispatchMessage(StarlingInitializerMessage.STARLING_STAGE_RESIZE, _starlingStageResizeVo);
 		}
 
 		/**

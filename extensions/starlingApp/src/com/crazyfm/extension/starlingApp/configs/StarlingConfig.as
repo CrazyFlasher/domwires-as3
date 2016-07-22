@@ -54,6 +54,11 @@ package com.crazyfm.extension.starlingApp.configs
 		public var resizeRoot:Boolean = false;
 
 		/**
+		 * @see starling.core.Starling#skipUnchangedFrames
+		 */
+		public var skipUnchangedFrames:Boolean = true;
+
+		/**
 		 * Creates new StarlingProperties object with default values.
 		 */
 

@@ -8,10 +8,15 @@ package com.crazyfm.extension.starlingApp.initializer
 	import starling.core.Starling;
 
 	/**
+	 * Object that configures and launches new Starling instance.
+	 * Dispatches signals:
+	 * StarlingInitializerMessage.STARLING_INITIALIZED
+	 */
+
+	/**
 	 * Default implementation.
 	 */
 	StarlingInitializer;
-
 	public interface IStarlingInitializer extends IMessageDispatcher
 	{
 		/**
