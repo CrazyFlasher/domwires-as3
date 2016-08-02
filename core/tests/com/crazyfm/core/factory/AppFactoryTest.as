@@ -238,6 +238,53 @@ package com.crazyfm.core.factory
 			assertFalse(o.clazz is MyType1);
 		}
 
+		[Test]
+		public function testMappingToName():void
+		{
+			var arr1:Array = [1,2,3];
+			var arr2:Array = [4,5,6];
+
+			factory.mapToValue(Array, arr1, "shachlo");
+			factory.mapToValue(Array, arr2, "olo");
+
+			var myObj:MySuperCoolObj = factory.getInstance(MySuperCoolObj) as MySuperCoolObj;
+
+			assertEquals(myObj.arr1, arr2);
+			assertEquals(myObj.arr2, arr1);
+		}
+
+		[Test(expects="Error")]
+		public function testUnMappingFromName():void
+		{
+			var arr1:Array = [1,2,3];
+			var arr2:Array = [4,5,6];
+
+			factory.mapToValue(Array, arr1, "shachlo");
+			factory.mapToValue(Array, arr2, "olo");
+
+			var myObj:MySuperCoolObj = factory.getInstance(MySuperCoolObj) as MySuperCoolObj;
+
+			assertEquals(myObj.arr1, arr2);
+			assertEquals(myObj.arr2, arr1);
+
+			factory.unmap(Array, "shachlo");
+
+			factory.getInstance(MySuperCoolObj);
+		}
+
+	}
+}
+internal class MySuperCoolObj
+{
+	[Autowired(name="olo")]
+	public var arr1:Array;
+
+	[Autowired(name="shachlo")]
+	public var arr2:Array;
+
+	public function MySuperCoolObj()
+	{
+
 	}
 }
 

@@ -56,13 +56,15 @@ package com.crazyfm.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function mapToValue(type:Class, to:Object):IAppFactory
+		public function mapToValue(type:Class, to:Object, name:String = null):IAppFactory
 		{
-			if (_verbose && instanceMapping[type])
+			var id:String = getId(type, name);
+
+			if (_verbose && instanceMapping[id])
 			{
-				log("Warning: type " + type + " is mapped to instance " + instanceMapping[type] + ". Remapping to " + to);
+				log("Warning: type " + type + " is mapped to instance " + instanceMapping[id] + ". Remapping to " + to);
 			}
-			instanceMapping[type] = to;
+			instanceMapping[id] = to;
 
 			return this;
 		}
@@ -70,24 +72,28 @@ package com.crazyfm.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function hasMappingForType(type:Class):Boolean
+		public function hasMappingForType(type:Class, name:String = null):Boolean
 		{
-			return typeMapping[type] != null || instanceMapping[type] != null;
+			var id:String = getId(type, name);
+
+			return typeMapping[type] != null || instanceMapping[id] != null;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function unmap(type:Class):IAppFactory
+		public function unmap(type:Class, name:String = null):IAppFactory
 		{
+			var id:String = getId(type, name);
+
 			if(typeMapping[type])
 			{
 				delete typeMapping[type];
 			}
 
-			if(instanceMapping[type])
+			if(instanceMapping[id])
 			{
-				delete instanceMapping[type];
+				delete instanceMapping[id];
 			}
 
 			return this;
@@ -98,7 +104,9 @@ package com.crazyfm.core.factory
 		 */
 		public function getInstance(type:Class, constructorArgs:Array = null):*
 		{
-			var obj:* = getInstanceFromInstanceMap(type);
+			var id:String = getId(type, "");
+			
+			var obj:* = getInstanceFromInstanceMap(id);
 
 			if (obj) return obj;
 
@@ -132,16 +140,16 @@ package com.crazyfm.core.factory
 			return obj;
 		}
 
-		private function getInstanceFromInstanceMap(type:Class, require:Boolean = false):*
+		private function getInstanceFromInstanceMap(id:String, require:Boolean = false):*
 		{
-			if (instanceMapping[type])
+			if (instanceMapping[id])
 			{
-				return instanceMapping[type];
+				return instanceMapping[id];
 			}
 
 			if (require)
 			{
-				throw new Error("Instance mapping for " + type + " not found!");
+				throw new Error("Instance mapping for " + id + " not found!");
 			}
 
 			return null;
@@ -332,7 +340,8 @@ package com.crazyfm.core.factory
 			var objVar:String;
 			for (objVar in injectionData.variables)
 			{
-				object[objVar] = getInstanceFromInstanceMap(getDefinitionByName(injectionData.variables[objVar]) as Class, true);
+//				object[objVar] = getInstanceFromInstanceMap(getDefinitionByName(injectionData.variables[objVar]) as Class, "", true);
+				object[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar], true);
 			}
 
 			if (injectionData.postConstructName != null)
@@ -385,7 +394,8 @@ package com.crazyfm.core.factory
 						if (metadata.name == "Autowired")
 						{
 							//TODO: optional injection
-							injectionData.variables[variable.name] = variable.type.replace(/::/g, ".");
+							injectionData.variables[variable.name] = variable.type/*.replace(/::/g, ".")*/ +
+							 getVariableMetaName(metadata.value);
 						}
 					}
 				}
@@ -394,6 +404,21 @@ package com.crazyfm.core.factory
 			}
 
 			return injectionData;
+		}
+
+		private function getVariableMetaName(metaPropertyList:Array):String
+		{
+			var metaName:String = "";
+			for (var i:int = 0; i < metaPropertyList.length; i++)
+			{
+				if (metaPropertyList[i].key == "name")
+				{
+					metaName = "$" + metaPropertyList[i].value;
+					break;
+				}
+			}
+
+			return metaName;
 		}
 
 		/**
@@ -435,6 +460,11 @@ package com.crazyfm.core.factory
 		public function set verbose(value:Boolean):void
 		{
 			_verbose = value;
+		}
+
+		private static function getId(type:Class, name:String):String
+		{
+			return getQualifiedClassName(type) + (!name ? "" : "$" + name);
 		}
 	}
 }

@@ -138,26 +138,29 @@ package com.crazyfm.core.factory
 		 * Maps one class (or interface) type to instance.
 		 * @param type Type, that has to be mapped to another type
 		 * @param to Instance, that type type should be mapped to
+		 * @param name Optional parameter, to map dependency to value with current name parameter in metatag
 		 * @see #mapToType()
 		 * @return
 		 */
-		function mapToValue(type:Class, to:Object):IAppFactory;
+		function mapToValue(type:Class, to:Object, name:String = null):IAppFactory;
 
 		/**
 		 * Returns true, if <code>IAppFactory</code> has mapping for current type.
 		 * @param type Class or interface type
+		 * @param name Name of value mapping in metatag
 		 * @return
 		 */
-		function hasMappingForType(type:Class):Boolean;
+		function hasMappingForType(type:Class, name:String = null):Boolean;
 
 		/**
 		 * Unmaps current type.
-		 * @param type
+		 * @param type Class or interface type
+		 * @param name Name of value mapping in metatag
 		 * @see #mapToType()
 		 * @see #mapToValue()
 		 * @return
 		 */
-		function unmap(type:Class):IAppFactory;
+		function unmap(type:Class, name:String = null):IAppFactory;
 
 		/**
 		 * Returns either new instance of class or instance from pool.

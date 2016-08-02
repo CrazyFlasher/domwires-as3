@@ -3,7 +3,6 @@
  */
 package com.crazyfm.core.mvc.hierarchy
 {
-	import com.crazyfm.core.mvc.message.IMessage;
 	import com.crazyfm.core.mvc.message.MessageDispatcher;
 
 	use namespace ns_hierarchy;
