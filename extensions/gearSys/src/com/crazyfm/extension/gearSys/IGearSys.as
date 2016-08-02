@@ -8,6 +8,9 @@ package com.crazyfm.extension.gearSys
 	 */
 	GearSys;
 
+	[Event(name="INITIALIZED", type="com.crazyfm.extension.gearSys.messages.GearSysMessageEnum")]
+	[Event(name="STEP", type="com.crazyfm.extension.gearSys.messages.GearSysMessageEnum")]
+
 	/**
 	 * <code>IGearSys</code> is a main object of pattern (especially for games), that makes your application logic to be similar to constructor.
 	 * <code>IGearSysMechanism</code> forces <code>IGearSys</code> to "spin". <code>IGearSys</code> can have as many <code>IGearSysObjects</code>
