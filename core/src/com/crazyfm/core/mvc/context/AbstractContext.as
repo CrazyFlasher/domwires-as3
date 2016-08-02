@@ -274,7 +274,7 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		private function dispatchMessageToViews(message:IMessage):void
+		public function dispatchMessageToViews(message:IMessage):void
 		{
 			viewContainer.dispatchMessageToChildren(message);
 		}
