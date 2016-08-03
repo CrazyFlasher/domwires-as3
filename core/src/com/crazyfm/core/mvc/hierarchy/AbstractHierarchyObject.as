@@ -21,7 +21,34 @@ package com.crazyfm.core.mvc.hierarchy
 
 		ns_hierarchy function setParent(value:IHierarchyObjectContainer):void
 		{
+			var hasParent:Boolean = _parent != null;
+
 			_parent = value;
+
+			if (!hasParent && _parent != null)
+			{
+				addedToHierarchy();
+			}else
+			if(hasParent && _parent == null)
+			{
+				removedFromHierarchy();
+			}
+		}
+
+		/**
+		 * Called, when object added to hierarchy.
+		 */
+		protected function removedFromHierarchy():void
+		{
+
+		}
+
+		/**
+		 * Called, when object removed from hierarchy.
+		 */
+		protected function addedToHierarchy():void
+		{
+
 		}
 
 		/**
