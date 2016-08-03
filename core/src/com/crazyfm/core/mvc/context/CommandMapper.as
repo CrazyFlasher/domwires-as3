@@ -6,6 +6,7 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.core.mvc.command.*;
+	import com.crazyfm.core.mvc.message.IMessage;
 
 	import flash.utils.Dictionary;
 
@@ -68,8 +69,9 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
-		public function tryToExecuteCommand(messageType:Enum):void
+		public function tryToExecuteCommand(message:IMessage):void
 		{
+			var messageType:Enum = message.type;
 			var mappedToMessageCommands:Vector.<Class> = commandMap[messageType];
 			var command:ICommand;
 
@@ -85,7 +87,9 @@ package com.crazyfm.core.mvc.context
 						command = factory.getSingleton(commandClass) as ICommand;
 					}
 
+					factory.mapToValue(IMessage, message);
 					factory.injectDependencies(commandClass, command);
+					factory.unmap(IMessage);
 
 					command.execute();
 					//TODO: async command

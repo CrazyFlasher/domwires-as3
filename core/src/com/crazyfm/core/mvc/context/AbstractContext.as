@@ -211,7 +211,7 @@ package com.crazyfm.core.mvc.context
 
 		private function handleBubbledMessage(message:IMessage):void
 		{
-			tryToExecuteCommand(message.type);
+			tryToExecuteCommand(message);
 
 			if (message.target is IModel)
 			{
@@ -266,9 +266,9 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function tryToExecuteCommand(messageType:Enum):void
+		public function tryToExecuteCommand(message:IMessage):void
 		{
-			commandMapper.tryToExecuteCommand(messageType);
+			commandMapper.tryToExecuteCommand(message);
 		}
 
 		/**

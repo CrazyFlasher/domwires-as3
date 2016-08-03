@@ -103,7 +103,7 @@ package com.crazyfm.core.mvc.context
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 
 			assertEquals(m.d, 0);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.PREVED));
 			assertEquals(m.d, 7);
 		}
 
@@ -116,15 +116,15 @@ package com.crazyfm.core.mvc.context
 			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
 			commandMapper.map(MyCoolEnum.PREVED, TestCommand);
 			commandMapper.map(MyCoolEnum.SHALOM, TestCommand);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.SHALOM);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.PREVED));
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.SHALOM));
 			assertEquals(m.d, 21);
 
 			commandMapper.unmap(MyCoolEnum.SHALOM, TestCommand);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.PREVED);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.SHALOM);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.PREVED));
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.SHALOM));
 			assertEquals(m.d, 35);
 		}
 
@@ -135,7 +135,7 @@ package com.crazyfm.core.mvc.context
 			factory.mapToValue(TestObj1, m);
 
 			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
-			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
 
 			assertEquals(m.d, 7);
 
@@ -144,14 +144,16 @@ package com.crazyfm.core.mvc.context
 			var m2:TestObj1 = factory.getInstance(TestObj1);
 			factory.mapToValue(TestObj1, m2);
 
-			commandMapper.tryToExecuteCommand(MyCoolEnum.BOGA);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
 
 			assertEquals(m2.d, 7);
 		}
 	}
 }
 
+import com.crazyfm.core.common.Enum;
 import com.crazyfm.core.mvc.command.AbstractCommand;
+import com.crazyfm.core.mvc.message.IMessage;
 
 import testObject.TestObj1;
 
@@ -163,5 +165,46 @@ internal class TestCommand extends AbstractCommand
 	override public function execute():void
 	{
 		obj.d += 7;
+	}
+}
+
+internal class MyMessage implements IMessage
+{
+	internal var _type:Enum;
+	internal var _data:Object;
+	internal var _bubbles:Boolean;
+	internal var _target:Object;
+	internal var _currentTarget:Object;
+
+	public function MyMessage(type:Enum, data:Object = null, bubbles:Boolean = true)
+	{
+		_type = type;
+		_data = data;
+		_bubbles = bubbles;
+	}
+
+	public function get type():Enum
+	{
+		return _type;
+	}
+
+	public function get data():Object
+	{
+		return _data;
+	}
+
+	public function get bubbles():Boolean
+	{
+		return _bubbles;
+	}
+
+	public function get target():Object
+	{
+		return _target;
+	}
+
+	public function get currentTarget():Object
+	{
+		return _currentTarget;
 	}
 }

@@ -84,6 +84,7 @@ package com.crazyfm.core.factory
 		 */
 		public function unmap(type:Class, name:String = null):IAppFactory
 		{
+			//TODO: split unmap type and unmap value
 			var id:String = getId(type, name);
 
 			if(typeMapping[type])

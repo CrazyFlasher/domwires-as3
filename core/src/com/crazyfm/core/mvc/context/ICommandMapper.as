@@ -4,6 +4,7 @@
 package com.crazyfm.core.mvc.context
 {
 	import com.crazyfm.core.common.Enum;
+	import com.crazyfm.core.mvc.message.IMessage;
 
 	/**
 	 * Maps specific messages to <code>ICommand</code>.
@@ -47,9 +48,9 @@ package com.crazyfm.core.mvc.context
 		function hasMapping(messageType:Enum):Boolean;
 
 		/**
-		 * Trying to find and execute commands, mapped to current message.
-		 * @param messageType
+		 * Trying to find and execute commands, mapped to current message type.
+		 * @param message
 		 */
-		function tryToExecuteCommand(messageType:Enum):void;
+		function tryToExecuteCommand(message:IMessage):void;
 	}
 }
