@@ -219,6 +219,7 @@ package com.crazyfm.core.mvc.context
 			}else
 			if (message.target is IView)
 			{
+				dispatchMessageToViews(message);
 				dispatchMessageToModels(message);
 			}
 		}
