@@ -23,11 +23,26 @@ package com.crazyfm.core.mvc.context
 
 		private var commandMap:Dictionary/*Enum, Vector.<Class>*/ = new Dictionary();
 
+		/**
+		 * @inheritDoc
+		 */
 		public function CommandMapper()
 		{
 			super();
 		}
 
+		/**
+		 * @private
+		 */
+		[PostConstruct]
+		public function init():void
+		{
+			factory.mapToValue(ICommandMapper, this);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function map(messageType:Enum, commandClass:Class):ICommandMapper
 		{
 			if (!commandMap[messageType])
@@ -41,6 +56,9 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function unmap(messageType:Enum, commandClass:Class):ICommandMapper
 		{
 			if (commandMap[messageType])
@@ -62,6 +80,9 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function clear():ICommandMapper
 		{
 			commandMap = new Dictionary();
@@ -69,35 +90,44 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function tryToExecuteCommand(message:IMessage):void
 		{
 			var messageType:Enum = message.type;
 			var mappedToMessageCommands:Vector.<Class> = commandMap[messageType];
-			var command:ICommand;
-
 			if (mappedToMessageCommands != null)
 			{
 				for each (var commandClass:Class in mappedToMessageCommands)
 				{
-					if (!factory.hasPoolForType(commandClass))
-					{
-						command = factory.getSingleton(commandClass) as ICommand;
-					}else
-					{
-						command = factory.getSingleton(commandClass) as ICommand;
-					}
-
-					factory.mapToValue(IMessage, message);
-					factory.injectDependencies(commandClass, command);
-					factory.unmap(IMessage);
-
-					command.execute();
-					//TODO: async command
-					command.retain();
+					executeCommand(commandClass);
 				}
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
+		public function executeCommand(commandClass:Class, message:IMessage = null):void
+		{
+			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
+
+			if (message)
+			{
+				factory.mapToValue(IMessage, message);
+			}
+
+			factory.injectDependencies(commandClass, command);
+
+			command.execute();
+			//TODO: async command
+			command.retain();
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function unmapAll(messageType:Enum):ICommandMapper
 		{
 			if (commandMap[messageType])
@@ -110,6 +140,9 @@ package com.crazyfm.core.mvc.context
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function hasMapping(messageType:Enum):Boolean
 		{
 			return commandMap[messageType] != null;

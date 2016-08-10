@@ -287,5 +287,13 @@ package com.crazyfm.core.mvc.context
 		{
 			modelContainer.dispatchMessageToChildren(message);
 		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function executeCommand(commandClass:Class, message:IMessage = null):void
+		{
+			commandMapper.executeCommand(commandClass, message);
+		}
 	}
 }
