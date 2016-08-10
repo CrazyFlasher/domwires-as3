@@ -104,7 +104,7 @@ package com.crazyfm.core.mvc.context
 			{
 				for each (var commandClass:Class in mappedToMessageCommands)
 				{
-					executeCommand(commandClass, message.data);
+					executeCommand(commandClass, message);
 				}
 			}
 		}
@@ -112,48 +112,23 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, params:* = null):void
+		public function executeCommand(commandClass:Class, message:IMessage = null):void
 		{
 			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
 
-			mapParams(params);
-
+			if (message && message.data)
+			{
+				factory.mapToValue(IMessage, message);
+			}
 			factory.injectDependencies(commandClass, command);
-
-			mapParams(params, false);
-
+			if (message && message.data)
+			{
+				factory.unmap(IMessage);
+			}
+			
 			command.execute();
 			//TODO: async command
 			command.retain();
-		}
-
-		private function mapParams(params:*, map:Boolean = true):void
-		{
-			if (params)
-			{
-				if (params is Array)
-				{
-					for each (var param:* in params)
-					{
-						if (map)
-						{
-							factory.mapToValue(getDefinitionByName(getQualifiedClassName(param)) as Class, param);
-						}else
-						{
-							factory.unmap(getDefinitionByName(getQualifiedClassName(param)) as Class);
-						}
-					}
-				}else
-				{
-					if (map)
-					{
-						factory.mapToValue(getDefinitionByName(getQualifiedClassName(params)) as Class, params);
-					}else
-					{
-						factory.unmap(getDefinitionByName(getQualifiedClassName(params)) as Class);
-					}
-				}
-			}
 		}
 
 		/**

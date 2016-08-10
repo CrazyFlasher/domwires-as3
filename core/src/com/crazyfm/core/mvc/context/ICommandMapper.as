@@ -56,8 +56,8 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * Execute command manually.
 		 * @param commandClass
-		 * @param params
+		 * @param message
 		 */
-		function executeCommand(commandClass:Class, params:* = null):void;
+		function executeCommand(commandClass:Class, message:IMessage = null):void;
 	}
 }

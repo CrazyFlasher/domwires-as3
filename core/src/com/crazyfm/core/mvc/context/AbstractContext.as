@@ -291,9 +291,9 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, params:* = null):void
+		public function executeCommand(commandClass:Class, message:IMessage = null):void
 		{
-			commandMapper.executeCommand(commandClass, params);
+			commandMapper.executeCommand(commandClass, message);
 		}
 	}
 }
