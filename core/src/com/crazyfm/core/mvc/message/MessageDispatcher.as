@@ -88,7 +88,11 @@ package com.crazyfm.core.mvc.message
 			_message._bubbles = bubbles;
 
 			handleMessage(_message);
-			bubbleUpMessage(_message);
+
+			if (!isDisposed)
+			{
+				bubbleUpMessage(_message);
+			}
 		}
 
 		private function bubbleUpMessage(message:Message):void
