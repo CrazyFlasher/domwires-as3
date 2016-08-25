@@ -60,11 +60,11 @@ package com.crazyfm.core.factory
 		{
 			var id:String = getId(type, name);
 
-			if (_verbose && instanceMapping[id])
+			if (_verbose && instanceMapping[id] != null)
 			{
 				log("Warning: type " + type + " is mapped to instance " + instanceMapping[id] + ". Remapping to " + to);
 			}
-			instanceMapping[id] = to;
+			instanceMapping[id] = /*type is Boolean ? to.toString() : */to;
 
 			return this;
 		}
@@ -125,7 +125,7 @@ package com.crazyfm.core.factory
 			{
 				obj = getNewInstance(type, constructorArgs);
 
-				if (obj)
+				if (obj != null)
 				{
 					if (_autoInjectDependencies)
 					{
@@ -143,7 +143,7 @@ package com.crazyfm.core.factory
 
 		private function getInstanceFromInstanceMap(id:String, require:Boolean = false):*
 		{
-			if (instanceMapping[id])
+			if (instanceMapping[id] != null)
 			{
 				return instanceMapping[id];
 			}
@@ -160,7 +160,7 @@ package com.crazyfm.core.factory
 		{
 			var t:Class;
 
-			if (!typeMapping[type])
+			if (typeMapping[type] == null)
 			{
 				if (_verbose)
 				{

@@ -272,8 +272,51 @@ package com.crazyfm.core.factory
 			factory.getInstance(MySuperCoolObj);
 		}
 
+		[Test]
+		public function testBooleanMapping():void
+		{
+			factory.mapToValue(Boolean, true);
+
+			var value:Boolean = factory.getInstance(Boolean);
+			assertTrue(value);
+
+			factory.mapToValue(Boolean, false);
+
+			value = factory.getInstance(Boolean);
+			assertFalse(value);
+		}
+
+		[Test]
+		public function testBooleanMapping2():void
+		{
+			var condition:Boolean;
+
+			factory.mapToValue(Boolean, condition, "popa");
+
+			var myObj:MySuperCoolObj2 = factory.getInstance(MySuperCoolObj2) as MySuperCoolObj2;
+			assertEquals(myObj.b, false);
+
+			condition = true;
+
+			factory.mapToValue(Boolean, condition, "popa");
+			
+			var myObj2:MySuperCoolObj2 = factory.getInstance(MySuperCoolObj2) as MySuperCoolObj2;
+			assertEquals(myObj2.b, true);
+		}
+
 	}
 }
+internal class MySuperCoolObj2
+{
+	[Autowired(name="popa")]
+	public var b:Boolean;
+
+	public function MySuperCoolObj2()
+	{
+
+	}
+}
+
 internal class MySuperCoolObj
 {
 	[Autowired(name="olo")]
