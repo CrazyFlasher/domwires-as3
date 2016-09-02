@@ -52,6 +52,7 @@ package com.crazyfm.extension.starlingApp.initializer
 			Starling.multitouchEnabled = true; // useful on mobile devices
 
 			_starling = new Starling(rootClass, stage, null, null, config.renderMode, config.context3DProfile);
+			_starling.skipUnchangedFrames = config.skipUnchangedFrames;
 			_starling.addEventListener(Event.ROOT_CREATED, rootClassInitialized);
 			_starling.antiAliasing = config.antiAliasing;
 

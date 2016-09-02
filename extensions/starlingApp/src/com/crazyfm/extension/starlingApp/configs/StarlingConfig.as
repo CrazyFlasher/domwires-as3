@@ -20,6 +20,15 @@ package com.crazyfm.extension.starlingApp.configs
 		internal var _context3DProfile:String = Context3DProfile.BASELINE_CONSTRAINED;
 		internal var _pixelPerfectOnIOS:Boolean = true;
 		internal var _resizeRoot:Boolean = false;
+		internal var _skipUnchangedFrames:Boolean = true;
+
+		/**
+		 * When enabled, Starling will skip rendering the stage if it hasn't changed since the last frame. This is great for apps that remain static from time to time, since it will greatly reduce power consumption. You should activate this whenever possible!
+		 */
+		public function get skipUnchangedFrames():Boolean
+		{
+			return _skipUnchangedFrames;
+		}
 
 		/**
 		 * Starling stage width.

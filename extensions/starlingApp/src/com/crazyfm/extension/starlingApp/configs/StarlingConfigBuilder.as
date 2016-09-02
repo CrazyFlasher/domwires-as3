@@ -50,6 +50,11 @@ package com.crazyfm.extension.starlingApp.configs
 		 */
 		public var resizeRoot:Boolean = false;
 
+		/**
+		 * When enabled, Starling will skip rendering the stage if it hasn't changed since the last frame. This is great for apps that remain static from time to time, since it will greatly reduce power consumption. You should activate this whenever possible!
+		 */
+		public var skipUnchangedFrames:Boolean = true;
+
 		public function build():StarlingConfig
 		{
 			var config:StarlingConfig = new StarlingConfig();
@@ -61,6 +66,7 @@ package com.crazyfm.extension.starlingApp.configs
 			config._context3DProfile = context3DProfile;
 			config._pixelPerfectOnIOS = pixelPerfectOnIOS;
 			config._resizeRoot = resizeRoot;
+			config._skipUnchangedFrames = skipUnchangedFrames;
 
 			return config;
 		}
