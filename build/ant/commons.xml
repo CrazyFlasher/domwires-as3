@@ -31,6 +31,10 @@
 	<taskdef resource="flexUnitTasks.tasks" classpath="${flexunit}/flexUnitTasks-4.2.0-20140410.jar"/>
 
     <target name="build" depends="swc,copy_swc"/>
+    <target name="fat-build" depends="fat-swc,copy_swc"/>
+
+    <target name="package_fat_swc" depends="clean,fat-build,asdoc,test"/>
+
     <target name="package_swc" depends="clean,build,asdoc,test"/>
     <target name="asdoc">
         <delete dir="${doc}"/>
@@ -56,6 +60,16 @@
             <external-library-path dir="${libs_path}" includes="**/*"/>
             <external-library-path dir="${internal_libs_path}" includes="*.swc"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/${target-player}" includes="*"/>
+        </compc>
+    </target>
+    <target name="fat-swc">
+        <delete file="${libs_path}/crazyfm/${swc_name}"/>
+        <compc output="${swc}/${swc_name}">
+            <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+            <include-sources dir="${src}" includes="*"/>
+            <include-libraries dir="${libs_path}" includes="**/*"/>
+            <include-libraries dir="${internal_libs_path}" includes="*.swc"/>
+            <include-libraries dir="${FLEX_HOME}/frameworks/libs/player/${target-player}" includes="*"/>
         </compc>
     </target>
 	<target name="copy_swc">
