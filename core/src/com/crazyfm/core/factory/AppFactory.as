@@ -339,10 +339,12 @@ package com.crazyfm.core.factory
 			var injectionData:InjectionDataVo = getInjectionData(type);
 
 			var objVar:String;
+			var isOptional:Boolean;
+
 			for (objVar in injectionData.variables)
 			{
-//				object[objVar] = getInstanceFromInstanceMap(getDefinitionByName(injectionData.variables[objVar]) as Class, "", true);
-				object[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar], true);
+				isOptional = injectionData.variables[objVar].optional;
+				object[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar].qualifiedName, !isOptional);
 			}
 
 			if (injectionData.postConstructName != null)
@@ -395,8 +397,10 @@ package com.crazyfm.core.factory
 						if (metadata.name == "Autowired")
 						{
 							//TODO: optional injection
-							injectionData.variables[variable.name] = variable.type/*.replace(/::/g, ".")*/ +
-							 getVariableMetaName(metadata.value);
+							isOptional = getVariableIsOptional(metadata.value);
+
+							injectionData.variables[variable.name] = new InjectionVariableVo(variable.type/*.replace(/::/g, ".")*/ +
+							 getVariableMetaName(metadata.value), isOptional);
 						}
 					}
 				}
@@ -407,7 +411,22 @@ package com.crazyfm.core.factory
 			return injectionData;
 		}
 
-		private function getVariableMetaName(metaPropertyList:Array):String
+		private static function getVariableIsOptional(metaPropertyList:Array):Boolean
+		{
+			var optional:Boolean;
+			for (var i:int = 0; i < metaPropertyList.length; i++)
+			{
+				if (metaPropertyList[i].key == "optional")
+				{
+					optional = (metaPropertyList[i].value == "true");
+					break;
+				}
+			}
+
+			return optional;
+		}
+
+		private static function getVariableMetaName(metaPropertyList:Array):String
 		{
 			var metaName:String = "";
 			for (var i:int = 0; i < metaPropertyList.length; i++)
@@ -474,7 +493,7 @@ import flash.utils.Dictionary;
 
 internal class InjectionDataVo
 {
-	internal var variables:Dictionary/*String, String*/ = new Dictionary();
+	internal var variables:Dictionary/*String, InjectionVariableVo*/ = new Dictionary();
 	internal var postConstructName:String;
 	internal var preDestroyName:String;
 
@@ -486,5 +505,27 @@ internal class InjectionDataVo
 	internal function dispose():void
 	{
 		variables = null;
+	}
+}
+
+internal class InjectionVariableVo
+{
+	private var _qualifiedName:String;
+	private var _optional:Boolean;
+
+	public function InjectionVariableVo(qualifiedName:String, optional:Boolean)
+	{
+		_qualifiedName = qualifiedName;
+		_optional = optional;
+	}
+
+	public function get qualifiedName():String
+	{
+		return _qualifiedName;
+	}
+
+	public function get optional():Boolean
+	{
+		return _optional;
 	}
 }

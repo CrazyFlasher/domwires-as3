@@ -304,8 +304,38 @@ package com.crazyfm.core.factory
 			assertEquals(myObj2.b, true);
 		}
 
+		[Test]
+		public function testOptionalInjection():void
+		{
+			factory.mapToValue(Number, 1);
+
+			var obj:MyOptional = factory.getInstance(MyOptional);
+
+			assertFalse(obj.b);
+			assertNull(obj.siski);
+			assertEquals(obj.n, 1);
+		}
+
 	}
 }
+
+internal class MyOptional
+{
+	[Autowired(name="popa", optional="true")]
+	public var b:Boolean;
+
+	[Autowired]
+	public var n:Number;
+
+	[Autowired(optional="true")]
+	public var siski:Camera;
+
+	public function MyOptional()
+	{
+
+	}
+}
+
 internal class MySuperCoolObj2
 {
 	[Autowired(name="popa")]
