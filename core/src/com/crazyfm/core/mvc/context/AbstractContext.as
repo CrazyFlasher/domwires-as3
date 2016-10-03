@@ -57,6 +57,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function addModel(model:IModel):IModelContainer
 		{
+			checkIfDisposed();
+
 			modelContainer.addModel(model);
 			(model as AbstractHierarchyObject).setParent(this);
 
@@ -68,6 +70,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function removeModel(model:IModel, dispose:Boolean = false):IModelContainer
 		{
+			checkIfDisposed();
+
 			modelContainer.removeModel(model, dispose);
 
 			return this;
@@ -78,6 +82,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function removeAllModels(dispose:Boolean = false):IModelContainer
 		{
+			checkIfDisposed();
+
 			modelContainer.removeAllModels(dispose);
 
 			return this;
@@ -88,6 +94,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function get numModels():int
 		{
+			checkIfDisposed();
+
 			return modelContainer.numModels;
 		}
 
@@ -96,6 +104,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function containsModel(model:IModel):Boolean
 		{
+			checkIfDisposed();
+
 			return modelContainer.containsModel(model);
 		}
 
@@ -104,6 +114,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function get modelList():Array
 		{
+			checkIfDisposed();
+
 			return modelContainer.modelList;
 		}
 
@@ -112,6 +124,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function addView(view:IView):IViewContainer
 		{
+			checkIfDisposed();
+
 			viewContainer.addView(view);
 			(view as AbstractHierarchyObject).setParent(this);
 
@@ -123,6 +137,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function removeView(view:IView, dispose:Boolean = false):IViewContainer
 		{
+			checkIfDisposed();
+
 			viewContainer.removeView(view, dispose);
 
 			return this;
@@ -133,6 +149,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function removeAllViews(dispose:Boolean = false):IViewContainer
 		{
+			checkIfDisposed();
+
 			viewContainer.removeAllViews(dispose);
 
 			return this;
@@ -143,6 +161,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function get numViews():int
 		{
+			checkIfDisposed();
+
 			return viewContainer.numViews;
 		}
 
@@ -151,6 +171,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function containsView(view:IView):Boolean
 		{
+			checkIfDisposed();
+
 			return viewContainer.containsView(view);
 		}
 
@@ -159,6 +181,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function get viewList():Array
 		{
+			checkIfDisposed();
+
 			return viewContainer.viewList;
 		}
 
@@ -189,9 +213,6 @@ package com.crazyfm.core.mvc.context
 		 */
 		override public function disposeWithAllChildren():void
 		{
-			modelContainer.disposeWithAllChildren();
-			viewContainer.disposeWithAllChildren();
-
 			nullifyDependencies();
 
 			super.disposeWithAllChildren();
@@ -229,6 +250,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function map(messageType:Enum, commandClass:Class):ICommandMapper
 		{
+			checkIfDisposed();
+
 			return commandMapper.map(messageType, commandClass);
 		}
 
@@ -237,6 +260,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function unmap(messageType:Enum, commandClass:Class):ICommandMapper
 		{
+			checkIfDisposed();
+
 			return commandMapper.unmap(messageType, commandClass);
 		}
 
@@ -245,6 +270,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function clear():ICommandMapper
 		{
+			checkIfDisposed();
+
 			return commandMapper.clear();
 		}
 
@@ -253,6 +280,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function unmapAll(messageType:Enum):ICommandMapper
 		{
+			checkIfDisposed();
+
 			return commandMapper.unmapAll(messageType);
 		}
 
@@ -261,6 +290,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function hasMapping(messageType:Enum):Boolean
 		{
+			checkIfDisposed();
+
 			return commandMapper.hasMapping(messageType);
 		}
 
@@ -269,6 +300,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function tryToExecuteCommand(message:IMessage):void
 		{
+			checkIfDisposed();
+
 			commandMapper.tryToExecuteCommand(message);
 		}
 
@@ -277,6 +310,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function dispatchMessageToViews(message:IMessage):void
 		{
+			checkIfDisposed();
+
 			viewContainer.dispatchMessageToChildren(message);
 		}
 
@@ -285,6 +320,8 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function dispatchMessageToModels(message:IMessage):void
 		{
+			checkIfDisposed();
+
 			modelContainer.dispatchMessageToChildren(message);
 		}
 
@@ -293,7 +330,17 @@ package com.crazyfm.core.mvc.context
 		 */
 		public function executeCommand(commandClass:Class, message:IMessage = null):void
 		{
+			checkIfDisposed();
+
 			commandMapper.executeCommand(commandClass, message);
+		}
+
+		private function checkIfDisposed():void
+		{
+			if (isDisposed)
+			{
+				throw new Error("Context already disposed!");
+			}
 		}
 	}
 }

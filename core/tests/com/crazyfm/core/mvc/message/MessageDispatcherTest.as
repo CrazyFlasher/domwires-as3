@@ -29,7 +29,10 @@ package com.crazyfm.core.mvc.message
 		[After]
 		public function tearDown():void
 		{
-			d.dispose();
+			if (!d.isDisposed)
+			{
+				d.dispose();
+			}
 		}
 
 		[Test]

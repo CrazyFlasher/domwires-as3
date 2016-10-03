@@ -26,7 +26,10 @@ package com.crazyfm.core.mvc.hierarchy
 		[After]
 		public function tearDown():void
 		{
-			hoc.disposeWithAllChildren();
+			if (!hoc.isDisposed)
+			{
+				hoc.disposeWithAllChildren();
+			}
 		}
 
 		[Test]

@@ -20,7 +20,10 @@ package com.crazyfm.core.common
 		[After]
 		public function tearDown():void
 		{
-			d.dispose();
+			if (!d.isDisposed)
+			{
+				d.dispose();	
+			}
 		}
 
 		[Test]

@@ -19,6 +19,12 @@ package com.crazyfm.core.common
 		 */
 		public function dispose():void
 		{
+			if (_isDisposed)
+			{
+				log("Object already disposed!");
+				throw new Error("Object already disposed!");
+			}
+
 			_isDisposed = true;
 		}
 

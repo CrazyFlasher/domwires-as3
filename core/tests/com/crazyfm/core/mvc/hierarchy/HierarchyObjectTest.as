@@ -20,7 +20,10 @@ package com.crazyfm.core.mvc.hierarchy
 		[After]
 		public function tearDown():void
 		{
-			ho.dispose();
+			if (!ho.isDisposed)
+			{
+				ho.dispose();
+			}
 		}
 
 		[Test]

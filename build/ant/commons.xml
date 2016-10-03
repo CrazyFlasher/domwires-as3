@@ -60,6 +60,7 @@
             <external-library-path dir="${libs_path}" includes="**/*"/>
             <external-library-path dir="${internal_libs_path}" includes="*.swc"/>
             <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/${target-player}" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/air" includes="*"/>
         </compc>
     </target>
     <target name="fat-swc">
@@ -69,7 +70,8 @@
             <include-sources dir="${src}" includes="*"/>
             <include-libraries dir="${libs_path}" includes="**/*"/>
             <include-libraries dir="${internal_libs_path}" includes="*.swc"/>
-            <include-libraries dir="${FLEX_HOME}/frameworks/libs/player/${target-player}" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/player/${target-player}" includes="*"/>
+            <external-library-path dir="${FLEX_HOME}/frameworks/libs/air" includes="*"/>
         </compc>
     </target>
 	<target name="copy_swc">

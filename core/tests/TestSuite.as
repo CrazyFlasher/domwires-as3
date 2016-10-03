@@ -6,6 +6,7 @@ package
 	import com.crazyfm.core.common.DisposableTest;
 	import com.crazyfm.core.common.EnumTest;
 	import com.crazyfm.core.factory.AppFactoryTest;
+	import com.crazyfm.core.mvc.context.AbstractContextTest;
 	import com.crazyfm.core.mvc.context.CommandMapperTest;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainerTest;
 	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectTest;
@@ -32,7 +33,8 @@ package
 			EnumTest,
 			TestLog,
 			AppFactoryTest,
-			CommandMapperTest
+			CommandMapperTest,
+			AbstractContextTest
 		];
 
 		private var _flexunit:FlexUnitCore;
