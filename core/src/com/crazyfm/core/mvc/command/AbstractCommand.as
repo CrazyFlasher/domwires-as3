@@ -88,4 +88,10 @@ internal class ForwardMessage implements IMessage
 	{
 		return _currentTarget;
 	}
+
+	public function get previousTarget():Object
+	{
+		//not needed for forward message
+		return null;
+	}
 }

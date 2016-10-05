@@ -167,13 +167,16 @@ package com.crazyfm.core.mvc.hierarchy
 		{
 			for each (var child:IHierarchyObject in _childrenList)
 			{
-				if(child is IHierarchyObjectContainer)
+				if (message.previousTarget != child)
 				{
-					(child as IHierarchyObjectContainer).dispatchMessageToChildren(message);
-				}else
-				if(child is IHierarchyObject)
-				{
-					child.handleMessage(message);
+					if(child is IHierarchyObjectContainer)
+					{
+						(child as IHierarchyObjectContainer).dispatchMessageToChildren(message);
+					}else
+					if(child is IHierarchyObject)
+					{
+						child.handleMessage(message);
+					}
 				}
 			}
 		}

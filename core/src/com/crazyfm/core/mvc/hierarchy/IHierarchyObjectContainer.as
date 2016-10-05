@@ -49,8 +49,7 @@ package com.crazyfm.core.mvc.hierarchy
 
 		/**
 		 * Sends message to children.
-		 * @param type
-		 * @param data
+		 * @param message
 		 * @return
 		 */
 		function dispatchMessageToChildren(message:IMessage):void;

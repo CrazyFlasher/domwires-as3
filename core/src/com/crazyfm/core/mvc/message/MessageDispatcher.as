@@ -84,7 +84,7 @@ package com.crazyfm.core.mvc.message
 		{
 			_message = getMessage(type, data, bubbles);
 			_message._target = this;
-			_message._currentTarget = this;
+			_message.setCurrentTarget(this);
 			_message._bubbles = bubbles;
 
 			handleMessage(_message);
@@ -109,7 +109,7 @@ package com.crazyfm.core.mvc.message
 					if (currentTarget is IBubbleMessageHandler)
 					{
 						// onMessageBubbled() can stop the bubbling by returning false.
-						if (!IBubbleMessageHandler(message._currentTarget = currentTarget).onMessageBubbled(message))
+						if (!IBubbleMessageHandler(message.setCurrentTarget(currentTarget)).onMessageBubbled(message))
 							break;
 					}
 				}
@@ -182,13 +182,24 @@ internal class Message implements IMessage
 	internal var _data:Object;
 	internal var _bubbles:Boolean;
 	internal var _target:Object;
-	internal var _currentTarget:Object;
+	internal var _previousTarget:Object;
+
+	private var _currentTarget:Object;
 
 	public function Message(type:Enum, data:Object = null, bubbles:Boolean = true)
 	{
 		_type = type;
 		_data = data;
 		_bubbles = bubbles;
+	}
+
+	internal function setCurrentTarget(value:Object):Object
+	{
+		_previousTarget = _currentTarget;
+
+		_currentTarget = value;
+
+		return _currentTarget;
 	}
 
 	public function get type():Enum
@@ -214,5 +225,10 @@ internal class Message implements IMessage
 	public function get currentTarget():Object
 	{
 		return _currentTarget;
+	}
+
+	public function get previousTarget():Object
+	{
+		return _previousTarget;
 	}
 }

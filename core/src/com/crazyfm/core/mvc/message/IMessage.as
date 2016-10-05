@@ -12,5 +12,6 @@ package com.crazyfm.core.mvc.message
 		function get bubbles():Boolean;
 		function get target():Object;
 		function get currentTarget():Object;
+		function get previousTarget():Object;
 	}
 }

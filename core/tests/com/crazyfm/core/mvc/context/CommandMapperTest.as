@@ -174,13 +174,24 @@ internal class MyMessage implements IMessage
 	internal var _data:Object;
 	internal var _bubbles:Boolean;
 	internal var _target:Object;
-	internal var _currentTarget:Object;
+	internal var _previousTarget:Object;
+
+	private var _currentTarget:Object;
 
 	public function MyMessage(type:Enum, data:Object = null, bubbles:Boolean = true)
 	{
 		_type = type;
 		_data = data;
 		_bubbles = bubbles;
+	}
+
+	internal function setCurrentTarget(value:Object):Object
+	{
+		_previousTarget = _currentTarget;
+
+		_currentTarget = value;
+
+		return _currentTarget;
 	}
 
 	public function get type():Enum
@@ -206,5 +217,10 @@ internal class MyMessage implements IMessage
 	public function get currentTarget():Object
 	{
 		return _currentTarget;
+	}
+
+	public function get previousTarget():Object
+	{
+		return _previousTarget;
 	}
 }

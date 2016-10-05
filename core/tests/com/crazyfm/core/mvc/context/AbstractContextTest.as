@@ -58,6 +58,19 @@ package com.crazyfm.core.mvc.context
 
 			assertEquals(c1.getTestModel().testVar, 1);
 		}
+
+		[Test]
+		public function testBubbledMessageNotRedirectedToContextItCameFrom():void
+		{
+			var c1:TestContext1 = f.getInstance(TestContext1);
+			var c2:TestContext2 = f.getInstance(TestContext2);
+			c.addModel(c1);
+			c.addModel(c2);
+
+			c2.ready();
+
+			assertEquals(c2.getTestModel().testVar, 1);
+		}
 	}
 }
 
@@ -80,7 +93,23 @@ internal class TestCommand extends AbstractCommand
 	}
 }
 
+internal class TestCommand2 extends AbstractCommand
+{
+	[Autowired]
+	public var testModel:TestModel2;
+
+	override public function execute():void
+	{
+		testModel.testVar++;
+	}
+}
+
 internal class TestModel extends AbstractModel
+{
+	public var testVar:int;
+}
+
+internal class TestModel2 extends AbstractModel
 {
 	public var testVar:int;
 }
@@ -101,6 +130,7 @@ internal class TestView extends AbstractView
 internal class TestContext2 extends AbstractContext
 {
 	private var testView:TestView;
+	private var testModel2:TestModel2;
 
 	public function TestContext2()
 	{
@@ -114,6 +144,18 @@ internal class TestContext2 extends AbstractContext
 
 		testView = factory.getInstance(TestView);
 		addView(testView);
+
+		testModel2 = factory.getInstance(TestModel2);
+		addModel(testModel2);
+
+		factory.mapToValue(TestModel2, testModel2);
+
+		map(MyCoolEnum.PREVED, TestCommand2);
+	}
+
+	public function getTestModel():TestModel2
+	{
+		return testModel2;
 	}
 
 	public function ready():void
