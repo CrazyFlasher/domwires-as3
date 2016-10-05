@@ -248,6 +248,16 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
+		override public function dispatchMessageToChildren(message:IMessage):void
+		{
+			super.dispatchMessageToChildren(message);
+
+			tryToExecuteCommand(message);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function map(messageType:Enum, commandClass:Class):ICommandMapper
 		{
 			checkIfDisposed();
