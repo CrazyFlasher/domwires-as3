@@ -116,7 +116,7 @@ package com.crazyfm.core.mvc.context
 		{
 			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
 
-			if (message && message.data)
+			if (message && message.data != null)
 			{
 				factory.mapToValue(IMessage, message);
 			}
