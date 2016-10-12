@@ -396,7 +396,6 @@ package com.crazyfm.core.factory
 					{
 						if (metadata.name == "Autowired")
 						{
-							//TODO: optional injection
 							isOptional = getVariableIsOptional(metadata.value);
 
 							injectionData.variables[variable.name] = new InjectionVariableVo(variable.type/*.replace(/::/g, ".")*/ +
