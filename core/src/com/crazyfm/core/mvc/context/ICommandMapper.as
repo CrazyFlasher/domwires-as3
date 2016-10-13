@@ -6,6 +6,8 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.mvc.message.IMessage;
 
+	//TODO: execution guards 
+
 	/**
 	 * Maps specific messages to <code>ICommand</code>.
 	 */
