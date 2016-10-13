@@ -72,27 +72,42 @@ package com.crazyfm.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function hasMappingForType(type:Class, name:String = null):Boolean
+		public function hasTypeMappingForType(type:Class, name:String = null):Boolean
 		{
-			var id:String = getId(type, name);
-
-			return typeMapping[type] != null || instanceMapping[id] != null;
+			return typeMapping[type] != null;
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function unmap(type:Class, name:String = null):IAppFactory
+		public function hasValueMappingForType(type:Class, name:String = null):Boolean
 		{
-			//TODO: split unmap type and unmap value
 			var id:String = getId(type, name);
 
-			if(typeMapping[type])
+			return instanceMapping[id] != null;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function unmapType(type:Class):IAppFactory
+		{
+			if(typeMapping[type] != null)
 			{
 				delete typeMapping[type];
 			}
 
-			if(instanceMapping[id])
+			return this;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function unmapValue(type:Class, name:String = null):IAppFactory
+		{
+			var id:String = getId(type, name);
+
+			if(instanceMapping[id] != null)
 			{
 				delete instanceMapping[id];
 			}

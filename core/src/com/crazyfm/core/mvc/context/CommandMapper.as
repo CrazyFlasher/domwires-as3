@@ -3,15 +3,12 @@
  */
 package com.crazyfm.core.mvc.context
 {
-	import avmplus.getQualifiedClassName;
-
 	import com.crazyfm.core.common.Enum;
 	import com.crazyfm.core.factory.IAppFactory;
 	import com.crazyfm.core.mvc.command.*;
 	import com.crazyfm.core.mvc.message.IMessage;
 
 	import flash.utils.Dictionary;
-	import flash.utils.getDefinitionByName;
 
 	/**
 	 * Maps specific messages to <code>ICommand</code>.
@@ -116,19 +113,40 @@ package com.crazyfm.core.mvc.context
 		{
 			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
 
-			if (message && message.data != null)
+			var hasMessageData:Boolean = (message && message.data != null);
+
+			if (hasMessageData)
 			{
-				factory.mapToValue(IMessage, message);
+				mapValues(message.data, true);
 			}
+
 			factory.injectDependencies(commandClass, command);
-			if (message && message.data)
+
+			if (hasMessageData)
 			{
-				factory.unmap(IMessage);
+				mapValues(message.data, false);
 			}
-			
+
 			command.execute();
-			//TODO: async command
 			command.retain();
+		}
+
+		private function mapValues(messageData:Object, map:Boolean):void
+		{
+			var propertyName:*;
+			var propertyValue:*;
+
+			for (propertyName in messageData)
+			{
+				propertyValue = messageData[propertyName];
+				if (map)
+				{
+					factory.mapToValue(Object(propertyValue).constructor, propertyValue, propertyName);
+				}else
+				{
+					factory.unmapValue(Object(propertyValue).constructor, propertyName);
+				}
+			}
 		}
 
 		/**

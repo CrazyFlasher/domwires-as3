@@ -27,7 +27,10 @@ package com.crazyfm.extension.gearSys
 		[After]
 		public function tearDown():void
 		{
-			s.disposeWithAllChildren();
+			if (!s.isDisposed)
+			{
+				s.disposeWithAllChildren();	
+			}
 		}
 
 		[Test]

@@ -11,8 +11,8 @@ package com.crazyfm.core.factory
 	 * <ul>
 	 * <li>New instances creation</li>
 	 * <li>Pools creation</li>
-	 * <li>Map interface (or any other class type) to class</li>
-	 * <li>Map interface (or any other class type) to instance</li>
+	 * <li>Map interface (or any other class) to class</li>
+	 * <li>Map interface (or any other class) to instance</li>
 	 * <li>Automatically create default interface implementation (without mapping)</li>
 	 * <li>Inject dependencies to objects</li>
 	 * <li>Manage singletons</li>
@@ -29,9 +29,7 @@ package com.crazyfm.core.factory
 	 * </listing>
 	 * @example
 	 * <listing version="3.0">
-	 *     var factory:IAppFactory = new AppFactory();
-	 *
-	 *	   //Factory will search for default implementation of IMyObject (because mapToType is missing)
+	 *     //Factory will search for default implementation of IMyObject (because mapToType is missing)
 	 *	   //and if found, will return new instance.
 	 *	   //Rules to use default implementation:
 	 *	   //1. Interface should start from "I" character;
@@ -39,12 +37,17 @@ package com.crazyfm.core.factory
 	 *	   //3. Default implementation class should have the same name as it's interface,
 	 *	   //but without the first "I" character (in this case IMyObject and MyObject);
 	 *
+	 *     var factory:IAppFactory = new AppFactory();
+	 *
 	 *     var obj:IMyObject = factory.getInstance(IMyObject);
 	 *     ...
+	 *     MyObject; //we define default implementation here, so compiler will fetch this class in any case.
 	 *     public interface IMyObject
 	 *     {
-	 *     		MyObject; //default implementation class
-	 *     		...
+	 *     }
+	 *     ...
+	 *     public class MyObject implements IMyObject
+	 *     {
 	 *     }
 	 * </listing>
 	 * @example
@@ -150,17 +153,32 @@ package com.crazyfm.core.factory
 		 * @param name Name of value mapping in metatag
 		 * @return
 		 */
-		function hasMappingForType(type:Class, name:String = null):Boolean;
+		function hasTypeMappingForType(type:Class, name:String = null):Boolean;
+
+		/**
+		 * Returns true, if <code>IAppFactory</code> has mapping for current value.
+		 * @param type Class or interface type
+		 * @param name Name of value mapping in metatag
+		 * @return
+		 */
+		function hasValueMappingForType(type:Class, name:String = null):Boolean;
 
 		/**
 		 * Unmaps current type.
-		 * @param type Class or interface type
+		 * @param type Class, that is mapped to some value
 		 * @param name Name of value mapping in metatag
-		 * @see #mapToType()
 		 * @see #mapToValue()
 		 * @return
 		 */
-		function unmap(type:Class, name:String = null):IAppFactory;
+		function unmapValue(type:Class, name:String = null):IAppFactory;
+
+		/**
+		 * Unmaps current type.
+		 * @param type Class, that is mapped to another class.
+		 * @see #mapToType()
+		 * @return
+		 */
+		function unmapType(type:Class):IAppFactory;
 
 		/**
 		 * Returns either new instance of class or instance from pool.

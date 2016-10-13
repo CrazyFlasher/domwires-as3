@@ -34,7 +34,7 @@ package com.crazyfm.core.factory
 		{
 			factory.mapToType(IMyType, MyType1);
 			var o:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
-			factory.unmap(IMyType);
+			factory.unmapType(IMyType);
 			var o2:IMyType = factory.getInstance(IMyType, [5, 7]) as IMyType;
 		}
 
@@ -47,7 +47,7 @@ package com.crazyfm.core.factory
 			var o:IMyType = factory.getInstance(IMyType) as IMyType;
 			assertEquals(o, instance);
 
-			factory.unmap(IMyType);
+			factory.unmapType(IMyType);
 			var o2:IMyType = factory.getInstance(IMyType) as IMyType;
 		}
 
@@ -83,18 +83,18 @@ package com.crazyfm.core.factory
 		[Test]
 		public function testMapClass():void
 		{
-			assertFalse(factory.hasMappingForType(IMyType));
+			assertFalse(factory.hasTypeMappingForType(IMyType));
 			factory.mapToType(IMyType, MyType2);
-			assertTrue(factory.hasMappingForType(IMyType));
+			assertTrue(factory.hasTypeMappingForType(IMyType));
 		}
 
 		[Test]
 		public function testMapInstance():void
 		{
 			var o:IMyType = new MyType2();
-			assertFalse(factory.hasMappingForType(IMyType));
+			assertFalse(factory.hasValueMappingForType(IMyType));
 			factory.mapToValue(IMyType, o);
-			assertTrue(factory.hasMappingForType(IMyType));
+			assertTrue(factory.hasValueMappingForType(IMyType));
 			assertEquals(o, factory.getInstance(IMyType));
 		}
 
@@ -112,7 +112,7 @@ package com.crazyfm.core.factory
 			factory.mapToType(IMyType, MyType2);
 			factory.registerPool(IMyType);
 			factory.clear();
-			assertFalse(factory.hasMappingForType(IMyType));
+			assertFalse(factory.hasTypeMappingForType(IMyType));
 			assertFalse(factory.hasPoolForType(IMyType));
 		}
 
@@ -167,9 +167,9 @@ package com.crazyfm.core.factory
 		[Test]
 		public function testHasMappingForType():void
 		{
-			assertFalse(factory.hasMappingForType(IMyType));
+			assertFalse(factory.hasTypeMappingForType(IMyType));
 			factory.mapToType(IMyType, MyType1);
-			assertTrue(factory.hasMappingForType(IMyType));
+			assertTrue(factory.hasTypeMappingForType(IMyType));
 		}
 
 		[Test]
@@ -267,7 +267,7 @@ package com.crazyfm.core.factory
 			assertEquals(myObj.arr1, arr2);
 			assertEquals(myObj.arr2, arr1);
 
-			factory.unmap(Array, "shachlo");
+			factory.unmapValue(Array, "shachlo");
 
 			factory.getInstance(MySuperCoolObj);
 		}
@@ -319,6 +319,8 @@ package com.crazyfm.core.factory
 	}
 }
 
+import flash.media.Camera;
+
 internal class MyOptional
 {
 	[Autowired(name="popa", optional="true")]
@@ -360,8 +362,6 @@ internal class MySuperCoolObj
 
 	}
 }
-
-import flash.media.Camera;
 
 internal class DIObject
 {

@@ -6,12 +6,15 @@ package com.crazyfm.core.mvc.context
 	import com.crazyfm.core.factory.AppFactory;
 	import com.crazyfm.core.factory.IAppFactory;
 
+	import flashx.textLayout.debug.assert;
+
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
 
 	import testObject.MyCoolEnum;
 	import testObject.TestObj1;
+	import testObject.TestVo;
 
 	public class CommandMapperTest
 	{
@@ -22,6 +25,8 @@ package com.crazyfm.core.mvc.context
 		[Before]
 		public function setUp():void
 		{
+			GlobalSettings.logEnabled = true;
+
 			factory = new AppFactory();
 			factory.mapToValue(IAppFactory, factory);
 
@@ -139,7 +144,7 @@ package com.crazyfm.core.mvc.context
 
 			assertEquals(m.d, 7);
 
-			factory.unmap(TestObj1);
+			factory.unmapValue(TestObj1);
 
 			var m2:TestObj1 = factory.getInstance(TestObj1);
 			factory.mapToValue(TestObj1, m2);
@@ -147,6 +152,21 @@ package com.crazyfm.core.mvc.context
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
 
 			assertEquals(m2.d, 7);
+		}
+
+		[Test]
+		public function testInjectMessageData():void
+		{
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand2);
+
+			var vo:TestVo = new TestVo();
+			var itemId:String = "puk";
+			
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {vo:vo, itemId:itemId}));
+
+			assertEquals(vo.age, 11);
+			assertEquals(vo.name, "Izja");
+			assertEquals(vo.str, "puk");
 		}
 	}
 }
@@ -156,6 +176,7 @@ import com.crazyfm.core.mvc.command.AbstractCommand;
 import com.crazyfm.core.mvc.message.IMessage;
 
 import testObject.TestObj1;
+import testObject.TestVo;
 
 internal class TestCommand extends AbstractCommand
 {
@@ -165,6 +186,22 @@ internal class TestCommand extends AbstractCommand
 	override public function execute():void
 	{
 		obj.d += 7;
+	}
+}
+
+internal class TestCommand2 extends AbstractCommand
+{
+	[Autowired(name="itemId")]
+	public var itemId:String;
+
+	[Autowired(name="vo")]
+	public var vo:TestVo;
+
+	override public function execute():void
+	{
+		vo.age = 11;
+		vo.name = "Izja";
+		vo.str = itemId;
 	}
 }
 

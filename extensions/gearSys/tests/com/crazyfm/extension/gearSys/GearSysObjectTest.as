@@ -23,7 +23,10 @@ package com.crazyfm.extension.gearSys
 		[After]
 		public function tearDown():void
 		{
-			go.disposeWithAllChildren();
+			if (!go.isDisposed)
+			{
+				go.disposeWithAllChildren();	
+			}
 		}
 
 		[Test]
