@@ -122,13 +122,13 @@ package com.crazyfm.core.mvc.context
 
 			factory.injectDependencies(commandClass, command);
 
+			command.execute();
+			command.retain();
+
 			if (hasMessageData)
 			{
 				mapValues(message.data, false);
 			}
-
-			command.execute();
-			command.retain();
 		}
 
 		private function mapValues(messageData:Object, map:Boolean):void
