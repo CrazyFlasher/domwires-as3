@@ -101,7 +101,7 @@ package com.crazyfm.core.mvc.context
 			{
 				for each (var commandClass:Class in mappedToMessageCommands)
 				{
-					executeCommand(commandClass, message);
+					executeCommand(commandClass, message.data);
 				}
 			}
 		}
@@ -109,15 +109,13 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, message:IMessage = null):void
+		public function executeCommand(commandClass:Class, data:Object = null):void
 		{
 			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
 
-			var hasMessageData:Boolean = (message && message.data != null);
-
-			if (hasMessageData)
+			if (data != null)
 			{
-				mapValues(message.data, true);
+				mapValues(data, true);
 			}
 
 			factory.injectDependencies(commandClass, command);
@@ -125,9 +123,9 @@ package com.crazyfm.core.mvc.context
 			command.execute();
 			command.retain();
 
-			if (hasMessageData)
+			if (data != null)
 			{
-				mapValues(message.data, false);
+				mapValues(data, false);
 			}
 		}
 

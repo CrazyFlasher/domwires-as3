@@ -338,11 +338,11 @@ package com.crazyfm.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, message:IMessage = null):void
+		public function executeCommand(commandClass:Class, data:Object = null):void
 		{
 			checkIfDisposed();
 
-			commandMapper.executeCommand(commandClass, message);
+			commandMapper.executeCommand(commandClass, data);
 		}
 
 		private function checkIfDisposed():void
