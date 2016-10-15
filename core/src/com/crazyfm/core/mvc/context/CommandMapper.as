@@ -121,7 +121,6 @@ package com.crazyfm.core.mvc.context
 			factory.injectDependencies(commandClass, command);
 
 			command.execute();
-			command.retain();
 
 			if (data != null)
 			{

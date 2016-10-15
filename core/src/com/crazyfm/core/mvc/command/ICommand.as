@@ -14,10 +14,5 @@ package com.crazyfm.core.mvc.command
 		 * Executes command.
 		 */
 		function execute():void;
-
-		/**
-		 * Manually cancel async command during progress.
-		 */
-		function retain():void;
 	}
 }
