@@ -3,8 +3,6 @@
  */
 package com.crazyfm.core.factory
 {
-	import com.crazyfm.core.common.IDisposable;
-
 	/**
 	 * <p>Universal object factory.</p>
 	 * <p>Features:</p>
@@ -126,7 +124,7 @@ package com.crazyfm.core.factory
 	 *     factory.injectDependencies(IMyObject, obj);
 	 * </listing>
 	 */
-	public interface IAppFactory extends IDisposable
+	public interface IAppFactory extends IAppFactoryImmutable
 	{
 		/**
 		 * Maps one class (or interface) type to another.
@@ -148,22 +146,6 @@ package com.crazyfm.core.factory
 		function mapToValue(type:Class, to:Object, name:String = null):IAppFactory;
 
 		/**
-		 * Returns true, if <code>IAppFactory</code> has mapping for current type.
-		 * @param type Class or interface type
-		 * @param name Name of value mapping in metatag
-		 * @return
-		 */
-		function hasTypeMappingForType(type:Class, name:String = null):Boolean;
-
-		/**
-		 * Returns true, if <code>IAppFactory</code> has mapping for current value.
-		 * @param type Class or interface type
-		 * @param name Name of value mapping in metatag
-		 * @return
-		 */
-		function hasValueMappingForType(type:Class, name:String = null):Boolean;
-
-		/**
 		 * Unmaps current type.
 		 * @param type Class, that is mapped to some value
 		 * @param name Name of value mapping in metatag
@@ -181,19 +163,6 @@ package com.crazyfm.core.factory
 		function unmapType(type:Class):IAppFactory;
 
 		/**
-		 * Returns either new instance of class or instance from pool.
-		 * In case of new instance, constructorArgs can be passed and dependencies will be automatically injected (if
-		 * <code>autoInjectDependencies</code> is set to true). if object is taken from pool or <code>autoInjectDependencies</code> is
-		 * false, then dependencies can be injected using
-		 * <code>injectDependencies</code>
-		 * @param type Type of instance to return
-		 * @param constructorArgs constructor arguments. Can be any type. Use Array, if need to pass several args.
-		 * @return
-		 * @see #injectDependencies()
-		 */
-		function getInstance(type:Class, constructorArgs:* = null):*;
-
-		/**
 		 * Registers pool for instances of provided type.
 		 * @param type Type of object to register pool for
 		 * @param capacity Maximum objects of current type in pool
@@ -207,20 +176,6 @@ package com.crazyfm.core.factory
 		 * @return
 		 */
 		function unregisterPool(type:Class):IAppFactory;
-
-		/**
-		 * Returns true, if <code>IAppFactory</code> has registered pool for provided type.
-		 * @param type
-		 * @return
-		 */
-		function hasPoolForType(type:Class):Boolean;
-
-		/**
-		 * Returns (creates in needed) singleton of provided type.
-		 * @param type
-		 * @return
-		 */
-		function getSingleton(type:Class):*;
 
 		/**
 		 * Removes singleton of provided type.
@@ -246,14 +201,6 @@ package com.crazyfm.core.factory
 		 * @return
 		 */
 		function clear():IAppFactory;
-
-		/**
-		 * Inject dependencies to properties marked with [Autowired] to provided object and calls [PostConstruct] method if has any.
-		 * @param type Type of provided object
-		 * @param object Object to inject dependencies to
-		 * @return
-		 */
-		function injectDependencies(type:Class, object:*):*;
 
 		/**
 		 * Automatically injects dependencies to newly created objects, using <code>getInstance</code> method.

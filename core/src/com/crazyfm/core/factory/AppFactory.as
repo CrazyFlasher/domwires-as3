@@ -34,11 +34,6 @@ package com.crazyfm.core.factory
 		 */
 		private var _verbose:Boolean = false;
 
-		public function AppFactory()
-		{
-			super();
-		}
-
 		/**
 		 * @inheritDoc
 		 */
@@ -195,7 +190,10 @@ package com.crazyfm.core.factory
 			{
 				var defImplClassName:String = getQualifiedClassName(type).replace(/::I/g, ".");
 
-				log("Warning: interface " + type + " is not mapped to any class. Trying to find default implementation " + defImplClassName);
+				if (_verbose)
+				{
+					log("Warning: interface " + type + " is not mapped to any class. Trying to find default implementation " + defImplClassName);	
+				}
 				mapToType(type, getDefinitionByName(defImplClassName) as Class);
 
 				return null;
