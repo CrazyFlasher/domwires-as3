@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<project name="crazyfm-ext-gearSys" basedir="." default="commons.package_swc">
-    <property name="path" value="../../"/>
-    <property name="sftp-path-suffix" value="extensions/gearSys"/>
-
-    <import file="${basedir}/../../build/ant/commons.xml" />
-
-    <property name="swc_name" value="cfm-ext-gearSys-${ver.num}.swc"/>
-</project>

@@ -3,9 +3,9 @@
  */
 package
 {
-	import com.crazyfm.core.mvc.message.IMessage;
-	import com.crazyfm.core.mvc.model.AbstractModel;
-	import com.crazyfm.core.mvc.model.IModel;
+	import com.domwires.core.mvc.message.IMessage;
+	import com.domwires.core.mvc.model.AbstractModel;
+	import com.domwires.core.mvc.model.IModel;
 
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;

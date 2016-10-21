@@ -3,15 +3,15 @@
  */
 package
 {
-	import com.crazyfm.core.common.DisposableTest;
-	import com.crazyfm.core.common.EnumTest;
-	import com.crazyfm.core.factory.AppFactoryTest;
-	import com.crazyfm.core.mvc.context.AbstractContextTest;
-	import com.crazyfm.core.mvc.context.CommandMapperTest;
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectContainerTest;
-	import com.crazyfm.core.mvc.hierarchy.HierarchyObjectTest;
-	import com.crazyfm.core.mvc.message.BubblingMessageTest;
-	import com.crazyfm.core.mvc.message.MessageDispatcherTest;
+	import com.domwires.core.common.DisposableTest;
+	import com.domwires.core.common.EnumTest;
+	import com.domwires.core.factory.AppFactoryTest;
+	import com.domwires.core.mvc.context.AbstractContextTest;
+	import com.domwires.core.mvc.context.CommandMapperTest;
+	import com.domwires.core.mvc.hierarchy.HierarchyObjectContainerTest;
+	import com.domwires.core.mvc.hierarchy.HierarchyObjectTest;
+	import com.domwires.core.mvc.message.BubblingMessageTest;
+	import com.domwires.core.mvc.message.MessageDispatcherTest;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

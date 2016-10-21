@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<project name="crazyfm-ext-physics" basedir="." default="commons.package_swc">
-    <property name="path" value="../../"/>
-    <property name="sftp-path-suffix" value="extensions/physics"/>
-
-    <import file="${basedir}/../../build/ant/commons.xml" />
-
-    <property name="swc_name" value="cfm-ext-physics-${ver.num}.swc"/>
-</project>

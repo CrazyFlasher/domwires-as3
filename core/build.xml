@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<project name="crazyfm-core" basedir="." default="commons.package_swc">
-    <property name="path" value="../"/>
+<project name="domwires-core" basedir="../core" default="commons.package_swc">
+    <property name="path" value="."/>
     <property name="sftp-path-suffix" value="core"/>
 
-    <import file="${basedir}/../build/ant/commons.xml"/>
+    <import file="${basedir}/../../domwires-builder/build/ant/commons.xml"/>
 
-    <property name="swc_name" value="cfm-core-${ver.num}.swc"/>
+    <property name="swc_name" value="dw-core-${ver.num}.swc"/>
+    <property name="swc_fat_name" value="dw-core-${ver.num}-fat.swc"/>
 </project>

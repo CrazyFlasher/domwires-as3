@@ -3,7 +3,7 @@
  */
 package testObject
 {
-	import com.crazyfm.core.common.Enum;
+	import com.domwires.core.common.Enum;
 
 	public class MyCoolEnum extends Enum
 	{
