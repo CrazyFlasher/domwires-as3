@@ -7,4 +7,8 @@
 
     <property name="swc_name" value="dw-core-${ver.num}.swc"/>
     <property name="swc_fat_name" value="dw-core-${ver.num}-fat.swc"/>
+
+    <property name="ooo-build.vers" value="2.10"/>
+    <ant antfile="${basedir}/../etc/bootstrap.xml"/>
+    <import file="${user.home}/.cf/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 </project>
