@@ -5,6 +5,8 @@ package com.crazyfm.core.factory
 {
 	import flash.media.Camera;
 
+	import flashx.textLayout.debug.assert;
+
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
@@ -316,6 +318,12 @@ package com.crazyfm.core.factory
 			assertEquals(obj.n, 1);
 		}
 
+		[Test]
+		public function testSingleConstructorArg():void
+		{
+			var obj:MyType3 = factory.getInstance(MyType3, 7);
+			assertEquals(obj.a, 7);
+		}
 	}
 }
 
@@ -442,6 +450,21 @@ internal class MyType2 implements IMyType
 	public function get clazz():Class
 	{
 		return null;
+	}
+}
+
+internal class MyType3
+{
+	private var _a:int;
+
+	public function MyType3(a:int)
+	{
+		_a = a;
+	}
+
+	public function get a():int
+	{
+		return _a;
 	}
 }
 

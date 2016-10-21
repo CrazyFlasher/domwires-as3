@@ -187,11 +187,11 @@ package com.crazyfm.core.factory
 		 * false, then dependencies can be injected using
 		 * <code>injectDependencies</code>
 		 * @param type Type of instance to return
-		 * @param constructorArgs constructor arguments
+		 * @param constructorArgs constructor arguments. Can be any type. Use Array, if need to pass several args.
 		 * @return
 		 * @see #injectDependencies()
 		 */
-		function getInstance(type:Class, constructorArgs:Array = null):*;
+		function getInstance(type:Class, constructorArgs:* = null):*;
 
 		/**
 		 * Registers pool for instances of provided type.
