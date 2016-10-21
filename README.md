@@ -1,7 +1,7 @@
 ##DomWires
 Flexible and extensible MVC framework.
 
-![](https://github.com/CrazyFlasher/domwires/blob/gh-pages/assets/core2.jpg?raw=true)
+![](https://github.com/CrazyFlasher/domwires-as3/blob/gh-pages/assets/core2.jpg?raw=true)
 
 ###Features
 * Splitting logic from visual part
@@ -23,7 +23,7 @@ To build entire framework with all extensions and modules you need to:
   - **FLASH_PLAYER_EXE** - path to flash standalone exe (for unit tests)
 4. Open CMD and target to **/domwires/build/ant/** folder
 5. Type **ant** and build process will start
-6. When build finish with success result, all modules with documents will appear here: **/domwires/dependencies/**
+6. When build finish with success result, all modules with documents will appear here: **/out/dependencies/**
 
 ***
 
