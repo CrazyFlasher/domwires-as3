@@ -21,9 +21,10 @@ To build entire framework with all extensions and modules you need to:
   - **ANT_HOME** - path to ant.bat (also add to PATH)
   - **FLEX_HOME** - path to Flex SDK
   - **FLASH_PLAYER_EXE** - path to flash standalone exe (for unit tests)
-4. Open CMD and target to **/domwires/build/ant/** folder
-5. Type **ant** and build process will start
-6. When build finish with success result, all modules with documents will appear here: **/out/dependencies/**
+4. Clone [domwires-builder](https://github.com/CrazyFlasher/domwires-builder) to the same parent folder
+5. Open CMD and target to **/domwires/build/ant/** folder
+6. Type **ant** and build process will start
+7. When build finish with success result, all modules with documents will appear here: **/out/dependencies/**
 
 ***
 
