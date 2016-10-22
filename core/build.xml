@@ -10,5 +10,5 @@
 
     <property name="ooo-build.vers" value="2.10"/>
     <ant antfile="${basedir}/../etc/bootstrap.xml"/>
-    <import file="${user.home}/.cf/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
+    <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 </project>

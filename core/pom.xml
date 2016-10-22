@@ -11,12 +11,17 @@
       <url>https://raw.github.com/CrazyFlasher/maven-repo/master</url>
     </repository>
   </repositories>
-  <!--<dependencies>-->
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.flex.flexunit</groupId>
+      <artifactId>flexunit</artifactId>
+      <version>4.2.0</version>
+    </dependency>
     <!--<dependency>-->
       <!--<groupId>com.gamua</groupId>-->
       <!--<artifactId>starling-framework</artifactId>-->
       <!--<version>2.1</version>-->
       <!--<type>swc</type>-->
     <!--</dependency>-->
-  <!--</dependencies>-->
+  </dependencies>
 </project>
