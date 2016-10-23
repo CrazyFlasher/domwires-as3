@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<project name="domwires-core" basedir="../" default="domwires-builder.package_swc">
+<project name="domwires-core" basedir="../core" default="domwires-builder.package_swc">
     <property name="deploy.dir" value="out"/>
+
+    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0/builder-0.9.0.xml"/>
 
     <property name="path" value="."/>
     <property name="sftp-path-suffix" value="core"/>
@@ -11,8 +13,6 @@
     <ant antfile="${basedir}/../etc/bootstrap.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
-
-    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0/builder-0.9.0.xml"/>
 
     <target name="prepare" depends="-init-ooo">
         <mavendep pom="pom.xml"/>
