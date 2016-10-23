@@ -1,12 +1,9 @@
 <?xml version="1.0"?>
 <project name="domwires-core" basedir="." default="package_swc">
-    <property name="deploy.dir" value="out"/>
+    <property name="deploy.dir" value="out/swc"/>
     <property name="flexunit.version" value="4.2.0"/>
     <property name="swf-version" value="33"/>
     <property name="target-player" value="22.0"/>
-
-    <property name="path" value="."/>
-    <property name="sftp-path-suffix" value="core"/>
 
     <property name="swc_name" value="dw-core.swc"/>
 
@@ -24,5 +21,4 @@
     <target name="prepare" depends="-init-ooo">
         <mavendep pom="pom.xml"/>
     </target>
-
 </project>
