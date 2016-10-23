@@ -1,14 +1,20 @@
 <?xml version="1.0"?>
-<project name="domwires-core" basedir="../core" default="commons.package_swc">
+<project name="domwires-core" basedir="../" default="domwires-builder.package_swc">
+    <property name="deploy.dir" value="out"/>
+
     <property name="path" value="."/>
     <property name="sftp-path-suffix" value="core"/>
 
-    <import file="${basedir}/../../domwires-builder/build/ant/commons.xml"/>
-
     <property name="swc_name" value="dw-core-${ver.num}.swc"/>
-    <property name="swc_fat_name" value="dw-core-${ver.num}-fat.swc"/>
 
     <property name="ooo-build.vers" value="2.10"/>
     <ant antfile="${basedir}/../etc/bootstrap.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
+    <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
+
+    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0/builder-0.9.0.xml"/>
+
+    <target name="prepare" depends="-init-ooo">
+        <mavendep pom="pom.xml"/>
+    </target>
 </project>

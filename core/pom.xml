@@ -13,9 +13,16 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>org.apache.flex.flexunit</groupId>
+      <groupId>org.apache</groupId>
       <artifactId>flexunit</artifactId>
       <version>4.2.0</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>com.domwires</groupId>
+      <artifactId>builder</artifactId>
+      <version>0.9.0</version>
+      <type>xml</type>
     </dependency>
     <!--<dependency>-->
       <!--<groupId>com.gamua</groupId>-->
