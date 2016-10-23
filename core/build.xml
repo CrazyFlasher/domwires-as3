@@ -1,20 +1,28 @@
 <?xml version="1.0"?>
-<project name="domwires-core" basedir="../core" default="domwires-builder.package_swc">
+<project name="domwires-core" basedir="." default="package_swc">
     <property name="deploy.dir" value="out"/>
-
-    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0/builder-0.9.0.xml"/>
+    <property name="flexunit.version" value="4.2.0"/>
+    <property name="swf-version" value="33"/>
+    <property name="target-player" value="22.0"/>
 
     <property name="path" value="."/>
     <property name="sftp-path-suffix" value="core"/>
 
-    <property name="swc_name" value="dw-core-${ver.num}.swc"/>
+    <property name="swc_name" value="dw-core.swc"/>
+
+    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0/builder-0.9.0.xml" optional="true"/>
 
     <property name="ooo-build.vers" value="2.10"/>
     <ant antfile="${basedir}/../etc/bootstrap.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 
+    <target name="package_swc" depends="prepare">
+        <antcall target="domwires-builder.package_swc"/>
+    </target>
+
     <target name="prepare" depends="-init-ooo">
         <mavendep pom="pom.xml"/>
     </target>
+
 </project>
