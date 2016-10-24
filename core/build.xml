@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="domwires-core" basedir="." default="package_swc">
-    <property name="deploy.dir" value="out/swc"/>
+    <property name="deploy.dir" value="dist"/>
     <property name="flexunit.version" value="4.2.0"/>
     <property name="swf-version" value="33"/>
     <property name="target-player" value="22.0"/>
