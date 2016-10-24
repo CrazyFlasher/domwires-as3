@@ -12,7 +12,6 @@
     <property name="ooo-build.vers" value="2.10"/>
     <ant antfile="${basedir}/../etc/bootstrap.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
-    <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 
     <target name="package_swc" depends="prepare">
         <antcall target="domwires-builder.package_swc"/>
