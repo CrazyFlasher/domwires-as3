@@ -9,6 +9,7 @@
     <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0/builder-0.9.0.xml" optional="true"/>
 
     <property name="ooo-build.vers" value="2.10"/>
+    <property name="deploy.dir" location="dist"/>
     <ant antfile="${basedir}/../etc/bootstrap.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 
