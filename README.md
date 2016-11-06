@@ -1,8 +1,6 @@
 ##DomWires
 Flexible and extensible MVC framework.
 
-![](https://github.com/CrazyFlasher/domwires-as3/blob/gh-pages/assets/core2.jpg?raw=true)
-
 ###Features
 * Splitting logic from visual part
 * Possibility to use many implementations for interface easily
@@ -10,6 +8,7 @@ Flexible and extensible MVC framework.
 .195/projects/domwires/core/doc/com/domwires/core/mvc/message/IMessageDispatcher.html)
 * Object instantiation with dependencies injections using cool [IAppFactory](http://188.166.108.195/projects/domwires/core/doc/com/domwires/core/factory/IAppFactory.html#includeExamplesSummary)
 * Easy object pooling management
+* Custom message bus (event bus) for easy and strict communication among components
 
 ###Build from source (Windows)
 To build entire framework with all extensions and modules you need to:
