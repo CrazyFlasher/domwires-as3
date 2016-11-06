@@ -1,17 +1,18 @@
 /**
  * Created by Anton Nefjodov on 26.05.2016.
  */
-package com.domwires.core.mvc.context
+package com.domwires.core.mvc.command
 {
 	import com.domwires.core.common.Enum;
+	import com.domwires.core.common.IDisposable;
 	import com.domwires.core.mvc.message.IMessage;
 
-	//TODO: execution guards 
+	//TODO: execution guards?
 
 	/**
 	 * Maps specific messages to <code>ICommand</code>.
 	 */
-	public interface ICommandMapper
+	public interface ICommandMapper extends ICommandMapperImmutable, IDisposable
 	{
 		/**
 		 * Maps message to command. When message occurred, specified command will be implemented.
@@ -41,13 +42,6 @@ package com.domwires.core.mvc.context
 		 * @return
 		 */
 		function unmapAll(messageType:Enum):ICommandMapper;
-
-		/**
-		 * Returns true, if there are mapping of command to current message.
-		 * @param messageType
-		 * @return
-		 */
-		function hasMapping(messageType:Enum):Boolean;
 
 		/**
 		 * Trying to find and execute commands, mapped to current message type.

@@ -3,7 +3,6 @@
  */
 package com.domwires.core.mvc.model
 {
-	import com.domwires.core.common.Enum;
 	import com.domwires.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.domwires.core.mvc.hierarchy.ns_hierarchy;
 
@@ -11,11 +10,6 @@ package com.domwires.core.mvc.model
 
 	public class ModelContainer extends HierarchyObjectContainer implements IModelContainer
 	{
-		public function ModelContainer()
-		{
-			super();
-		}
-
 		/**
 		 * @inheritDoc
 		 */

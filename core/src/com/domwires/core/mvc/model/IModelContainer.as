@@ -8,7 +8,7 @@ package com.domwires.core.mvc.model
 	/**
 	 * Container for models.
 	 */
-	public interface IModelContainer extends IModel, IHierarchyObjectContainer
+	public interface IModelContainer extends IModelContainerImmutable, IModel, IHierarchyObjectContainer
 	{
 		/**
 		 * Adds model to current container.
@@ -31,22 +31,5 @@ package com.domwires.core.mvc.model
 		 * @return
 		 */
 		function removeAllModels(dispose:Boolean = false):IModelContainer;
-
-		/**
-		 * Returns number of models in current container.
-		 */
-		function get numModels():int;
-
-		/**
-		 * Returns true, if current container has provided model.
-		 * @param model
-		 * @return
-		 */
-		function containsModel(model:IModel):Boolean;
-
-		/**
-		 * Returns list of models in current container.
-		 */
-		function get modelList():Array;
 	}
 }

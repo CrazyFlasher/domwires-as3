@@ -5,6 +5,7 @@ package com.domwires.core.mvc.context
 {
 	import com.domwires.core.common.Enum;
 	import com.domwires.core.factory.IAppFactory;
+	import com.domwires.core.mvc.command.ICommandMapper;
 	import com.domwires.core.mvc.hierarchy.AbstractHierarchyObject;
 	import com.domwires.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.domwires.core.mvc.hierarchy.ns_hierarchy;
@@ -22,7 +23,7 @@ package com.domwires.core.mvc.context
 	 * Context contains models, views and services. Also implements <code>ICommandMapper</code>. You can map specific messages, that came out
 	 * from hierarchy, to <code>ICommand</code>s.
 	 */
-	public class AbstractContext extends HierarchyObjectContainer implements IContext
+	public class AbstractContext extends HierarchyObjectContainer implements IContextImmutable, IContext
 	{
 		/**
 		 * @private
@@ -33,12 +34,7 @@ package com.domwires.core.mvc.context
 		private var modelContainer:IModelContainer;
 		private var viewContainer:IViewContainer;
 
-		private var commandMapper:ICommandMapper;
-
-		public function AbstractContext()
-		{
-			super();
-		}
+		private var commandMapper:com.domwires.core.mvc.command.ICommandMapper;
 
 		[PostConstruct]
 		public function init():void
@@ -51,7 +47,7 @@ package com.domwires.core.mvc.context
 			viewContainer = factory.getInstance(ViewContainer);
 			add(viewContainer);
 
-			commandMapper = factory.getInstance(CommandMapper);
+			commandMapper = factory.getInstance(com.domwires.core.mvc.command.CommandMapper);
 		}
 
 		/**
@@ -260,7 +256,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function map(messageType:Enum, commandClass:Class):ICommandMapper
+		public function map(messageType:Enum, commandClass:Class):com.domwires.core.mvc.command.ICommandMapper
 		{
 			checkIfDisposed();
 
@@ -270,7 +266,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function unmap(messageType:Enum, commandClass:Class):ICommandMapper
+		public function unmap(messageType:Enum, commandClass:Class):com.domwires.core.mvc.command.ICommandMapper
 		{
 			checkIfDisposed();
 
@@ -280,7 +276,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function clear():ICommandMapper
+		public function clear():com.domwires.core.mvc.command.ICommandMapper
 		{
 			checkIfDisposed();
 
@@ -290,7 +286,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function unmapAll(messageType:Enum):ICommandMapper
+		public function unmapAll(messageType:Enum):com.domwires.core.mvc.command.ICommandMapper
 		{
 			checkIfDisposed();
 

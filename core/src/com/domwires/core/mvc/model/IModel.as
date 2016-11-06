@@ -8,7 +8,7 @@ package com.domwires.core.mvc.model
 	/**
 	 * Simple model
 	 */
-	public interface IModel extends IHierarchyObject
+	public interface IModel extends IModelImmutable, IHierarchyObject
 	{
 
 	}

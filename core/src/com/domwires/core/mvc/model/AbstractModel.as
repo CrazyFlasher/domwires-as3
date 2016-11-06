@@ -10,9 +10,6 @@ package com.domwires.core.mvc.model
 	 */
 	public class AbstractModel extends AbstractHierarchyObject implements IModel
 	{
-		public function AbstractModel()
-		{
-			super();
-		}
+
 	}
 }

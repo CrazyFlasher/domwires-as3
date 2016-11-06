@@ -7,9 +7,6 @@ package com.domwires.core.mvc.view
 
 	public class AbstractView extends AbstractHierarchyObject implements IView
 	{
-		public function AbstractView()
-		{
-			super();
-		}
+
 	}
 }

@@ -1,19 +1,19 @@
 /**
  * Created by Anton Nefjodov on 26.05.2016.
  */
-package com.domwires.core.mvc.context
+package com.domwires.core.mvc.command
 {
+	import com.domwires.core.common.AbstractDisposable;
 	import com.domwires.core.common.Enum;
 	import com.domwires.core.factory.IAppFactory;
-	import com.domwires.core.mvc.command.ICommand;
 	import com.domwires.core.mvc.message.IMessage;
 
 	import flash.utils.Dictionary;
 
 	/**
-	 * Maps specific messages to <code>ICommand</code>.
+	 * @see com.domwires.core.mvc.command.ICommandMapper
 	 */
-	public class CommandMapper implements ICommandMapper
+	public class CommandMapper extends AbstractDisposable implements ICommandMapper
 	{
 		/**
 		 * @private
@@ -26,9 +26,14 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function CommandMapper()
+		override public function dispose():void
 		{
-			super();
+			clear();
+
+			commandMap = null;
+			factory = null;
+
+			super.dispose();
 		}
 
 		/**

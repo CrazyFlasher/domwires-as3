@@ -10,11 +10,6 @@ package com.domwires.core.mvc.view
 	 */
 	public class ViewContainer extends HierarchyObjectContainer implements IViewContainer
 	{
-		public function ViewContainer()
-		{
-			super();
-		}
-
 		/**
 		 * @inheritDoc
 		 */

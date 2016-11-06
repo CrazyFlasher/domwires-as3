@@ -8,7 +8,7 @@ package com.domwires.core.mvc.view
 	/**
 	 * Container for views.
 	 */
-	public interface IViewContainer extends IView, IHierarchyObjectContainer
+	public interface IViewContainer extends IViewContainerImmutable, IView, IHierarchyObjectContainer
 	{
 		/**
 		 * Adds view to current container.
@@ -31,22 +31,5 @@ package com.domwires.core.mvc.view
 		 * @return
 		 */
 		function removeAllViews(dispose:Boolean = false):IViewContainer;
-
-		/**
-		 * Returns number of views in current container.
-		 */
-		function get numViews():int;
-
-		/**
-		 * Returns true, if current container has provided view.
-		 * @param view
-		 * @return
-		 */
-		function containsView(view:IView):Boolean;
-
-		/**
-		 * Returns list of views in current container.
-		 */
-		function get viewList():Array;
 	}
 }

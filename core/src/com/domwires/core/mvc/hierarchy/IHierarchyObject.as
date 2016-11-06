@@ -10,11 +10,8 @@ package com.domwires.core.mvc.hierarchy
 	 * Because interfaces in AS3 do not support namespaces, implementation should also contain
 	 * <code>ns_hierarchy function setParent(value:IHierarchyObjectContainer):void;</code>
 	 */
-	public interface IHierarchyObject extends IMessageDispatcher
+	public interface IHierarchyObject extends IHierarchyObjectImmutable, IMessageDispatcher
 	{
-		/**
-		 * Returns parent object.
-		 */
-		function get parent():IHierarchyObjectContainer;
+
 	}
 }

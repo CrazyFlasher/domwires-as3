@@ -5,6 +5,7 @@ package com.domwires.core.mvc.context
 {
 	import com.domwires.core.factory.AppFactory;
 	import com.domwires.core.factory.IAppFactory;
+	import com.domwires.core.mvc.command.CommandMapper;
 
 	import flashx.textLayout.debug.assert;
 
@@ -18,7 +19,7 @@ package com.domwires.core.mvc.context
 
 	public class CommandMapperTest
 	{
-		private var commandMapper:ICommandMapper;
+		private var commandMapper:com.domwires.core.mvc.command.ICommandMapper;
 
 		private var factory:IAppFactory;
 
@@ -30,7 +31,7 @@ package com.domwires.core.mvc.context
 			factory = new AppFactory();
 			factory.mapToValue(IAppFactory, factory);
 
-			commandMapper = factory.getInstance(CommandMapper);
+			commandMapper = factory.getInstance(com.domwires.core.mvc.command.CommandMapper);
 		}
 
 		[After]

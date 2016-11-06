@@ -5,12 +5,13 @@ package com.domwires.core.mvc.message
 {
 	import com.domwires.core.common.Enum;
 	import com.domwires.core.common.IDisposable;
+	import com.domwires.core.mvc.message.IMessageDispatcherImmutable;
 
 	/**
 	 * Common message dispatcher. Can be used for listening and dispatching messages for views and models.
 	 * Bubbling feature in any objects (Not only DisplayObjects, like in EventDispatcher).
 	 */
-	public interface IMessageDispatcher extends IDisposable
+	public interface IMessageDispatcher extends IMessageDispatcherImmutable, IDisposable
 	{
 		/**
 		 * Add message listener to specified object. Listens bubbled messages also.
@@ -37,13 +38,6 @@ package com.domwires.core.mvc.message
 		 * @param bubbles If true, then message will bubble up to hierarchy
 		 */
 		function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = false):void;
-
-		/**
-		 * Returns true if object listens for specific message. Otherwise returns false.
-		 * @param type  Message type
-		 * @return
-		 */
-		function hasMessageListener(type:Enum):Boolean;
 
 		/**
 		 * Handle specified message without dispatching it.

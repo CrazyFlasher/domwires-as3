@@ -3,14 +3,14 @@
  */
 package com.domwires.core.factory
 {
-	import com.domwires.core.common.IDisposable;
+	import com.domwires.core.common.IDisposableImmutable;
 
 	/**
 	 * Immutable interface.
 	 * @see com.domwires.core.factory.IAppFactory
 	 */
 
-	public interface IAppFactoryImmutable extends IDisposable
+	public interface IAppFactoryImmutable extends IDisposableImmutable
 	{
 		/**
 		 * Returns true, if <code>IAppFactory</code> has mapping for current type.

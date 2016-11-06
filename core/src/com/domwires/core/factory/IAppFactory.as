@@ -3,6 +3,8 @@
  */
 package com.domwires.core.factory
 {
+	import com.domwires.core.common.IDisposable;
+
 	/**
 	 * <p>Universal object factory.</p>
 	 * <p>Features:</p>
@@ -124,7 +126,7 @@ package com.domwires.core.factory
 	 *     factory.injectDependencies(IMyObject, obj);
 	 * </listing>
 	 */
-	public interface IAppFactory extends IAppFactoryImmutable
+	public interface IAppFactory extends IAppFactoryImmutable, IDisposable
 	{
 		/**
 		 * Maps one class (or interface) type to another.

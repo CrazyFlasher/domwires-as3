@@ -3,6 +3,7 @@
  */
 package com.domwires.core.mvc.hierarchy
 {
+	import com.domwires.core.mvc.hierarchy.IHierarchyObjectImmutable;
 	import com.domwires.core.mvc.message.IBubbleMessageHandler;
 	import com.domwires.core.mvc.message.IMessage;
 
@@ -11,7 +12,7 @@ package com.domwires.core.mvc.hierarchy
 	/**
 	 * Container of <code>IHierarchyObject</code>'s
 	 */
-	public interface IHierarchyObjectContainer extends IHierarchyObject, IBubbleMessageHandler
+	public interface IHierarchyObjectContainer extends IHierarchyObjectContainerImmutable, IHierarchyObject, IBubbleMessageHandler
 	{
 		/**
 		 * Adds object to hierarchy. Object becomes a part of hierarchy branch.
@@ -40,11 +41,6 @@ package com.domwires.core.mvc.hierarchy
 		 * Disposes current container and its children.
 		 */
 		function disposeWithAllChildren():void;
-
-		/**
-		 * Returns all children of current container.
-		 */
-		function get children():Array;
 
 		/**
 		 * Sends message to children.

@@ -18,11 +18,6 @@ package com.domwires.core.mvc.hierarchy
 		*/
 		private var _childrenList:Array = [];
 
-		public function HierarchyObjectContainer()
-		{
-			super();
-		}
-
 		/**
 		 * @inheritDoc
 		 */

@@ -14,11 +14,6 @@ package com.domwires.core.mvc.hierarchy
 	{
 		private var _parent:IHierarchyObjectContainer;
 
-		public function AbstractHierarchyObject()
-		{
-			super();
-		}
-
 		ns_hierarchy function setParent(value:IHierarchyObjectContainer):void
 		{
 			var hasParent:Boolean = _parent != null;

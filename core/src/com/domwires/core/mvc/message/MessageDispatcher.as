@@ -16,11 +16,6 @@ package com.domwires.core.mvc.message
 		private var _messageMap:Dictionary/*Enum, Vector.<Function>*/;
 		private var _message:Message;
 
-		public function MessageDispatcher()
-		{
-			super();
-		}
-
 		/**
 		 * @inheritDoc
 		 */
