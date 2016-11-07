@@ -13,6 +13,18 @@ Flexible and extensible MVC framework.
 
 ***
 
+###Maven artifact
+```
+<dependency>
+  <groupId>com.domwires</groupId>
+  <artifactId>core</artifactId>
+  <version>0.9.0-SNAPSHOT</version>
+  <type>swc</type>
+</dependency>
+```
+
+***
+
 - [Building from source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building-(Windows))
 - [SWC](http://188.166.108.195/projects/domwires/core/domwires-core_latest.zip)
 - [ASDoc](http://188.166.108.195/projects/domwires/core/doc)
