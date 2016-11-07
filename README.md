@@ -14,7 +14,7 @@ Flexible and extensible MVC framework.
 ###Build from source (Windows)
 To build entire framework with all extensions and modules you need to:
 
-1. Install **ANT**
+1. Install [ANT](https://ant.apache.org/bindownload.cgi)
 2. Install [Apache Flex SDK](http://flex.apache.org/)
 3. Specify environment variables:
   - **JAVA_HOME** - path to JDK (also add to PATH)
