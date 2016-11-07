@@ -5,8 +5,6 @@ package com.domwires.core.factory
 {
 	import flash.media.Camera;
 
-	import flashx.textLayout.debug.assert;
-
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNotNull;
@@ -144,7 +142,7 @@ package com.domwires.core.factory
 
 			var obj:DIObject = factory.getInstance(DIObject);
 			assertNull(obj.c);
-			factory.injectDependencies(DIObject, obj);
+			factory.injectDependencies(obj);
 			assertNotNull(obj.c);
 			assertNotNull(obj.arr);
 			assertNotNull(obj.obj);
@@ -324,6 +322,59 @@ package com.domwires.core.factory
 			var obj:MyType3 = factory.getInstance(MyType3, 7);
 			assertEquals(obj.a, 7);
 		}
+
+		[Test]
+		public function testPostConstruct():void
+		{
+			var o:PCTestObj = factory.getInstance(PCTestObj);
+			assertEquals(o.t, 1);
+
+			factory.injectDependencies(o);
+			assertEquals(o.t, 1);
+		}
+
+		[Test]
+		public function testPostInject():void
+		{
+			var o:PITestObj = factory.getInstance(PITestObj);
+			assertEquals(o.t, 1);
+
+			factory.injectDependencies(o);
+			factory.injectDependencies(o);
+			assertEquals(o.t, 3);
+		}
+	}
+}
+
+internal class PITestObj
+{
+	private var _t:int;
+
+	[PostInject]
+	public function pi():void
+	{
+		_t += 1;
+	}
+
+	public function get t():int
+	{
+		return _t;
+	}
+}
+
+internal class PCTestObj
+{
+	private var _t:int;
+
+	[PostConstruct]
+	public function pc():void
+	{
+		_t += 1;
+	}
+
+	public function get t():int
+	{
+		return _t;
 	}
 }
 

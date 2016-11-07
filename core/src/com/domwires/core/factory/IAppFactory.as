@@ -6,14 +6,15 @@ package com.domwires.core.factory
 	import com.domwires.core.common.IDisposable;
 
 	/**
-	 * <p>Universal object factory.</p>
+	 * <p>Universal instance factory.</p>
 	 * <p>Features:</p>
 	 * <ul>
 	 * <li>New instances creation</li>
 	 * <li>Pools creation</li>
 	 * <li>Map interface (or any other class) to class</li>
 	 * <li>Map interface (or any other class) to instance</li>
-	 * <li>Automatically create default interface implementation (without mapping)</li>
+	 * <li>Automatically create default interface implementation (without manual mapping)</li>
+	 * <li>Possibility to pass constructor arguments in ordinary way</li>
 	 * <li>Inject dependencies to objects</li>
 	 * <li>Manage singletons</li>
 	 * </ul>
@@ -58,11 +59,28 @@ package com.domwires.core.factory
 	 *     factory.mapToType(IMyObject, MyObject);
 	 *
 	 *     //returns new instance of MyObject and passes new Camera() as constructor argument
-	 *     var obj:IMyObject = factory.getInstance(IMyObject, [new Camera()]);
+	 *     var obj:IMyObject = factory.getInstance(IMyObject, new Camera());
 	 *     ...
 	 *     public class MyObject implements IMyObject
 	 *     {
 	 *     		public function MyObject(camera:Camera)
+	 *     		{
+	 *   		}
+	 *     }
+	 * </listing>
+	 * @example
+	 * <listing version="3.0">
+	 *     var factory:IAppFactory = new AppFactory();
+	 *
+	 *     //maps IMyObject interface to MyObject class
+	 *     factory.mapToType(IMyObject, MyObject);
+	 *
+	 *     //returns new instance of MyObject and passes arguments to constructor
+	 *     var obj:IMyObject = factory.getInstance(IMyObject, [new Camera(), [], true]);
+	 *     ...
+	 *     public class MyObject implements IMyObject
+	 *     {
+	 *     		public function MyObject(camera:Camera, array:Array, flag:Boolean)
 	 *     		{
 	 *   		}
 	 *     }
@@ -106,7 +124,14 @@ package com.domwires.core.factory
 	 *			[PostConstruct]
 	 *			public function init():void
 	 *			{
-	 *				//will be called automatically after dependencies are injected (e.q. camera in this case)
+	 *				//will be called automatically after instance is created and dependencies are injected
+	 *			}
+	 *
+	 *			[PostInject]
+	 *			public function init():void
+	 *			{
+	 *				//will be called automatically each time after dependencies are injected (e.q. camera in this case)
+	 *				//For ex. you can manually inject dependencies by calling <code>factory.injectDependencies</code>
 	 *			}
 	 *     }
 	 * </listing>
@@ -122,8 +147,8 @@ package com.domwires.core.factory
 	 *
 	 *     //Creates (if still not created) and returns instance of MyObject from pool
 	 *     var obj:IMyObject = factory.getInstance(IMyObject);
-	 *     //Injects dependencies to object and calls method (if any), that is marked with [PostConstruct] metatag
-	 *     factory.injectDependencies(IMyObject, obj);
+	 *     //Injects dependencies to object and calls method (if any), that is marked with [PostInject] metatag
+	 *     factory.injectDependencies(obj);
 	 * </listing>
 	 */
 	public interface IAppFactory extends IAppFactoryImmutable, IDisposable
@@ -214,5 +239,12 @@ package com.domwires.core.factory
 		 * Useful for debugging, but leaks performance.
 		 */
 		function set verbose(value:Boolean):void;
+
+		/**
+		 * Inject dependencies to properties marked with [Autowired] to provided object and calls [PostConstruct] method if has any.
+		 * @param object Object to inject dependencies to
+		 * @return
+		 */
+		function injectDependencies(object:*):*;
 	}
 }

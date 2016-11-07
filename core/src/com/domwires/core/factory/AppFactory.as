@@ -24,7 +24,7 @@ package com.domwires.core.factory
 		private var describeTypeJSON:DescribeTypeJSON = new DescribeTypeJSON();
 
 		/**
-		 * Automatically injects dependencies to newly created objects, using <code>getInstance</code> method.
+		 * Automatically injects dependencies to newly created instances, using <code>getInstance</code> method.
 		 */
 		private var _autoInjectDependencies:Boolean = true;
 
@@ -128,7 +128,7 @@ package com.domwires.core.factory
 					log("Warning: type " + type + " has registered pool. Ignoring constructorArgs.");
 				}
 
-				//Do not inject dependencies automatically to object, that is taken from pool.
+				//Do not inject dependencies automatically to instance, that is taken from pool.
 				//Call injectDependencies to inject manually.
 				obj = getFromPool(type);
 			}else
@@ -139,8 +139,15 @@ package com.domwires.core.factory
 				{
 					if (_autoInjectDependencies)
 					{
-						obj = injectDependencies(type, obj);
+						obj = injectDependencies(obj);
 					}
+
+					var injectionData:InjectionDataVo = getInjectionData(Object(obj).constructor);
+					if (injectionData.postConstructName != null)
+					{
+						obj[injectionData.postConstructName]();
+					}
+
 				}else
 				{
 					//in case of getNewInstance returned null, try again using default implementation.
@@ -352,9 +359,9 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function injectDependencies(type:Class, object:*):*
+		public function injectDependencies(instance:*):*
 		{
-			var injectionData:InjectionDataVo = getInjectionData(type);
+			var injectionData:InjectionDataVo = getInjectionData(Object(instance).constructor);
 
 			var objVar:String;
 			var isOptional:Boolean;
@@ -362,15 +369,15 @@ package com.domwires.core.factory
 			for (objVar in injectionData.variables)
 			{
 				isOptional = injectionData.variables[objVar].optional;
-				object[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar].qualifiedName, !isOptional);
+				instance[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar].qualifiedName, !isOptional);
 			}
 
-			if (injectionData.postConstructName != null)
+			if (injectionData.postInjectName != null)
 			{
-				object[injectionData.postConstructName]();
+				instance[injectionData.postInjectName]();
 			}
 
-			return object;
+			return instance;
 		}
 
 		private function getInjectionData(type:Class):InjectionDataVo
@@ -394,7 +401,7 @@ package com.domwires.core.factory
 				{
 					for each (metadata in method.metadata)
 					{
-						if (injectionData.postConstructName && injectionData.preDestroyName)
+						if (injectionData.postConstructName && injectionData.postInjectName/* && injectionData.preDestroyName*/)
 						{
 							break;
 						}else
@@ -402,10 +409,14 @@ package com.domwires.core.factory
 						{
 							injectionData.postConstructName = method.name;
 						}else
+						if (metadata.name == "PostInject")
+						{
+							injectionData.postInjectName = method.name;
+						}/*else
 						if (metadata.name == "PreDestroy")
 						{
 							injectionData.preDestroyName = method.name;
-						}
+						}*/
 					}
 				}
 				for each (variable in dtJson.traits.variables)
@@ -512,7 +523,8 @@ internal class InjectionDataVo
 {
 	internal var variables:Dictionary/*String, InjectionVariableVo*/ = new Dictionary();
 	internal var postConstructName:String;
-	internal var preDestroyName:String;
+	internal var postInjectName:String;
+//	internal var preDestroyName:String;
 
 	public function InjectionDataVo()
 	{

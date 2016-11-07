@@ -54,13 +54,5 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function getSingleton(type:Class):*;
-
-		/**
-		 * Inject dependencies to properties marked with [Autowired] to provided object and calls [PostConstruct] method if has any.
-		 * @param type Type of provided object
-		 * @param object Object to inject dependencies to
-		 * @return
-		 */
-		function injectDependencies(type:Class, object:*):*;
 	}
 }

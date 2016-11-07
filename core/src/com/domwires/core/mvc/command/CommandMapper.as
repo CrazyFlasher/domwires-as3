@@ -123,7 +123,7 @@ package com.domwires.core.mvc.command
 				mapValues(data, true);
 			}
 
-			factory.injectDependencies(commandClass, command);
+			factory.injectDependencies(command);
 
 			command.execute();
 

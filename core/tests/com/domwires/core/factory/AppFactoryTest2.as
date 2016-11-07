@@ -33,6 +33,23 @@ package com.domwires.core.factory
 				factory.getInstance(DIObject);
 			}
 		}
+
+		[Ignore]
+		[Test]
+		public function testPerformance2():void
+		{
+			var factory:AppFactory = new AppFactory();
+			factory.mapToValue(Array, []);
+			factory.mapToValue(Dictionary, new Dictionary());
+			factory.mapToValue(Object, {});
+			
+			var o:DIObject = factory.getInstance(DIObject);
+
+			for (var i:int = 0; i < 100000; i++)
+			{
+				factory.injectDependencies(o);
+			}
+		}
 	}
 }
 
