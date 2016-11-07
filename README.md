@@ -14,6 +14,9 @@ Flexible and extensible MVC framework.
 ***
 
 ###Maven artifact
+Repository url:
+
+https://raw.github.com/CrazyFlasher/maven-repo/master
 ```
 <dependency>
   <groupId>com.domwires</groupId>
