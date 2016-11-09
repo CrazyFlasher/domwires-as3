@@ -12,6 +12,7 @@ package com.domwires.core.mvc.command
 	/**
 	 * Maps specific messages to <code>ICommand</code>.
 	 */
+	CommandMapper;
 	public interface ICommandMapper extends ICommandMapperImmutable, IDisposable
 	{
 		/**

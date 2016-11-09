@@ -8,6 +8,7 @@ package com.domwires.core.mvc.view
 	/**
 	 * Container for views.
 	 */
+	ViewContainer;
 	public interface IViewContainer extends IViewContainerImmutable, IView, IHierarchyObjectContainer
 	{
 		/**

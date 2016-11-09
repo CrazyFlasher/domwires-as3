@@ -8,6 +8,7 @@ package com.domwires.core.mvc.model
 	/**
 	 * Container for models.
 	 */
+	ModelContainer;
 	public interface IModelContainer extends IModelContainerImmutable, IModel, IHierarchyObjectContainer
 	{
 		/**
