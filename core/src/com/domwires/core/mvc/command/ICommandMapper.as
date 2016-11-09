@@ -9,10 +9,11 @@ package com.domwires.core.mvc.command
 
 	//TODO: execution guards?
 
+	CommandMapper;
+
 	/**
 	 * Maps specific messages to <code>ICommand</code>.
 	 */
-	CommandMapper;
 	public interface ICommandMapper extends ICommandMapperImmutable, IDisposable
 	{
 		/**

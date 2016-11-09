@@ -5,10 +5,11 @@ package com.domwires.core.mvc.view
 {
 	import com.domwires.core.mvc.hierarchy.IHierarchyObjectContainer;
 
+	ViewContainer;
+
 	/**
 	 * Container for views.
 	 */
-	ViewContainer;
 	public interface IViewContainer extends IViewContainerImmutable, IView, IHierarchyObjectContainer
 	{
 		/**

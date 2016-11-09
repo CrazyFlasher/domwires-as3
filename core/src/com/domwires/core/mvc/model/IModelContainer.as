@@ -5,10 +5,11 @@ package com.domwires.core.mvc.model
 {
 	import com.domwires.core.mvc.hierarchy.IHierarchyObjectContainer;
 
+	ModelContainer;
+
 	/**
 	 * Container for models.
 	 */
-	ModelContainer;
 	public interface IModelContainer extends IModelContainerImmutable, IModel, IHierarchyObjectContainer
 	{
 		/**
