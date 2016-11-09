@@ -71,9 +71,80 @@ package com.domwires.core.mvc.context
 
 			assertEquals(c2.getTestModel().testVar, 1);
 		}
+
+		[Test]
+		public function testReceivingExternalEvents():void
+		{
+			var c:ParentContext = f.getInstance(ParentContext);
+			assertEquals(c.getTestModel().testVar, 1);
+		}
 	}
 }
 
+/////////////////////////
+internal class ParentContext extends AbstractContext
+{
+	private var m:TestModel7;
+
+	[PostConstruct]
+	override public function init():void
+	{
+		super.init();
+		
+		m = factory.getInstance(TestModel7);
+		addModel(m);
+
+		factory.mapToValue(TestModel7, m);
+
+		addModel(factory.getInstance(ChildContext));
+
+		m.dispatch();
+	}
+
+	public function getTestModel():TestModel7
+	{
+		return m;
+	}
+}
+
+internal class ChildContext extends AbstractContext
+{
+	[Autowired]
+	public var m:TestModel7;
+
+	[PostConstruct]
+	override public function init():void
+	{
+		super.init();
+		
+		factory.mapToValue(TestModel7, m);
+		map(MyCoolEnum.PREVED, TestCommand7);
+
+		m.addExtraBubbleListenerObject(this);
+	}
+}
+
+internal class TestModel7 extends AbstractModel
+{
+	public var testVar:int;
+
+	public function dispatch():void
+	{
+		dispatchMessage(MyCoolEnum.PREVED, null, true);
+	}
+}
+
+internal class TestCommand7 extends AbstractCommand
+{
+	[Autowired]
+	public var testModel:TestModel7;
+
+	override public function execute():void
+	{
+		testModel.testVar++;
+	}
+}
+//////////////////////////////////////
 import com.domwires.core.mvc.command.AbstractCommand;
 import com.domwires.core.mvc.context.AbstractContext;
 import com.domwires.core.mvc.message.IMessage;
@@ -132,11 +203,6 @@ internal class TestContext2 extends AbstractContext
 	private var testView:TestView;
 	private var testModel2:TestModel2;
 
-	public function TestContext2()
-	{
-		super();
-	}
-
 	[PostConstruct]
 	override public function init():void
 	{
@@ -175,11 +241,6 @@ internal class TestContext2 extends AbstractContext
 internal class TestContext1 extends AbstractContext
 {
 	private var testModel:TestModel;
-
-	public function TestContext1()
-	{
-		super();
-	}
 
 	[PostConstruct]
 	override public function init():void

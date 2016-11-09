@@ -12,5 +12,12 @@ package com.domwires.core.mvc.hierarchy
 		 * Returns all children of current container.
 		 */
 		function get children():Array;
+
+		/**
+		 * Returns true, if current container has provided child.
+		 * @param child
+		 * @return
+		 */
+		function contains(child:IHierarchyObjectImmutable):Boolean;
 	}
 }

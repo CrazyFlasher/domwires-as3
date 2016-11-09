@@ -125,9 +125,6 @@ package com.domwires.core.mvc.message
 		[Test]
 		public function testEveryBodyReceivedMessage():void
 		{
-			var sr_1:IMessageDispatcher = new MessageDispatcher();
-			var sr_2:IMessageDispatcher = new MessageDispatcher();
-
 			var a:Boolean;
 			var b:Boolean;
 
@@ -163,6 +160,26 @@ package com.domwires.core.mvc.message
 
 			assertTrue(a);
 			assertTrue(b);
+		}
+
+		[Test]
+		public function testGetAddedMessageTypes():void
+		{
+			var sr_1:IMessageDispatcher = new MessageDispatcher();
+			assertEquals(sr_1.getAddedMessageTypes().length, 0);
+
+			sr_1.addMessageListener(MyCoolEnum.PREVED, null);
+			sr_1.addMessageListener(MyCoolEnum.BOGA, null);
+			
+			assertEquals(sr_1.getAddedMessageTypes().length, 2);
+
+			sr_1.removeMessageListener(MyCoolEnum.BOGA, null);
+
+			assertEquals(sr_1.getAddedMessageTypes().length, 1);
+
+			sr_1.removeAllMessageListeners();
+
+			assertEquals(sr_1.getAddedMessageTypes().length, 0);
 		}
 	}
 }

@@ -11,11 +11,14 @@ package com.domwires.core.mvc.context
 	import com.domwires.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.domwires.core.mvc.hierarchy.ns_hierarchy;
 	import com.domwires.core.mvc.message.IMessage;
+	import com.domwires.core.mvc.message.IMessageDispatcherImmutable;
 	import com.domwires.core.mvc.model.IModel;
 	import com.domwires.core.mvc.model.IModelContainer;
+	import com.domwires.core.mvc.model.IModelImmutable;
 	import com.domwires.core.mvc.model.ModelContainer;
 	import com.domwires.core.mvc.view.IView;
 	import com.domwires.core.mvc.view.IViewContainer;
+	import com.domwires.core.mvc.view.IViewImmutable;
 	import com.domwires.core.mvc.view.ViewContainer;
 
 	use namespace ns_hierarchy;
@@ -42,13 +45,13 @@ package com.domwires.core.mvc.context
 		{
 			factory.mapToValue(IAppFactory, factory);
 
-			modelContainer = factory.getInstance(IModelContainer);
+			modelContainer = factory.getInstance(ModelContainer);
 			add(modelContainer);
 
-			viewContainer = factory.getInstance(IViewContainer);
+			viewContainer = factory.getInstance(ViewContainer);
 			add(viewContainer);
 
-			commandMapper = factory.getInstance(ICommandMapper);
+			commandMapper = factory.getInstance(CommandMapper);
 		}
 
 		/**
@@ -101,7 +104,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function containsModel(model:IModel):Boolean
+		public function containsModel(model:IModelImmutable):Boolean
 		{
 			checkIfDisposed();
 
@@ -168,7 +171,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function containsView(view:IView):Boolean
+		public function containsView(view:IViewImmutable):Boolean
 		{
 			checkIfDisposed();
 
@@ -192,6 +195,7 @@ package com.domwires.core.mvc.context
 		{
 			modelContainer.dispose();
 			viewContainer.dispose();
+			commandMapper.dispose();
 
 			nullifyDependencies();
 
@@ -202,8 +206,6 @@ package com.domwires.core.mvc.context
 		{
 			modelContainer = null;
 			viewContainer = null;
-
-			commandMapper.dispose();
 			commandMapper = null;
 		}
 
@@ -226,6 +228,14 @@ package com.domwires.core.mvc.context
 
 			handleBubbledMessage(message);
 
+			return bubbleUpInternalContextMessage;
+		}
+
+		/**
+		 * inheritDoc
+		 */
+		public function get bubbleUpInternalContextMessage():Boolean
+		{
 			return false;
 		}
 
@@ -349,6 +359,26 @@ package com.domwires.core.mvc.context
 			if (isDisposed)
 			{
 				throw new Error("Context already disposed!");
+			}
+		}
+
+		private function checkIfCanListen(object:IMessageDispatcherImmutable):void
+		{
+			if (object is IModelImmutable)
+			{
+				if (containsModel(object as IModelImmutable))
+				{
+					throw new Error("You cannot 'startListen' and 'stopListen' for child objects!");
+				}
+			}else
+			{
+				if (object is IViewImmutable)
+				{
+					if (containsView(object as IViewImmutable))
+					{
+						throw new Error("You cannot 'startListen' and 'stopListen' for child objects!");
+					}
+				}
 			}
 		}
 	}

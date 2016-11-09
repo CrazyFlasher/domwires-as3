@@ -12,5 +12,10 @@ package com.domwires.core.mvc.context
 	 */
 	public interface IContextImmutable extends IModelContainerImmutable, IViewContainerImmutable, ICommandMapperImmutable
 	{
+		/**
+		 * Returns true, if message can be bubbled up outside current context.
+		 * By default will return false. Override if needed. but be careful!
+		 */
+		function get bubbleUpInternalContextMessage():Boolean;
 	}
 }

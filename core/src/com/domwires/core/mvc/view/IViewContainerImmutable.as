@@ -20,7 +20,7 @@ package com.domwires.core.mvc.view
 		 * @param view
 		 * @return
 		 */
-		function containsView(view:IView):Boolean;
+		function containsView(view:IViewImmutable):Boolean;
 
 		/**
 		 * Returns list of views in current container.

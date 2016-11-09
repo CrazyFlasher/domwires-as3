@@ -51,9 +51,9 @@ package com.domwires.core.mvc.view
 		/**
 		 * @inheritDoc
 		 */
-		public function containsView(view:IView):Boolean
+		public function containsView(view:IViewImmutable):Boolean
 		{
-			return children && children.indexOf(view) != -1;
+			return contains(view);
 		}
 
 		/**

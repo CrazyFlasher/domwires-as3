@@ -5,6 +5,7 @@ package com.domwires.core.mvc.context
 {
 	import com.domwires.core.mvc.command.ICommandMapper;
 	import com.domwires.core.mvc.message.IMessage;
+	import com.domwires.core.mvc.message.IMessageDispatcherImmutable;
 	import com.domwires.core.mvc.model.IModelContainer;
 	import com.domwires.core.mvc.view.IViewContainer;
 

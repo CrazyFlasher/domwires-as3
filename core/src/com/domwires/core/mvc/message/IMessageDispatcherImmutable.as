@@ -44,5 +44,17 @@ package com.domwires.core.mvc.message
 		 * @param bubbles If true, then message will bubble up to hierarchy
 		 */
 		function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = false):void;
+
+		/**
+		 * Makes provided object to catch bubbled messages of this instance.
+		 * @param object Object, that will catch bubbled messages
+		 */
+		function addExtraBubbleListenerObject(object:IBubbleMessageHandler):void
+
+		/**
+		 * Makes provided object to stop catching bubbled messages of this instance.
+		 * @param object Object, that will not catch bubbled messages anymore
+		 */
+		function removeExtraBubbleListenerObject(object:IBubbleMessageHandler):void
 	}
 }

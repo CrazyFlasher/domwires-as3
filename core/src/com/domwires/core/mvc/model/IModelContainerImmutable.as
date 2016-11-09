@@ -20,7 +20,7 @@ package com.domwires.core.mvc.model
 		 * @param model
 		 * @return
 		 */
-		function containsModel(model:IModel):Boolean;
+		function containsModel(model:IModelImmutable):Boolean;
 
 		/**
 		 * Returns list of models in current container.

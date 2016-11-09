@@ -51,9 +51,9 @@ package com.domwires.core.mvc.model
 		/**
 		 * @inheritDoc
 		 */
-		public function containsModel(model:IModel):Boolean
+		public function containsModel(model:IModelImmutable):Boolean
 		{
-			return children.indexOf(model) != -1;
+			return contains(model);
 		}
 
 		/**

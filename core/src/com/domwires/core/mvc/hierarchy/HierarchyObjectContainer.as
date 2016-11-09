@@ -172,5 +172,13 @@ package com.domwires.core.mvc.hierarchy
 				}
 			}
 		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function contains(child:IHierarchyObjectImmutable):Boolean
+		{
+			return children && children.indexOf(child) != -1;
+		}
 	}
 }

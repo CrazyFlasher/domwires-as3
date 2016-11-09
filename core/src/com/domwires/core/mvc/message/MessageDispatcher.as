@@ -16,6 +16,8 @@ package com.domwires.core.mvc.message
 		private var _messageMap:Dictionary/*Enum, Vector.<Function>*/;
 		private var _message:Message;
 
+		private var extraBubbleListenerObjects:Vector.<IBubbleMessageHandler>;
+
 		/**
 		 * @inheritDoc
 		 */
@@ -31,8 +33,7 @@ package com.domwires.core.mvc.message
 				_messageMap[type] = new <Function>[];
 				//To avoid check in this case, if vector contains element
 				_messageMap[type].push(listener);
-			}else
-			if (_messageMap[type].indexOf(listener) == -1)
+			} else if (_messageMap[type].indexOf(listener) == -1)
 			{
 				_messageMap[type].push(listener);
 			}
@@ -108,6 +109,45 @@ package com.domwires.core.mvc.message
 							break;
 					}
 				}
+
+				if (extraBubbleListenerObjects != null)
+				{
+					var bubbleListenerObject:IBubbleMessageHandler;
+					for each (bubbleListenerObject in extraBubbleListenerObjects)
+					{
+						currentTarget = bubbleListenerObject;
+						bubbleListenerObject.onMessageBubbled(message);
+					}
+				}
+			}
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function addExtraBubbleListenerObject(object:IBubbleMessageHandler):void
+		{
+			if (!extraBubbleListenerObjects)
+			{
+				extraBubbleListenerObjects = new <IBubbleMessageHandler>[object];
+			}else
+			if (extraBubbleListenerObjects.indexOf(object) == -1)
+			{
+				extraBubbleListenerObjects.push(object);
+			}
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function removeExtraBubbleListenerObject(object:IBubbleMessageHandler):void
+		{
+			if (!extraBubbleListenerObjects) return;
+
+			var objectIndex:int = extraBubbleListenerObjects.indexOf(object);
+			if (objectIndex != -1)
+			{
+				extraBubbleListenerObjects.removeAt(objectIndex);
 			}
 		}
 
@@ -143,7 +183,7 @@ package com.domwires.core.mvc.message
 			if (!_message)
 			{
 				_message = new Message(type, data, bubbles);
-			}else
+			} else
 			{
 				(_message as Message)._type = type;
 				(_message as Message)._data = data;
@@ -158,6 +198,8 @@ package com.domwires.core.mvc.message
 		override public function dispose():void
 		{
 			removeAllMessageListeners();
+
+			extraBubbleListenerObjects = null;
 
 			_message = null;
 			//TODO: memory leaks test
