@@ -274,6 +274,30 @@ package com.domwires.core.mvc.context
 			return commandMapper.map(messageType, commandClass, data, once);
 		}
 
+		public function mapMessageToCommandList(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
+												once:Boolean = false):ICommandMapper
+		{
+			checkIfDisposed();
+
+			return commandMapper.mapMessageToCommandList(messageType, commandClassList, data, once);
+		}
+
+		public function mapMessageListToCommand(messageTypeList:Vector.<Enum>, commandClass:Class,
+												data:Object = null, once:Boolean = false):ICommandMapper
+		{
+			checkIfDisposed();
+
+			return commandMapper.mapMessageListToCommand(messageTypeList, commandClass, data, once);
+		}
+
+		public function mapMessageListToCommandList(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
+													data:Object = null, once:Boolean = false):ICommandMapper
+		{
+			checkIfDisposed();
+
+			return commandMapper.mapMessageListToCommandList(messageTypeList, commandClassList, data, once);
+		}
+
 		/**
 		 * @inheritDoc
 		 */
