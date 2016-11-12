@@ -169,6 +169,16 @@ package com.domwires.core.mvc.context
 			assertEquals(vo.name, "Izja");
 			assertEquals(vo.str, "puk");
 		}
+
+		[Test]
+		public function testMapOnce():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand, true);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			assertFalse(commandMapper.hasMapping(MyCoolEnum.BOGA));
+		}
 	}
 }
 

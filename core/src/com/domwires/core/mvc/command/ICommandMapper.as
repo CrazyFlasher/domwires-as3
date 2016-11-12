@@ -20,9 +20,10 @@ package com.domwires.core.mvc.command
 		 * Maps message to command. When message occurred, specified command will be implemented.
 		 * @param messageType
 		 * @param commandClass
+		 * @param once Messaged will be automatically unmapped, after command execution
 		 * @return
 		 */
-		function map(messageType:Enum, commandClass:Class):ICommandMapper;
+		function map(messageType:Enum, commandClass:Class, once:Boolean = false):ICommandMapper;
 
 		/**
 		 * Unmaps message from command.
@@ -54,7 +55,7 @@ package com.domwires.core.mvc.command
 		/**
 		 * Execute command manually.
 		 * @param commandClass
-		 * @param data plain data object, which properties will be injected into <code>ICommand</code>
+		 * @param data Plain data object, which properties will be injected into <code>ICommand</code>
 		 */
 		function executeCommand(commandClass:Class, data:Object = null):void;
 	}

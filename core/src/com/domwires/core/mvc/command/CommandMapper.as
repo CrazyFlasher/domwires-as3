@@ -21,7 +21,7 @@ package com.domwires.core.mvc.command
 		[Autowired]
 		public var factory:IAppFactory;
 
-		private var commandMap:Dictionary/*Enum, Vector.<Class>*/ = new Dictionary();
+		private var commandMap:Dictionary/*Enum, Vector.<MappingVo>*/ = new Dictionary();
 
 		/**
 		 * @inheritDoc
@@ -48,17 +48,31 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function map(messageType:Enum, commandClass:Class):ICommandMapper
+		public function map(messageType:Enum, commandClass:Class, once:Boolean = false):ICommandMapper
 		{
 			if (!commandMap[messageType])
 			{
-				commandMap[messageType] = new <Class>[commandClass];
+				commandMap[messageType] = new <MappingVo>[new MappingVo(commandClass, once)];
 			}else
-			if (commandMap[messageType].indexOf(commandClass) == -1){
+			if (!mappingListContains(commandMap[messageType], commandClass)){
 				commandMap[messageType].push(commandClass);
 			}
 
 			return this;
+		}
+
+		private static function mappingListContains(list:Vector.<MappingVo>, commandClass:Class):MappingVo
+		{
+			var mappingVo:MappingVo;
+			for each (mappingVo in list)
+			{
+				if (mappingVo.commandClass == commandClass)
+				{
+					return mappingVo;
+				}
+			}
+
+			return null;
 		}
 
 		/**
@@ -68,10 +82,10 @@ package com.domwires.core.mvc.command
 		{
 			if (commandMap[messageType])
 			{
-				var index:int = commandMap[messageType].indexOf(commandClass);
-				if (index != -1)
+				var mappingVo:MappingVo = mappingListContains(commandMap[messageType], commandClass);
+				if (mappingVo)
 				{
-					commandMap[messageType].removeAt(index);
+					commandMap[messageType].removeAt(commandMap[messageType].indexOf(mappingVo));
 
 					if (commandMap[messageType].length == 0)
 					{
@@ -101,12 +115,20 @@ package com.domwires.core.mvc.command
 		public function tryToExecuteCommand(message:IMessage):void
 		{
 			var messageType:Enum = message.type;
-			var mappedToMessageCommands:Vector.<Class> = commandMap[messageType];
+			var mappedToMessageCommands:Vector.<MappingVo> = commandMap[messageType];
 			if (mappedToMessageCommands != null)
 			{
-				for each (var commandClass:Class in mappedToMessageCommands)
+				var mappingVo:MappingVo;
+				var commandClass:Class;
+				for each (mappingVo in mappedToMessageCommands)
 				{
+					commandClass = mappingVo.commandClass;
 					executeCommand(commandClass, message.data);
+
+					if (mappingVo.once)
+					{
+						unmap(messageType, commandClass);
+					}
 				}
 			}
 		}
@@ -173,5 +195,28 @@ package com.domwires.core.mvc.command
 		{
 			return commandMap[messageType] != null;
 		}
+	}
+}
+
+internal class MappingVo
+{
+	private var _commandClass:Class;
+	private var _once:Boolean;
+
+	public function MappingVo(commandClass:Class, once:Boolean)
+	{
+		_commandClass = commandClass;
+		_once = once;
+
+	}
+
+	public function get commandClass():Class
+	{
+		return _commandClass;
+	}
+
+	public function get once():Boolean
+	{
+		return _once;
 	}
 }
