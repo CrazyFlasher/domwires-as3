@@ -39,6 +39,11 @@ package com.domwires.core.factory
 		 */
 		public function mapToType(type:Class, to:Class):IAppFactory
 		{
+			if (to == null)
+			{
+				throw new Error("Cannot map type to null type!");
+			}
+
 			if (_verbose && typeMapping[type])
 			{
 				log("Warning: type " + type + " is mapped to type " + typeMapping[type] + ". Remapping to " + to);
@@ -53,6 +58,11 @@ package com.domwires.core.factory
 		 */
 		public function mapToValue(type:Class, to:Object, name:String = null):IAppFactory
 		{
+			if (to == null)
+			{
+				throw new Error("Cannot map type to null value!");
+			}
+
 			var id:String = getId(type, name);
 
 			if (_verbose && instanceMapping[id] != null)

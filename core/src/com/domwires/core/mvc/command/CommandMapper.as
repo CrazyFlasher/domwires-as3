@@ -55,7 +55,7 @@ package com.domwires.core.mvc.command
 				commandMap[messageType] = new <MappingVo>[new MappingVo(commandClass, once)];
 			}else
 			if (!mappingListContains(commandMap[messageType], commandClass)){
-				commandMap[messageType].push(commandClass);
+				commandMap[messageType].push(new MappingVo(commandClass, once));
 			}
 
 			return this;
