@@ -20,10 +20,28 @@ package com.domwires.core.mvc.command
 		 * Maps message to command. When message occurred, specified command will be implemented.
 		 * @param messageType
 		 * @param commandClass
+		 * @param data Plain data object, which properties will be injected into <code>ICommand</code>.
+		 * 			   If command executed via message, and message contains data object, data specified in map method will be
+		 *			   overridden by <code>IMessage</code> data
 		 * @param once Messaged will be automatically unmapped, after command execution
 		 * @return
 		 */
-		function map(messageType:Enum, commandClass:Class, once:Boolean = false):ICommandMapper;
+		function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper;
+
+		/**
+		 * @see #map
+		 */
+		function mapMessageToCommandList(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
+
+		/**
+		 * @see #map
+		 */
+		function mapMessageListToCommand(messageTypeList:Vector.<Enum>, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper;
+
+		/**
+		 * @see #map
+		 */
+		function mapMessageListToCommandList(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
 
 		/**
 		 * Unmaps message from command.

@@ -267,11 +267,11 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function map(messageType:Enum, commandClass:Class, once:Boolean = false):ICommandMapper
+		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper
 		{
 			checkIfDisposed();
 
-			return commandMapper.map(messageType, commandClass, once);
+			return commandMapper.map(messageType, commandClass, data, once);
 		}
 
 		/**

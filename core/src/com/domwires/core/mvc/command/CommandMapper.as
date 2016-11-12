@@ -48,14 +48,63 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function map(messageType:Enum, commandClass:Class, once:Boolean = false):ICommandMapper
+		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper
 		{
 			if (!commandMap[messageType])
 			{
-				commandMap[messageType] = new <MappingVo>[new MappingVo(commandClass, once)];
+				commandMap[messageType] = new <MappingVo>[new MappingVo(commandClass, data, once)];
 			}else
 			if (!mappingListContains(commandMap[messageType], commandClass)){
-				commandMap[messageType].push(new MappingVo(commandClass, once));
+				commandMap[messageType].push(new MappingVo(commandClass, data, once));
+			}
+
+			return this;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function mapMessageToCommandList(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
+												once:Boolean = false):ICommandMapper
+		{
+			var commandClass:Class;
+			for each (commandClass in commandClassList)
+			{
+				map(messageType, commandClass, data, once);
+			}
+
+			return this;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function mapMessageListToCommand(messageTypeList:Vector.<Enum>, commandClass:Class,
+												data:Object = null, once:Boolean = false):ICommandMapper
+		{
+			var messageType:Enum;
+			for each (messageType in messageTypeList)
+			{
+				map(messageType, commandClass, data, once);
+			}
+
+			return this;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function mapMessageListToCommandList(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
+													data:Object = null, once:Boolean = false):ICommandMapper
+		{
+			var commandClass:Class;
+			var messageType:Enum;
+			for each (commandClass in commandClassList)
+			{
+				for each (messageType in messageTypeList)
+				{
+					map(messageType, commandClass, data, once);
+				}
 			}
 
 			return this;
@@ -123,7 +172,7 @@ package com.domwires.core.mvc.command
 				for each (mappingVo in mappedToMessageCommands)
 				{
 					commandClass = mappingVo.commandClass;
-					executeCommand(commandClass, message.data);
+					executeCommand(commandClass, message.data == null ? mappingVo.data : message.data);
 
 					if (mappingVo.once)
 					{
@@ -155,22 +204,33 @@ package com.domwires.core.mvc.command
 			}
 		}
 
-		private function mapValues(messageData:Object, map:Boolean):void
+		private function mapValues(data:Object, map:Boolean):void
 		{
 			var propertyName:*;
 			var propertyValue:*;
 
-			for (propertyName in messageData)
+			for (propertyName in data)
 			{
-				propertyValue = messageData[propertyName];
+				propertyValue = data[propertyName];
 				if (map)
 				{
-					factory.mapToValue(Object(propertyValue).constructor, propertyValue, propertyName);
+					factory.mapToValue(getPropertyType(propertyValue), propertyValue, propertyName);
 				}else
 				{
-					factory.unmapValue(Object(propertyValue).constructor, propertyName);
+					factory.unmapValue(getPropertyType(propertyValue), propertyName);
 				}
 			}
+		}
+
+		private static function getPropertyType(propertyValue:*):*
+		{
+			if (propertyValue is int) return int;
+			if (propertyValue is uint) return uint;
+			if (propertyValue is Number) return Number;
+			if (propertyValue is String) return String;
+			if (propertyValue is Boolean) return Boolean;
+
+			return Object(propertyValue).constructor;
 		}
 
 		/**
@@ -201,13 +261,14 @@ package com.domwires.core.mvc.command
 internal class MappingVo
 {
 	private var _commandClass:Class;
+	private var _data:Object;
 	private var _once:Boolean;
 
-	public function MappingVo(commandClass:Class, once:Boolean)
+	public function MappingVo(commandClass:Class, data:Object, once:Boolean)
 	{
 		_commandClass = commandClass;
+		_data = data;
 		_once = once;
-
 	}
 
 	public function get commandClass():Class
@@ -218,5 +279,10 @@ internal class MappingVo
 	public function get once():Boolean
 	{
 		return _once;
+	}
+
+	public function get data():Object
+	{
+		return _data;
 	}
 }

@@ -6,8 +6,7 @@ package com.domwires.core.mvc.context
 	import com.domwires.core.factory.AppFactory;
 	import com.domwires.core.factory.IAppFactory;
 	import com.domwires.core.mvc.command.CommandMapper;
-
-	import flashx.textLayout.debug.assert;
+	import com.domwires.core.mvc.command.ICommandMapper;
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
@@ -19,7 +18,7 @@ package com.domwires.core.mvc.context
 
 	public class CommandMapperTest
 	{
-		private var commandMapper:com.domwires.core.mvc.command.ICommandMapper;
+		private var commandMapper:ICommandMapper;
 
 		private var factory:IAppFactory;
 
@@ -31,14 +30,14 @@ package com.domwires.core.mvc.context
 			factory = new AppFactory();
 			factory.mapToValue(IAppFactory, factory);
 
-			commandMapper = factory.getInstance(com.domwires.core.mvc.command.CommandMapper);
+			commandMapper = factory.getInstance(CommandMapper);
 		}
 
 		[After]
 		public function tearDown():void
 		{
 			factory.dispose();
-			commandMapper.clear();
+			commandMapper.dispose();
 		}
 
 		[Test]
@@ -175,9 +174,29 @@ package com.domwires.core.mvc.context
 		{
 			var m:TestObj1 = factory.getInstance(TestObj1);
 			factory.mapToValue(TestObj1, m);
-			commandMapper.map(MyCoolEnum.BOGA, TestCommand, true);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand, null, true);
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
 			assertFalse(commandMapper.hasMapping(MyCoolEnum.BOGA));
+		}
+
+		[Test]
+		public function testMapWithData():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5});
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			assertEquals(m.d, 5);
+		}
+
+		[Test]
+		public function testMessageDataOverridesMappedData():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5});
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
+			assertEquals(m.d, 4);
 		}
 	}
 }
@@ -188,6 +207,20 @@ import com.domwires.core.mvc.message.IMessage;
 
 import testObject.TestObj1;
 import testObject.TestVo;
+
+internal class TestCommand3 extends AbstractCommand
+{
+	[Autowired]
+	public var obj:TestObj1;
+
+	[Autowired(name="olo")]
+	public var olo:int;
+
+	override public function execute():void
+	{
+		obj.d += olo;
+	}
+}
 
 internal class TestCommand extends AbstractCommand
 {
