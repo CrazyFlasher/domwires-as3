@@ -27,5 +27,5 @@ Flexible and extensible MVC framework.
 ***
 
 - [Building from source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building-(Windows))
-- [SWC](http://188.166.108.195/projects/domwires/core/domwires-core_latest.zip)
+- [SWC](http://188.166.108.195/projects/domwires/core/dw-core.swc)
 - [ASDoc](http://188.166.108.195/projects/domwires/core/doc)
