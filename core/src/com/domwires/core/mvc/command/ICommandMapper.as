@@ -31,17 +31,17 @@ package com.domwires.core.mvc.command
 		/**
 		 * @see #map
 		 */
-		function mapMessageToCommandList(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
+		function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
 
 		/**
 		 * @see #map
 		 */
-		function mapMessageListToCommand(messageTypeList:Vector.<Enum>, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper;
+		function map2(messageTypeList:Vector.<Enum>, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper;
 
 		/**
 		 * @see #map
 		 */
-		function mapMessageListToCommandList(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
+		function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
 
 		/**
 		 * Unmaps message from command.

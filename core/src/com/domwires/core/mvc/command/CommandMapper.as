@@ -64,8 +64,8 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function mapMessageToCommandList(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
-												once:Boolean = false):ICommandMapper
+		public function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
+							 once:Boolean = false):ICommandMapper
 		{
 			var commandClass:Class;
 			for each (commandClass in commandClassList)
@@ -79,8 +79,8 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function mapMessageListToCommand(messageTypeList:Vector.<Enum>, commandClass:Class,
-												data:Object = null, once:Boolean = false):ICommandMapper
+		public function map2(messageTypeList:Vector.<Enum>, commandClass:Class,
+							 data:Object = null, once:Boolean = false):ICommandMapper
 		{
 			var messageType:Enum;
 			for each (messageType in messageTypeList)
@@ -94,8 +94,8 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function mapMessageListToCommandList(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
-													data:Object = null, once:Boolean = false):ICommandMapper
+		public function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
+							 data:Object = null, once:Boolean = false):ICommandMapper
 		{
 			var commandClass:Class;
 			var messageType:Enum;
