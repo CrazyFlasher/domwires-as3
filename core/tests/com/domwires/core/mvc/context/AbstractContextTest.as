@@ -20,6 +20,8 @@ package com.domwires.core.mvc.context
 		[Before]
 		public function setUp():void
 		{
+			GlobalSettings.logEnabled = true;
+
 			f = new AppFactory();
 			f.mapToType(IContext, AbstractContext);
 			f.mapToValue(IAppFactory, f);
@@ -78,9 +80,117 @@ package com.domwires.core.mvc.context
 			var c:ParentContext = f.getInstance(ParentContext);
 			assertEquals(c.getTestModel().testVar, 1);
 		}
+
+		[Test]
+		public function testViewMessageBubbledOnceForChildContext():void
+		{
+			TestView2.VAL = 0;
+			var c:ParentContext2 = f.getInstance(ParentContext2);
+			assertEquals(c.getModel().testVar, 1);
+			assertEquals(TestView2.VAL, 1);
+		}
 	}
 }
+/////////////////////////
+internal class ParentContext2 extends AbstractContext
+{
+	private var v:TestView0;
+	private var m:TestModel4;
 
+	public function getModel():TestModel4
+	{
+		return m;
+	}
+
+	[PostConstruct]
+	override public function init():void
+	{
+		super.init();
+
+		v = factory.getInstance(TestView0);
+		addView(v);
+
+		m = factory.getInstance(TestModel4);
+		factory.mapToValue(TestModel4, m);
+		addModel(m);
+
+		addModel(factory.getInstance(ChildContext2));
+
+		map(MyCoolEnum.PREVED, TestCommand4);
+
+		v.dispatch();
+	}
+}
+internal class ChildContext2 extends AbstractContext
+{
+	[PostConstruct]
+	override public function init():void
+	{
+		super.init();
+
+		addView(factory.getInstance(TestView2));
+	}
+}
+internal class TestView0 extends AbstractView
+{
+	[PostConstruct]
+	public function init():void
+	{
+		addMessageListener(MyCoolEnum.BOGA, onBoga);
+	}
+
+	private function onBoga(m:IMessage):void
+	{
+		dispatchMessage(MyCoolEnum.SHALOM, null, true);
+	}
+
+	public function dispatch():void
+	{
+		dispatchMessage(MyCoolEnum.PREVED, null, true)
+	}
+}
+internal class TestView2 extends AbstractView
+{
+	public static var VAL:int;
+
+	[PostConstruct]
+	public function init():void
+	{
+		addMessageListener(MyCoolEnum.SHALOM, onShalom);
+	}
+
+	private function onShalom(m:IMessage):void
+	{
+		trace("SOSISKI");
+		TestView2.VAL++;
+	}
+}
+internal class TestCommand4 extends AbstractCommand
+{
+	[Autowired]
+	public var testModel:TestModel4;
+
+	override public function execute():void
+	{
+		testModel.testVar++;
+	}
+}
+internal class TestModel4 extends AbstractModel
+{
+	private var _testVar:int;
+
+	public function set testVar(value:int):void
+	{
+		_testVar = value;
+		dispatchMessage(MyCoolEnum.BOGA, null, true);
+	}
+
+	public function get testVar():int
+	{
+		return _testVar;
+	}
+}
+/////////////////////////
 /////////////////////////
 internal class ParentContext extends AbstractContext
 {

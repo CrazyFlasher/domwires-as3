@@ -11,7 +11,6 @@ package com.domwires.core.mvc.context
 	import com.domwires.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.domwires.core.mvc.hierarchy.ns_hierarchy;
 	import com.domwires.core.mvc.message.IMessage;
-	import com.domwires.core.mvc.message.IMessageDispatcherImmutable;
 	import com.domwires.core.mvc.model.IModel;
 	import com.domwires.core.mvc.model.IModelContainer;
 	import com.domwires.core.mvc.model.IModelImmutable;
@@ -232,7 +231,7 @@ package com.domwires.core.mvc.context
 		}
 
 		/**
-		 * inheritDoc
+		 * @inheritDoc
 		 */
 		public function get bubbleUpInternalContextMessage():Boolean
 		{
@@ -383,26 +382,6 @@ package com.domwires.core.mvc.context
 			if (isDisposed)
 			{
 				throw new Error("Context already disposed!");
-			}
-		}
-
-		private function checkIfCanListen(object:IMessageDispatcherImmutable):void
-		{
-			if (object is IModelImmutable)
-			{
-				if (containsModel(object as IModelImmutable))
-				{
-					throw new Error("You cannot 'startListen' and 'stopListen' for child objects!");
-				}
-			}else
-			{
-				if (object is IViewImmutable)
-				{
-					if (containsView(object as IViewImmutable))
-					{
-						throw new Error("You cannot 'startListen' and 'stopListen' for child objects!");
-					}
-				}
 			}
 		}
 	}

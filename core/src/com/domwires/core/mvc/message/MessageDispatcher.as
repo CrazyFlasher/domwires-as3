@@ -17,6 +17,7 @@ package com.domwires.core.mvc.message
 		private var _message:Message;
 
 		private var extraBubbleListenerObjects:Vector.<IBubbleMessageHandler>;
+		private var isBubbling:Boolean;
 
 		/**
 		 * @inheritDoc
@@ -78,10 +79,15 @@ package com.domwires.core.mvc.message
 		 */
 		public function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = false):void
 		{
-			_message = getMessage(type, data, bubbles);
+			if (isBubbling)
+			{
+				log("WARNING: You try to dispatch '" + type.toString() + "' while '" + _message.type.toString() + "' is bubbling. Making" +
+					" new instance of IMessage");
+			}
+
+			_message = getMessage(type, data, bubbles, isBubbling);
 			_message._target = this;
 			_message.setCurrentTarget(this);
-			_message._bubbles = bubbles;
 
 			handleMessage(_message);
 
@@ -95,18 +101,24 @@ package com.domwires.core.mvc.message
 		{
 			if (message.bubbles)
 			{
+				isBubbling = true;
 				var currentTarget:Object = message._target;
-
+				var bubbleUp:Boolean;
 				while (currentTarget && currentTarget.hasOwnProperty("parent"))
 				{
 					currentTarget = currentTarget["parent"];
+
 					if (!currentTarget) break;
 
 					if (currentTarget is IBubbleMessageHandler)
 					{
 						// onMessageBubbled() can stop the bubbling by returning false.
-						if (!IBubbleMessageHandler(message.setCurrentTarget(currentTarget)).onMessageBubbled(message))
+						bubbleUp = IBubbleMessageHandler(message.setCurrentTarget(currentTarget)).onMessageBubbled(message);
+						
+						if (!bubbleUp)
+						{
 							break;
+						}
 					}
 				}
 
@@ -120,6 +132,7 @@ package com.domwires.core.mvc.message
 					}
 				}
 			}
+			isBubbling = false;
 		}
 
 		/**
@@ -178,15 +191,16 @@ package com.domwires.core.mvc.message
 			return false;
 		}
 
-		private function getMessage(type:Enum, data:Object, bubbles:Boolean):Message
+		private function getMessage(type:Enum, data:Object, bubbles:Boolean, forceReturnNew:Boolean = false):Message
 		{
-			if (!_message)
+			if (!_message || forceReturnNew)
 			{
 				_message = new Message(type, data, bubbles);
 			} else
 			{
-				(_message as Message)._type = type;
-				(_message as Message)._data = data;
+				_message._type = type;
+				_message._data = data;
+				_message._bubbles = bubbles;
 			}
 
 			return _message;
