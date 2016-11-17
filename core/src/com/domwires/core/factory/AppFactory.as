@@ -34,6 +34,8 @@ package com.domwires.core.factory
 		 */
 		private var _verbose:Boolean = false;
 
+		private var mappingConfig:MappingConfigVo;
+
 		/**
 		 * @inheritDoc
 		 */
@@ -379,7 +381,7 @@ package com.domwires.core.factory
 			for (objVar in injectionData.variables)
 			{
 				isOptional = injectionData.variables[objVar].optional;
-				instance[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar].qualifiedName, !isOptional);
+				instance[objVar] = getAutowiredValue(injectionData.variables[objVar].qualifiedName, isOptional)
 			}
 
 			if (injectionData.postInjectName != null)
@@ -388,6 +390,24 @@ package com.domwires.core.factory
 			}
 
 			return instance;
+		}
+
+		private function getAutowiredValue(qualifiedName:String, isOptional:Boolean):*
+		{
+			if (mappingConfig)
+			{
+				log("Searching autowired stuff from 'mappingConfig'...");
+				var key:String;
+				for (key in mappingConfig.dependencyMap)
+				{
+					if (qualifiedName == key)
+					{
+
+					}
+				}
+			}
+
+			return getInstanceFromInstanceMap(qualifiedName, !isOptional);
 		}
 
 		private function getInjectionData(type:Class):InjectionDataVo
@@ -523,6 +543,26 @@ package com.domwires.core.factory
 		private static function getId(type:Class, name:String):String
 		{
 			return getQualifiedClassName(type) + (!name ? "" : "$" + name);
+		}
+
+		public function setMappingConfig(config:MappingConfigVo):IAppFactory
+		{
+			mappingConfig = config;
+
+			var i:Class;
+			var c:Class;
+			var key:String;
+			for (key in config.dependencyMap)
+			{
+				i = getDefinitionByName(key) as Class;
+				c = getDefinitionByName((config.dependencyMap[key] as DependencyVo).implementation) as Class;
+
+				log("Mapping '" + key + "' to '" + c.toString() + "'");
+
+				mapToType(i, c);
+			}
+			
+			return this;
 		}
 	}
 }

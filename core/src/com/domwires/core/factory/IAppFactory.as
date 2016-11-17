@@ -153,6 +153,8 @@ package com.domwires.core.factory
 	 */
 	public interface IAppFactory extends IAppFactoryImmutable, IDisposable
 	{
+		function appendMappingConfig(config:MappingConfigVo):IAppFactory;
+		
 		/**
 		 * Maps one class (or interface) type to another.
 		 * @param type Type, that has to be mapped to another type
