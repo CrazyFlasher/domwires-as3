@@ -3,11 +3,12 @@ Flexible and extensible MVC framework.
 
 ###Features
 * Splitting logic from visual part
-* Immutable interfaces are separated from mutable to safe usage of read-only models (for example in views)
+* Immutable interfaces are separated from mutable, for safe usage of read-only models (for example in views)
 * Possibility to use many implementations for interface easily
 * Fast communication among components using [IMessageDispatcher](http://188.166.108
 .195/projects/domwires/core/doc/com/domwires/core/mvc/message/IMessageDispatcher.html)
 * Object instantiation with dependencies injections using cool [IAppFactory](http://188.166.108.195/projects/domwires/core/doc/com/domwires/core/factory/IAppFactory.html#includeExamplesSummary)
+* Possibility to specify dependecies in config and pass it to [IAppFactory](http://188.166.108.195/projects/domwires/core/doc/com/domwires/core/factory/IAppFactory.html#includeExamplesSummary)
 * Easy object pooling management
 * Custom message bus (event bus) for easy and strict communication among objects
 
@@ -27,5 +28,5 @@ Flexible and extensible MVC framework.
 ***
 
 - [Building from source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building-(Windows))
-- [SWC](http://188.166.108.195/projects/domwires/core/dw-core.swc)
+- [Latest SWC](http://188.166.108.195/projects/domwires/core/dw-core.swc)
 - [ASDoc](http://188.166.108.195/projects/domwires/core/doc)
