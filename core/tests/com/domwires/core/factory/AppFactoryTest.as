@@ -343,8 +343,53 @@ package com.domwires.core.factory
 			factory.injectDependencies(o);
 			assertEquals(o.t, 3);
 		}
+
+		[Test]
+		public function testMappingViaConfig():void
+		{
+			SuperCoolModel;
+			Default;
+
+			var json:Object =
+			{
+				"com.domwires.core.factory.IDefault$def": {
+					implementation: "com.domwires.core.factory.Default",
+					newInstance:true
+				},
+				"com.domwires.core.factory.ISuperCoolModel": {
+					implementation: "com.domwires.core.factory.SuperCoolModel"
+				},
+				"int$coolValue": {
+					value:7
+				},
+				"int": {
+					value:5
+				},
+				"Object$obj": {
+					value:{
+						firstName:"nikita",
+						lastName:"dzigurda"
+					}
+				},
+				"Array": {
+					value:["botan","sjava"]
+				}
+			};
+
+			var config:MappingConfigDictionary = new MappingConfigDictionary(json);
+
+			factory.setMappingConfig(config);
+			var m:ISuperCoolModel = factory.getInstance(ISuperCoolModel);
+			assertEquals(m.getCoolValue(), 7);
+			assertEquals(m.value, 5);
+			assertEquals(m.def.result, 123);
+			assertEquals(m.object.firstName, "nikita");
+			assertEquals(m.array[1], "sjava");
+		}
 	}
 }
+
+import flash.media.Camera;
 
 internal class PITestObj
 {
@@ -377,8 +422,6 @@ internal class PCTestObj
 		return _t;
 	}
 }
-
-import flash.media.Camera;
 
 internal class MyOptional
 {

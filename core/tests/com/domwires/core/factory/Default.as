@@ -5,10 +5,6 @@ package com.domwires.core.factory
 {
 	public class Default implements IDefault
 	{
-		public function Default()
-		{
-		}
-
 		public function get result():int
 		{
 			return 123;

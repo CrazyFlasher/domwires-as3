@@ -6,19 +6,26 @@ package com.domwires.core.factory
 	internal class DependencyVo
 	{
 		private var _implementation:String;
-		private var _autowired:Object;
+		private var _value:*;
+		private var _newInstance:Boolean;
+
 
 		public function DependencyVo(json:Object)
 		{
 			if (!json.implementation)
 			{
-				log("WARNING: 'implementationDefinition' is not set in json!");
+				log("'implementation' is not set in json!");
 			}else
 			{
 				_implementation = json.implementation;
 			}
 
-			_autowired = json.autowired;
+			_value = json.value;
+
+			if (json.newInstance)
+			{
+				_newInstance = json.newInstance;
+			}
 		}
 
 		public function get implementation():String
@@ -26,9 +33,14 @@ package com.domwires.core.factory
 			return _implementation;
 		}
 
-		public function get autowired():Object
+		public function get value():*
 		{
-			return _autowired;
+			return _value;
+		}
+
+		public function get newInstance():Boolean
+		{
+			return _newInstance;
 		}
 	}
 }

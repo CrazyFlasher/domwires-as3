@@ -34,8 +34,6 @@ package com.domwires.core.factory
 		 */
 		private var _verbose:Boolean = false;
 
-		private var mappingConfig:MappingConfigVo;
-
 		/**
 		 * @inheritDoc
 		 */
@@ -381,7 +379,8 @@ package com.domwires.core.factory
 			for (objVar in injectionData.variables)
 			{
 				isOptional = injectionData.variables[objVar].optional;
-				instance[objVar] = getAutowiredValue(injectionData.variables[objVar].qualifiedName, isOptional)
+//				instance[objVar] = getAutowiredValue(injectionData.variables[objVar].qualifiedName, isOptional);
+				instance[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar].qualifiedName, !isOptional);
 			}
 
 			if (injectionData.postInjectName != null)
@@ -392,7 +391,7 @@ package com.domwires.core.factory
 			return instance;
 		}
 
-		private function getAutowiredValue(qualifiedName:String, isOptional:Boolean):*
+		/*private function getAutowiredValue(qualifiedName:String, isOptional:Boolean):*
 		{
 			if (mappingConfig)
 			{
@@ -408,7 +407,7 @@ package com.domwires.core.factory
 			}
 
 			return getInstanceFromInstanceMap(qualifiedName, !isOptional);
-		}
+		}*/
 
 		private function getInjectionData(type:Class):InjectionDataVo
 		{
@@ -545,21 +544,51 @@ package com.domwires.core.factory
 			return getQualifiedClassName(type) + (!name ? "" : "$" + name);
 		}
 
-		public function setMappingConfig(config:MappingConfigVo):IAppFactory
+		/**
+		 * @inheritDoc
+		 */
+		public function setMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory
 		{
-			mappingConfig = config;
-
 			var i:Class;
 			var c:Class;
-			var key:String;
-			for (key in config.dependencyMap)
+			var name:String;
+			var interfaceDefinition:String;
+			var d:DependencyVo;
+			var splitted:Array;
+
+			for (interfaceDefinition in config)
 			{
-				i = getDefinitionByName(key) as Class;
-				c = getDefinitionByName((config.dependencyMap[key] as DependencyVo).implementation) as Class;
+				d = config[interfaceDefinition];
 
-				log("Mapping '" + key + "' to '" + c.toString() + "'");
+				splitted = interfaceDefinition.split("$");
+				if (splitted.length > 1)
+				{
+					name = splitted[1];
+					interfaceDefinition = splitted[0];
+				}
 
-				mapToType(i, c);
+				i = getDefinitionByName(interfaceDefinition) as Class;
+
+				if (d.value)
+				{
+					mapToValue(i, d.value, name);
+				}else
+				{
+					if(d.implementation){
+						c = getDefinitionByName(d.implementation) as Class;
+
+						log("Mapping '" + interfaceDefinition + "' to '" + c + "'");
+
+						mapToType(i, c);
+					}
+
+					if (d.newInstance)
+					{
+						mapToValue(i, getNewInstance(i), name);
+					}
+				}
+
+				name = null;
 			}
 			
 			return this;

@@ -5,6 +5,8 @@ package com.domwires.core.factory
 {
 	import com.domwires.core.common.IDisposable;
 
+	import flash.utils.Dictionary;
+
 	/**
 	 * <p>Universal instance factory.</p>
 	 * <p>Features:</p>
@@ -150,10 +152,128 @@ package com.domwires.core.factory
 	 *     //Injects dependencies to object and calls method (if any), that is marked with [PostInject] metatag
 	 *     factory.injectDependencies(obj);
 	 * </listing>
+	 * @example
+	 * <listing version="3.0">
+	 *      public class Default implements IDefault
+	 *		{
+	 *			 public function get result():int
+	 *			 {
+	 *				 return 123;
+	 *			 }
+	 *		}
+	 *     ...
+	 *      public interface IDefault
+	 *		{
+	 *			function get result():int;
+	 *		}
+	 *		...
+	 *    	public interface ISuperCoolModel extends IModel
+	 *		{
+	 *			function getCoolValue():int;
+	 *			function get value():int;
+	 *			function get def():IDefault;
+	 *			function get object():Object;
+	 *			function get array():Array;
+	 *		}
+	 *     ...
+	 *     	public class SuperCoolModel extends AbstractModel implements ISuperCoolModel
+	 *		{
+	 *		 [Autowired(name="coolValue")]
+	 *		 public var _coolValue:int;
+	 *
+	 *		 [Autowired]
+	 *		 public var _value:int;
+	 *
+	 *		 [Autowired(name="def")]
+	 *		 public var _def:IDefault;
+	 *
+	 *		 [Autowired(name="obj")]
+	 *		 public var _object:Object;
+	 *
+	 *		 [Autowired]
+	 *		 public var _array:Array;
+	 *
+	 *		 public function getCoolValue():int
+	 *		 {
+	 *			 return _coolValue;
+	 *		 }
+	 *
+	 *		 public function get value():int
+	 *		 {
+	 *			 return _value;
+	 *		 }
+	 *
+	 *		 public function get def():IDefault
+	 *		 {
+	 *			 return _def;
+	 *		 }
+	 *
+	 *		 public function get object():Object
+	 *		 {
+	 *			 return _object;
+	 *		 }
+	 *
+	 *		 public function get array():Array
+	 *		 {
+	 *			 return _array;
+	 *		 }
+	 *		}
+	 *     ...
+	 *     var configJson:Object =
+	 * 		{
+	 *     	    //The first part is a qualified name, "def" is the name, that is used in [Autowired(name="def")] meta-tag
+ 	 *	 		"com.domwires.core.factory.IDefault$def": {
+ 	 *	 			 //qualified name of implementation
+	 *				 implementation: "com.domwires.core.factory.Default",
+	 *				 //if true, factory will create and may new instance
+	 *				 newInstance:true
+	 *	 		},
+	 *	 		"com.domwires.core.factory.ISuperCoolModel": {
+	 *		 		implementation: "com.domwires.core.factory.SuperCoolModel"
+	 *			 },
+	 *	 		"int$coolValue": {
+	 *	 			//factory will create and map instance to current value
+	 *				 value:7
+	 *			 },
+	 *			 "int": {
+	 *				 value:5
+	 *	 		},
+	 *	 		"Object$obj": {
+	 *				 value:{
+	 *					 firstName:"nikita",
+	 *					 lastName:"dzigurda"
+	 *		 		}
+	 *			 },
+	 *	 		"Array": {
+	 *				 value:["botan","sjava"]
+	 *	 		}
+	 *		};
+	 *
+	 *     var factory:IAppFactory = new AppFactory();
+	 *
+	 *     //Create mapping config, using json data
+	 *	   var config:MappingConfigDictionary = new MappingConfigDictionary(json);
+	 *
+	 *     //Set config to factory
+	 * 	   factory.setMappingConfig(config);
+	 *
+	 *	   var m:ISuperCoolModel = factory.getInstance(ISuperCoolModel);
+	 *
+	 *     trace(m.getCoolValue(); //returns 7;
+	 *	   trace(m.value); //returns 5;
+	 *     trace(m.def.result); //returns 123;
+	 *     trace(m.object.firstName); //returns "nikita";
+	 *     trace(m.array[1]);  //returns "sjava";
+	 * </listing>
 	 */
 	public interface IAppFactory extends IAppFactoryImmutable, IDisposable
 	{
-		function appendMappingConfig(config:MappingConfigVo):IAppFactory;
+		/**
+		 * Will create type mapping, value mappings and inject dependencies, using config data.
+		 * @param config Dictionary of <code>DependencyVo</code>
+		 * @return
+		 */
+		function setMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory;
 		
 		/**
 		 * Maps one class (or interface) type to another.
