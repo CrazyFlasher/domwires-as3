@@ -8,7 +8,7 @@ package com.domwires.core.factory
 	/**
 	 * Used by <code>IAppFactory</code> to create new instances, map types and inject dependencies via json config.
 	 * See last example in <code>IAppFactory</code>
-	 * @see IAppFactory#setMappingConfig
+	 * @see IAppFactory#appendMappingConfig
 	 */
 	public dynamic class MappingConfigDictionary extends Dictionary
 	{

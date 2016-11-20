@@ -557,7 +557,7 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function setMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory
+		public function appendMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory
 		{
 			var i:Class;
 			var c:Class;
