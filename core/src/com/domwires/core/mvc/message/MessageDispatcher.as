@@ -16,7 +16,7 @@ package com.domwires.core.mvc.message
 		private var _messageMap:Dictionary/*Enum, Vector.<Function>*/;
 		private var _message:Message;
 
-		private var extraBubbleListenerObjects:Vector.<IBubbleMessageHandler>;
+		private var extraMessagesHandlerList:Vector.<IMessageDispatcher>;
 		private var isBubbling:Boolean;
 
 		/**
@@ -122,13 +122,13 @@ package com.domwires.core.mvc.message
 					}
 				}
 
-				if (extraBubbleListenerObjects != null)
+				if (extraMessagesHandlerList != null)
 				{
-					var bubbleListenerObject:IBubbleMessageHandler;
-					for each (bubbleListenerObject in extraBubbleListenerObjects)
+					var extraMessagesHandler:IMessageDispatcher;
+					for each (extraMessagesHandler in extraMessagesHandlerList)
 					{
-						currentTarget = bubbleListenerObject;
-						bubbleListenerObject.onMessageBubbled(message);
+						currentTarget = extraMessagesHandler;
+						extraMessagesHandler.handleMessage(message);
 					}
 				}
 			}
@@ -138,39 +138,43 @@ package com.domwires.core.mvc.message
 		/**
 		 * @inheritDoc
 		 */
-		public function addExtraBubbleListenerObject(object:IBubbleMessageHandler):void
+		public function registerExtraMessageHandler(object:IMessageDispatcher):void
 		{
-			if (!extraBubbleListenerObjects)
+			if (!extraMessagesHandlerList)
 			{
-				extraBubbleListenerObjects = new <IBubbleMessageHandler>[object];
+				extraMessagesHandlerList = new <IMessageDispatcher>[object];
 			}else
-			if (extraBubbleListenerObjects.indexOf(object) == -1)
+			if (extraMessagesHandlerList.indexOf(object) == -1)
 			{
-				extraBubbleListenerObjects.push(object);
+				extraMessagesHandlerList.push(object);
 			}
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function removeExtraBubbleListenerObject(object:IBubbleMessageHandler):void
+		public function unRegisterExtraMessageHandler(object:IMessageDispatcher):void
 		{
-			if (!extraBubbleListenerObjects) return;
+			if (!extraMessagesHandlerList) return;
 
-			var objectIndex:int = extraBubbleListenerObjects.indexOf(object);
+			var objectIndex:int = extraMessagesHandlerList.indexOf(object);
 			if (objectIndex != -1)
 			{
-				extraBubbleListenerObjects.removeAt(objectIndex);
+				extraMessagesHandlerList.removeAt(objectIndex);
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function handleMessage(message:IMessage):void
 		{
 			if (_messageMap)
 			{
 				if (_messageMap[message.type])
 				{
-					for each (var listener:Function in _messageMap[message.type])
+					var listener:Function;
+					for each (listener in _messageMap[message.type])
 					{
 						listener(message);
 					}
@@ -213,7 +217,7 @@ package com.domwires.core.mvc.message
 		{
 			removeAllMessageListeners();
 
-			extraBubbleListenerObjects = null;
+			extraMessagesHandlerList = null;
 
 			_message = null;
 			//TODO: memory leaks test

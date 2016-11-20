@@ -46,15 +46,15 @@ package com.domwires.core.mvc.message
 		function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = false):void;
 
 		/**
-		 * Makes provided object to catch bubbled messages of this instance.
-		 * @param object Object, that will catch bubbled messages
+		 * Makes provided object to handle messages of this instance.
+		 * @param object Object, that will handle messages
 		 */
-		function addExtraBubbleListenerObject(object:IBubbleMessageHandler):void
+		function registerExtraMessageHandler(object:IMessageDispatcher):void
 
 		/**
-		 * Makes provided object to stop catching bubbled messages of this instance.
-		 * @param object Object, that will not catch bubbled messages anymore
+		 * Makes provided object to stop handle bubbled messages of this instance.
+		 * @param object Object, that will not handle messages anymore
 		 */
-		function removeExtraBubbleListenerObject(object:IBubbleMessageHandler):void
+		function unRegisterExtraMessageHandler(object:IMessageDispatcher):void
 	}
 }

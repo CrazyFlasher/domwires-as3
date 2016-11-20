@@ -7,6 +7,8 @@ package com.domwires.core.mvc.context
 	import com.domwires.core.factory.IAppFactory;
 	import com.domwires.core.mvc.command.CommandMapper;
 	import com.domwires.core.mvc.command.ICommandMapper;
+	import com.domwires.core.mvc.context.config.ContextConfigVo;
+	import com.domwires.core.mvc.context.config.ContextConfigVoBuilder;
 	import com.domwires.core.mvc.hierarchy.AbstractHierarchyObject;
 	import com.domwires.core.mvc.hierarchy.HierarchyObjectContainer;
 	import com.domwires.core.mvc.hierarchy.ns_hierarchy;
@@ -28,11 +30,18 @@ package com.domwires.core.mvc.context
 	 */
 	public class AbstractContext extends HierarchyObjectContainer implements IContextImmutable, IContext
 	{
+
 		/**
-		 * @private
+		 * <b>[Autowired]</b>
 		 */
 		[Autowired]
 		public var factory:IAppFactory;
+
+		/**
+		 * <b>[Autowired(optional="true")]</b>
+		 */
+		[Autowired(optional="true")]
+		public var config:ContextConfigVo;
 
 		private var modelContainer:IModelContainer;
 		private var viewContainer:IViewContainer;
@@ -42,6 +51,11 @@ package com.domwires.core.mvc.context
 		[PostConstruct]
 		public function init():void
 		{
+			if (!config)
+			{
+				config = new ContextConfigVoBuilder().build();
+			}
+
 			factory.mapToValue(IAppFactory, factory);
 
 			modelContainer = factory.getInstance(ModelContainer);
@@ -219,37 +233,49 @@ package com.domwires.core.mvc.context
 		}
 
 		/**
-		 * @inheritDoc
+		 * By default, messaged won't bubble up to higher hierarchy level.
+		 * Override and return true, if you want bubbled message move higher.
+		 * @see com.domwires.core.mvc.message.IBubbleMessageHandler#onMessageBubbled
 		 */
 		override public function onMessageBubbled(message:IMessage):Boolean
 		{
 			super.onMessageBubbled(message);
 
-			handleBubbledMessage(message);
-
-			return bubbleUpInternalContextMessage;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get bubbleUpInternalContextMessage():Boolean
-		{
 			return false;
 		}
 
-		private function handleBubbledMessage(message:IMessage):void
+		/**
+		 * Handle specified message and send it to context children according context config
+		 * @see #com.domwires.core.mvc.context.config.ContextConfigVo
+		 * @param message
+		 */
+		override public function handleMessage(message:IMessage):void
 		{
+			super.handleMessage(message);
+
 			tryToExecuteCommand(message);
 
 			if (message.target is IModel)
 			{
-				dispatchMessageToViews(message);
+				if (config.forwardMessageFromModelsToModels)
+				{
+					dispatchMessageToModels(message);
+				}
+				if (config.forwardMessageFromModelsToViews)
+				{
+					dispatchMessageToViews(message);
+				}
 			}else
 			if (message.target is IView)
 			{
-				dispatchMessageToViews(message);
-				dispatchMessageToModels(message);
+				if (config.forwardMessageFromViewsToModels)
+				{
+					dispatchMessageToModels(message);
+				}
+				if (config.forwardMessageFromViewsToViews)
+				{
+					dispatchMessageToViews(message);
+				}
 			}
 		}
 

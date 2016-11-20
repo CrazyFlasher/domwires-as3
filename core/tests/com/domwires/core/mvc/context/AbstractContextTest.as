@@ -20,8 +20,6 @@ package com.domwires.core.mvc.context
 		[Before]
 		public function setUp():void
 		{
-			GlobalSettings.logEnabled = true;
-
 			f = new AppFactory();
 			f.mapToType(IContext, AbstractContext);
 			f.mapToValue(IAppFactory, f);
@@ -230,7 +228,7 @@ internal class ChildContext extends AbstractContext
 		factory.mapToValue(TestModel7, m);
 		map(MyCoolEnum.PREVED, TestCommand7);
 
-		m.addExtraBubbleListenerObject(this);
+		m.registerExtraMessageHandler(this);
 	}
 }
 

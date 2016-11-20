@@ -3,12 +3,10 @@
  */
 package com.domwires.core.mvc.command
 {
-	import com.domwires.core.mvc.hierarchy.AbstractHierarchyObject;
-
 	/**
 	 * Command (or service) that operates on provided (injected) models.
 	 */
-	public class AbstractCommand extends AbstractHierarchyObject implements ICommand
+	public class AbstractCommand implements ICommand
 	{
 		/**
 		 * @inheritDoc

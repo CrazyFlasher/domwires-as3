@@ -18,8 +18,6 @@ package com.domwires.core.factory
 		[Before]
 		public function setUp():void
 		{
-			GlobalSettings.logEnabled = true;
-
 			factory = new AppFactory();
 		}
 
