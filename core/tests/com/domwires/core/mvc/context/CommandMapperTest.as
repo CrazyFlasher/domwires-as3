@@ -25,8 +25,6 @@ package com.domwires.core.mvc.context
 		[Before]
 		public function setUp():void
 		{
-			GlobalSettings.logEnabled = true;
-
 			factory = new AppFactory();
 			factory.mapToValue(IAppFactory, factory);
 

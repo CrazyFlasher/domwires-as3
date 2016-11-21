@@ -3,12 +3,10 @@
  */
 package com.domwires.core.mvc.command
 {
-	import com.domwires.core.mvc.hierarchy.IHierarchyObject;
-
 	/**
 	 * Command (or service) that operates on provided (injected) models.
 	 */
-	public interface ICommand extends IHierarchyObject
+	public interface ICommand
 	{
 		/**
 		 * Executes command.

@@ -5,6 +5,7 @@ package com.domwires.core.mvc.context
 {
 	import com.domwires.core.factory.AppFactory;
 	import com.domwires.core.factory.IAppFactory;
+	import com.domwires.core.mvc.context.config.ContextConfigVoBuilder;
 	import com.domwires.core.mvc.model.AbstractModel;
 	import com.domwires.core.mvc.view.AbstractView;
 
@@ -20,13 +21,14 @@ package com.domwires.core.mvc.context
 		[Before]
 		public function setUp():void
 		{
-			GlobalSettings.logEnabled = true;
-
 			f = new AppFactory();
 			f.mapToType(IContext, AbstractContext);
 			f.mapToValue(IAppFactory, f);
-			
-			c = f.getInstance(IContext);
+
+			var cb:ContextConfigVoBuilder = new ContextConfigVoBuilder();
+			cb.forwardMessageFromViewsToModels = true;
+
+			c = f.getInstance(IContext, cb.build());
 			c.addModel(new AbstractModel());
 			c.addView(new AbstractView());
 		}
@@ -91,11 +93,29 @@ package com.domwires.core.mvc.context
 		}
 	}
 }
+
+import com.domwires.core.mvc.command.AbstractCommand;
+import com.domwires.core.mvc.context.AbstractContext;
+import com.domwires.core.mvc.context.config.ContextConfigVoBuilder;
+import com.domwires.core.mvc.message.IMessage;
+import com.domwires.core.mvc.model.AbstractModel;
+import com.domwires.core.mvc.view.AbstractView;
+
+import testObject.MyCoolEnum;
+
 /////////////////////////
 internal class ParentContext2 extends AbstractContext
 {
 	private var v:TestView0;
 	private var m:TestModel4;
+
+	public function ParentContext2()
+	{
+		var cb:ContextConfigVoBuilder = new ContextConfigVoBuilder();
+		cb.forwardMessageFromViewsToModels = true;
+
+		super(cb.build());
+	}
 
 	public function getModel():TestModel4
 	{
@@ -230,7 +250,7 @@ internal class ChildContext extends AbstractContext
 		factory.mapToValue(TestModel7, m);
 		map(MyCoolEnum.PREVED, TestCommand7);
 
-		m.addExtraBubbleListenerObject(this);
+		m.registerExtraMessageHandler(this);
 	}
 }
 
@@ -255,14 +275,6 @@ internal class TestCommand7 extends AbstractCommand
 	}
 }
 //////////////////////////////////////
-import com.domwires.core.mvc.command.AbstractCommand;
-import com.domwires.core.mvc.context.AbstractContext;
-import com.domwires.core.mvc.message.IMessage;
-import com.domwires.core.mvc.model.AbstractModel;
-import com.domwires.core.mvc.view.AbstractView;
-
-import testObject.MyCoolEnum;
-
 internal class TestCommand extends AbstractCommand
 {
 	[Autowired]
@@ -312,6 +324,11 @@ internal class TestContext2 extends AbstractContext
 {
 	private var testView:TestView;
 	private var testModel2:TestModel2;
+
+	public function TestContext2()
+	{
+		super();
+	}
 
 	[PostConstruct]
 	override public function init():void

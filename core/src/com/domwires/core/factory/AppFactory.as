@@ -371,16 +371,26 @@ package com.domwires.core.factory
 		 */
 		public function injectDependencies(instance:*):*
 		{
-			var injectionData:InjectionDataVo = getInjectionData(Object(instance).constructor);
+			var instanceClass:Class = Object(instance).constructor;
+			var injectionData:InjectionDataVo = getInjectionData(instanceClass);
 
 			var objVar:String;
 			var isOptional:Boolean;
+			var qualifiedName:String;
 
 			for (objVar in injectionData.variables)
 			{
 				isOptional = injectionData.variables[objVar].optional;
+				qualifiedName = injectionData.variables[objVar].qualifiedName;
 //				instance[objVar] = getAutowiredValue(injectionData.variables[objVar].qualifiedName, isOptional);
-				instance[objVar] = getInstanceFromInstanceMap(injectionData.variables[objVar].qualifiedName, !isOptional);
+				try
+				{
+					instance[objVar] = getInstanceFromInstanceMap(qualifiedName, !isOptional);
+				} catch (e:Error)
+				{
+					throw new Error("Cannot inject all required dependencies to '" + instanceClass + "'. Instance mapping for '" + qualifiedName + "' not" +
+							" found!");
+				}
 			}
 
 			if (injectionData.postInjectName != null)
@@ -547,7 +557,7 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function setMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory
+		public function appendMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory
 		{
 			var i:Class;
 			var c:Class;

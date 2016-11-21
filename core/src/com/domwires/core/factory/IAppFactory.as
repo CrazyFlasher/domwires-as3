@@ -255,7 +255,7 @@ package com.domwires.core.factory
 	 *	   var config:MappingConfigDictionary = new MappingConfigDictionary(json);
 	 *
 	 *     //Set config to factory
-	 * 	   factory.setMappingConfig(config);
+	 * 	   factory.appendMappingConfig(config);
 	 *
 	 *	   var m:ISuperCoolModel = factory.getInstance(ISuperCoolModel);
 	 *
@@ -273,7 +273,7 @@ package com.domwires.core.factory
 		 * @param config Dictionary of <code>DependencyVo</code>
 		 * @return
 		 */
-		function setMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory;
+		function appendMappingConfig(config:Dictionary/*DependencyVo*/):IAppFactory;
 		
 		/**
 		 * Maps one class (or interface) type to another.

@@ -16,7 +16,7 @@ package com.domwires.core.mvc.command
 	public class CommandMapper extends AbstractDisposable implements ICommandMapper
 	{
 		/**
-		 * @private
+		 * <b>[Autowired]</b>
 		 */
 		[Autowired]
 		public var factory:IAppFactory;

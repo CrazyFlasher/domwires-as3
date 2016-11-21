@@ -18,8 +18,6 @@ package com.domwires.core.factory
 		[Before]
 		public function setUp():void
 		{
-			GlobalSettings.logEnabled = true;
-
 			factory = new AppFactory();
 		}
 
@@ -378,7 +376,7 @@ package com.domwires.core.factory
 
 			var config:MappingConfigDictionary = new MappingConfigDictionary(json);
 
-			factory.setMappingConfig(config);
+			factory.appendMappingConfig(config);
 			var m:ISuperCoolModel = factory.getInstance(ISuperCoolModel);
 			assertEquals(m.getCoolValue(), 7);
 			assertEquals(m.value, 5);
