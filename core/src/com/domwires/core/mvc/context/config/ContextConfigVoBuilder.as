@@ -11,7 +11,7 @@ package com.domwires.core.mvc.context.config
 		/**
 		 * If bubbled up messages from views should be forwarded to models.
 		 */
-		public var forwardMessageFromViewsToModels:Boolean = true;
+		public var forwardMessageFromViewsToModels:Boolean;
 
 		/**
 		 * If bubbled up messages from views should be forwarded to views.

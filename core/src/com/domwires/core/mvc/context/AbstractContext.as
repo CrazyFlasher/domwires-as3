@@ -43,17 +43,32 @@ package com.domwires.core.mvc.context
 		[Autowired(optional="true")]
 		public var config:ContextConfigVo;
 
+		private var constructorConfig:ContextConfigVo;
+
 		private var modelContainer:IModelContainer;
 		private var viewContainer:IViewContainer;
 
 		private var commandMapper:ICommandMapper;
+
+		public function AbstractContext(config:ContextConfigVo = null)
+		{
+			super();
+
+			constructorConfig = config;
+		}
 
 		[PostConstruct]
 		public function init():void
 		{
 			if (!config)
 			{
-				config = new ContextConfigVoBuilder().build();
+				if (!constructorConfig)
+				{
+					config = new ContextConfigVoBuilder().build();
+				}else
+				{
+					config = constructorConfig;
+				}
 			}
 
 			factory.mapToValue(IAppFactory, factory);
