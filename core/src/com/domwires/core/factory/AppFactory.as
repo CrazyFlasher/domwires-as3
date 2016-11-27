@@ -16,12 +16,12 @@ package com.domwires.core.factory
 	 */
 	public class AppFactory extends AbstractDisposable implements IAppFactory
 	{
+		private static const injectionMap:Dictionary = new Dictionary()/*Class, InjectionDataVo*/;
+		private static const describeTypeJSON:DescribeTypeJSON = new DescribeTypeJSON();
+
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
 		private var instanceMapping:Dictionary = new Dictionary()/*Object, Class*/;
 		private var pool:Dictionary = new Dictionary()/*Class, PoolModel*/;
-		private var injectionMap:Dictionary = new Dictionary()/*Class, InjectionDataVo*/;
-
-		private var describeTypeJSON:DescribeTypeJSON = new DescribeTypeJSON();
 
 		/**
 		 * Automatically injects dependencies to newly created instances, using <code>getInstance</code> method.
@@ -522,13 +522,6 @@ package com.domwires.core.factory
 			}
 
 			pool = null;
-
-			for each (var injectionData:InjectionDataVo in injectionMap)
-			{
-				injectionData.dispose();
-			}
-
-			injectionMap = null;
 
 			super.dispose();
 		}
