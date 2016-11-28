@@ -26,22 +26,22 @@ package com.domwires.core.mvc.command
 		 * @param once Messaged will be automatically unmapped, after command execution
 		 * @return
 		 */
-		function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper;
+		function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):MappingConfig;
 
 		/**
 		 * @see #map
 		 */
-		function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
+		function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):MappingConfigList;
 
 		/**
 		 * @see #map
 		 */
-		function map2(messageTypeList:Vector.<Enum>, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper;
+		function map2(messageTypeList:Vector.<Enum>, commandClass:Class, data:Object = null, once:Boolean = false):MappingConfigList;
 
 		/**
 		 * @see #map
 		 */
-		function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):ICommandMapper;
+		function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):MappingConfigList;
 
 		/**
 		 * Unmaps message from command.

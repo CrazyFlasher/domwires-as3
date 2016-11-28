@@ -4,7 +4,7 @@
 package com.domwires.core.mvc.command
 {
 	/**
-	 * Command (or service) that operates on provided (injected) models.
+	 * @see com.domwires.core.mvc.command.ICommand
 	 */
 	public class AbstractCommand implements ICommand
 	{

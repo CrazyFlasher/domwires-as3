@@ -7,6 +7,8 @@ package com.domwires.core.mvc.context
 	import com.domwires.core.factory.IAppFactory;
 	import com.domwires.core.mvc.command.CommandMapper;
 	import com.domwires.core.mvc.command.ICommandMapper;
+	import com.domwires.core.mvc.command.MappingConfig;
+	import com.domwires.core.mvc.command.MappingConfigList;
 	import com.domwires.core.mvc.context.config.ContextConfigVo;
 	import com.domwires.core.mvc.context.config.ContextConfigVoBuilder;
 	import com.domwires.core.mvc.hierarchy.AbstractHierarchyObject;
@@ -307,7 +309,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):ICommandMapper
+		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):MappingConfig
 		{
 			checkIfDisposed();
 
@@ -315,7 +317,7 @@ package com.domwires.core.mvc.context
 		}
 
 		public function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
-							 once:Boolean = false):ICommandMapper
+							 once:Boolean = false):MappingConfigList
 		{
 			checkIfDisposed();
 
@@ -323,7 +325,7 @@ package com.domwires.core.mvc.context
 		}
 
 		public function map2(messageTypeList:Vector.<Enum>, commandClass:Class,
-							 data:Object = null, once:Boolean = false):ICommandMapper
+							 data:Object = null, once:Boolean = false):MappingConfigList
 		{
 			checkIfDisposed();
 
@@ -331,7 +333,7 @@ package com.domwires.core.mvc.context
 		}
 
 		public function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
-							 data:Object = null, once:Boolean = false):ICommandMapper
+							 data:Object = null, once:Boolean = false):MappingConfigList
 		{
 			checkIfDisposed();
 

@@ -196,9 +196,47 @@ package com.domwires.core.mvc.context
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
 			assertEquals(m.d, 4);
 		}
+
+		[Test]
+		public function testCoolGuards():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5}).addGuards(CoolGuards);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
+			assertEquals(m.d, 4);
+		}
+
+		[Test]
+		public function testNotCoolGuards():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5}).addGuards(NotCoolGuards);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
+			assertEquals(m.d, 0);
+		}
 	}
 }
 
+import com.domwires.core.mvc.command.IGuards;
+
+////////////////////////////////////
+internal class NotCoolGuards implements IGuards
+{
+	public function get allows():Boolean
+	{
+		return false;
+	}
+}
+internal class CoolGuards implements IGuards
+{
+	public function get allows():Boolean
+	{
+		return true;
+	}
+}
+/////////////////////////////////////
 import com.domwires.core.common.Enum;
 import com.domwires.core.mvc.command.AbstractCommand;
 import com.domwires.core.mvc.message.IMessage;
