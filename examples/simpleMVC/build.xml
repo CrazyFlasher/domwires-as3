@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="domwires-examples-simpleMVC" basedir="." default="package">
+    <property name="flexunit.version" value="4.2.0"/>
+    <property name="swf-version" value="33"/>
+    <property name="target-player" value="22.0"/>
+
+    <property name="swf_name" value="${ant.project.name}.swf"/>
+    <property name="main_class" value="PreInit"/>
+    <property name="debug" value="true"/>
+
+    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0-SNAPSHOT/builder-0.9.0-SNAPSHOT.xml" optional="true"/>
+
+    <property name="ooo-build.vers" value="2.10"/>
+    <property name="deploy.dir" location="dist"/>
+    <ant antfile="${basedir}/../../etc/bootstrap.xml"/>
+    <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
+
+    <target name="package" depends="clean,prepare">
+        <antcall target="domwires-builder.swf"/>
+    </target>
+
+    <target name="prepare" depends="-init-ooo">
+        <mavendep pom="pom.xml"/>
+    </target>
+</project>
