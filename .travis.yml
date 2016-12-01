@@ -1,0 +1,27 @@
+# required to get an OSX environment
+language: objective-c
+
+before_script:
+  # set the JAVA_HOME which is not set by default for OSX Travis-CI workers
+  - export "JAVA_HOME=`/usr/libexec/java_home`"
+
+  # Get hold of ANT.
+  - brew update
+  - brew install ant
+  - brew install caskroom/cask/brew-cask
+  - brew cask install flash-player-debugger
+
+  # Set env. variable used by FlexUnit
+  - export FLASH_PLAYER_EXE="/Applications/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger"
+
+  # Grab SDK
+  - mkdir -p flex_sdk_4.15.0
+  - wget -O apache-flex-sdk-4.15.0-bin.tar.gz http://www-eu.apache.org/dist/flex/4.15.0/binaries/apache-flex-sdk-4.15.0-bin.tar.gz
+  - tar -xjf apache-flex-sdk-4.15.0-bin.tar.gz -C flex_sdk_4.15.0
+  - mkdir -p air_sdk/frameworks/libs/player/22.0/
+  - wget -O playerglobal.swc http://fpdownload.macromedia.com/get/flashplayer/updaters/22/playerglobal22_0.swc
+  - cp -f playerglobal.swc air_sdk/frameworks/libs/player/22.0/
+  - export FLEX_HOME="$TRAVIS_BUILD_DIR/flex_sdk_4.15.0"
+
+script:
+  - cd domwires/core && ant
