@@ -8,7 +8,10 @@ before_script:
   # Get hold of ANT.
   - brew update
   - brew install ant
+
+  # Adobe Flash Player for CLI
   - brew install caskroom/cask/brew-cask
+  - brew tap caskroom/versions
   - brew cask install flash-player-debugger
 
   # Set env. variable used by FlexUnit
