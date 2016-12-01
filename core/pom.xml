@@ -11,7 +11,15 @@
       <url>https://raw.github.com/CrazyFlasher/maven-repo/master</url>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>interval:001</updatePolicy>
+        <updatePolicy>interval:120</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>CrazyFlasher-home</id>
+      <url>http://188.166.108.195/maven-repo/master</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>interval:120</updatePolicy>
       </snapshots>
     </repository>
   </repositories>
