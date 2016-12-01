@@ -21,7 +21,7 @@ before_script:
   - mkdir -p flex_sdk_4.15.0
   - wget -O apache-flex-sdk-4.15.0-bin.tar.gz http://www-eu.apache.org/dist/flex/4.15.0/binaries/apache-flex-sdk-4.15.0-bin.tar.gz
   - tar -xjf apache-flex-sdk-4.15.0-bin.tar.gz -C flex_sdk_4.15.0
-  - mkdir -p air_sdk/frameworks/libs/player/22.0/
+  - mkdir -p flex_sdk_4.15.0/frameworks/libs/player/22.0/
   - wget -O playerglobal.swc http://fpdownload.macromedia.com/get/flashplayer/updaters/22/playerglobal22_0.swc
   - cp -f playerglobal.swc flex_sdk_4.15.0/frameworks/libs/player/22.0/
   - export FLEX_HOME="$TRAVIS_BUILD_DIR/flex_sdk_4.15.0"
