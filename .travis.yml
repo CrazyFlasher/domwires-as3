@@ -27,4 +27,4 @@ before_script:
   - export FLEX_HOME="$TRAVIS_BUILD_DIR/flex_sdk_4.15.0"
 
 script:
-  - cd domwires/core && ant
+  - cd domwires-as3/core && ant
