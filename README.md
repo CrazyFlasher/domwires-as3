@@ -1,4 +1,4 @@
-##DomWires
+##DomWires [![Build Status](https://travis-ci.org/CrazyFlasher/domwires-as3.svg?branch=master)](https://travis-ci.org/CrazyFlasher/domwires-as3)
 Flexible and extensible MVC framework.
 
 ###Features
