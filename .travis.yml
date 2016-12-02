@@ -19,8 +19,8 @@ before_script:
 
   # Grab SDK
   - mkdir -p flex_sdk_4.15.0
-  - wget -O apache-flex-sdk-4.15.0-bin.tar.gz http://www-eu.apache.org/dist/flex/4.15.0/binaries/apache-flex-sdk-4.15.0-bin.tar.gz
-  - tar -xjf apache-flex-sdk-4.15.0-bin.tar.gz -C flex_sdk_4.15.0
+  - wget -O flex_sdk.zip http://mirrors.gigenet.com/apache/flex/4.15.0/binaries/apache-flex-sdk-4.15.0-bin.zip
+  - unzip -q flex_sdk.zip -d flex_sdk_4.15.0
   - mkdir -p flex_sdk_4.15.0/frameworks/libs/player/22.0/
   - wget -O playerglobal.swc http://fpdownload.macromedia.com/get/flashplayer/updaters/22/playerglobal22_0.swc
   - cp -f playerglobal.swc flex_sdk_4.15.0/frameworks/libs/player/22.0/
