@@ -360,6 +360,9 @@ package com.domwires.core.factory
 				"int$coolValue": {
 					value:7
 				},
+				"Boolean$myBool": {
+					value: false
+				},
 				"int": {
 					value:5
 				},
@@ -379,6 +382,7 @@ package com.domwires.core.factory
 			factory.appendMappingConfig(config);
 			var m:ISuperCoolModel = factory.getInstance(ISuperCoolModel);
 			assertEquals(m.getCoolValue(), 7);
+			assertEquals(m.getMyBool(), false);
 			assertEquals(m.value, 5);
 			assertEquals(m.def.result, 123);
 			assertEquals(m.object.firstName, "nikita");

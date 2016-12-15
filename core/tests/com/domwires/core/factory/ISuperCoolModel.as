@@ -7,6 +7,7 @@ package com.domwires.core.factory
 
 	public interface ISuperCoolModel extends IModel
 	{
+		function getMyBool():Boolean;
 		function getCoolValue():int;
 		function get value():int;
 		function get def():IDefault;

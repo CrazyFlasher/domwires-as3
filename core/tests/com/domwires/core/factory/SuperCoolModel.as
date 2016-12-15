@@ -7,6 +7,9 @@ package com.domwires.core.factory
 
 	public class SuperCoolModel extends AbstractModel implements ISuperCoolModel
 	{
+		[Autowired(name="myBool")]
+		public var _myBool:Boolean = true;
+
 		[Autowired(name="coolValue")]
 		public var _coolValue:int;
 
@@ -25,6 +28,11 @@ package com.domwires.core.factory
 		public function getCoolValue():int
 		{
 			return _coolValue;
+		}
+
+		public function getMyBool():Boolean
+		{
+			return _myBool;
 		}
 
 		public function get value():int

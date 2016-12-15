@@ -401,24 +401,6 @@ package com.domwires.core.factory
 			return instance;
 		}
 
-		/*private function getAutowiredValue(qualifiedName:String, isOptional:Boolean):*
-		{
-			if (mappingConfig)
-			{
-				log("Searching autowired stuff from 'mappingConfig'...");
-				var key:String;
-				for (key in mappingConfig.dependencyMap)
-				{
-					if (qualifiedName == key)
-					{
-
-					}
-				}
-			}
-
-			return getInstanceFromInstanceMap(qualifiedName, !isOptional);
-		}*/
-
 		private function getInjectionData(type:Class):InjectionDataVo
 		{
 			var mappedType:Class = typeMapping[type] != null ? typeMapping[type] : type;
@@ -572,7 +554,7 @@ package com.domwires.core.factory
 
 				i = getDefinitionByName(interfaceDefinition) as Class;
 
-				if (d.value)
+				if (d.value != null)
 				{
 					mapToValue(i, d.value, name);
 				}else
