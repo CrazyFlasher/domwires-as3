@@ -27,6 +27,11 @@ Flexible and extensible MVC framework.
 
 ***
 
+###Minimum requirements
+* Adobe AIR or Flash Player 19.0
+
+***
+
 - [Building from source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building-(Windows))
 - [Latest SWC](http://188.166.108.195/projects/domwires/core/dw-core.swc)
 - [ASDoc](http://188.166.108.195/projects/domwires/core/doc)
