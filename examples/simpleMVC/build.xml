@@ -5,7 +5,7 @@
     <property name="target-player" value="22.0"/>
 
     <property name="swf_name" value="${ant.project.name}.swf"/>
-    <property name="main_class" value="PreInit"/>
+    <property name="main_class" value="${basedir}/src/PreInit.as"/>
     <property name="debug" value="true"/>
 
     <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0-SNAPSHOT/builder-0.9.0-SNAPSHOT.xml" optional="true"/>

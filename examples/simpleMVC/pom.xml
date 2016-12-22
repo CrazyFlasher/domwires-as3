@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.domwires.examples</groupId>
   <artifactId>simpleMVC</artifactId>
-  <packaging>swc</packaging>
+  <packaging>swf</packaging>
   <version>0.9.0-SNAPSHOT</version>
   <repositories>
     <repository>
