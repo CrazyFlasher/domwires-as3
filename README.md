@@ -32,7 +32,7 @@ Flexible and extensible MVC framework.
 
 ***
 
-##Examples
+###Examples
 * [simpleMVC](https://github.com/CrazyFlasher/domwires-as3/tree/master/examples/simpleMVC)
 
 (Other primitive examples can be seen in [unit tests](https://github.com/CrazyFlasher/domwires-as3/tree/master/core/tests))
