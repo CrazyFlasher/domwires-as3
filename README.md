@@ -32,6 +32,11 @@ Flexible and extensible MVC framework.
 
 ***
 
+###Extension
+* [StarlingApp](https://github.com/CrazyFlasher/domwires-ext-starlingApp-as3) - extension that is useful to render visual stuff using Starling 2.x
+
+***
+
 - [Building from source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building-(Windows))
 - [Latest SWC](http://188.166.108.195/projects/domwires/core/dw-core.swc)
 - [ASDoc](http://188.166.108.195/projects/domwires/core/doc)
