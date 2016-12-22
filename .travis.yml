@@ -25,6 +25,9 @@ before_script:
   - mkdir -p flex_sdk_4.15.0/frameworks/libs/player/22.0/
   - wget -O playerglobal.swc http://fpdownload.macromedia.com/get/flashplayer/updaters/22/playerglobal22_0.swc
 
+  # Init PlayerGlobals
+   - echo env.PLAYERGLOBAL_HOME=libs/player > flex_sdk_4.15.0/env.properties
+
   # Need to put playerglobal to 11.1 folder, because flex-config.xml will take player global from 11.1 folder.
   # Little bit hackish :)
   - cp -f playerglobal.swc flex_sdk_4.15.0/frameworks/libs/player/11.1/
