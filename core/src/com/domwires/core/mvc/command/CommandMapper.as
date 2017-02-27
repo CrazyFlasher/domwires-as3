@@ -176,12 +176,14 @@ package com.domwires.core.mvc.command
 			{
 				var mappingVo:MappingConfig;
 				var commandClass:Class;
+				var injectionData:Object;
 				for each (mappingVo in mappedToMessageCommands)
 				{
-					if (!mappingVo.guardList || (mappingVo.guardList && guardsAllow(mappingVo.guardList)))
+					injectionData = message.data == null ? mappingVo.data : message.data;
+					if (!mappingVo.guardList || (mappingVo.guardList && guardsAllow(mappingVo.guardList, injectionData)))
 					{
 						commandClass = mappingVo.commandClass;
-						executeCommand(commandClass, message.data == null ? mappingVo.data : message.data);
+						executeCommand(commandClass, injectionData);
 
 						if (mappingVo.once)
 						{
@@ -192,7 +194,7 @@ package com.domwires.core.mvc.command
 			}
 		}
 
-		private function guardsAllow(guardList:Vector.<Class>):Boolean
+		private function guardsAllow(guardList:Vector.<Class>, data:Object = null):Boolean
 		{
 			var guardClass:Class;
 			var guards:IGuards;
@@ -200,8 +202,18 @@ package com.domwires.core.mvc.command
 			for each (guardClass in guardList)
 			{
 				guards = factory.getSingleton(guardClass) as IGuards;
-				
+
+				if (data != null)
+				{
+					mapValues(data, true);
+				}
+
 				factory.injectDependencies(guards);
+
+				if (data != null)
+				{
+					mapValues(data, false);
+				}
 
 				if (!guards.allows)
 				{

@@ -5,6 +5,7 @@ package com.domwires.core.mvc.context
 {
 	import com.domwires.core.factory.AppFactory;
 	import com.domwires.core.factory.IAppFactory;
+	import com.domwires.core.mvc.command.AbstractCommand;
 	import com.domwires.core.mvc.command.CommandMapper;
 	import com.domwires.core.mvc.command.ICommandMapper;
 
@@ -216,10 +217,35 @@ package com.domwires.core.mvc.context
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
 			assertEquals(m.d, 0);
 		}
+
+		[Test]
+		public function testInjectMessageDataToGuards():void
+		{
+			commandMapper.map(MyCoolEnum.BOGA, AbstractCommand).addGuards(NiceGuards);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
+		}
 	}
 }
 
+import com.domwires.core.common.Enum;
+import com.domwires.core.mvc.command.AbstractCommand;
 import com.domwires.core.mvc.command.IGuards;
+import com.domwires.core.mvc.message.IMessage;
+
+import testObject.TestObj1;
+import testObject.TestVo;
+
+////////////////////////////////////
+internal class NiceGuards implements IGuards
+{
+	[Autowired(name="olo")]
+	public var olo:int;
+
+	public function get allows():Boolean
+	{
+		return this;
+	}
+}
 
 ////////////////////////////////////
 internal class NotCoolGuards implements IGuards
@@ -237,13 +263,6 @@ internal class CoolGuards implements IGuards
 	}
 }
 /////////////////////////////////////
-import com.domwires.core.common.Enum;
-import com.domwires.core.mvc.command.AbstractCommand;
-import com.domwires.core.mvc.message.IMessage;
-
-import testObject.TestObj1;
-import testObject.TestVo;
-
 internal class TestCommand3 extends AbstractCommand
 {
 	[Autowired]
