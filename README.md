@@ -32,11 +32,19 @@ Flexible and extensible MVC framework.
 
 ***
 
-###Extension
+###Examples
+* [simpleMVC](https://github.com/CrazyFlasher/domwires-as3/tree/master/examples/simpleMVC)
+
+(Other primitive examples can be seen in [unit tests](https://github.com/CrazyFlasher/domwires-as3/tree/master/core/tests))
+
+***
+
+###Extensions
 * [StarlingApp](https://github.com/CrazyFlasher/domwires-ext-starlingApp-as3) - extension that is useful to render visual stuff using Starling 2.x
 
 ***
 
-- [Building from source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building-(Windows))
+- [Building from core source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building core-(Windows))
+- [Building simpleMVC example from source](https://github.com/CrazyFlasher/domwires-as3/wiki/Building simpleMVC example-(Windows))
 - [Latest SWC](http://188.166.108.195/projects/domwires/core/dw-core.swc)
 - [ASDoc](http://188.166.108.195/projects/domwires/core/doc)
