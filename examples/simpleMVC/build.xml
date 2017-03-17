@@ -2,7 +2,7 @@
 <project name="domwires-examples-simpleMVC" basedir="." default="package">
     <property name="flexunit.version" value="4.2.0"/>
     <property name="swf-version" value="33"/>
-    <property name="target-player" value="22.0"/>
+    <property name="target-player" value="24"/>
 
     <property name="swf_name" value="${ant.project.name}.swf"/>
     <property name="main_class" value="${basedir}/src/PreInit.as"/>
