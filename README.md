@@ -1,7 +1,7 @@
-##DomWires [![Build Status](https://travis-ci.org/CrazyFlasher/domwires-as3.svg?branch=master)](https://travis-ci.org/CrazyFlasher/domwires-as3)
+## DomWires [![Build Status](https://travis-ci.org/CrazyFlasher/domwires-as3.svg?branch=master)](https://travis-ci.org/CrazyFlasher/domwires-as3)
 Flexible and extensible MVC framework.
 
-###Features
+### Features
 * Splitting logic from visual part
 * Immutable interfaces are separated from mutable, for safe usage of read-only models (for example in views)
 * Possibility to use many implementations for interface easily
@@ -14,7 +14,7 @@ Flexible and extensible MVC framework.
 
 ***
 
-###Maven artifact
+### Maven artifact
 **Repository URL:** https://raw.github.com/CrazyFlasher/maven-repo/master
 ```
 <dependency>
@@ -27,19 +27,19 @@ Flexible and extensible MVC framework.
 
 ***
 
-###Minimum requirements
+### Minimum requirements
 * Adobe AIR or Flash Player 19.0
 
 ***
 
-###Examples
+### Examples
 * [simpleMVC](https://github.com/CrazyFlasher/domwires-as3/tree/master/examples/simpleMVC)
 
 (Other primitive examples can be seen in [unit tests](https://github.com/CrazyFlasher/domwires-as3/tree/master/core/tests))
 
 ***
 
-###Extensions
+### Extensions
 * [StarlingApp](https://github.com/CrazyFlasher/domwires-ext-starlingApp-as3) - extension that is useful to render visual stuff using Starling 2.x
 
 ***
