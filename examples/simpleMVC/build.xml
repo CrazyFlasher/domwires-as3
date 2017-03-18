@@ -8,18 +8,18 @@
     <property name="main_class" value="${basedir}/src/PreInit.as"/>
     <property name="debug" value="true"/>
 
-    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.0-SNAPSHOT/builder-0.9.0-SNAPSHOT.xml" optional="true"/>
+    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.1-SNAPSHOT/builder-0.9.1-SNAPSHOT.xml" optional="true"/>
 
     <property name="ooo-build.vers" value="2.10"/>
     <property name="deploy.dir" location="dist"/>
     <ant antfile="${basedir}/../../etc/bootstrap.xml"/>
     <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 
-    <target name="package" depends="clean,prepare">
+    <target name="package" depends="prepare,clean">
         <antcall target="domwires-builder.swf"/>
     </target>
 
     <target name="prepare" depends="-init-ooo">
         <mavendep pom="pom.xml"/>
     </target>
-</project>
+ </project>
