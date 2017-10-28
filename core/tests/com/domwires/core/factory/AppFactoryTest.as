@@ -171,9 +171,12 @@ package com.domwires.core.factory
 		}
 
 		[Test]
-		public function testGetInstance():void
+		public function testGetInstanceByName():void
 		{
-
+			var i:int = 1;
+			factory.mapToValue(int, i, "olo");
+			var result:int = factory.getInstance(int, null, "olo");
+			assertEquals(result, 1);
 		}
 
 		[Test]

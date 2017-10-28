@@ -36,10 +36,11 @@ package com.domwires.core.factory
 		 * <code>injectDependencies</code>
 		 * @param type Type of instance to return
 		 * @param constructorArgs constructor arguments. Can be any type. Use Array, if need to pass several args.
+		 * @param name Name of value mapping in metatag
 		 * @return
 		 * @see #injectDependencies()
 		 */
-		function getInstance(type:Class, constructorArgs:* = null):*;
+		function getInstance(type:Class, constructorArgs:* = null, name:String = null):*;
 
 		/**
 		 * Returns true, if <code>IAppFactory</code> has registered pool for provided type.

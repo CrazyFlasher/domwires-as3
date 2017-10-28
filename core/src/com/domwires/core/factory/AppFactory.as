@@ -123,9 +123,14 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function getInstance(type:Class, constructorArgs:* = null):*
+		public function getInstance(type:Class, constructorArgs:* = null, name:String = null):*
 		{
-			var id:String = getId(type, "");
+			if (!name)
+			{
+				name = "";
+			}
+
+			var id:String = getId(type, name);
 			
 			var obj:* = getInstanceFromInstanceMap(id);
 
