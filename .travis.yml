@@ -1,5 +1,11 @@
+git:
+    depth: 10
+    
 # required to get an OSX environment
 language: objective-c
+
+env:
+    - TERM=dumb
 
 before_script:
   # set the JAVA_HOME which is not set by default for OSX Travis-CI workers
