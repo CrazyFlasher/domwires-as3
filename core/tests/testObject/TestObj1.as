@@ -6,6 +6,7 @@ package testObject
 	public class TestObj1
 	{
 		private var _d:int;
+		private var _s:String;
 
 		public function TestObj1()
 		{
@@ -19,6 +20,16 @@ package testObject
 		public function get d():int
 		{
 			return _d;
+		}
+
+		public function get s():String
+		{
+			return _s;
+		}
+
+		public function set s(value:String):void
+		{
+			_s = value;
 		}
 	}
 }

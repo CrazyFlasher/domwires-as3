@@ -11,6 +11,7 @@ package com.domwires.core.mvc.context
 
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
 	import testObject.MyCoolEnum;
@@ -224,6 +225,17 @@ package com.domwires.core.mvc.context
 			commandMapper.map(MyCoolEnum.BOGA, AbstractCommand).addGuards(NiceGuards);
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
 		}
+
+		[Test]
+		public function testMapWithDataUnmaps():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.executeCommand(TestCommand4, {olo: "puk"});
+			assertEquals(m.s, "puk");
+			commandMapper.executeCommand(TestCommand4);
+			assertNull(m.s);
+		}
 	}
 }
 
@@ -263,6 +275,20 @@ internal class CoolGuards implements IGuards
 	}
 }
 /////////////////////////////////////
+internal class TestCommand4 extends AbstractCommand
+{
+	[Autowired]
+	public var obj:TestObj1;
+
+	[Autowired(name="olo", optional="true")]
+	public var olo:String;
+
+	override public function execute():void
+	{
+		obj.s = olo;
+	}
+}
+
 internal class TestCommand3 extends AbstractCommand
 {
 	[Autowired]
