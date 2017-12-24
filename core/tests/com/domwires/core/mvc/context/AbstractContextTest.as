@@ -91,11 +91,29 @@ package com.domwires.core.mvc.context
 			assertEquals(c.getModel().testVar, 1);
 			assertEquals(TestView2.VAL, 1);
 		}
+
+		[Test]
+		public function testMapToInterface():void
+		{
+			var f:IAppFactory = new AppFactory();
+			f.mapToValue(IAppFactory, f);
+			f.mapToValue(Class, TestCommand);
+			var c:TestContext3 = f.getInstance(TestContext3);
+			c.ready();
+			assertEquals(c.getTestModel().testVar, 1);
+
+
+			f.mapToValue(Class, TestCommand3);
+			var c2:TestContext3 = f.getInstance(TestContext3);
+			c2.ready();
+			assertEquals(c.getTestModel().testVar, 2);
+		}
 	}
 }
 
 import com.domwires.core.mvc.command.AbstractCommand;
 import com.domwires.core.mvc.context.AbstractContext;
+import com.domwires.core.mvc.context.ITestCommand;
 import com.domwires.core.mvc.context.config.ContextConfigVoBuilder;
 import com.domwires.core.mvc.message.IMessage;
 import com.domwires.core.mvc.model.AbstractModel;
@@ -275,7 +293,7 @@ internal class TestCommand7 extends AbstractCommand
 	}
 }
 //////////////////////////////////////
-internal class TestCommand extends AbstractCommand
+internal class TestCommand extends AbstractCommand implements ITestCommand
 {
 	[Autowired]
 	public var testModel:TestModel;
@@ -283,6 +301,17 @@ internal class TestCommand extends AbstractCommand
 	override public function execute():void
 	{
 		testModel.testVar++;
+	}
+}
+
+internal class TestCommand3 extends AbstractCommand implements ITestCommand
+{
+	[Autowired]
+	public var testModel:TestModel;
+
+	override public function execute():void
+	{
+		testModel.testVar += 2;
 	}
 }
 
@@ -385,5 +414,49 @@ internal class TestContext1 extends AbstractContext
 	public function getTestModel():TestModel
 	{
 		return testModel;
+	}
+}
+
+internal class TestContext3 extends AbstractContext
+{
+	[Autowired]
+	public var commandImpl:Class;
+
+	private var testView:TestView;
+	private var testModel:TestModel;
+
+	[PostConstruct]
+	override public function init():void
+	{
+		super.init();
+
+		testView = factory.getInstance(TestView);
+		addView(testView);
+
+		testModel = factory.getInstance(TestModel);
+		addModel(testModel);
+
+		factory.mapToType(ITestCommand, commandImpl);
+		factory.mapToValue(TestModel, testModel);
+
+		map(MyCoolEnum.PREVED, ITestCommand);
+	}
+
+	public function getTestModel():TestModel
+	{
+		return testModel;
+	}
+
+	public function ready():void
+	{
+		testView.dispatch();
+	}
+
+	override public function onMessageBubbled(message:IMessage):Boolean
+	{
+		super.onMessageBubbled(message);
+
+		//to pass message to parent context
+		return true;
 	}
 }

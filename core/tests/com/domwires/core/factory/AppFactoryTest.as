@@ -105,7 +105,7 @@ package com.domwires.core.factory
 		}
 
 		[Test]
-		public function clear():void
+		public function testClear():void
 		{
 			factory.mapToType(IMyType, MyType2);
 			factory.registerPool(IMyType);
@@ -391,6 +391,51 @@ package com.domwires.core.factory
 			assertEquals(m.object.firstName, "nikita");
 			assertEquals(m.array[1], "sjava");
 		}
+
+		[Test]
+		public function testMapPoolToInterface():void
+		{
+			factory.mapToType(IPool, Pool1);
+			factory.registerPool(IPool);
+
+			var p:IPool = factory.getInstance(IPool);
+			assertEquals(p.value, 1);
+
+			factory.mapToType(IPool, Pool2);
+			factory.registerPool(IPool);
+
+			var p2:IPool = factory.getInstance(IPool);
+			assertEquals(p2.value, 2);
+		}
+
+		[Test]
+		public function testMapSingletonToInterface():void
+		{
+			factory.mapToType(IPool, Pool1);
+			var p1:IPool = factory.getSingleton(IPool);
+			assertEquals(p1.value, 1);
+		}
+	}
+}
+
+internal interface IPool
+{
+	function get value():int;
+}
+
+internal class Pool1 implements IPool {
+
+	public function get value():int
+	{
+		return 1;
+	}
+}
+
+internal class Pool2 implements IPool {
+
+	public function get value():int
+	{
+		return 2;
 	}
 }
 
