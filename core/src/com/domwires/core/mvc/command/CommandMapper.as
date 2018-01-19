@@ -3,6 +3,8 @@
  */
 package com.domwires.core.mvc.command
 {
+	import avmplus.DescribeTypeJSON;
+
 	import com.domwires.core.common.AbstractDisposable;
 	import com.domwires.core.common.Enum;
 	import com.domwires.core.factory.IAppFactory;
@@ -15,6 +17,9 @@ package com.domwires.core.mvc.command
 	 */
 	public class CommandMapper extends AbstractDisposable implements ICommandMapper
 	{
+		private static const describeTypeJSON:DescribeTypeJSON = new DescribeTypeJSON();
+		private var instanceDescriptionMap:Dictionary/*Class, Vector.<String>*/ = new Dictionary();
+
 		/**
 		 * <b>[Autowired]</b>
 		 */
@@ -30,6 +35,7 @@ package com.domwires.core.mvc.command
 		{
 			clear();
 
+			instanceDescriptionMap = null;
 			commandMap = null;
 			factory = null;
 
@@ -248,27 +254,72 @@ package com.domwires.core.mvc.command
 
 		private function mapValues(data:Object, map:Boolean):void
 		{
-			var propertyName:*;
-			var propertyValue:*;
+			var propertyName:String;
+
+			var gotProps:Boolean;
 
 			for (propertyName in data)
 			{
-				propertyValue = data[propertyName];
-				if (map)
+				gotProps = true;
+
+				mapProperty(data, propertyName, map);
+			}
+
+			//This is not a generic object
+			if (!gotProps)
+			{
+				var clazz:Class = Object(data).constructor;
+				var varNameList:Vector.<String> = instanceDescriptionMap[clazz];
+				if (varNameList == null)
 				{
-					factory.mapToValue(getPropertyType(propertyValue), propertyValue, propertyName);
-				}else
-				{
-					factory.unmapValue(getPropertyType(propertyValue), propertyName);
+					varNameList = new <String>[];
+					var dtJson:Object = describeTypeJSON.getInstanceDescription(clazz);
+					var arr:Array = dtJson.traits.variables;
+					if (dtJson.traits.accessors != null)
+					{
+						if (arr != null)
+						{
+							arr = arr.concat(dtJson.traits.accessors);
+						} else
+						{
+							arr = dtJson.traits.accessors;
+						}
+					}
+					if (arr != null)
+					{
+						for each (var varData:Object in arr)
+						{
+							varNameList.push(varData.name);
+						}
+						instanceDescriptionMap[clazz] = varNameList;
+					}
 				}
+				for each (propertyName in varNameList)
+				{
+					mapProperty(data, propertyName, map);
+				}
+			}
+		}
+
+		private function mapProperty(data:Object, propertyName:String, map:Boolean):void
+		{
+			var propertyValue:* = data[propertyName];
+
+			if (map)
+			{
+				factory.mapToValue(getPropertyType(propertyValue), propertyValue, propertyName);
+			}else
+			{
+				factory.unmapValue(getPropertyType(propertyValue), propertyName);
 			}
 		}
 
 		private static function getPropertyType(propertyValue:*):*
 		{
+			//TODO: Issue with injecting Number if its value is integer
 			if (propertyValue is int) return int;
-			if (propertyValue is uint) return uint;
 			if (propertyValue is Number) return Number;
+			if (propertyValue is uint) return uint;
 			if (propertyValue is String) return String;
 			if (propertyValue is Boolean) return Boolean;
 

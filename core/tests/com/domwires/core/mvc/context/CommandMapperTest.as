@@ -236,6 +236,27 @@ package com.domwires.core.mvc.context
 			commandMapper.executeCommand(TestCommand4);
 			assertNull(m.s);
 		}
+
+		[Test]
+		public function testExecuteWithVoAsData():void
+		{
+			//Expecting no errors
+			var vo:MyVo = new MyVo();
+			vo.olo = "test";
+			commandMapper.executeCommand(VoTestCommand, vo);
+		}
+
+		[Test]
+		public function testExecuteWithVoGettersAsData():void
+		{
+			//Expecting no errors
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			var vo:MyVo2 = new MyVo2();
+			vo._olo = "test";
+			commandMapper.executeCommand(VoTestCommand, vo);
+			assertEquals(m.s, "test");
+		}
 	}
 }
 
@@ -246,6 +267,38 @@ import com.domwires.core.mvc.message.IMessage;
 
 import testObject.TestObj1;
 import testObject.TestVo;
+
+
+internal dynamic class MyVo2
+{
+	internal var _olo:String;
+
+	public function get olo():String
+	{
+		return _olo;
+	}
+}
+
+internal dynamic class MyVo
+{
+	public var olo:String;
+}
+
+internal class VoTestCommand extends AbstractCommand
+{
+	[Autowired(name="olo")]
+	public var olo:String;
+
+	[Autowired(optional="true")]
+	public var obj:TestObj1;
+
+	override public function execute():void
+	{
+		super.execute();
+
+		if (obj) obj.s = olo;
+	}
+}
 
 ////////////////////////////////////
 internal class NiceGuards implements IGuards
