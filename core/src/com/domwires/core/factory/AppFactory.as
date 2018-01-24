@@ -578,14 +578,6 @@ package com.domwires.core.factory
 			
 			return this;
 		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function get autoInjectDependencies():Boolean
-		{
-			return _autoInjectDependencies;
-		}
 	}
 }
 

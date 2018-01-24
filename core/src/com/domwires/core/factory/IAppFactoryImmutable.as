@@ -56,10 +56,5 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function getSingleton(type:Class):*;
-
-		/**
-		 * Returns true, if factory automatically injects dependencies to newly created objects.
-		 */
-		function get autoInjectDependencies():Boolean
 	}
 }
