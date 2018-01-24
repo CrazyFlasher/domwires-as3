@@ -37,10 +37,11 @@ package com.domwires.core.factory
 		 * @param type Type of instance to return
 		 * @param constructorArgs constructor arguments. Can be any type. Use Array, if need to pass several args.
 		 * @param name Name of value mapping in metatag
+		 * @param ignorePool If true, then factory skips sarch instance in pools
 		 * @return
 		 * @see #injectDependencies()
 		 */
-		function getInstance(type:Class, constructorArgs:* = null, name:String = null):*;
+		function getInstance(type:Class, constructorArgs:* = null, name:String = null, ignorePool:Boolean = false):*;
 
 		/**
 		 * Returns true, if <code>IAppFactory</code> has registered pool for provided type.

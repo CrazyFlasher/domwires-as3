@@ -425,6 +425,16 @@ package com.domwires.core.factory
 			assertEquals(p1.s,  "olo");
 			assertEquals(p1.n,  1.5);
 		}
+
+		[Test]
+		public function testInjectDependenciesToPoolObject():void
+		{
+			factory.mapToType(IPool, Pool4);
+			factory.registerPool(IPool);
+			factory.mapToValue(int, 5, "v");
+			var p1:IPool = factory.getInstance(IPool);
+			assertEquals(p1.value,  6);
+		}
 	}
 }
 
@@ -479,6 +489,23 @@ internal class Pool3 implements IPool2 {
 	public function get n():Number
 	{
 		return _n;
+	}
+}
+
+internal class Pool4 implements IPool {
+
+	[Autowired(name="v")]
+	public var v:int;
+
+	[PostConstruct]
+	public function pc():void
+	{
+		v++;
+	}
+
+	public function get value():int
+	{
+		return v;
 	}
 }
 

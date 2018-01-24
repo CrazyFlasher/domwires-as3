@@ -123,7 +123,7 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function getInstance(type:Class, constructorArgs:* = null, name:String = null):*
+		public function getInstance(type:Class, constructorArgs:* = null, name:String = null, ignorePool:Boolean = false):*
 		{
 			if (!name)
 			{
@@ -136,13 +136,8 @@ package com.domwires.core.factory
 
 			if (obj) return obj;
 
-			if (hasPoolForType(type))
+			if (!ignorePool && hasPoolForType(type))
 			{
-				if (_verbose && constructorArgs && constructorArgs.length > 0)
-				{
-					log("Warning: type " + type + " has registered pool. Ignoring constructorArgs.");
-				}
-
 				//Do not inject dependencies automatically to instance, that is taken from pool.
 				//Call injectDependencies to inject manually.
 				obj = getFromPool(type, constructorArgs);

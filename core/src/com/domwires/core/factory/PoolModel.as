@@ -23,7 +23,7 @@ package com.domwires.core.factory
 
 			if (list.length < capacity)
 			{
-				instance = factory.getNewInstance(type, args);
+				instance = factory.getInstance(type, args, null, true);
 				list.push(instance);
 			}else
 			{
