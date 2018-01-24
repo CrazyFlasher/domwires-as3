@@ -207,13 +207,12 @@ package com.domwires.core.mvc.command
 
 			for each (guardClass in guardList)
 			{
-				guards = factory.getSingleton(guardClass) as IGuards;
-
 				if (data != null)
 				{
 					mapValues(data, true);
 				}
 
+				guards = factory.getSingleton(guardClass) as IGuards;
 				factory.injectDependencies(guards);
 
 				if (data != null)
@@ -235,15 +234,13 @@ package com.domwires.core.mvc.command
 		 */
 		public function executeCommand(commandClass:Class, data:Object = null):void
 		{
-			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
-
 			if (data != null)
 			{
 				mapValues(data, true);
 			}
 
+			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
 			factory.injectDependencies(command);
-
 			command.execute();
 
 			if (data != null)
