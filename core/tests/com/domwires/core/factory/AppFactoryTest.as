@@ -415,12 +415,28 @@ package com.domwires.core.factory
 			var p1:IPool = factory.getSingleton(IPool);
 			assertEquals(p1.value, 1);
 		}
+
+		[Test]
+		public function testFromPoolWithConstructorArgs():void
+		{
+			factory.mapToType(IPool2, Pool3);
+			factory.registerPool(IPool2);
+			var p1:IPool2 = factory.getInstance(IPool2, ["olo", 1.5]);
+			assertEquals(p1.s,  "olo");
+			assertEquals(p1.n,  1.5);
+		}
 	}
 }
 
 internal interface IPool
 {
 	function get value():int;
+}
+
+internal interface IPool2 extends IPool
+{
+	function get s():String;
+	function get n():Number;
 }
 
 internal class Pool1 implements IPool {
@@ -436,6 +452,33 @@ internal class Pool2 implements IPool {
 	public function get value():int
 	{
 		return 2;
+	}
+}
+
+internal class Pool3 implements IPool2 {
+
+	private var _s:String;
+	private var _n:Number;
+
+	public function Pool3(s:String, n:Number)
+	{
+		this._s = s;
+		this._n = n;
+	}
+
+	public function get value():int
+	{
+		return 2;
+	}
+
+	public function get s():String
+	{
+		return _s;
+	}
+
+	public function get n():Number
+	{
+		return _n;
 	}
 }
 

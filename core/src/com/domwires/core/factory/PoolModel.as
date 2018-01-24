@@ -17,13 +17,13 @@ package com.domwires.core.factory
 			this.capacity = capacity;
 		}
 
-		internal function get(type:Class):*
+		internal function get(type:Class, args:Array = null):*
 		{
 			var instance:*;
 
 			if (list.length < capacity)
 			{
-				instance = factory.getNewInstance(type);
+				instance = factory.getNewInstance(type, args);
 				list.push(instance);
 			}else
 			{

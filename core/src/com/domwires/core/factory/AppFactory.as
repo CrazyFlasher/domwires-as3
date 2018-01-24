@@ -145,7 +145,7 @@ package com.domwires.core.factory
 
 				//Do not inject dependencies automatically to instance, that is taken from pool.
 				//Call injectDependencies to inject manually.
-				obj = getFromPool(type);
+				obj = getFromPool(type, constructorArgs);
 			}else
 			{
 				obj = getNewInstance(type, constructorArgs);
@@ -272,14 +272,14 @@ package com.domwires.core.factory
 			return this;
 		}
 
-		private function getFromPool(type:Class):*
+		private function getFromPool(type:Class, constructorArgs:* = null):*
 		{
 			if (!pool[type])
 			{
 				throw new Error("Pool " + type + "is not registered! Call registerPool.");
 			}
 
-			return pool[type].get(type);
+			return pool[type].get(type, constructorArgs);
 		}
 
 		/**
