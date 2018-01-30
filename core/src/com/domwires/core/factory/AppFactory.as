@@ -249,7 +249,7 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function registerPool(type:Class, capacity:uint = 5):IAppFactory
+		public function registerPool(type:Class, capacity:uint = 5, instantiateNow:Boolean = false, constructorArgs:* = null):IAppFactory
 		{
 			if (capacity == 0)
 			{
@@ -262,6 +262,14 @@ package com.domwires.core.factory
 			}else
 			{
 				pool[type] = new PoolModel(this, capacity);
+
+				if (instantiateNow)
+				{
+					for (var i:int = 0; i < capacity; i++)
+					{
+						getFromPool(type, constructorArgs);
+					}
+				}
 			}
 
 			return this;

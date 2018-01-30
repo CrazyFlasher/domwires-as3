@@ -315,9 +315,12 @@ package com.domwires.core.factory
 		 * Registers pool for instances of provided type.
 		 * @param type Type of object to register pool for
 		 * @param capacity Maximum objects of current type in pool
+		 * @param instantiateNow Create instances immediately
+		 * @param constructorArgs Constructor arguments, in case <code>instantiateNow</code> is true.
+		 * Can be any type. Use Array, if need to pass several args.
 		 * @return
 		 */
-		function registerPool(type:Class, capacity:uint = 5):IAppFactory;
+		function registerPool(type:Class, capacity:uint = 5, instantiateNow:Boolean = false, constructorArgs:* = null):IAppFactory;
 
 		/**
 		 * Unregisters and disposes pool for provided type.
