@@ -371,5 +371,13 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function injectDependencies(object:*):*;
+
+		/**
+		 * Increases pool capacity/
+		 * @param type Type of pool
+		 * @param additionalCapacity
+		 * @return
+		 */
+		function increasePoolCapacity(type:Class, additionalCapacity:int):IAppFactory;
 	}
 }

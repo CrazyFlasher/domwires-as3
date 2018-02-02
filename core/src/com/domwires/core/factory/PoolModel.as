@@ -6,7 +6,7 @@ package com.domwires.core.factory
 	internal class PoolModel
 	{
 		private var list:Array = [];
-		private var capacity:int;
+		private var _capacity:int;
 
 		private var currentIndex:int;
 		private var factory:AppFactory;
@@ -14,14 +14,14 @@ package com.domwires.core.factory
 		public function PoolModel(factory:AppFactory, capacity:int)
 		{
 			this.factory = factory;
-			this.capacity = capacity;
+			_capacity = capacity;
 		}
 
 		internal function get(type:Class, args:Array = null, createNewIfNeeded:Boolean = true):*
 		{
 			var instance:*;
 
-			if (list.length < capacity && createNewIfNeeded)
+			if (list.length < _capacity && createNewIfNeeded)
 			{
 				instance = factory.getInstance(type, args, null, true);
 				list.push(instance);
@@ -31,7 +31,7 @@ package com.domwires.core.factory
 
 				currentIndex++;
 
-				if (currentIndex == capacity)
+				if (currentIndex == _capacity)
 				{
 					currentIndex = 0;
 				}
@@ -40,10 +40,25 @@ package com.domwires.core.factory
 			return instance
 		}
 
+		internal function increaseCapacity(value):void
+		{
+			_capacity += value;
+		}
+
 		internal function dispose():void
 		{
 			list = null;
 			factory = null;
+		}
+
+		internal function get capacity():int
+		{
+			return _capacity;
+		}
+
+		internal function get instanceCount():int
+		{
+			return list.length;
 		}
 	}
 }

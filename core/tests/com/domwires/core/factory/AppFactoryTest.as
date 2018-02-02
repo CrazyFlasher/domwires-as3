@@ -447,6 +447,43 @@ package com.domwires.core.factory
 
 			assertEquals(instance, instance2);
 		}
+
+		[Test]
+		public function testGetPoolCapacity():void
+		{
+			factory.registerPool(IPool2, 100);
+
+			var capacity:int = factory.getPoolCapacity(IPool2);
+
+			assertEquals(capacity, 100);
+		}
+
+		[Test]
+		public function testGetPoolTotalInstancesCount():void
+		{
+			factory.mapToType(IPool2, Pool3);
+			factory.registerPool(IPool2, 100);
+
+			for (var i:int = 0; i < 5; i++)
+			{
+				factory.getInstance(IPool2, ["olo", 1.5]);
+			}
+
+			var count:int = factory.getPoolInstanceCount(IPool2);
+
+			assertEquals(count, 5);
+		}
+
+		[Test]
+		public function testExtendPool():void
+		{
+			factory.registerPool(IPool2, 100);
+			factory.increasePoolCapacity(IPool2, 5);
+
+			var capacity:int = factory.getPoolCapacity(IPool2);
+
+			assertEquals(capacity, 105);
+		}
 	}
 }
 

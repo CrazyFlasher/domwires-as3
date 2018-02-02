@@ -63,5 +63,19 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function geInstanceFromPool(type:Class):*;
+
+		/**
+		 * Returns pool capacity/
+		 * @param type
+		 * @return
+		 */
+		function getPoolCapacity(type:Class):int;
+
+		/**
+		 * Returns total count of instances in pool/
+		 * @param type
+		 * @return
+		 */
+		function getPoolInstanceCount(type:Class):int;
 	}
 }

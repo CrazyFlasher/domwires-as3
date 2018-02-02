@@ -321,6 +321,38 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
+		public function increasePoolCapacity(type:Class, additionalCapacity:int):IAppFactory
+		{
+			if (!hasPoolForType(type)) throw new Error("Pool " + type + "is not registered! Call registerPool.");
+
+			pool[type].increaseCapacity(additionalCapacity);
+
+			return this;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function getPoolCapacity(type:Class):int
+		{
+			if (!hasPoolForType(type)) throw new Error("Pool " + type + "is not registered! Call registerPool.");
+
+			return pool[type].capacity;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function getPoolInstanceCount(type:Class):int
+		{
+			if (!hasPoolForType(type)) throw new Error("Pool " + type + "is not registered! Call registerPool.");
+
+			return pool[type].instanceCount;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function getSingleton(type:Class):*
 		{
 			if (!hasPoolForType(type))
