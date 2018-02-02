@@ -40,7 +40,7 @@ package com.domwires.core.factory
 			return instance
 		}
 
-		internal function increaseCapacity(value):void
+		internal function increaseCapacity(value:int):void
 		{
 			_capacity += value;
 		}
