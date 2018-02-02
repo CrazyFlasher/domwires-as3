@@ -56,5 +56,12 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function getSingleton(type:Class):*;
+
+		/**
+		 * Returns instance from pool.
+		 * @param type Type of instance to return
+		 * @return
+		 */
+		function geInstanceFromPool(type:Class):*;
 	}
 }

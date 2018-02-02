@@ -17,11 +17,11 @@ package com.domwires.core.factory
 			this.capacity = capacity;
 		}
 
-		internal function get(type:Class, args:Array = null):*
+		internal function get(type:Class, args:Array = null, createNewIfNeeded:Boolean = true):*
 		{
 			var instance:*;
 
-			if (list.length < capacity)
+			if (list.length < capacity && createNewIfNeeded)
 			{
 				instance = factory.getInstance(type, args, null, true);
 				list.push(instance);

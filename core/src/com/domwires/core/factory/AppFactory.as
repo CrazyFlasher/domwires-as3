@@ -123,6 +123,18 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
+		public function geInstanceFromPool(type:Class):*
+		{
+			var obj:* = getFromPool(type, null, false);
+
+			if (!obj)  throw new Error("There are no objects in pool for [" + type + "]!");
+
+			return obj;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function getInstance(type:Class, constructorArgs:* = null, name:String = null, ignorePool:Boolean = false):*
 		{
 			if (!name)
@@ -138,8 +150,6 @@ package com.domwires.core.factory
 
 			if (!ignorePool && hasPoolForType(type))
 			{
-				//Do not inject dependencies automatically to instance, that is taken from pool.
-				//Call injectDependencies to inject manually.
 				obj = getFromPool(type, constructorArgs);
 			}else
 			{
@@ -275,14 +285,14 @@ package com.domwires.core.factory
 			return this;
 		}
 
-		private function getFromPool(type:Class, constructorArgs:* = null):*
+		private function getFromPool(type:Class, constructorArgs:* = null, createNewIfNeeded:Boolean = true):*
 		{
 			if (!pool[type])
 			{
 				throw new Error("Pool " + type + "is not registered! Call registerPool.");
 			}
 
-			return pool[type].get(type, constructorArgs);
+			return pool[type].get(type, constructorArgs, createNewIfNeeded);
 		}
 
 		/**

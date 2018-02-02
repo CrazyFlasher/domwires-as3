@@ -435,6 +435,18 @@ package com.domwires.core.factory
 			var p1:IPool = factory.getInstance(IPool);
 			assertEquals(p1.value,  6);
 		}
+
+		[Test]
+		public function testGetInstanceFromNotFullPool():void
+		{
+			factory.mapToType(IPool2, Pool3);
+			factory.registerPool(IPool2, 100);
+
+			var instance:IPool2 = factory.getInstance(IPool2, ["olo", 1.5]);
+			var instance2:IPool2 = factory.geInstanceFromPool(IPool2);
+
+			assertEquals(instance, instance2);
+		}
 	}
 }
 
