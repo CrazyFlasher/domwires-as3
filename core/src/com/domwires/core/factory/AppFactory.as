@@ -123,11 +123,11 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function geInstanceFromPool(type:Class):*
+		public function getInstanceFromPool(type:Class):*
 		{
 			var obj:* = getFromPool(type, null, false);
 
-			if (!obj)  throw new Error("There are no objects in pool for [" + type + "]!");
+			if (!obj)  throw new Error("There are no objects in pool for " + type + "!");
 
 			return obj;
 		}

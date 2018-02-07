@@ -62,7 +62,7 @@ package com.domwires.core.factory
 		 * @param type Type of instance to return
 		 * @return
 		 */
-		function geInstanceFromPool(type:Class):*;
+		function getInstanceFromPool(type:Class):*;
 
 		/**
 		 * Returns pool capacity/

@@ -31,7 +31,7 @@ package com.domwires.core.factory
 
 				currentIndex++;
 
-				if (currentIndex == _capacity)
+				if (currentIndex == _capacity || currentIndex == list.length)
 				{
 					currentIndex = 0;
 				}

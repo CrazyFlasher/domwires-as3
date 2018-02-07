@@ -443,7 +443,7 @@ package com.domwires.core.factory
 			factory.registerPool(IPool2, 100);
 
 			var instance:IPool2 = factory.getInstance(IPool2, ["olo", 1.5]);
-			var instance2:IPool2 = factory.geInstanceFromPool(IPool2);
+			var instance2:IPool2 = factory.getInstanceFromPool(IPool2);
 
 			assertEquals(instance, instance2);
 		}
@@ -483,6 +483,26 @@ package com.domwires.core.factory
 			var capacity:int = factory.getPoolCapacity(IPool2);
 
 			assertEquals(capacity, 105);
+		}
+
+		[Test]
+		public function testGetInstanceFromPool():void
+		{
+			factory.mapToType(IPool2, Pool3);
+			factory.registerPool(IPool2, 10);
+
+			var instance_1:IPool2 = factory.getInstance(IPool2, ["olo", 1.5]);
+			var instance_2:IPool2 = factory.getInstance(IPool2, ["olo", 1.5]);
+
+			var instanceFromPool:IPool2;
+			instanceFromPool = factory.getInstanceFromPool(IPool2);
+			assertEquals(instanceFromPool, instance_1);
+
+			instanceFromPool = factory.getInstanceFromPool(IPool2);
+			assertEquals(instanceFromPool, instance_2);
+
+			instanceFromPool = factory.getInstanceFromPool(IPool2);
+			assertEquals(instanceFromPool, instance_1);
 		}
 	}
 }
