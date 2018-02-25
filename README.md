@@ -19,7 +19,7 @@ Flexible and extensible MVC framework.
 <dependency>
   <groupId>com.domwires</groupId>
   <artifactId>core</artifactId>
-  <version>0.9.8-SNAPSHOT</version>
+  <version>0.9.9-SNAPSHOT</version>
   <type>swc</type>
 </dependency>
 ```
