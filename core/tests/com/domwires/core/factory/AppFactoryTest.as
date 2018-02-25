@@ -11,6 +11,9 @@ package com.domwires.core.factory
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
+	import testObject.IMyPool;
+	import testObject.MyPool;
+
 	public class AppFactoryTest
 	{
 		private var factory:IAppFactory;
@@ -503,6 +506,17 @@ package com.domwires.core.factory
 
 			instanceFromPool = factory.getInstanceFromPool(IPool2);
 			assertEquals(instanceFromPool, instance_1);
+		}
+
+		[Test]
+		public function testOfPoolObjectsAreUnique():void
+		{
+			factory.registerPool(IMyPool, 2, true);
+
+			var o1:IMyPool = factory.getInstance(IMyPool);
+			var o2:IMyPool = factory.getInstance(IMyPool);
+
+			assertFalse(o1 == o2);
 		}
 	}
 }

@@ -171,7 +171,7 @@ package com.domwires.core.factory
 				}else
 				{
 					//in case of getNewInstance returned null, try again using default implementation.
-					obj = getInstance(type, constructorArgs);
+					obj = getInstance(type, constructorArgs, name, ignorePool);
 				}
 			}
 
