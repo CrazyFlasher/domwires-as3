@@ -244,6 +244,8 @@ package com.domwires.core.mvc.context
 		 */
 		override public function disposeWithAllChildren():void
 		{
+			commandMapper.dispose();
+
 			nullifyDependencies();
 
 			super.disposeWithAllChildren();

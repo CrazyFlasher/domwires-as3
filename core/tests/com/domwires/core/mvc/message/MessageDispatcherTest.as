@@ -161,5 +161,15 @@ package com.domwires.core.mvc.message
 			assertTrue(a);
 			assertTrue(b);
 		}
+
+		//Expecting no errors
+		[Test]
+		public function testCallBackWithoutMessageArgument():void
+		{
+			d.addMessageListener(MyCoolEnum.PREVED, handler);
+			d.dispatchMessage(MyCoolEnum.PREVED);
+		}
+
+		private function handler():void {}
 	}
 }

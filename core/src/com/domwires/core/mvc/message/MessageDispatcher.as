@@ -176,7 +176,7 @@ package com.domwires.core.mvc.message
 					var listener:Function;
 					for each (listener in _messageMap[message.type])
 					{
-						listener(message);
+						listener.length > 0 ? listener(message) : listener();
 					}
 				}
 			}
