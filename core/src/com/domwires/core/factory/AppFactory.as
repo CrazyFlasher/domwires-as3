@@ -259,7 +259,7 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
-		public function registerPool(type:Class, capacity:uint = 5, instantiateNow:Boolean = false, constructorArgs:* = null):IAppFactory
+		public function registerPool(type:Class, capacity:uint = 5, instantiateNow:Boolean = false, constructorArgs:* = null, isBusyFlagGetterName:String = null):IAppFactory
 		{
 			if (capacity == 0)
 			{
@@ -271,7 +271,7 @@ package com.domwires.core.factory
 				log("Pool " + type + " already registered! Call unregisterPool before.");
 			}else
 			{
-				pool[type] = new PoolModel(this, capacity);
+				pool[type] = new PoolModel(this, capacity, isBusyFlagGetterName);
 
 				if (instantiateNow)
 				{

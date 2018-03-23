@@ -10,11 +10,13 @@ package com.domwires.core.factory
 
 		private var currentIndex:int;
 		private var factory:AppFactory;
+		private var isBusyFlagGetterName:String;
 
-		public function PoolModel(factory:AppFactory, capacity:int)
+		public function PoolModel(factory:AppFactory, capacity:int, isBusyFlagGetterName:String)
 		{
 			this.factory = factory;
 			_capacity = capacity;
+			this.isBusyFlagGetterName = isBusyFlagGetterName;
 		}
 
 		internal function get(type:Class, args:Array = null, createNewIfNeeded:Boolean = true):*
@@ -34,6 +36,11 @@ package com.domwires.core.factory
 				if (currentIndex == _capacity || currentIndex == list.length)
 				{
 					currentIndex = 0;
+				}
+
+				if (isBusyFlagGetterName != null && instance[isBusyFlagGetterName] == true)
+				{
+					return get(type, args, createNewIfNeeded);
 				}
 			}
 

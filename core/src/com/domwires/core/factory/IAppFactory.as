@@ -317,10 +317,12 @@ package com.domwires.core.factory
 		 * @param capacity Maximum objects of current type in pool
 		 * @param instantiateNow Create instances immediately
 		 * @param constructorArgs Constructor arguments, in case <code>instantiateNow</code> is true.
+		 * @param isBusyFlagGetterName The name of public getter. If specified, then this method will be called, to check if current
+		 * object can be re-used right now. If specified and returns true, then next item of pool will be checked.
 		 * Can be any type. Use Array, if need to pass several args.
 		 * @return
 		 */
-		function registerPool(type:Class, capacity:uint = 5, instantiateNow:Boolean = false, constructorArgs:* = null):IAppFactory;
+		function registerPool(type:Class, capacity:uint = 5, instantiateNow:Boolean = false, constructorArgs:* = null, isBusyFlagGetterName:String = null):IAppFactory;
 
 		/**
 		 * Unregisters and disposes pool for provided type.

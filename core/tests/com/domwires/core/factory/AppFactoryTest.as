@@ -11,6 +11,8 @@ package com.domwires.core.factory
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
+	import testObject.BusyPoolObject;
+
 	import testObject.IMyPool;
 	import testObject.MyPool;
 
@@ -516,6 +518,21 @@ package com.domwires.core.factory
 			var o1:IMyPool = factory.getInstance(IMyPool);
 			var o2:IMyPool = factory.getInstance(IMyPool);
 
+			assertFalse(o1 == o2);
+		}
+
+		[Test]
+		public function testReturnOnlyNotBusyObjectsFromPool():void
+		{
+			factory.registerPool(BusyPoolObject, 2, true, null, "isBusy");
+
+			var o1:BusyPoolObject = factory.getInstance(BusyPoolObject);
+			o1.isBusy = true;
+
+			factory.getInstance(BusyPoolObject);
+
+			var o2:BusyPoolObject = factory.getInstance(BusyPoolObject);
+			assertFalse(o2.isBusy);
 			assertFalse(o1 == o2);
 		}
 	}
