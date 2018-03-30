@@ -54,9 +54,9 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):MappingConfig
+		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfig
 		{
-			var mappingConfig:MappingConfig = new MappingConfig(commandClass, data, once);
+			var mappingConfig:MappingConfig = new MappingConfig(commandClass, data, once, stopOnExecute);
 			if (!commandMap[messageType])
 			{
 				commandMap[messageType] = new <MappingConfig>[mappingConfig];
@@ -72,14 +72,14 @@ package com.domwires.core.mvc.command
 		 * @inheritDoc
 		 */
 		public function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
-							 once:Boolean = false):MappingConfigList
+							 once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
 			var commandClass:Class;
 			var mappingConfigList:MappingConfigList = new MappingConfigList();
 
 			for each (commandClass in commandClassList)
 			{
-				mappingConfigList.push(map(messageType, commandClass, data, once));
+				mappingConfigList.push(map(messageType, commandClass, data, once, stopOnExecute));
 			}
 
 			return mappingConfigList;
@@ -89,14 +89,14 @@ package com.domwires.core.mvc.command
 		 * @inheritDoc
 		 */
 		public function map2(messageTypeList:Vector.<Enum>, commandClass:Class,
-							 data:Object = null, once:Boolean = false):MappingConfigList
+							 data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
 			var messageType:Enum;
 			var mappingConfigList:MappingConfigList = new MappingConfigList();
 
 			for each (messageType in messageTypeList)
 			{
-				mappingConfigList.push(map(messageType, commandClass, data, once));
+				mappingConfigList.push(map(messageType, commandClass, data, once, stopOnExecute));
 			}
 
 			return mappingConfigList;
@@ -106,7 +106,7 @@ package com.domwires.core.mvc.command
 		 * @inheritDoc
 		 */
 		public function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
-							 data:Object = null, once:Boolean = false):MappingConfigList
+							 data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
 			var commandClass:Class;
 			var messageType:Enum;
@@ -116,7 +116,7 @@ package com.domwires.core.mvc.command
 			{
 				for each (messageType in messageTypeList)
 				{
-					mappingConfigList.push(map(messageType, commandClass, data, once));
+					mappingConfigList.push(map(messageType, commandClass, data, once, stopOnExecute));
 				}
 			}
 
@@ -194,6 +194,10 @@ package com.domwires.core.mvc.command
 						if (mappingVo.once)
 						{
 							unmap(messageType, commandClass);
+						}
+						if (mappingVo.stopOnExecute)
+						{
+							break;
 						}
 					}
 				}

@@ -24,24 +24,25 @@ package com.domwires.core.mvc.command
 		 * 			   If command executed via message, and message contains data object, data specified in map method will be
 		 *			   overridden by <code>IMessage</code> data
 		 * @param once Messaged will be automatically unmapped, after command execution
+		 * @param stopOnExecute If true, <code>ICommandMapper</code> will stop executing other commands mapped to current message
 		 * @return
 		 */
-		function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):MappingConfig;
+		function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfig;
 
 		/**
 		 * @see #map
 		 */
-		function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):MappingConfigList;
+		function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList;
 
 		/**
 		 * @see #map
 		 */
-		function map2(messageTypeList:Vector.<Enum>, commandClass:Class, data:Object = null, once:Boolean = false):MappingConfigList;
+		function map2(messageTypeList:Vector.<Enum>, commandClass:Class, data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList;
 
 		/**
 		 * @see #map
 		 */
-		function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false):MappingConfigList;
+		function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>, data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList;
 
 		/**
 		 * Unmaps message from command.

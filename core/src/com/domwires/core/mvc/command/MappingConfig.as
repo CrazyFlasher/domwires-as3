@@ -9,12 +9,14 @@ package com.domwires.core.mvc.command
 		private var _data:Object;
 		private var _once:Boolean;
 		private var _guardList:Vector.<Class>;
+		private var _stopOnExecute:Boolean;
 
-		public function MappingConfig(commandClass:Class, data:Object, once:Boolean)
+		public function MappingConfig(commandClass:Class, data:Object, once:Boolean, stopOnExecute:Boolean = false)
 		{
 			_commandClass = commandClass;
 			_data = data;
 			_once = once;
+			_stopOnExecute = stopOnExecute;
 		}
 
 		/**
@@ -52,6 +54,11 @@ package com.domwires.core.mvc.command
 		internal function get guardList():Vector.<Class>
 		{
 			return _guardList;
+		}
+
+		public function get stopOnExecute():Boolean
+		{
+			return _stopOnExecute;
 		}
 	}
 }

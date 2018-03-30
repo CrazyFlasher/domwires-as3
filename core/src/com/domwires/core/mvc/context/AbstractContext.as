@@ -311,7 +311,7 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false):MappingConfig
+		public function map(messageType:Enum, commandClass:Class, data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfig
 		{
 			checkIfDisposed();
 
@@ -319,7 +319,7 @@ package com.domwires.core.mvc.context
 		}
 
 		public function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
-							 once:Boolean = false):MappingConfigList
+							 once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
 			checkIfDisposed();
 
@@ -327,7 +327,7 @@ package com.domwires.core.mvc.context
 		}
 
 		public function map2(messageTypeList:Vector.<Enum>, commandClass:Class,
-							 data:Object = null, once:Boolean = false):MappingConfigList
+							 data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
 			checkIfDisposed();
 
@@ -335,7 +335,7 @@ package com.domwires.core.mvc.context
 		}
 
 		public function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
-							 data:Object = null, once:Boolean = false):MappingConfigList
+							 data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
 			checkIfDisposed();
 

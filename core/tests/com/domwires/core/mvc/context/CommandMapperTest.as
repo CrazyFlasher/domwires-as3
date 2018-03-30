@@ -257,6 +257,18 @@ package com.domwires.core.mvc.context
 			commandMapper.executeCommand(VoTestCommand, vo);
 			assertEquals(m.s, "test");
 		}
+
+		[Test]
+		public function testStopOnExecute():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			factory.mapToValue(String, "test", "olo");
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand, null, false, true);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand4);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			assertFalse(m.s == "test");
+		}
 	}
 }
 
