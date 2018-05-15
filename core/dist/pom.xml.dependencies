@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-dependencies" default="init-dependencies">
+<target name="init-dependencies">
+    <echo level="info" message="Loading dependency paths from file: C:\Users\Kirill\Desktop\coding_stuff\PracticeWork\domwires-as3-master\core\dist\pom.xml.dependencies"/>
+    <property name="org.apache:flexunit:zip" value="C:\Users\Kirill\.m2\repository\org\apache\flexunit\4.2.0\flexunit-4.2.0.zip"/>
+    <fileset id="org.apache:flexunit:zip" dir="C:\Users\Kirill\.m2\repository\org\apache\flexunit\4.2.0">
+      <include name="flexunit-4.2.0.zip"/>
+    </fileset>
+    <property name="com.domwires:builder:xml" value="C:\Users\Kirill\.m2\repository\com\domwires\builder\0.9.1-SNAPSHOT\builder-0.9.1-SNAPSHOT.xml"/>
+    <fileset id="com.domwires:builder:xml" dir="C:\Users\Kirill\.m2\repository\com\domwires\builder\0.9.1-SNAPSHOT">
+      <include name="builder-0.9.1-SNAPSHOT.xml"/>
+    </fileset>
+    <property name="com.crazyfm.tools:flashDep:jar" value="C:\Users\Kirill\.m2\repository\com\crazyfm\tools\flashDep\0.1.0\flashDep-0.1.0.jar"/>
+    <fileset id="com.crazyfm.tools:flashDep:jar" dir="C:\Users\Kirill\.m2\repository\com\crazyfm\tools\flashDep\0.1.0">
+      <include name="flashDep-0.1.0.jar"/>
+    </fileset>
+    <path id="pom.xml.path">
+      <pathelement path="C:\Users\Kirill\.m2\repository\org\apache\flexunit\4.2.0\flexunit-4.2.0.zip"/>
+      <pathelement path="C:\Users\Kirill\.m2\repository\com\domwires\builder\0.9.1-SNAPSHOT\builder-0.9.1-SNAPSHOT.xml"/>
+      <pathelement path="C:\Users\Kirill\.m2\repository\com\crazyfm\tools\flashDep\0.1.0\flashDep-0.1.0.jar"/>
+    </path>
+    <fileset id="pom.xml.fileset" dir="C:\Users\Kirill\.m2\repository">
+      <include name="com\crazyfm\tools\flashDep\0.1.0\flashDep-0.1.0.jar"/>
+      <include name="com\domwires\builder\0.9.1-SNAPSHOT\builder-0.9.1-SNAPSHOT.xml"/>
+      <include name="org\apache\flexunit\4.2.0\flexunit-4.2.0.zip"/>
+    </fileset>
+  </target>
+</project>

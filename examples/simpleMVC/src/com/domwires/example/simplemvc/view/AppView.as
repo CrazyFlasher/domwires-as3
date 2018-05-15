@@ -29,10 +29,7 @@ package com.domwires.example.simplemvc.view
 		private var firstNameLabel:Label;
 		private var lastNameLabel:Label;
 		private var ageLabel:Label;
-<<<<<<< HEAD
 		private var countryLabel:Label;
-=======
->>>>>>> 06cb5a62b2360c973453b9b79d2eba0c61d11bec
 
 		[PostConstruct]
 		public function init():void
@@ -46,20 +43,15 @@ package com.domwires.example.simplemvc.view
 			firstNameLabel = createForm("First name:", layoutGroup, onFirstNameClicked);
 			lastNameLabel = createForm("Last name:", layoutGroup, onLastNameClicked);
 			ageLabel = createForm("Age:", layoutGroup, onAgeClicked);
-<<<<<<< HEAD
 			countryLabel = createForm("Country:", layoutGroup, onCountryClicked);
-=======
->>>>>>> 06cb5a62b2360c973453b9b79d2eba0c61d11bec
 
 			viewContainer.addChild(layoutGroup);
 
 			addMessageListener(AppModelMessage.FIRST_NAME_CHANGED, firstNameChanged);
 			addMessageListener(AppModelMessage.LAST_NAME_CHANGED, lastNameChanged);
 			addMessageListener(AppModelMessage.AGE_CHANGED, ageNameChanged);
-<<<<<<< HEAD
 			addMessageListener(AppModelMessage.COUNTRY_CHANGED, CountryNameChanged);
-=======
->>>>>>> 06cb5a62b2360c973453b9b79d2eba0c61d11bec
+
 		}
 
 		private function ageNameChanged(m:IMessage):void
@@ -76,14 +68,11 @@ package com.domwires.example.simplemvc.view
 		{
 			firstNameLabel.text = model.firstName;
 		}
-<<<<<<< HEAD
 		
 		private function CountryNameChanged(m:IMessage):void
 		{
 			countryLabel.text = model.country.toString();
 		}
-=======
->>>>>>> 06cb5a62b2360c973453b9b79d2eba0c61d11bec
 
 		private function createForm(label:String, group:LayoutGroup, onClick:Function):Label
 		{
@@ -126,13 +115,10 @@ package com.domwires.example.simplemvc.view
 		{
 			dispatchMessage(AppViewMessage.AGE_CLICKED, null, true);
 		}
-<<<<<<< HEAD
 		
 		private function onCountryClicked():void
 		{
 			dispatchMessage(AppViewMessage.COUNTRY_CLICKED, null, true);
 		}
-=======
->>>>>>> 06cb5a62b2360c973453b9b79d2eba0c61d11bec
 	}
 }
