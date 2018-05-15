@@ -11,6 +11,10 @@ package com.domwires.example.simplemvc.context
 	import com.domwires.example.simplemvc.commands.GenerateAgeCommand;
 	import com.domwires.example.simplemvc.commands.GenerateFirstNameCommand;
 	import com.domwires.example.simplemvc.commands.GenerateLastNameCommand;
+<<<<<<< HEAD
+	import com.domwires.example.simplemvc.commands.GenerateCountryCommand;
+=======
+>>>>>>> 06cb5a62b2360c973453b9b79d2eba0c61d11bec
 	import com.domwires.example.simplemvc.model.AppModel;
 	import com.domwires.example.simplemvc.model.IAppModel;
 	import com.domwires.example.simplemvc.model.IAppModelImmutable;
@@ -55,6 +59,10 @@ package com.domwires.example.simplemvc.context
 			map(AppViewMessage.FIRST_NAME_CLICKED, GenerateFirstNameCommand);
 			map(AppViewMessage.LAST_NAME_CLICKED, GenerateLastNameCommand);
 			map(AppViewMessage.AGE_CLICKED, GenerateAgeCommand);
+<<<<<<< HEAD
+			map(AppViewMessage.COUNTRY_CLICKED, GenerateCountryCommand);
+=======
+>>>>>>> 06cb5a62b2360c973453b9b79d2eba0c61d11bec
 		}
 	}
 }
