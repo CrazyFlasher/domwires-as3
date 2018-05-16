@@ -50,7 +50,7 @@ package com.domwires.example.simplemvc.view
 			addMessageListener(AppModelMessage.FIRST_NAME_CHANGED, firstNameChanged);
 			addMessageListener(AppModelMessage.LAST_NAME_CHANGED, lastNameChanged);
 			addMessageListener(AppModelMessage.AGE_CHANGED, ageNameChanged);
-			addMessageListener(AppModelMessage.COUNTRY_CHANGED, CountryNameChanged);
+			addMessageListener(AppModelMessage.COUNTRY_CHANGED, сountryNameChanged);
 
 		}
 
@@ -69,7 +69,7 @@ package com.domwires.example.simplemvc.view
 			firstNameLabel.text = model.firstName;
 		}
 		
-		private function CountryNameChanged(m:IMessage):void
+		private function сountryNameChanged(m:IMessage):void
 		{
 			countryLabel.text = model.country.toString();
 		}
