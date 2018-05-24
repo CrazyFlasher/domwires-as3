@@ -10,6 +10,7 @@ package com.domwires.example.simplemvc.view
 		public static const FIRST_NAME_CLICKED:AppViewMessage = new AppViewMessage("FIRST_NAME_CLICKED");
 		public static const LAST_NAME_CLICKED:AppViewMessage = new AppViewMessage("LAST_NAME_CLICKED");
 		public static const AGE_CLICKED:AppViewMessage = new AppViewMessage("AGE_CLICKED");
+		public static const COUNTRY_CLICKED:AppViewMessage = new AppViewMessage("COUNTRY_CLICKED");
 
 		public function AppViewMessage(name:String)
 		{

@@ -10,5 +10,6 @@ package com.domwires.example.simplemvc.model
 		function get firstName():String;
 		function get lastName():String;
 		function get age():int;
+		function get country():int;
 	}
 }

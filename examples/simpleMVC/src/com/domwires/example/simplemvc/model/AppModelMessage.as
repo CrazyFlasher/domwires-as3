@@ -10,6 +10,8 @@ package com.domwires.example.simplemvc.model
 		public static const FIRST_NAME_CHANGED:AppModelMessage = new AppModelMessage("FIRST_NAME_CHANGED");
 		public static const LAST_NAME_CHANGED:AppModelMessage = new AppModelMessage("LAST_NAME_CHANGED");
 		public static const AGE_CHANGED:AppModelMessage = new AppModelMessage("AGE_CHANGED");
+		public static const COUNTRY_CHANGED:AppModelMessage = new AppModelMessage("COUNTRY_CHANGED");
+
 
 		public function AppModelMessage(name:String)
 		{

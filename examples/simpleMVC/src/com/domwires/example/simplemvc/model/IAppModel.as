@@ -11,5 +11,6 @@ package com.domwires.example.simplemvc.model
 		function setFirstName(value:String):IAppModel;
 		function setLastName(value:String):IAppModel;
 		function setAge(value:int):IAppModel;
+		function setCountry(value:int):IAppModel;
 	}
 }
