@@ -79,7 +79,8 @@ package com.domwires.core.mvc.command
 
 			for each (commandClass in commandClassList)
 			{
-				mappingConfigList.push(map(messageType, commandClass, data, once, stopOnExecute));
+				var soe:Boolean = stopOnExecute && commandClassList.indexOf(commandClass) == commandClassList.length - 1;
+				mappingConfigList.push(map(messageType, commandClass, data, once, soe));
 			}
 
 			return mappingConfigList;
@@ -96,7 +97,8 @@ package com.domwires.core.mvc.command
 
 			for each (messageType in messageTypeList)
 			{
-				mappingConfigList.push(map(messageType, commandClass, data, once, stopOnExecute));
+				var soe:Boolean = stopOnExecute && messageTypeList.indexOf(messageType) == messageTypeList.length - 1;
+				mappingConfigList.push(map(messageType, commandClass, data, once, soe));
 			}
 
 			return mappingConfigList;
@@ -116,7 +118,11 @@ package com.domwires.core.mvc.command
 			{
 				for each (messageType in messageTypeList)
 				{
-					mappingConfigList.push(map(messageType, commandClass, data, once, stopOnExecute));
+					var soe:Boolean = stopOnExecute
+							&& messageTypeList.indexOf(messageType) == messageTypeList.length - 1
+							&& commandClassList.indexOf(commandClass) == commandClassList.length - 1;
+
+					mappingConfigList.push(map(messageType, commandClass, data, once, soe));
 				}
 			}
 
