@@ -315,7 +315,7 @@ package com.domwires.core.mvc.context
 		{
 			checkIfDisposed();
 
-			return commandMapper.map(messageType, commandClass, data, once);
+			return commandMapper.map(messageType, commandClass, data, once, stopOnExecute);
 		}
 
 		public function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
@@ -323,7 +323,7 @@ package com.domwires.core.mvc.context
 		{
 			checkIfDisposed();
 
-			return commandMapper.map1(messageType, commandClassList, data, once);
+			return commandMapper.map1(messageType, commandClassList, data, once, stopOnExecute);
 		}
 
 		public function map2(messageTypeList:Vector.<Enum>, commandClass:Class,
@@ -331,7 +331,7 @@ package com.domwires.core.mvc.context
 		{
 			checkIfDisposed();
 
-			return commandMapper.map2(messageTypeList, commandClass, data, once);
+			return commandMapper.map2(messageTypeList, commandClass, data, once, stopOnExecute);
 		}
 
 		public function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
@@ -339,7 +339,7 @@ package com.domwires.core.mvc.context
 		{
 			checkIfDisposed();
 
-			return commandMapper.map3(messageTypeList, commandClassList, data, once);
+			return commandMapper.map3(messageTypeList, commandClassList, data, once, stopOnExecute);
 		}
 
 		/**

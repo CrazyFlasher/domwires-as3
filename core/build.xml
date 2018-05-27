@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <project name="domwires-core" basedir="." default="package">
     <property name="flexunit.version" value="4.2.0"/>
-    <property name="swf-version" value="39"/>
-    <property name="target-player" value="28"/>
+    <property name="swf-version" value="40"/>
+    <property name="target-player" value="29"/>
 
     <property name="swc_name" value="dw-core.swc"/>
 

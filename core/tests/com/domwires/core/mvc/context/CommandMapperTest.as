@@ -264,10 +264,10 @@ package com.domwires.core.mvc.context
 			var m:TestObj1 = factory.getInstance(TestObj1);
 			factory.mapToValue(TestObj1, m);
 			factory.mapToValue(String, "test", "olo");
-			commandMapper.map(MyCoolEnum.BOGA, TestCommand, null, false, true);
-			commandMapper.map(MyCoolEnum.BOGA, TestCommand4);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand4, null, false, true);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
-			assertFalse(m.s == "test");
+			assertEquals(m.d, 0);
 		}
 	}
 }

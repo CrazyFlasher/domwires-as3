@@ -10,7 +10,12 @@ package com.domwires.core.mvc.context
 	import com.domwires.core.mvc.view.AbstractView;
 
 	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
+
+	import testObject.MyCoolEnum;
+
+	import testObject.TestObj1;
 
 	public class AbstractContextTest
 	{
@@ -108,9 +113,22 @@ package com.domwires.core.mvc.context
 			c2.ready();
 			assertEquals(c.getTestModel().testVar, 2);
 		}
+
+		[Test]
+		public function testStopOnExecute():void
+		{
+			var m:TestObj1 = f.getInstance(TestObj1);
+			f.mapToValue(TestObj1, m);
+			f.mapToValue(String, "test", "olo");
+			c.map(MyCoolEnum.BOGA, TestCommand5, null, false, true);
+			c.map(MyCoolEnum.BOGA, TestCommand6);
+			c.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			assertEquals(m.d, 0);
+		}
 	}
 }
 
+import com.domwires.core.common.Enum;
 import com.domwires.core.mvc.command.AbstractCommand;
 import com.domwires.core.mvc.context.AbstractContext;
 import com.domwires.core.mvc.context.ITestCommand;
@@ -120,6 +138,32 @@ import com.domwires.core.mvc.model.AbstractModel;
 import com.domwires.core.mvc.view.AbstractView;
 
 import testObject.MyCoolEnum;
+import testObject.TestObj1;
+
+internal class TestCommand5 extends AbstractCommand
+{
+	[Autowired]
+	public var obj:TestObj1;
+
+	[Autowired(name="olo", optional="true")]
+	public var olo:String;
+
+	override public function execute():void
+	{
+		obj.s = olo;
+	}
+}
+
+internal class TestCommand6 extends AbstractCommand
+{
+	[Autowired]
+	public var obj:TestObj1;
+
+	override public function execute():void
+	{
+		obj.d += 7;
+	}
+}
 
 /////////////////////////
 internal class ParentContext2 extends AbstractContext
@@ -458,5 +502,62 @@ internal class TestContext3 extends AbstractContext
 
 		//to pass message to parent context
 		return true;
+	}
+}
+
+internal class MyMessage implements IMessage
+{
+	internal var _type:Enum;
+	internal var _data:Object;
+	internal var _bubbles:Boolean;
+	internal var _target:Object;
+	internal var _previousTarget:Object;
+
+	private var _currentTarget:Object;
+
+	public function MyMessage(type:Enum, data:Object = null, bubbles:Boolean = true)
+	{
+		_type = type;
+		_data = data;
+		_bubbles = bubbles;
+	}
+
+	internal function setCurrentTarget(value:Object):Object
+	{
+		_previousTarget = _currentTarget;
+
+		_currentTarget = value;
+
+		return _currentTarget;
+	}
+
+	public function get type():Enum
+	{
+		return _type;
+	}
+
+	public function get data():Object
+	{
+		return _data;
+	}
+
+	public function get bubbles():Boolean
+	{
+		return _bubbles;
+	}
+
+	public function get target():Object
+	{
+		return _target;
+	}
+
+	public function get currentTarget():Object
+	{
+		return _currentTarget;
+	}
+
+	public function get previousTarget():Object
+	{
+		return _previousTarget;
 	}
 }
