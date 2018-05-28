@@ -576,7 +576,14 @@ package com.domwires.core.factory
 
 		private static function getId(type:Class, name:String):String
 		{
-			return getQualifiedClassName(type) + (!name ? "" : "$" + name);
+			var id:String = getQualifiedClassName(type);
+
+			if (name != null)
+			{
+				id += "$" + name;
+			}
+
+			return id;
 		}
 
 		/**
