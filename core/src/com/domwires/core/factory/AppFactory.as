@@ -578,7 +578,7 @@ package com.domwires.core.factory
 		{
 			var id:String = getQualifiedClassName(type);
 
-			if (name != null)
+			if (name)
 			{
 				id += "$" + name;
 			}
