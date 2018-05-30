@@ -68,8 +68,9 @@ package com.domwires.core.mvc.command
 			if (!commandMap[messageType])
 			{
 				commandMap[messageType] = new <MappingConfig>[mappingConfig];
-			}else
-			if (!mappingListContains(commandMap[messageType], commandClass)){
+			} else
+			if (!mappingListContains(commandMap[messageType], commandClass))
+			{
 				commandMap[messageType].push(mappingConfig);
 			}
 
@@ -144,7 +145,8 @@ package com.domwires.core.mvc.command
 			{
 				if (mappingVo.commandClass == commandClass)
 				{
-					return mappingVo;
+					var hasGuards:Boolean = mappingVo.guardList && mappingVo.guardList.length > 0;
+					return hasGuards ? null : mappingVo;
 				}
 			}
 
@@ -232,6 +234,8 @@ package com.domwires.core.mvc.command
 			var guardClass:Class;
 			var guards:IGuards;
 
+			var guardsAllow:Boolean = true;
+
 			for each (guardClass in guardList)
 			{
 				if (data != null)
@@ -247,23 +251,24 @@ package com.domwires.core.mvc.command
 					mapValues(data, false);
 				}
 
+				if (_verbose)
+				{
+					log("Guards '" + getQualifiedClassName(guardClass) + "' allow: " + guards.allows);
+				}
+
 				if (!guards.allows)
 				{
 					if (_verbose)
 					{
-						log("Guards '" + getQualifiedClassName(guardClass) + "' allow: false");
+						guardsAllow = false;
+					} else
+					{
+						return false;
 					}
-
-					return false;
 				}
 			}
 
-			if (_verbose)
-			{
-				log("Guards '" + getQualifiedClassName(guardClass) + "' allow: true");
-			}
-
-			return true;
+			return guardsAllow;
 		}
 
 		/**
