@@ -4,6 +4,7 @@
 package com.domwires.core.mvc.command
 {
 	import avmplus.DescribeTypeJSON;
+	import avmplus.getQualifiedClassName;
 
 	import com.domwires.core.common.AbstractDisposable;
 	import com.domwires.core.common.Enum;
@@ -28,6 +29,8 @@ package com.domwires.core.mvc.command
 
 		private var commandMap:Dictionary/*Enum, Vector.<MappingVo>*/ = new Dictionary();
 
+		private var _verbose:Boolean;
+
 		/**
 		 * @inheritDoc
 		 */
@@ -49,6 +52,11 @@ package com.domwires.core.mvc.command
 		public function init():void
 		{
 			factory.mapToValue(ICommandMapper, this);
+		}
+
+		public function set verbose(value:Boolean):void
+		{
+			_verbose = value;
 		}
 
 		/**
@@ -192,9 +200,18 @@ package com.domwires.core.mvc.command
 				for each (mappingVo in mappedToMessageCommands)
 				{
 					injectionData = message.data == null ? mappingVo.data : message.data;
+					commandClass = mappingVo.commandClass;
+
+					if (_verbose)
+					{
+						if (mappingVo.guardList)
+						{
+							log("Checking guards for '" + getQualifiedClassName(commandClass) + "'");
+						}
+					}
+
 					if (!mappingVo.guardList || (mappingVo.guardList && guardsAllow(mappingVo.guardList, injectionData)))
 					{
-						commandClass = mappingVo.commandClass;
 						executeCommand(commandClass, injectionData);
 
 						if (mappingVo.once)
@@ -232,8 +249,18 @@ package com.domwires.core.mvc.command
 
 				if (!guards.allows)
 				{
+					if (_verbose)
+					{
+						log("Guards '" + getQualifiedClassName(guardClass) + "' allow: false");
+					}
+
 					return false;
 				}
+			}
+
+			if (_verbose)
+			{
+				log("Guards '" + getQualifiedClassName(guardClass) + "' allow: true");
 			}
 
 			return true;

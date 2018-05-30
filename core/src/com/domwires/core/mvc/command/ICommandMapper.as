@@ -77,5 +77,11 @@ package com.domwires.core.mvc.command
 		 * @param data Plain data object, which properties will be injected into <code>ICommand</code>
 		 */
 		function executeCommand(commandClass:Class, data:Object = null):void;
+
+		/**
+		 * Prints out extra information to logs.
+		 * Useful for debugging, but leaks performance.
+		 */
+		function set verbose(value:Boolean):void;
 	}
 }

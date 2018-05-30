@@ -372,7 +372,8 @@ package com.domwires.core.factory
 			{
 				unregisterPool(type);
 			}else
-			if (_verbose){
+			if (_verbose)
+			{
 				log(type + " is not registered as singleton!");
 			}
 
@@ -619,7 +620,10 @@ package com.domwires.core.factory
 					if(d.implementation){
 						c = getDefinitionByName(d.implementation) as Class;
 
-						log("Mapping '" + interfaceDefinition + "' to '" + c + "'");
+						if (_verbose)
+						{
+							log("Mapping '" + interfaceDefinition + "' to '" + c + "'");
+						}
 
 						mapToType(i, c);
 					}

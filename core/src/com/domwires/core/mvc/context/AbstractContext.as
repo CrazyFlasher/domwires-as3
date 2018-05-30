@@ -84,6 +84,11 @@ package com.domwires.core.mvc.context
 			commandMapper = factory.getInstance(CommandMapper);
 		}
 
+		public function set verbose(value:Boolean):void
+		{
+			commandMapper.verbose = value;
+		}
+
 		/**
 		 * @inheritDoc
 		 */
