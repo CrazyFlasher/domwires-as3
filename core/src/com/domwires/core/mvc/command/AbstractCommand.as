@@ -8,6 +8,8 @@ package com.domwires.core.mvc.command
 	 */
 	public class AbstractCommand implements ICommand
 	{
+		private var _logExecution:Boolean;
+
 		/**
 		 * @inheritDoc
 		 */

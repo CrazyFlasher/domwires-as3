@@ -7,7 +7,7 @@ Flexible and extensible MVC framework.
 * Possibility to use many implementations for interface easily
 * Fast communication among components using [IMessageDispatcher](http://188.166.108.195/projects/domwires/core/doc/com/domwires/core/mvc/message/IMessageDispatcher.html)
 * Object instantiation with dependencies injections using cool [IAppFactory](http://188.166.108.195/projects/domwires/core/doc/com/domwires/core/factory/IAppFactory.html#includeExamplesSummary)
-* Possibility to specify dependecies in config and pass it to [IAppFactory](http://188.166.108.195/projects/domwires/core/doc/com/domwires/core/factory/IAppFactory.html#includeExamplesSummary)
+* Possibility to specify dependencies in config and pass it to [IAppFactory](http://188.166.108.195/projects/domwires/core/doc/com/domwires/core/factory/IAppFactory.html#includeExamplesSummary)
 * Easy object pooling management
 * Custom message bus (event bus) for easy and strict communication among objects
 
@@ -19,7 +19,7 @@ Flexible and extensible MVC framework.
 <dependency>
   <groupId>com.domwires</groupId>
   <artifactId>core</artifactId>
-  <version>0.9.14-SNAPSHOT</version>
+  <version>0.9.15-SNAPSHOT</version>
   <type>swc</type>
 </dependency>
 ```

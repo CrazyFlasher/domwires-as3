@@ -9,6 +9,7 @@ package com.domwires.core.mvc.command
 	import com.domwires.core.common.AbstractDisposable;
 	import com.domwires.core.common.Enum;
 	import com.domwires.core.factory.IAppFactory;
+	import com.domwires.core.mvc.command.ICommand;
 	import com.domwires.core.mvc.message.IMessage;
 
 	import flash.utils.Dictionary;
@@ -204,17 +205,28 @@ package com.domwires.core.mvc.command
 					injectionData = message.data == null ? mappingVo.data : message.data;
 					commandClass = mappingVo.commandClass;
 
+					var logFailExecution:Boolean;
+					var logSuccessExecution:Boolean;
+
 					if (_verbose)
 					{
-						if (mappingVo.guardList)
+						logFailExecution = this.logExecution(commandClass, false);
+						logSuccessExecution = this.logExecution(commandClass, true);
+
+						if (mappingVo.guardList && logFailExecution)
 						{
 							log("----------------------------------------------");
 							log("Checking guards for '" + getQualifiedClassName(commandClass) + "'");
 						}
 					}
 
-					if (!mappingVo.guardList || (mappingVo.guardList && guardsAllow(mappingVo.guardList, injectionData)))
+					if (!mappingVo.guardList || (mappingVo.guardList && guardsAllow(mappingVo.guardList, injectionData, logFailExecution)))
 					{
+						if (_verbose && logSuccessExecution)
+						{
+							log("Executing: '" + getQualifiedClassName(commandClass) + "'");
+						}
+						
 						executeCommand(commandClass, injectionData);
 
 						if (mappingVo.once)
@@ -230,7 +242,19 @@ package com.domwires.core.mvc.command
 			}
 		}
 
-		private function guardsAllow(guardList:Vector.<Class>, data:Object = null):Boolean
+		private function logExecution(commandClass:Class, logSuccess:Boolean):Boolean
+		{
+			var methodName:String = logSuccess ? "LOG_EXECUTION_SUCCESS" : "LOG_EXECUTION_FAIL";
+
+			if (!commandClass.hasOwnProperty(methodName))
+			{
+				return logSuccess;
+			}
+
+			return commandClass[methodName];
+		}
+
+		private function guardsAllow(guardList:Vector.<Class>, data:Object = null, logExecution:Boolean = false):Boolean
 		{
 			var guardClass:Class;
 			var guards:IGuards;
@@ -252,14 +276,14 @@ package com.domwires.core.mvc.command
 					mapValues(data, false);
 				}
 
-				if (_verbose)
+				if (_verbose && logExecution)
 				{
 					log("Guards '" + getQualifiedClassName(guardClass) + "' allow: " + guards.allows);
 				}
 
 				if (!guards.allows)
 				{
-					if (_verbose)
+					if (_verbose && logExecution)
 					{
 						guardsAllow = false;
 					} else
@@ -309,36 +333,44 @@ package com.domwires.core.mvc.command
 			if (!gotProps)
 			{
 				var clazz:Class = Object(data).constructor;
-				var varNameList:Vector.<String> = instanceDescriptionMap[clazz];
-				if (varNameList == null)
-				{
-					varNameList = new <String>[];
-					var dtJson:Object = describeTypeJSON.getInstanceDescription(clazz);
-					var arr:Array = dtJson.traits.variables;
-					if (dtJson.traits.accessors != null)
-					{
-						if (arr != null)
-						{
-							arr = arr.concat(dtJson.traits.accessors);
-						} else
-						{
-							arr = dtJson.traits.accessors;
-						}
-					}
-					if (arr != null)
-					{
-						for each (var varData:Object in arr)
-						{
-							varNameList.push(varData.name);
-						}
-						instanceDescriptionMap[clazz] = varNameList;
-					}
-				}
+				var varNameList:Vector.<String> = getVarNameList(clazz);
 				for each (propertyName in varNameList)
 				{
 					mapProperty(data, propertyName, map);
 				}
 			}
+		}
+
+		private function getVarNameList(clazz:Class):Vector.<String>
+		{
+			var varNameList:Vector.<String> = instanceDescriptionMap[clazz];
+			
+			if (varNameList == null)
+			{
+				varNameList = new <String>[];
+				var dtJson:Object = describeTypeJSON.getInstanceDescription(clazz);
+				var arr:Array = dtJson.traits.variables;
+				if (dtJson.traits.accessors != null)
+				{
+					if (arr != null)
+					{
+						arr = arr.concat(dtJson.traits.accessors);
+					} else
+					{
+						arr = dtJson.traits.accessors;
+					}
+				}
+				if (arr != null)
+				{
+					for each (var varData:Object in arr)
+					{
+						varNameList.push(varData.name);
+					}
+					instanceDescriptionMap[clazz] = varNameList;
+				}
+			}
+			
+			return varNameList;
 		}
 
 		private function mapProperty(data:Object, propertyName:String, map:Boolean):void
