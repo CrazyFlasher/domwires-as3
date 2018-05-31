@@ -208,6 +208,7 @@ package com.domwires.core.mvc.command
 					{
 						if (mappingVo.guardList)
 						{
+							log("----------------------------------------------");
 							log("Checking guards for '" + getQualifiedClassName(commandClass) + "'");
 						}
 					}
