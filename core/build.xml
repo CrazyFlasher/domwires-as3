@@ -6,7 +6,7 @@
 
     <property name="swc_name" value="dw-core.swc"/>
 
-    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.1-SNAPSHOT/builder-0.9.1-SNAPSHOT.xml" optional="true"/>
+    <import file="${user.home}/.m2/repository/com/domwires/builder/0.9.2-SNAPSHOT/builder-0.9.2-SNAPSHOT.xml" optional="true"/>
 
     <property name="ooo-build.vers" value="2.10"/>
     <property name="deploy.dir" location="dist"/>
