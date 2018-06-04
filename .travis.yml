@@ -16,6 +16,8 @@ before_script:
   - brew install ant
 
   # Adobe Flash Player for CLI
+  - brew update >brew-update.log
+  - brew install ant gradle >brew-install.log
   - brew install caskroom/cask/brew-cask
   - brew tap caskroom/versions
   - brew cask install flash-player-debugger
