@@ -9,7 +9,6 @@ package com.domwires.core.mvc.command
 	import com.domwires.core.common.AbstractDisposable;
 	import com.domwires.core.common.Enum;
 	import com.domwires.core.factory.IAppFactory;
-	import com.domwires.core.mvc.command.ICommand;
 	import com.domwires.core.mvc.message.IMessage;
 
 	import flash.utils.Dictionary;
@@ -31,6 +30,7 @@ package com.domwires.core.mvc.command
 		private var commandMap:Dictionary/*Enum, Vector.<MappingVo>*/ = new Dictionary();
 
 		private var _verbose:Boolean;
+		private var mappingToKeepAfterExecutionList:Vector.<TypeAndNameVo>;
 
 		/**
 		 * @inheritDoc
@@ -184,6 +184,7 @@ package com.domwires.core.mvc.command
 		public function clear():ICommandMapper
 		{
 			commandMap = new Dictionary();
+			mappingToKeepAfterExecutionList = null;
 
 			return this;
 		}
@@ -316,6 +317,23 @@ package com.domwires.core.mvc.command
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
+		public function keepDataMappingAfterExecution(type:Class, name:String):ICommandMapper
+		{
+			if (!mappingToKeepAfterExecutionList)
+			{
+				mappingToKeepAfterExecutionList = new <TypeAndNameVo>[];
+			}
+
+			var id:String = getQualifiedClassName(type) + "$" + name;
+
+			mappingToKeepAfterExecutionList.push(new TypeAndNameVo(type, name));
+
+			return this;
+		}
+
 		private function mapValues(data:Object, map:Boolean):void
 		{
 			var propertyName:String;
@@ -376,14 +394,36 @@ package com.domwires.core.mvc.command
 		private function mapProperty(data:Object, propertyName:String, map:Boolean):void
 		{
 			var propertyValue:* = data[propertyName];
-
+			var type:Class = getPropertyType(propertyValue);
 			if (map)
 			{
-				factory.mapToValue(getPropertyType(propertyValue), propertyValue, propertyName);
+				factory.mapToValue(type, propertyValue, propertyName);
 			}else
 			{
-				factory.unmapValue(getPropertyType(propertyValue), propertyName);
+
+				if (!mustBeKept(type, propertyName))
+				{
+					factory.unmapValue(type, propertyName);
+				}
 			}
+		}
+
+		private function mustBeKept(type:Class, propertyName:String):Boolean
+		{
+			if (!mappingToKeepAfterExecutionList)
+			{
+				return false;
+			}
+
+			for each (var vo:TypeAndNameVo in mappingToKeepAfterExecutionList)
+			{
+				if (vo.type == type && vo.name == propertyName)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private static function getPropertyType(propertyValue:*):*
@@ -420,5 +460,27 @@ package com.domwires.core.mvc.command
 		{
 			return commandMap[messageType] != null;
 		}
+	}
+}
+
+internal class TypeAndNameVo
+{
+	private var _type:Class;
+	private var _name:String;
+
+	public function TypeAndNameVo(type:Class, name:String)
+	{
+		_type = type;
+		_name = name;
+	}
+
+	public function get type():Class
+	{
+		return _type;
+	}
+
+	public function get name():String
+	{
+		return _name;
 	}
 }

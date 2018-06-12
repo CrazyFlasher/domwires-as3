@@ -323,6 +323,9 @@ package com.domwires.core.mvc.context
 			return commandMapper.map(messageType, commandClass, data, once, stopOnExecute);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function map1(messageType:Enum, commandClassList:Vector.<Class>, data:Object = null,
 							 once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
@@ -331,6 +334,9 @@ package com.domwires.core.mvc.context
 			return commandMapper.map1(messageType, commandClassList, data, once, stopOnExecute);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function map2(messageTypeList:Vector.<Enum>, commandClass:Class,
 							 data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
@@ -339,12 +345,23 @@ package com.domwires.core.mvc.context
 			return commandMapper.map2(messageTypeList, commandClass, data, once, stopOnExecute);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function map3(messageTypeList:Vector.<Enum>, commandClassList:Vector.<Class>,
 							 data:Object = null, once:Boolean = false, stopOnExecute:Boolean = false):MappingConfigList
 		{
 			checkIfDisposed();
 
 			return commandMapper.map3(messageTypeList, commandClassList, data, once, stopOnExecute);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function keepDataMappingAfterExecution(type:Class, name:String):ICommandMapper
+		{
+			return commandMapper.keepDataMappingAfterExecution(type, name);
 		}
 
 		/**

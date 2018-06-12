@@ -83,5 +83,13 @@ package com.domwires.core.mvc.command
 		 * Useful for debugging, but leaks performance.
 		 */
 		function set verbose(value:Boolean):void;
+
+		/**
+		 * Do not unmap values specified in <code>executeCommand</code> data object, after command execution
+		 * @param type Class of data property
+		 * @param name Property variable name
+		 * @return
+		 */
+		function keepDataMappingAfterExecution(type:Class, name:String):ICommandMapper;
 	}
 }

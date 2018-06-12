@@ -280,6 +280,20 @@ package com.domwires.core.mvc.context
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
 			assertEquals(m.d, 7);
 		}
+
+		//Expecting no errors
+		[Test]
+		public function testKeepMappingValue():void
+		{
+			var a:int = 1;
+			factory.mapToValue(int, a, "a");
+
+			commandMapper.keepDataMappingAfterExecution(int, "a");
+
+			var mappingData:Object = {a: 1};
+			commandMapper.executeCommand(IntCommand, mappingData);
+			commandMapper.executeCommand(IntCommand);
+		}
 	}
 }
 
@@ -291,6 +305,16 @@ import com.domwires.core.mvc.message.IMessage;
 import testObject.TestObj1;
 import testObject.TestVo;
 
+internal class IntCommand extends AbstractCommand
+{
+	[Autowired(name="a")]
+	public var a:int;
+}
+
+internal class IntCommand2 extends AbstractCommand
+{
+
+}
 
 internal dynamic class MyVo2
 {
