@@ -79,11 +79,11 @@ package com.domwires.core.mvc.message
 		 */
 		public function dispatchMessage(type:Enum, data:Object = null, bubbles:Boolean = false):void
 		{
-			if (isBubbling)
+			/*if (isBubbling)
 			{
 				log("WARNING: You try to dispatch '" + type.toString() + "' while '" + _message.type.toString() + "' is bubbling. Making" +
 					" new instance of IMessage");
-			}
+			}*/
 
 			_message = getMessage(type, data, bubbles, isBubbling);
 			_message._target = this;
