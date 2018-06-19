@@ -24,6 +24,7 @@ package com.domwires.core.factory
 		public function setUp():void
 		{
 			factory = new AppFactory();
+			factory.verbose = true;
 		}
 
 		[After]

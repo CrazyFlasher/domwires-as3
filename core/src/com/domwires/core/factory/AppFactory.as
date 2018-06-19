@@ -20,7 +20,7 @@ package com.domwires.core.factory
 		private static const describeTypeJSON:DescribeTypeJSON = new DescribeTypeJSON();
 
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
-		private var instanceMapping:Dictionary = new Dictionary()/*Object, Class*/;
+		private var instanceMapping:Dictionary = new Dictionary()/*Class, Dictionary/*String, Object*/;
 		private var pool:Dictionary = new Dictionary()/*Class, PoolModel*/;
 
 		/**
@@ -63,13 +63,17 @@ package com.domwires.core.factory
 				throw new Error("Cannot map type to null value!");
 			}
 
-			var id:String = getId(type, name);
-
-			if (_verbose && instanceMapping[id] != null)
+			if (instanceMapping[type] == null)
 			{
-				log("Warning: type " + type + " is mapped to instance " + instanceMapping[id] + ". Remapping to " + to);
+				instanceMapping[type] = new Dictionary();
 			}
-			instanceMapping[id] = /*type is Boolean ? to.toString() : */to;
+
+			if (_verbose && instanceMapping[type][name] != null)
+			{
+				log("Warning: type " + type  + "$" + name + " is mapped to instance " + instanceMapping[type][name] + ". Remapping" +
+					" to " + to);
+			}
+			instanceMapping[type][name] = /*type is Boolean ? to.toString() : */to;
 
 			return this;
 		}
@@ -87,9 +91,7 @@ package com.domwires.core.factory
 		 */
 		public function hasValueMappingForType(type:Class, name:String = null):Boolean
 		{
-			var id:String = getId(type, name);
-
-			return instanceMapping[id] != null;
+			return instanceMapping[type] != null && instanceMapping[type][name] != null;
 		}
 
 		/**
@@ -110,11 +112,9 @@ package com.domwires.core.factory
 		 */
 		public function unmapValue(type:Class, name:String = null):IAppFactory
 		{
-			var id:String = getId(type, name);
-
-			if(instanceMapping[id] != null)
+			if(instanceMapping[type] != null && instanceMapping[type][name] != null)
 			{
-				delete instanceMapping[id];
+				delete instanceMapping[type][name];
 			}
 
 			return this;
@@ -137,14 +137,7 @@ package com.domwires.core.factory
 		 */
 		public function getInstance(type:Class, constructorArgs:* = null, name:String = null, ignorePool:Boolean = false):*
 		{
-			if (!name)
-			{
-				name = "";
-			}
-
-			var id:String = getId(type, name);
-			
-			var obj:* = getInstanceFromInstanceMap(id);
+			var obj:* = getInstanceFromInstanceMap(type, name);
 
 			if (obj) return obj;
 
@@ -178,16 +171,16 @@ package com.domwires.core.factory
 			return obj;
 		}
 
-		private function getInstanceFromInstanceMap(id:String, require:Boolean = false):*
+		private function getInstanceFromInstanceMap(type:Class, name:String, require:Boolean = false):*
 		{
-			if (instanceMapping[id] != null)
+			if (instanceMapping[type] != null && instanceMapping[type][name] != null)
 			{
-				return instanceMapping[id];
+				return instanceMapping[type][name];
 			}
 
 			if (require)
 			{
-				throw new Error("Instance mapping for " + id + " not found!");
+				throw new Error("Instance mapping for " + type + "$" + name + " not found!");
 			}
 
 			return null;
@@ -427,20 +420,21 @@ package com.domwires.core.factory
 
 			var objVar:String;
 			var isOptional:Boolean;
-			var qualifiedName:String;
+			var type:Class;
+			var name:String;
 
 			for (objVar in injectionData.variables)
 			{
 				isOptional = injectionData.variables[objVar].optional;
-				qualifiedName = injectionData.variables[objVar].qualifiedName;
-//				instance[objVar] = getAutowiredValue(injectionData.variables[objVar].qualifiedName, isOptional);
+				type = injectionData.variables[objVar].type;
+				name = injectionData.variables[objVar].name;
 				try
 				{
-					instance[objVar] = getInstanceFromInstanceMap(qualifiedName, !isOptional);
+					instance[objVar] = getInstanceFromInstanceMap(type, name, !isOptional);
 				} catch (e:Error)
 				{
-					throw new Error("Cannot inject all required dependencies to '" + instanceClass + "'. Instance mapping for '" + qualifiedName + "' not" +
-							" found!");
+					throw new Error("Cannot inject all required dependencies to '" + instanceClass + "'. Instance mapping for '" +
+							getQualifiedClassName(type) + "$" + name + "' not found!");
 				}
 			}
 
@@ -499,8 +493,9 @@ package com.domwires.core.factory
 						{
 							isOptional = getVariableIsOptional(metadata.value);
 
-							injectionData.variables[variable.name] = new InjectionVariableVo(variable.type/*.replace(/::/g, ".")*/ +
-							 getVariableMetaName(metadata.value), isOptional);
+							injectionData.variables[variable.name] = new InjectionVariableVo(
+									getDefinitionByName(variable.type) as Class,
+									getVariableMetaName(metadata.value), isOptional);
 						}
 					}
 				}
@@ -533,7 +528,7 @@ package com.domwires.core.factory
 			{
 				if (metaPropertyList[i].key == "name")
 				{
-					metaName = "$" + metaPropertyList[i].value;
+					metaName = metaPropertyList[i].value;
 					break;
 				}
 			}
@@ -575,18 +570,6 @@ package com.domwires.core.factory
 			_verbose = value;
 		}
 
-		private static function getId(type:Class, name:String):String
-		{
-			var id:String = getQualifiedClassName(type);
-
-			if (name)
-			{
-				id += "$" + name;
-			}
-
-			return id;
-		}
-
 		/**
 		 * @inheritDoc
 		 */
@@ -617,7 +600,7 @@ package com.domwires.core.factory
 					mapToValue(i, d.value, name);
 				}else
 				{
-					if(d.implementation){
+					if (d.implementation){
 						c = getDefinitionByName(d.implementation) as Class;
 
 						if (_verbose)
@@ -664,22 +647,34 @@ internal class InjectionDataVo
 
 internal class InjectionVariableVo
 {
-	private var _qualifiedName:String;
+	private var _type:Class;
+	private var _name:String;
 	private var _optional:Boolean;
 
-	public function InjectionVariableVo(qualifiedName:String, optional:Boolean)
+	public function InjectionVariableVo(type:Class, name:String, optional:Boolean)
 	{
-		_qualifiedName = qualifiedName;
-		_optional = optional;
-	}
+		if (name == "")
+		{
+			name = null;
+		}
 
-	public function get qualifiedName():String
-	{
-		return _qualifiedName;
+		_type = type;
+		_name = name;
+		_optional = optional;
 	}
 
 	public function get optional():Boolean
 	{
 		return _optional;
+	}
+
+	public function get type():Class
+	{
+		return _type;
+	}
+
+	public function get name():String
+	{
+		return _name;
 	}
 }

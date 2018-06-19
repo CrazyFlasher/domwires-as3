@@ -426,14 +426,20 @@ package com.domwires.core.mvc.command
 			return false;
 		}
 
-		private static function getPropertyType(propertyValue:*):*
+		private static function getPropertyType(propertyValue:Object):Class
 		{
 			//TODO: Issue with injecting Number if its value is integer
-			if (propertyValue is int) return int;
-			if (propertyValue is Number) return Number;
-			if (propertyValue is uint) return uint;
-			if (propertyValue is String) return String;
-			if (propertyValue is Boolean) return Boolean;
+
+			if (propertyValue is Number)
+			{
+				if (propertyValue is int) return int;
+				if (propertyValue is uint) return uint;
+
+				return Number;
+			}
+
+//			if (propertyValue is String) return String;
+//			if (propertyValue is Boolean) return Boolean;
 
 			return Object(propertyValue).constructor;
 		}

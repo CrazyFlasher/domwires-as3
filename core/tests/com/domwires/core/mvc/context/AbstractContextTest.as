@@ -10,11 +10,9 @@ package com.domwires.core.mvc.context
 	import com.domwires.core.mvc.view.AbstractView;
 
 	import org.flexunit.asserts.assertEquals;
-	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
 
 	import testObject.MyCoolEnum;
-
 	import testObject.TestObj1;
 
 	public class AbstractContextTest
@@ -27,6 +25,7 @@ package com.domwires.core.mvc.context
 		public function setUp():void
 		{
 			f = new AppFactory();
+			f.verbose = true;
 			f.mapToType(IContext, AbstractContext);
 			f.mapToValue(IAppFactory, f);
 
@@ -138,6 +137,10 @@ import com.domwires.core.mvc.model.AbstractModel;
 import com.domwires.core.mvc.view.AbstractView;
 
 import testObject.MyCoolEnum;
+import testObject.TestModel;
+import testObject.TestModel2;
+import testObject.TestModel4;
+import testObject.TestModel7;
 import testObject.TestObj1;
 
 internal class TestCommand5 extends AbstractCommand
@@ -257,21 +260,6 @@ internal class TestCommand4 extends AbstractCommand
 		testModel.testVar++;
 	}
 }
-internal class TestModel4 extends AbstractModel
-{
-	private var _testVar:int;
-
-	public function set testVar(value:int):void
-	{
-		_testVar = value;
-		dispatchMessage(MyCoolEnum.BOGA, null, true);
-	}
-
-	public function get testVar():int
-	{
-		return _testVar;
-	}
-}
 /////////////////////////
 /////////////////////////
 internal class ParentContext extends AbstractContext
@@ -308,21 +296,11 @@ internal class ChildContext extends AbstractContext
 	override public function init():void
 	{
 		super.init();
-		
+
 		factory.mapToValue(TestModel7, m);
 		map(MyCoolEnum.PREVED, TestCommand7);
 
 		m.registerExtraMessageHandler(this);
-	}
-}
-
-internal class TestModel7 extends AbstractModel
-{
-	public var testVar:int;
-
-	public function dispatch():void
-	{
-		dispatchMessage(MyCoolEnum.PREVED, null, true);
 	}
 }
 
@@ -368,16 +346,6 @@ internal class TestCommand2 extends AbstractCommand
 	{
 		testModel.testVar++;
 	}
-}
-
-internal class TestModel extends AbstractModel
-{
-	public var testVar:int;
-}
-
-internal class TestModel2 extends AbstractModel
-{
-	public var testVar:int;
 }
 
 internal class TestView extends AbstractView
