@@ -216,38 +216,16 @@ package com.domwires.core.mvc.command
 					
 					commandClass = mappingVo.commandClass;
 
-					var logFailExecution:Boolean;
-					var logSuccessExecution:Boolean;
+					executeCommand(commandClass, injectionData, mappingVo.guardList);
 
-					if (_verbose)
+					if (mappingVo.once)
 					{
-						logFailExecution = this.logExecution(commandClass, false);
-						logSuccessExecution = this.logExecution(commandClass, true);
-
-						if (mappingVo.guardList && logFailExecution)
-						{
-							log("----------------------------------------------");
-							log("Checking guards for '" + getQualifiedClassName(commandClass) + "'");
-						}
+						unmap(messageType, commandClass);
 					}
 
-					if (!mappingVo.guardList || (mappingVo.guardList && guardsAllow(mappingVo.guardList, injectionData, logFailExecution)))
+					if (mappingVo.stopOnExecute)
 					{
-						if (_verbose && logSuccessExecution)
-						{
-							log("Executing: '" + getQualifiedClassName(commandClass) + "'");
-						}
-						
-						executeCommand(commandClass, injectionData);
-
-						if (mappingVo.once)
-						{
-							unmap(messageType, commandClass);
-						}
-						if (mappingVo.stopOnExecute)
-						{
-							break;
-						}
+						break;
 					}
 				}
 			}
@@ -326,20 +304,44 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, data:Object = null):void
+		public function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null):void
 		{
-			if (data != null)
+			var logFailExecution:Boolean;
+			var logSuccessExecution:Boolean;
+
+			if (_verbose)
 			{
-				mapValues(data, true);
+				logFailExecution = this.logExecution(commandClass, false);
+				logSuccessExecution = this.logExecution(commandClass, true);
+
+				if (guardList && logFailExecution)
+				{
+					log("----------------------------------------------");
+					log("Checking guards for '" + getQualifiedClassName(commandClass) + "'");
+				}
 			}
 
-			var command:ICommand = factory.getSingleton(commandClass) as ICommand;
-			factory.injectDependencies(command);
-			command.execute();
-
-			if (data != null)
+			if (!guardList || (guardList && guardsAllow(guardList, data, logFailExecution)))
 			{
-				mapValues(data, false);
+				if (_verbose && logSuccessExecution)
+				{
+					log("Executing: '" + getQualifiedClassName(commandClass) + "'");
+				}
+
+
+				if (data != null)
+				{
+					mapValues(data, true);
+				}
+
+				var command:ICommand = factory.getSingleton(commandClass) as ICommand;
+				factory.injectDependencies(command);
+				command.execute();
+
+				if (data != null)
+				{
+					mapValues(data, false);
+				}
 			}
 		}
 

@@ -75,8 +75,9 @@ package com.domwires.core.mvc.command
 		 * Execute command manually.
 		 * @param commandClass
 		 * @param data Plain data object, which properties will be injected into <code>ICommand</code>
+		 * @param guardList List of guards, that will allow or not command execution
 		 */
-		function executeCommand(commandClass:Class, data:Object = null):void;
+		function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null):void;
 
 		/**
 		 * Prints out extra information to logs.
