@@ -216,16 +216,19 @@ package com.domwires.core.mvc.command
 					
 					commandClass = mappingVo.commandClass;
 
-					executeCommand(commandClass, injectionData, mappingVo.guardList);
+					var success:Boolean = executeCommand(commandClass, injectionData, mappingVo.guardList);
 
-					if (mappingVo.once)
+					if (success)
 					{
-						unmap(messageType, commandClass);
-					}
+						if (mappingVo.once)
+						{
+							unmap(messageType, commandClass);
+						}
 
-					if (mappingVo.stopOnExecute)
-					{
-						break;
+						if (mappingVo.stopOnExecute)
+						{
+							break;
+						}
 					}
 				}
 			}
@@ -304,7 +307,7 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null):void
+		public function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null):Boolean
 		{
 			var logFailExecution:Boolean;
 			var logSuccessExecution:Boolean;
@@ -328,7 +331,6 @@ package com.domwires.core.mvc.command
 					log("Executing: '" + getQualifiedClassName(commandClass) + "'");
 				}
 
-
 				if (data != null)
 				{
 					mapValues(data, true);
@@ -342,7 +344,11 @@ package com.domwires.core.mvc.command
 				{
 					mapValues(data, false);
 				}
+
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
