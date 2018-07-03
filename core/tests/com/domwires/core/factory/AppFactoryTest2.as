@@ -3,7 +3,10 @@
  */
 package com.domwires.core.factory
 {
+	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
+
+	import org.flexunit.asserts.assertEquals;
 
 	public class AppFactoryTest2
 	{
@@ -17,6 +20,27 @@ package com.domwires.core.factory
 		public function tearDown():void
 		{
 
+		}
+
+		[Test]
+		public function testPerformance3():void
+		{
+			var b:ByteArray = new ByteArray();
+			b.length = 24;
+
+			for (var i:int = 0; i < 1000000; i++)
+			{
+				b.length = 0;
+
+				b.writeInt(1);
+				b.writeInt(1);
+				b.writeInt(1);
+				b.writeInt(1);
+				b.writeInt(1);
+				b.writeInt(1);
+			}
+
+			assertEquals(b.length, 24);
 		}
 
 		[Ignore]
