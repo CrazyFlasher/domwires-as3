@@ -12,6 +12,7 @@ package com.domwires.core.mvc.command
 	import com.domwires.core.mvc.message.IMessage;
 
 	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
 
 	/**
 	 * @see com.domwires.core.mvc.command.ICommandMapper
@@ -461,6 +462,11 @@ package com.domwires.core.mvc.command
 				if (propertyValue is uint) return uint;
 
 				return Number;
+			}
+
+			if (propertyValue is Vector.<*>)
+			{
+				return Class(getDefinitionByName(getQualifiedClassName(propertyValue)));
 			}
 
 //			if (propertyValue is String) return String;

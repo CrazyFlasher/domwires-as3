@@ -306,6 +306,16 @@ package com.domwires.core.mvc.context
 			commandMapper.executeCommand(IntCommand, mappingData);
 			commandMapper.executeCommand(IntCommand);
 		}
+
+		//Expecting no errors
+		[Test]
+		public function testMapVector():void
+		{
+			var v:Vector.<String> = new <String>[];
+
+			var mappingData:Object = {v: v};
+			commandMapper.executeCommand(VectorCommand, mappingData);
+		}
 	}
 }
 
@@ -317,15 +327,16 @@ import com.domwires.core.mvc.message.IMessage;
 import testObject.TestObj1;
 import testObject.TestVo;
 
+internal class VectorCommand extends AbstractCommand
+{
+	[Autowired(name="v")]
+	public var v:Vector.<String>;
+}
+
 internal class IntCommand extends AbstractCommand
 {
 	[Autowired(name="a")]
 	public var a:int;
-}
-
-internal class IntCommand2 extends AbstractCommand
-{
-
 }
 
 internal dynamic class MyVo2
