@@ -69,7 +69,14 @@ package com.domwires.core.mvc.hierarchy
 
 				if (dispose)
 				{
-					child.dispose();
+					if (child is IHierarchyObjectContainer)
+					{
+						(child as IHierarchyObjectContainer).disposeWithAllChildren();
+					}else
+					{
+						child.dispose();
+					}
+
 				} else
 				{
 					(child as AbstractHierarchyObject).setParent(null);

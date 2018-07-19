@@ -190,6 +190,18 @@ package com.domwires.core.mvc.context
 		}
 
 		[Test]
+		public function testMapWithData2():void
+		{
+			commandMapper.setMergeMessageDataAndMappingData(true);
+			
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5});
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {a: 1}));
+			assertEquals(m.d, 5);
+		}
+
+		[Test]
 		public function testMessageDataOverridesMappedData():void
 		{
 			var m:TestObj1 = factory.getInstance(TestObj1);

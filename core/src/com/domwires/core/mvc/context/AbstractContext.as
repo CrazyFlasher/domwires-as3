@@ -444,6 +444,14 @@ package com.domwires.core.mvc.context
 			commandMapper.executeCommand(commandClass, data);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
+		public function setMergeMessageDataAndMappingData(value:Boolean):ICommandMapper
+		{
+			return commandMapper.setMergeMessageDataAndMappingData(value);
+		}
+
 		private function checkIfDisposed():void
 		{
 			if (isDisposed)

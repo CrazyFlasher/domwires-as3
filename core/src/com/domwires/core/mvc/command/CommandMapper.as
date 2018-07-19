@@ -32,6 +32,8 @@ package com.domwires.core.mvc.command
 		private var _verbose:Boolean;
 		private var mappingToKeepAfterExecutionList:Vector.<TypeAndNameVo>;
 
+		private var _mergeMessageDataAndMappingData:Boolean;
+
 		/**
 		 * @inheritDoc
 		 */
@@ -203,7 +205,14 @@ package com.domwires.core.mvc.command
 				var injectionData:Object;
 				for each (mappingVo in mappedToMessageCommands)
 				{
-					injectionData = message.data == null ? mappingVo.data : message.data;
+					if (!_mergeMessageDataAndMappingData)
+					{
+						injectionData = message.data == null ? mappingVo.data : message.data;
+					} else
+					{
+						injectionData = mergeData(message.data, mappingVo.data);
+					}
+					
 					commandClass = mappingVo.commandClass;
 
 					var logFailExecution:Boolean;
@@ -241,6 +250,22 @@ package com.domwires.core.mvc.command
 					}
 				}
 			}
+		}
+
+		private function mergeData(messageData:Object, mappingData:Object):Object
+		{
+			if (messageData && !mappingData) return messageData;
+			if (!messageData && mappingData) return mappingData;
+
+			if (messageData && mappingData)
+			{
+				for (var i:* in mappingData)
+				{
+					messageData[i] = mappingData[i]
+				}
+			}
+
+			return messageData;
 		}
 
 		private function logExecution(commandClass:Class, logSuccess:Boolean):Boolean
@@ -465,6 +490,16 @@ package com.domwires.core.mvc.command
 		public function hasMapping(messageType:Enum):Boolean
 		{
 			return commandMap[messageType] != null;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function setMergeMessageDataAndMappingData(value:Boolean):ICommandMapper
+		{
+			_mergeMessageDataAndMappingData = value;
+
+			return this;
 		}
 	}
 }

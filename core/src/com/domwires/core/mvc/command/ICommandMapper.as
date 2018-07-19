@@ -91,5 +91,14 @@ package com.domwires.core.mvc.command
 		 * @return
 		 */
 		function keepDataMappingAfterExecution(type:Class, name:String):ICommandMapper;
+
+		/**
+		 * If true, then message data object will be merged with mapping data object. Mapping data will 
+		 * be in priority. Otherwise mapping data will be replaced by message data (if has one).
+		 * By default is false, and mapping data will be replaced with message data (if has one).
+		 * @param value
+		 * @return
+		 */
+		function setMergeMessageDataAndMappingData(value:Boolean):ICommandMapper
 	}
 }
