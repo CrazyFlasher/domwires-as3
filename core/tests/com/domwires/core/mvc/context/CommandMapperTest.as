@@ -242,6 +242,22 @@ package com.domwires.core.mvc.context
 		}
 
 		[Test]
+		public function testNormalAndOppositeGuards():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			
+			commandMapper.map1(MyCoolEnum.BOGA, new <Class>[TestCommand3], {olo: 5})
+					.addGuards(CoolGuards)
+					.addGuards(CoolGuards)
+					.addGuardsNot(NotCoolGuards)
+					.addGuardsNot(CoolGuards2);
+
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			assertEquals(m.d, 0);
+		}
+
+		[Test]
 		public function testNotCoolOppositeGuards():void
 		{
 			var m:TestObj1 = factory.getInstance(TestObj1);
@@ -410,7 +426,21 @@ internal class NotCoolGuards implements IGuards
 		return false;
 	}
 }
+internal class NotCoolGuards2 implements IGuards
+{
+	public function get allows():Boolean
+	{
+		return false;
+	}
+}
 internal class CoolGuards implements IGuards
+{
+	public function get allows():Boolean
+	{
+		return true;
+	}
+}
+internal class CoolGuards2 implements IGuards
 {
 	public function get allows():Boolean
 	{

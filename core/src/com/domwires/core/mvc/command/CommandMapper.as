@@ -261,14 +261,13 @@ package com.domwires.core.mvc.command
 
 			return commandClass[methodName];
 		}
-
-		private function guardsAllow(guardList:Vector.<Class>, data:Object = null, logExecution:Boolean = false):Boolean
+		
+		private function guardsAllow(guardList:Vector.<Class>, data:Object = null, logExecution:Boolean = false, opposite:Boolean = false):Boolean
 		{
 			var guardClass:Class;
 			var guards:IGuards;
 
 			var guardsAllow:Boolean = true;
-			var allows:Boolean;
 
 			for each (guardClass in guardList)
 			{
@@ -285,7 +284,7 @@ package com.domwires.core.mvc.command
 					mapValues(data, false);
 				}
 
-				allows = guards.allows;
+				var allows:Boolean = !opposite ? guards.allows : !guards.allows;
 				
 				if (_verbose && logExecution)
 				{
@@ -326,10 +325,10 @@ package com.domwires.core.mvc.command
 					log("Checking guards for '" + getQualifiedClassName(commandClass) + "'");
 				}
 			}
-
+			
 			if (
 					(!guardList || (guardList && guardsAllow(guardList, data, logFailExecution))) && 
-					(!guardNotList || (guardNotList && !guardsAllow(guardNotList, data, logFailExecution)))
+					(!guardNotList || (guardNotList && guardsAllow(guardNotList, data, logFailExecution, true)))
 			)
 			{
 				if (_verbose && logSuccessExecution)
