@@ -222,11 +222,31 @@ package com.domwires.core.mvc.context
 		}
 
 		[Test]
+		public function testCoolOppositeGuards():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5}).addGuardsNot(NotCoolGuards);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
+			assertEquals(m.d, 4);
+		}
+
+		[Test]
 		public function testNotCoolGuards():void
 		{
 			var m:TestObj1 = factory.getInstance(TestObj1);
 			factory.mapToValue(TestObj1, m);
 			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5}).addGuards(NotCoolGuards);
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
+			assertEquals(m.d, 0);
+		}
+
+		[Test]
+		public function testNotCoolOppositeGuards():void
+		{
+			var m:TestObj1 = factory.getInstance(TestObj1);
+			factory.mapToValue(TestObj1, m);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand3, {olo: 5}).addGuardsNot(CoolGuards);
 			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA, {olo: 4}));
 			assertEquals(m.d, 0);
 		}

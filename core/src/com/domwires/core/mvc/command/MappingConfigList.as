@@ -33,5 +33,22 @@ package com.domwires.core.mvc.command
 
 			return this;
 		}
+
+		/**
+		 * @see com.domwires.core.mvc.command.MappingConfig
+		 * @param value
+		 * @return
+		 */
+		public function addGuardsNot(value:Class):MappingConfigList
+		{
+			var mappingConfig:MappingConfig;
+
+			for each (mappingConfig in list)
+			{
+				mappingConfig.addGuardsNot(value);
+			}
+
+			return this;
+		}
 	}
 }

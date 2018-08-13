@@ -9,6 +9,7 @@ package com.domwires.core.mvc.command
 		private var _data:Object;
 		private var _once:Boolean;
 		private var _guardList:Vector.<Class>;
+		private var _oppositeGuardList:Vector.<Class>;
 		private var _stopOnExecute:Boolean;
 
 		public function MappingConfig(commandClass:Class, data:Object, once:Boolean, stopOnExecute:Boolean = false)
@@ -36,6 +37,23 @@ package com.domwires.core.mvc.command
 			return this;
 		}
 
+		/**
+		 * Opposite guards
+		 * @see addGuards
+		 * @param value
+		 * @return
+		 */
+		public function addGuardsNot(value:Class):MappingConfig
+		{
+			if (!_oppositeGuardList)
+			{
+				_oppositeGuardList = new <Class>[];
+			}
+			_oppositeGuardList.push(value);
+
+			return this;
+		}
+
 		internal function get commandClass():Class
 		{
 			return _commandClass;
@@ -59,6 +77,11 @@ package com.domwires.core.mvc.command
 		public function get stopOnExecute():Boolean
 		{
 			return _stopOnExecute;
+		}
+
+		public function get oppositeGuardList():Vector.<Class>
+		{
+			return _oppositeGuardList;
 		}
 	}
 }

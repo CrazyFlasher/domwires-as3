@@ -76,8 +76,9 @@ package com.domwires.core.mvc.command
 		 * @param commandClass
 		 * @param data Plain data object, which properties will be injected into <code>ICommand</code>
 		 * @param guardList List of guards, that will allow or not command execution
+		 * @param guardNotList List of opposite guards
 		 */
-		function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null):Boolean;
+		function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null, guardNotList:Vector.<Class> = null):Boolean;
 
 		/**
 		 * Prints out extra information to logs.

@@ -437,11 +437,11 @@ package com.domwires.core.mvc.context
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null):Boolean
+		public function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null, guardNotList:Vector.<Class> = null):Boolean
 		{
 			checkIfDisposed();
 
-			return commandMapper.executeCommand(commandClass, data, guardList);
+			return commandMapper.executeCommand(commandClass, data, guardList, guardNotList);
 		}
 
 		/**

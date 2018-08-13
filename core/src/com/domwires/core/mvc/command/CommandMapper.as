@@ -216,7 +216,7 @@ package com.domwires.core.mvc.command
 					
 					commandClass = mappingVo.commandClass;
 
-					var success:Boolean = executeCommand(commandClass, injectionData, mappingVo.guardList);
+					var success:Boolean = executeCommand(commandClass, injectionData, mappingVo.guardList, mappingVo.oppositeGuardList);
 
 					if (success)
 					{
@@ -268,6 +268,7 @@ package com.domwires.core.mvc.command
 			var guards:IGuards;
 
 			var guardsAllow:Boolean = true;
+			var allows:Boolean;
 
 			for each (guardClass in guardList)
 			{
@@ -284,12 +285,14 @@ package com.domwires.core.mvc.command
 					mapValues(data, false);
 				}
 
+				allows = guards.allows;
+				
 				if (_verbose && logExecution)
 				{
-					log("Guards '" + getQualifiedClassName(guardClass) + "' allow: " + guards.allows);
+					log("Guards '" + getQualifiedClassName(guardClass) + "' allow: " + allows);
 				}
 
-				if (!guards.allows)
+				if (!allows)
 				{
 					if (_verbose && logExecution)
 					{
@@ -307,7 +310,7 @@ package com.domwires.core.mvc.command
 		/**
 		 * @inheritDoc
 		 */
-		public function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null):Boolean
+		public function executeCommand(commandClass:Class, data:Object = null, guardList:Vector.<Class> = null, guardNotList:Vector.<Class> = null):Boolean
 		{
 			var logFailExecution:Boolean;
 			var logSuccessExecution:Boolean;
@@ -317,14 +320,17 @@ package com.domwires.core.mvc.command
 				logFailExecution = this.logExecution(commandClass, false);
 				logSuccessExecution = this.logExecution(commandClass, true);
 
-				if (guardList && logFailExecution)
+				if ((guardList || guardNotList) && logFailExecution)
 				{
 					log("----------------------------------------------");
 					log("Checking guards for '" + getQualifiedClassName(commandClass) + "'");
 				}
 			}
 
-			if (!guardList || (guardList && guardsAllow(guardList, data, logFailExecution)))
+			if (
+					(!guardList || (guardList && guardsAllow(guardList, data, logFailExecution))) && 
+					(!guardNotList || (guardNotList && !guardsAllow(guardNotList, data, logFailExecution)))
+			)
 			{
 				if (_verbose && logSuccessExecution)
 				{
