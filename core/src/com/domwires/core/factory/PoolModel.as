@@ -67,5 +67,26 @@ package com.domwires.core.factory
 		{
 			return list.length;
 		}
+
+		internal function get allItemsAreBusy():Boolean
+		{
+			if (list.length < _capacity) return false;
+			if (isBusyFlagGetterName == null) return false;
+
+			var instance:*;
+			var totalBusyItems:int = 0;
+
+			for (var i:int = 0; i < _capacity; i++)
+			{
+				instance = list[currentIndex];
+				
+				if (instance[isBusyFlagGetterName] == true)
+				{
+					totalBusyItems++;
+				}
+			}
+
+			return totalBusyItems == _capacity;
+		}
 	}
 }

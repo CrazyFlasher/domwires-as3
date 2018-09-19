@@ -65,17 +65,24 @@ package com.domwires.core.factory
 		function getInstanceFromPool(type:Class):*;
 
 		/**
-		 * Returns pool capacity/
+		 * Returns pool capacity.
 		 * @param type
 		 * @return
 		 */
 		function getPoolCapacity(type:Class):int;
 
 		/**
-		 * Returns total count of instances in pool/
+		 * Returns total count of instances in pool.
 		 * @param type
 		 * @return
 		 */
 		function getPoolInstanceCount(type:Class):int;
+
+		/**
+		 * Returns true, if all pool items are busy.
+		 * @param type
+		 * @return
+		 */
+		function getAllPoolItemsAreBusy(type:Class):Boolean;
 	}
 }

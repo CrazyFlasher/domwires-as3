@@ -346,6 +346,16 @@ package com.domwires.core.factory
 		/**
 		 * @inheritDoc
 		 */
+		public function getAllPoolItemsAreBusy(type:Class):Boolean
+		{
+			if (!hasPoolForType(type)) throw new Error("Pool " + type + "is not registered! Call registerPool.");
+			
+			return pool[type].allItemsAreBusy;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function getSingleton(type:Class):*
 		{
 			if (!hasPoolForType(type))

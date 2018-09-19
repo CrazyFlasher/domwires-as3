@@ -536,6 +536,33 @@ package com.domwires.core.factory
 			assertFalse(o2.isBusy);
 			assertFalse(o1 == o2);
 		}
+
+		[Test]
+		public function testAllPoolItemAreBusy():void
+		{
+			factory.registerPool(BusyPoolObject, 2, true, null, "isBusy");
+
+			assertFalse(factory.getAllPoolItemsAreBusy(BusyPoolObject));
+
+			var o1:BusyPoolObject = factory.getInstance(BusyPoolObject);
+			o1.isBusy = true;
+
+			assertFalse(factory.getAllPoolItemsAreBusy(BusyPoolObject));
+
+			var o2:BusyPoolObject = factory.getInstance(BusyPoolObject);
+			o2.isBusy = true;
+
+			assertTrue(factory.getAllPoolItemsAreBusy(BusyPoolObject));
+
+			factory.increasePoolCapacity(BusyPoolObject, 1);
+
+			assertFalse(factory.getAllPoolItemsAreBusy(BusyPoolObject));
+
+			var o3:BusyPoolObject = factory.getInstance(BusyPoolObject);
+			o3.isBusy = true;
+
+			assertTrue(factory.getAllPoolItemsAreBusy(BusyPoolObject));
+		}
 	}
 }
 
