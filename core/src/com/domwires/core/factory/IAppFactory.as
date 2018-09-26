@@ -381,5 +381,12 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function increasePoolCapacity(type:Class, additionalCapacity:int):IAppFactory;
+
+		/**
+		 * Avoid stack overflow and increase pool capacity up to 1, if all pool items are busy. Default is true. 
+		 * @param value
+		 * @return
+		 */
+		function setSafePool(value:Boolean):IAppFactory;
 	}
 }

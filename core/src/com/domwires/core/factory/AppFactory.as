@@ -34,6 +34,8 @@ package com.domwires.core.factory
 		 */
 		private var _verbose:Boolean = false;
 
+		private var _safePool:Boolean = true;
+
 		/**
 		 * @inheritDoc
 		 */
@@ -130,6 +132,16 @@ package com.domwires.core.factory
 			if (!obj)  throw new Error("There are no objects in pool for " + type + "!");
 
 			return obj;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function setSafePool(value:Boolean):IAppFactory
+		{
+			_safePool = value;
+
+			return this;
 		}
 
 		/**
@@ -285,7 +297,16 @@ package com.domwires.core.factory
 				throw new Error("Pool " + type + "is not registered! Call registerPool.");
 			}
 
-			return pool[type].get(type, constructorArgs, createNewIfNeeded);
+			var poolModel:PoolModel = pool[type] as PoolModel;
+
+			if (_safePool && getAllPoolItemsAreBusy(type))
+			{
+				log("All pool items are busy for class '" + type + "'. Extending pool...");
+				increasePoolCapacity(type, 1);
+				log("Pool capacity for '" + type + "' increased!");
+			}
+
+			return poolModel.get(type, constructorArgs, createNewIfNeeded);
 		}
 
 		/**
