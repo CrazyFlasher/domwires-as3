@@ -12,6 +12,8 @@ package com.domwires.core.factory
 		private var factory:AppFactory;
 		private var isBusyFlagGetterName:String;
 
+		private var _args:Array;
+
 		public function PoolModel(factory:AppFactory, capacity:int, isBusyFlagGetterName:String)
 		{
 			this.factory = factory;
@@ -22,6 +24,14 @@ package com.domwires.core.factory
 		internal function get(type:Class, args:Array = null, createNewIfNeeded:Boolean = true):*
 		{
 			var instance:*;
+
+			if (args == null && _args != null)
+			{
+				args = _args;
+			} else
+			{
+				_args = args;
+			}
 
 			if (list.length < _capacity && createNewIfNeeded)
 			{
@@ -74,19 +84,37 @@ package com.domwires.core.factory
 			if (isBusyFlagGetterName == null) return false;
 
 			var instance:*;
-			var totalBusyItems:int = 0;
 
 			for (var i:int = 0; i < _capacity; i++)
 			{
-				instance = list[currentIndex];
+				instance = list[i];
 				
-				if (instance[isBusyFlagGetterName] == true)
+				if (instance[isBusyFlagGetterName] == false)
 				{
-					totalBusyItems++;
+					return false;
 				}
 			}
 
-			return totalBusyItems == _capacity;
+			return true;
+		}
+
+		internal function get busyItemsCount():int
+		{
+			if (isBusyFlagGetterName == null) return 0;
+
+			var count:int;
+			var instance:*;
+			for (var i:int = 0; i < list.length; i++)
+			{
+				instance = list[i];
+
+				if (instance[isBusyFlagGetterName] == true)
+				{
+					count++;
+				}
+			}
+
+			return count;
 		}
 	}
 }

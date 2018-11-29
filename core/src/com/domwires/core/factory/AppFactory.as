@@ -374,6 +374,13 @@ package com.domwires.core.factory
 			return pool[type].allItemsAreBusy;
 		}
 
+		public function getPoolBusyInstanceCount(type:Class):int
+		{
+			if (!hasPoolForType(type)) throw new Error("Pool " + type + "is not registered! Call registerPool.");
+
+			return pool[type].busyItemsCount;
+		}
+
 		/**
 		 * @inheritDoc
 		 */

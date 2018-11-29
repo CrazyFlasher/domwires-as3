@@ -84,5 +84,7 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function getAllPoolItemsAreBusy(type:Class):Boolean;
+		
+		function getPoolBusyInstanceCount(type:Class):int;
 	}
 }
