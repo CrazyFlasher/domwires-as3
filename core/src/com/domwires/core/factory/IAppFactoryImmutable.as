@@ -84,7 +84,12 @@ package com.domwires.core.factory
 		 * @return
 		 */
 		function getAllPoolItemsAreBusy(type:Class):Boolean;
-		
+
+		/**
+		 * Returns count of busy object in pool
+		 * @param type
+		 * @return
+		 */
 		function getPoolBusyInstanceCount(type:Class):int;
 	}
 }
