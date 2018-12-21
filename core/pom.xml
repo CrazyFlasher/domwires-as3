@@ -4,7 +4,7 @@
   <groupId>com.domwires</groupId>
   <artifactId>core</artifactId>
   <packaging>swc</packaging>
-  <version>0.9.25-SNAPSHOT</version>
+  <version>0.9.26-SNAPSHOT</version>
   <repositories>
     <repository>
       <id>CrazyFlasher</id>

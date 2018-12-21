@@ -3,13 +3,12 @@
  */
 package com.domwires.core.factory
 {
-	internal class DependencyVo
+	public class DependencyVo
 	{
 		private var _implementation:String;
 		private var _value:*;
 		private var _newInstance:Boolean;
-
-
+		
 		public function DependencyVo(json:Object)
 		{
 			if (!json.implementation)
