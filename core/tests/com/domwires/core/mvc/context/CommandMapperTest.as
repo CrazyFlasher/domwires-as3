@@ -43,9 +43,15 @@ package com.domwires.core.mvc.context
 		[Test]
 		public function testUnmap():void
 		{
-			commandMapper.map(MyCoolEnum.BOGA, TestCommand);
+			commandMapper.map(MyCoolEnum.BOGA, TestCommand).addGuards(CoolGuards);
 			commandMapper.unmap(MyCoolEnum.BOGA, TestCommand);
 			assertFalse(commandMapper.hasMapping(MyCoolEnum.BOGA));
+
+			var m:TestObj1 = factory.getSingleton(TestObj1);
+			factory.mapToValue(TestObj1, m);
+
+			commandMapper.tryToExecuteCommand(new MyMessage(MyCoolEnum.BOGA));
+			assertEquals(m.d, 0);
 		}
 
 		[Test]
@@ -414,7 +420,7 @@ internal class NiceGuards implements IGuards
 
 	public function get allows():Boolean
 	{
-		return this;
+		return true;
 	}
 }
 

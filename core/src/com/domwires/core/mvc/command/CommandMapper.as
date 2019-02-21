@@ -142,14 +142,14 @@ package com.domwires.core.mvc.command
 			return mappingConfigList;
 		}
 
-		private static function mappingListContains(list:Vector.<MappingConfig>, commandClass:Class):MappingConfig
+		private static function mappingListContains(list:Vector.<MappingConfig>, commandClass:Class, ignoreGuards:Boolean = false):MappingConfig
 		{
 			var mappingVo:MappingConfig;
 			for each (mappingVo in list)
 			{
 				if (mappingVo.commandClass == commandClass)
 				{
-					var hasGuards:Boolean = mappingVo.guardList && mappingVo.guardList.length > 0;
+					var hasGuards:Boolean = !ignoreGuards && mappingVo.guardList && mappingVo.guardList.length > 0;
 					return hasGuards ? null : mappingVo;
 				}
 			}
@@ -164,7 +164,7 @@ package com.domwires.core.mvc.command
 		{
 			if (commandMap[messageType])
 			{
-				var mappingVo:MappingConfig = mappingListContains(commandMap[messageType], commandClass);
+				var mappingVo:MappingConfig = mappingListContains(commandMap[messageType], commandClass, true);
 				if (mappingVo)
 				{
 					commandMap[messageType].removeAt(commandMap[messageType].indexOf(mappingVo));
