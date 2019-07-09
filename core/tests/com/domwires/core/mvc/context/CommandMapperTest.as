@@ -358,6 +358,14 @@ package com.domwires.core.mvc.context
 			var mappingData:Object = {v: v};
 			commandMapper.executeCommand(VectorCommand, mappingData);
 		}
+
+		//Expecting no errors
+		[Test]
+		public function testExecuteDefaultValuesCommand():void
+		{
+			commandMapper.executeCommand(DefaultValuesCommand);
+			commandMapper.executeCommand(DefaultValuesCommand2, {bool: false, iint: 2});
+		}
 	}
 }
 
@@ -368,6 +376,44 @@ import com.domwires.core.mvc.message.IMessage;
 
 import testObject.TestObj1;
 import testObject.TestVo;
+
+internal class DefaultValuesCommand2 extends AbstractCommand
+{
+	[Autowired(name="bool", optional="true")]
+	public var bool:Boolean = true;
+
+	[Autowired(name="iint", optional="true")]
+	public var iint:int = 1;
+
+	override public function execute():void
+	{
+		super.execute();
+
+		if (bool || iint != 2)
+		{
+			throw new Error("invalid values");
+		}
+	}
+}
+
+internal class DefaultValuesCommand extends AbstractCommand
+{
+	[Autowired(name="bool", optional="true")]
+	public var bool:Boolean = true;
+
+	[Autowired(name="iint", optional="true")]
+	public var iint:int = 1;
+
+	override public function execute():void
+	{
+		super.execute();
+
+		if (!bool || iint != 1)
+		{
+			throw new Error("invalid values");
+		}
+	}
+}
 
 internal class VectorCommand extends AbstractCommand
 {

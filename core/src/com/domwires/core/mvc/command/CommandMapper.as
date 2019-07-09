@@ -366,8 +366,6 @@ package com.domwires.core.mvc.command
 				mappingToKeepAfterExecutionList = new <TypeAndNameVo>[];
 			}
 
-			var id:String = getQualifiedClassName(type) + "$" + name;
-
 			mappingToKeepAfterExecutionList.push(new TypeAndNameVo(type, name));
 
 			return this;
@@ -437,9 +435,8 @@ package com.domwires.core.mvc.command
 			if (map)
 			{
 				factory.mapToValue(type, propertyValue, propertyName);
-			}else
+			} else
 			{
-
 				if (!mustBeKept(type, propertyName))
 				{
 					factory.unmapValue(type, propertyName);

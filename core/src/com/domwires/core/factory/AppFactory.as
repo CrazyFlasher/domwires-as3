@@ -22,6 +22,7 @@ package com.domwires.core.factory
 		private var typeMapping:Dictionary = new Dictionary()/*Class, Class*/;
 		private var instanceMapping:Dictionary = new Dictionary()/*Class, Dictionary/*String, Object*/;
 		private var pool:Dictionary = new Dictionary()/*Class, PoolModel*/;
+		private var defaultValuesMap:Dictionary = new Dictionary();/*Object, Object*/
 
 		/**
 		 * Automatically injects dependencies to newly created instances, using <code>getInstance</code> method.
@@ -436,6 +437,7 @@ package com.domwires.core.factory
 		{
 			typeMapping = new Dictionary();
 			instanceMapping = new Dictionary();
+			defaultValuesMap = new Dictionary();
 
 			return this;
 		}
@@ -463,6 +465,11 @@ package com.domwires.core.factory
 			var isOptional:Boolean;
 			var type:Class;
 			var name:String;
+			var variable:*;
+
+			storeDefaultValues(instance, injectionData);
+
+			var hasDefaultValues:Boolean = defaultValuesMap[instance] != null;
 
 			for (objVar in injectionData.variables)
 			{
@@ -471,7 +478,15 @@ package com.domwires.core.factory
 				name = injectionData.variables[objVar].name;
 				try
 				{
-					instance[objVar] = getInstanceFromInstanceMap(type, name, !isOptional);
+					variable = getInstanceFromInstanceMap(type, name, !isOptional);
+					if (variable != null)
+					{
+						instance[objVar] = variable;
+					} else
+					if (hasDefaultValues)
+					{
+						instance[objVar] = defaultValuesMap[instance][objVar];
+					}
 				} catch (e:Error)
 				{
 					throw new Error("Cannot inject all required dependencies to '" + instanceClass + "'. Instance mapping for '" +
@@ -485,6 +500,23 @@ package com.domwires.core.factory
 			}
 
 			return instance;
+		}
+
+		private function storeDefaultValues(instance:*, injectionData:InjectionDataVo):void
+		{
+			var defaultValues:Object = defaultValuesMap[instance];
+			if (defaultValues == null)
+			{
+				defaultValues = {};
+
+				var objVar:String;
+				for (objVar in injectionData.variables)
+				{
+					defaultValues[objVar] = instance[objVar];
+				}
+
+				defaultValuesMap[instance] = defaultValues;
+			}
 		}
 
 		private function getInjectionData(type:Class):InjectionDataVo
